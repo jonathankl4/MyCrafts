@@ -27,13 +27,14 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Perfect Scrollbar - Extended UI | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>@yield("title")</title>
 
     <meta name="description" content="" />
 
     <!-- Favicon -->
     {{-- <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" /> --}}
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/510/fabric.min.js"></script>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -136,6 +137,6 @@
 
     @yield('script')
 
-    
+
   </body>
 </html>

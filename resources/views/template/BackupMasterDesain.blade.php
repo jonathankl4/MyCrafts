@@ -18,7 +18,7 @@
 
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assets/img/icons/brands/ubs.png" />
+    {{-- <link rel="icon" type="image/x-icon" href="../assets/img/icons/brands/ubs.png" /> --}}
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,6 +52,8 @@
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
 
   </head>
 
@@ -69,7 +71,7 @@
                 @yield("sidebar")
             {{-- </aside> --}}
 
-            
+
             <!-- / Menu -->
 
 

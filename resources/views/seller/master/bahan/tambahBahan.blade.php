@@ -53,8 +53,15 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" >satuan</label>
-                    <input type="text" class="form-control" id="satuanBahan" name="satuanBahan" placeholder="-" />
-                    <span style="color: red;">{{ $errors->first('satuanBahan')}}</span>
+                    {{-- <input type="text" class="form-control" id="satuanBahan" name="satuanBahan" placeholder="-" />
+                    <span style="color: red;">{{ $errors->first('satuanBahan')}}</span> --}}
+                    <select name="" id="" class="form-select theSelect">
+                        @for ($i = 0; $i < count($satuan);$i++)
+
+                            <option value="{{$satuan[$i]->nama_satuan}}">{{$satuan[$i]->nama_satuan}}</option>
+
+                        @endfor
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" >jumlah</label>
@@ -120,7 +127,9 @@
 
     <div class="content-backdrop fade"></div>
   </div>
-
+  <script>
+    $(".theSelect").select2();
+</script>
 
 @endsection
 

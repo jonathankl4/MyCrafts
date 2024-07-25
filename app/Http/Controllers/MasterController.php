@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bahan;
+use App\Models\Mebel;
 use App\Models\satuan;
 use App\Models\supplier;
 use App\Models\User;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Str;
 
 class MasterController extends Controller
 {
@@ -176,8 +178,9 @@ class MasterController extends Controller
     public function pageAddBahan(){
         $s = Session::get("user");
         $user = User::find($s->id);
+        $satuan = DB::table('satuans')->where("id_toko",'=',$user->id_toko)->get();
 
-        return view("seller.master.bahan.tambahBahan", ['user'=>$user]);
+        return view("seller.master.bahan.tambahBahan", ['user'=>$user, 'satuan'=>$satuan]);
     }
 
     public function pageEditBahan($id){
@@ -212,7 +215,7 @@ class MasterController extends Controller
         // dd($satuan);
         toast('Berhasil tambah Bahan', 'success');
         // Alert::success('','berhasil tambah satuan');
-        return redirect('/seller/msater/bahan');
+        return redirect('/seller/master/bahan');
     }
 
     public function deleteBahan($id){
@@ -254,16 +257,177 @@ class MasterController extends Controller
     public function pageMasterMebel(){
         $s = Session::get("user");
         $user = User::find($s->id);
-        $bahan = [];
-        // $bahan = DB::table("bahans")->where("id_toko",'=',$user->id_toko)->get();
+        // $bahan = [];
+        $bahan = DB::table("mebels")->where("id_toko",'=',$user->id_toko)->get();
         return view("seller.master.barangJadi.barangJadi", ['user'=>$user, 'listMebel'=>$bahan]);
     }
 
     public function pageAddMebel(){
         $s = Session::get("user");
         $user = User::find($s->id);
+        $satuan = DB::table('satuans')->where("id_toko",'=',$user->id_toko)->get();
+        return view("seller.master.barangJadi.tambahMebel", ['user'=>$user, 'satuan'=>$satuan]);
+    }
 
-        return view("seller.master.barangJadi.tambahMebel", ['user'=>$user]);
+
+    public function pageEditMebel($id){
+        $s = Session::get("user");
+        $user = User::find($s->id);
+        $mebel = Mebel::find($id);
+        $satuan = DB::table('satuans')->where("id_toko",'=',$user->id_toko)->get();
+        return view("seller.master.barangJadi.editMebel", ['mebel'=>$mebel, 'user'=>$user, 'satuan'=>$satuan]);
+    }
+
+    public function deleteMebel($id){
+        $act = DB::table("mebels")->where('id','=',$id)->delete();
+
+        if ($act) {
+            # code...
+            // Alert::success("", "Berhasil hapus");
+            toast('Berhasil hapus', 'success');
+            return redirect()->back();
+        }
+    }
+
+    public function addMebel(Request $request){
+        $user = $this->getLogUser();
+
+        $foto1 = "";
+        $foto2 = "";
+        $foto3 = "";
+        $foto4 = "";
+        $namaFileGambar1  = "";
+        $namaFileGambar2  = "";
+        $namaFileGambar3  = "";
+        $namaFileGambar4  = "";
+
+        try {
+            //code...
+            $foto1 = $request->file("fotoMebel1");
+            $namaFileGambar1  = Str::random(8).".".$foto1->getClientOriginalExtension();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+
+        $m = new Mebel();
+        $m->id_toko = $user->id_toko;
+        $m->nama_mebel = $request->namaMebel;
+        $m->tipe_mebel = $request->tipeMebel;
+        $m->harga_mebel = $request->hargaMebel;
+        $m->jumlah_mebel = $request->jumlahMebel;
+        $m->ukuran_panjangMebel = $request->ukuranPanjang;
+        $m->ukuran_lebarMebel = $request->ukuranLebar;
+        $m->ukuran_tinggiMebel = $request->ukuranTinggi;
+        $m->satuanUkuran_mebel = $request->satuanMebel;
+        $m->keterangan_mebel = $request->keteranganMebel;
+        $m->foto_mebel1 = $namaFileGambar1;
+        $m->foto_mebel2 = $namaFileGambar2;
+        $m->foto_mebel3 = $namaFileGambar3;
+        $m->foto_mebel4 = $namaFileGambar4;
+        $m->save();
+
+        $namaFolderPhoto = "imgMebel/";
+
+            // storeAs akan menyimpan default ke local
+        try {
+            //code...
+            $foto1->storeAs($namaFolderPhoto,$namaFileGambar1, 'public');
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        try {
+            //code...
+            $foto1->storeAs($namaFolderPhoto,$namaFileGambar2, 'public');
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        try {
+            //code...
+            $foto1->storeAs($namaFolderPhoto,$namaFileGambar3, 'public');
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        try {
+            //code...
+            $foto1->storeAs($namaFolderPhoto,$namaFileGambar4, 'public');
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+        toast('Berhasil tambah Mebel', 'success');
+        // Alert::success('','berhasil tambah satuan');
+        return redirect(url('/seller/master/mebel'));
+
+    }
+
+    public function editMebel(Request $request, $id){
+        $request->validate([
+
+
+        ],
+
+        ["required" => ":attribute tidak boleh kosong"]);
+
+
+
+        $foto1 = "";
+        $foto2 = "";
+        $foto3 = "";
+        $foto4 = "";
+        $namaFileGambar1  = "";
+        $namaFileGambar2  = "";
+        $namaFileGambar3  = "";
+        $namaFileGambar4  = "";
+
+
+
+        $m = Mebel::find($id);
+        $m->nama_mebel = $request->namaMebel;
+        $m->tipe_mebel = $request->tipeMebel;
+        $m->harga_mebel = $request->hargaMebel;
+        $m->jumlah_mebel = $request->jumlahMebel;
+        $m->ukuran_panjangMebel = $request->ukuranPanjang;
+        $m->ukuran_lebarMebel = $request->ukuranLebar;
+        $m->ukuran_tinggiMebel = $request->ukuranTinggi;
+        $m->satuanUkuran_mebel = $request->satuanMebel;
+        $m->keterangan_mebel = $request->keteranganMebel;
+
+
+        $m->foto_mebel3 = $namaFileGambar3;
+        $m->foto_mebel4 = $namaFileGambar4;
+
+        $namaFolderPhoto = "imgMebel/";
+
+        try {
+            //code...
+            $foto1 = $request->file("fotoMebel1");
+            $namaFileGambar1  = Str::random(8).".".$foto1->getClientOriginalExtension();
+            $m->foto_mebel1 = $namaFileGambar1;
+            $foto1->storeAs($namaFolderPhoto,$namaFileGambar1, 'public');
+
+
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        try {
+            //code...
+            $foto2 = $request->file("fotoMebel2");
+            $namaFileGambar2  = Str::random(8).".".$foto2->getClientOriginalExtension();
+            $m->foto_mebel2 = $namaFileGambar2;
+            $foto2->storeAs($namaFolderPhoto,$namaFileGambar2, 'public');
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+
+
+        $m->save();
+        // dd($satuan);
+        toast('Berhasil edit Mebel', 'success');
+        // Alert::success('','berhasil tambah satuan');
+        return redirect('/seller/master/mebel');
     }
 
 

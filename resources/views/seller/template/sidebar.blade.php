@@ -98,52 +98,53 @@
             </li>
 
 
+
         </ul>
     </li>
 
     {{-- Produksi --}}
-    <li class="menu-item">
+    <li class="menu-item {{request()->is('seller/produksi*') ? 'active open' : ''}}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-dock-top"></i>
           <div data-i18n="Account Settings">Produksi</div>
         </a>
         <ul class="menu-sub">
-            <li class="menu-item">
-                <a href="" class="menu-link">
+            <li class="menu-item {{request()->is('seller/produksi/') ? 'active' : ''}}">
+                <a href="" class="menu-link ">
                     <div >Perencanaan Produksi</div>
                 </a>
             </li>
-            <li class="menu-item">
-                <a href="" class="menu-link">
-                <div >Master Bill of material</div>
+            <li class="menu-item {{request()->is('seller/produksi/bom') ? 'active' : ''}}">
+                <a href="{{url('/seller/produksi/bom')}}" class="menu-link">
+                <div >Master Bill of Material</div>
                 </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item {{request()->is('seller/produksi/') ? 'active' : ''}}">
                 <a href="" class="menu-link">
                   <div >Input Hasil Produksi</div>
                 </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item {{request()->is('seller/produksi/') ? 'active' : ''}}">
                 <a href="" class="menu-link">
                   <div >Penggunaan Bahan</div>
                 </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item {{request()->is('seller/produksi/') ? 'active' : ''}}">
                 <a href="" class="menu-link">
                   <div >Pengembalian Bahan</div>
                 </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item {{request()->is('seller/produksi/') ? 'active' : ''}}">
                 <a href="" class="menu-link">
                   <div >Laporan Produksi</div>
                 </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item {{request()->is('seller/produksi/') ? 'active' : ''}}">
                 <a href="" class="menu-link">
                   <div >Laporan Penggunaan Bahan</div>
                 </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item {{request()->is('seller/produksi/') ? 'active' : ''}}">
                 <a href="" class="menu-link">
                   <div >Laporan Gagal Produksi</div>
                 </a>

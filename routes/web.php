@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\Produksi\BomController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SellerController;
 use Illuminate\Http\RedirectResponse;
@@ -25,12 +26,12 @@ use Illuminate\Support\Facades\Session;
 |
 */
 
-// Route::get('/', function () {
-//     return view('login');
-// });
+Route::get('/testcanvas', function () {
+    return view('customer.test');
+});
 
 
-Route::get('/coba', [AdminController::class, "homepage"]);
+// Route::get('/coba', [BomController::class, "pageBOM"]);
 
 // Route::get('/dashboard', function () {
 //     // return view('template.homeTemplate');
@@ -87,6 +88,7 @@ Route::group([
     Route::get('/',[SellerController::class, "homePage"]);
     Route::get('/test1',[SellerController::class, "homePage2"]);
 
+    //START OF Master
     //Satuan
     Route::get('/master/Satuan',[MasterController::class, "pageMasterSatuan"]);
     Route::post('/addSatuan',[MasterController::class, "addSatuan"])->name('addSatuan');
@@ -117,7 +119,34 @@ Route::group([
     Route::get('/pEditMebel/{id}', [MasterController::class, "pageEditMebel"]);
     Route::post('/editMebel/{id}', [MasterController::class, "editMebel"]);
 
+    // END OF MASTER
+
+    // START OF PRODUKSI
+
+    //BILL OF MATERIAL
+    Route::get('/produksi/bom', [BomController::class, "pageBOM"]);
+    Route::get('/pAddBom', [BomController::class, "pageAddBom"]);
+    Route::post('/addBom', [BomController::class, "addBom"]);
+    Route::get('/deleteBom/{id}', [BomController::class, "deleteBom"]);
+    Route::get('/pEditBom/{id}',[BomController::class, "pageEditBom"]);
+    Route::post('/editBom/{id}', [BomController::class, "editBom"]);
+
+
+
+    Route::get('/pDetailBom/{id}', [BomController::class, "pageDetailBom"]);
+    Route::post('/addDetailBom/{id}', [BomController::class, "addDetailBom"]);
+    Route::get('/pAddDetailBom/{id}', [BomController::class, "pageAddDetailBom"]);
+    Route::get('/pEditDetailBom/{id}',[BomController::class, "pageEditDetailBom"]);
+    Route::post('/editDetailBom/{id}',[BomController::class, "editDetailBom"]);
+    Route::get('/deleteDetailBom/{id}',[BomController::class, "deleteDetailBom"]);
+
+
+
+
+
+    // END OF PRODUKSI
 });
+
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -129,4 +158,4 @@ Route::group([
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-// require __DIR__.'/auth.php';
+

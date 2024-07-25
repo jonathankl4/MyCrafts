@@ -1,5 +1,5 @@
 <nav
-	class="layout-navbar  navbar navbar-expand-xl align-items-center bg-navbar-theme"
+	class="layout-navbar  navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
 	id="layout-navbar"
 	style="position: -webkit-sticky; padding-right: 10px; position: sticky; top: 0;z-index: 1;" >
 	<div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
