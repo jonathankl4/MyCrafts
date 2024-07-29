@@ -109,8 +109,8 @@
           <div data-i18n="Account Settings">Produksi</div>
         </a>
         <ul class="menu-sub">
-            <li class="menu-item {{request()->is('seller/produksi/') ? 'active' : ''}}">
-                <a href="" class="menu-link ">
+            <li class="menu-item {{request()->is('seller/produksi/perencanaanProduksi') ? 'active' : ''}}">
+                <a href="{{url('/seller/produksi/perencanaanProduksi')}}" class="menu-link ">
                     <div >Perencanaan Produksi</div>
                 </a>
             </li>
