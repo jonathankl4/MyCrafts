@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
+use stdClass;
 
 class CustomerController extends Controller
 {
@@ -15,8 +16,19 @@ class CustomerController extends Controller
 
 
     public function getLogUser(){
+        $user = new stdClass();
         $s = Session::get("user");
-        $user = User::find($s->id);
+        if ($s!= null) {
+            # code...
+            $user = User::find($s->id);
+
+
+        }
+        else {
+            $user->username = "Guest";
+            $user->email = "Guest";
+            $user->role = "guest";
+        }
 
         return $user;
     }
@@ -26,7 +38,7 @@ class CustomerController extends Controller
         // return view("admin.userlog",["user"])
         $user = $this->getLogUser();
 
-        return view("customer.dashboard", ['user'=>$user]);
+        return view("customer.shopping.dashboard", ['user'=>$user]);
         // dd($user);
     }
 

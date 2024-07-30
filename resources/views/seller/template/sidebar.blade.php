@@ -1,7 +1,7 @@
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-      <a href="#" class="app-brand-link">
+      <a href="{{url('/')}}" class="app-brand-link">
         <span class="app-brand-logo demo">
           {{-- <img src="img/icons/brands/ubs.png" alt class="w-px-40"> --}}
         </span>
@@ -33,15 +33,20 @@
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Toko</span>
     </li>
-    <li class="menu-item">
+    <li class="menu-item {{request()->is('seller/produk*') ? 'active open' : ''}}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-dock-top"></i>
-        <div data-i18n="Account Settings">..</div>
+        <div data-i18n="">Produk</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item">
+        <li class="menu-item {{request()->is('seller/produk/tambahProduk') ? 'active' : ''}}">
           <a href="" class="menu-link">
-            <div >User</div>
+            <div >Tambah Produk</div>
+          </a>
+        </li>
+        <li class="menu-item {{request()->is('seller/produk/daftarProduk') ? 'active' : ''}}">
+          <a href="" class="menu-link">
+            <div >Daftar Produk</div>
           </a>
         </li>
 
@@ -63,7 +68,7 @@
         <ul class="menu-sub">
             <li class="menu-item {{request()->is('seller/master/mebel') ? 'active' : ''}}">
                 <a href="{{url('/seller/master/mebel')}}" class="menu-link">
-                    <div >Barang Jadi</div>
+                    <div >Mebel</div>
                 </a>
             </li>
             <li class="menu-item">

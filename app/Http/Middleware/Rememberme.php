@@ -16,6 +16,7 @@ class Rememberme
     public function handle(Request $request, Closure $next, $role): Response
     {
         if (!session()->has('role') || $role != session()->get('role')){
+            toast('Masuk terlebih dahulu', 'info');
             return redirect('/login');
         }
         return $next($request);

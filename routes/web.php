@@ -7,8 +7,10 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\Produksi\BomController;
+use App\Http\Controllers\Produksi\PerencanaanProduksiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\TestController;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,19 +28,24 @@ use Illuminate\Support\Facades\Session;
 |
 */
 
-Route::get('/testcanvas', function () {
-    return view('customer.test');
+Route::get('/test', function () {
+    return view('customer.shopping.dashboard');
+});
+
+Route::get('/testshop', function () {
+    return view('template.shopTemplate');
 });
 
 
-// Route::get('/coba', [BomController::class, "pageBOM"]);
+
+Route::get('/coba', [TestController::class, "coba"]);
 
 // Route::get('/dashboard', function () {
 //     // return view('template.homeTemplate');
 //     return view('admin.userlog');
 // })->middleware(['customUserAuth'])->name("dashboard");
 
-Route::get('/', [LoginController::class, "formLogin"])->middleware('checkLog')->name('login');
+// Route::get('/', [LoginController::class, "formLogin"])->middleware('checkLog')->name('login');
 
 Route::post('/logout', function (Request $request): RedirectResponse {
     Auth::guard('web')->logout();
@@ -70,10 +77,12 @@ Route::group([
 });
 
 
+
+
 //Customer
 Route::group([
-    'middleware' => ['rememberMe:customer', 'customUserAuth'],
-    'prefix' => '/userc',
+    // 'middleware' => ['rememberMe:customer', 'customUserAuth'],
+    // 'prefix' => '/userc',
 ],function () {
     Route::get('/',[CustomerController::class, "homePage"]);
     Route::get('/daftarseller',[CustomerController::class, "daftarSeller"])->name('daftarseller');
@@ -123,6 +132,11 @@ Route::group([
 
     // START OF PRODUKSI
 
+
+    //Perencanaan Produksi
+    Route::get('/produksi/perencanaanProduksi',[PerencanaanProduksiController::class, "pagePerencanaanProduksi"]);
+
+
     //BILL OF MATERIAL
     Route::get('/produksi/bom', [BomController::class, "pageBOM"]);
     Route::get('/pAddBom', [BomController::class, "pageAddBom"]);
@@ -131,8 +145,7 @@ Route::group([
     Route::get('/pEditBom/{id}',[BomController::class, "pageEditBom"]);
     Route::post('/editBom/{id}', [BomController::class, "editBom"]);
 
-
-
+        // detail bom
     Route::get('/pDetailBom/{id}', [BomController::class, "pageDetailBom"]);
     Route::post('/addDetailBom/{id}', [BomController::class, "addDetailBom"]);
     Route::get('/pAddDetailBom/{id}', [BomController::class, "pageAddDetailBom"]);

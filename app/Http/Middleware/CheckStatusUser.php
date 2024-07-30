@@ -23,6 +23,7 @@ class CheckStatusUser
         $stat = $user->status;
         if ($stat == "buyer") {
             # code...
+            
             return redirect(route('daftarseller'));
         }
 

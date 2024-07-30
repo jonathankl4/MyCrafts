@@ -20,7 +20,7 @@ class checklog
             if (session()->get('role') == "admin" ){
                 return redirect('/admin');
             }else if(session()->get('role')== "customer"){
-                return redirect('/userc');
+                return redirect('/');
             }else{
                 // return redirect('/admin');
             }

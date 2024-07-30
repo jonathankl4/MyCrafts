@@ -4,13 +4,7 @@
 
 @section('style')
 <style>
-    .dataTables_wrapper .dataTables_filter {
-  position: absolute;
-  top: 130px;
-  right: 40px;
-
-
-}
+ 
 
 
 

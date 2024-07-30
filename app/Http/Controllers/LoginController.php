@@ -69,7 +69,7 @@ class LoginController extends Controller
 
                 if ($selecteduser->role == "customer") {
                     # code...
-                    return redirect(url('/userc'));
+                    return redirect(url('/'));
                 }
                 else if ($selecteduser->role == "admin") {
                     # code...

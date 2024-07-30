@@ -69,7 +69,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet" />
     {{-- <script src="{{asset('js/jquery-1.12.0.min.js')}}" language="javascript"></script> --}}
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"> --}}
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.bootstrap5.css">
+
+    {{-- data Table --}}
+
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.bootstrap5.css"> --}}
+    <script src="{{asset('js/jquery-1.12.0.min.js')}}" language="javascript"></script>
+<link href='http://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css' type='text/css' rel='stylesheet'>
+<script src='http://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js' language='javascript'></script>
 
     @yield('style')
   </head>
@@ -111,13 +117,16 @@
     <!-- build:js assets/vendor/js/core.js -->
     {{-- <script src="{{asset('vendor/libs/jquery/jquery.js')}}"></script> --}}
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.js"></script>
+
     <script src="{{asset('vendor/libs/popper/popper.js')}}"></script>
     <script src="{{asset('vendor/js/bootstrap.js')}}"></script>
     <script src="{{asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
 
-
+    {{-- data table  --}}
+        {{-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.js"></script> --}}
+    <link href='http://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css'>
+    <script src='https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js'></script>
 
     <script src="{{asset('vendor/js/menu.js')}}"></script>
     <!-- endbuild -->
