@@ -40,12 +40,12 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item {{request()->is('seller/produk/tambahProduk') ? 'active' : ''}}">
-          <a href="" class="menu-link">
+          <a href="{{url('/seller/produk/tambahProduk')}}" class="menu-link">
             <div >Tambah Produk</div>
           </a>
         </li>
         <li class="menu-item {{request()->is('seller/produk/daftarProduk') ? 'active' : ''}}">
-          <a href="" class="menu-link">
+          <a href="{{url('/seller/produk/daftarProduk')}}" class="menu-link">
             <div >Daftar Produk</div>
           </a>
         </li>

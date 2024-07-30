@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\Produksi\BomController;
 use App\Http\Controllers\Produksi\PerencanaanProduksiController;
 use App\Http\Controllers\ProfileController;
@@ -96,6 +97,13 @@ Route::group([
 ],function () {
     Route::get('/',[SellerController::class, "homePage"]);
     Route::get('/test1',[SellerController::class, "homePage2"]);
+
+    //START OF PENJUALAN
+    //PRODUK
+    Route::get('/produk/daftarProduk', [ProdukController::class, 'pageDaftarProduk']);
+    Route::get('/produk/tambahProduk', [ProdukController::class, 'pageTambahProduk']);
+
+
 
     //START OF Master
     //Satuan
