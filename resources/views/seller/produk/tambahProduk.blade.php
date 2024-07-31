@@ -150,7 +150,7 @@
             </div>
             <br>
             <div style="float: right">
-                <a href="{{url('/seller/master/Produk')}}" class="btn btn-outline-dark">Kembali</a>
+                <a href="{{url('/seller/produk/daftarProduk')}}" class="btn btn-outline-dark">Kembali</a>
                 <button class="btn btn-primary">Tambah</button>
             </div>
 
