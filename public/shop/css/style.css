@@ -162,8 +162,8 @@
 }
 
 .dropdown .dropdown-menu a:hover {
-    background: var(--bs-secondary);
-    color: var(--bs-primary);
+    background: var(--bs-gray-dark);
+    color: var(--bs-gray-dark);
 }
 
 .navbar .nav-item:hover .dropdown-menu {
@@ -207,7 +207,7 @@
     height: 48px;
     border-radius: 48px;
     border: 1px solid var(--bs-white);
-    background: var(--bs-primary);
+    background: var(--bs-dark);
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -298,7 +298,7 @@
 }
 
 .fruite .fruite-categorie .fruite-name a:hover {
-    color: var(--bs-secondary);
+    color: var(--bs-gray-dark);
 }
 
 .fruite .fruite-item {
@@ -391,7 +391,7 @@
 
 /*** Banner Section Start ***/
 .banner .banner-btn:hover {
-    background: var(--bs-primary);
+    background: var(--bs-gray-dark);
 }
 /*** Banner Section End ***/
 

@@ -62,8 +62,8 @@
     <!-- Content -->
 
     <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 1cm ">
-        <h2 class="fw-bold  mb-4">Tambah Produk</h2>
-        <form action="{{url('seller/addProduk')}}" method="POST" enctype="multipart/form-data">
+        <h2 class="fw-bold  mb-4">Edit Produk</h2>
+        <form action="{{url('seller/editProduk/'.$produk->id)}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="card" style="padding: 15px">
                 <h3 class="card-header text-dark ">Informasi Produk</h3>
@@ -71,7 +71,7 @@
                     <div class="mb-3 row ">
                         <label class="col-md-2 col-form-label" style="font-size: 16px">Nama Produk</label>
                         <div class="col-md-10">
-                            <input type="text" class="form-control" id="namaProduk" name="namaProduk" placeholder="Nama Produk"  value="{{old('namaProduk')}}"/>
+                            <input type="text" class="form-control" id="namaProduk" name="namaProduk" placeholder="Nama Produk"  value="{{$produk->nama_produk}}"/>
                             <span style="color: red;">{{ $errors->first('namaProduk')}}</span>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                     <div class="mb-3 row">
                         <label class="col-md-2 col-form-label" style="font-size: 16px" >tipe Produk</label>
                         <div class="col-md-10">
-                        <input type="text" class="form-control" id="tipeProduk" name="tipeProduk" placeholder="Tipe Produk"  value="{{old('tipeProduk')}}"/>
+                        <input type="text" class="form-control" id="tipeProduk" name="tipeProduk" placeholder="Tipe Produk"  value="{{$produk->tipe_produk}}"/>
                         <span style="color: red;">{{ $errors->first('tipeProduk')}}</span>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                         <label class="col-md-2 col-form-label"  style="font-size: 16px">Harga</label>
                         <div class="col-md-10">
 
-                            <input type="text" class="form-control" id="hargaProduk" name="hargaProduk" placeholder="Harga"  value="{{old('hargaProduk')}}" />
+                            <input type="text" class="form-control" id="hargaProduk" name="hargaProduk" placeholder="Harga"  value="{{$produk->harga_produk}}" />
                             <span style="color: red;">{{ $errors->first('hargaProduk')}}</span>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                         <label class="col-md-2 col-form-label"  style="font-size: 16px">stok dijual</label>
                         <div class="col-md-10">
 
-                            <input type="text" class="form-control" id="jumlahProduk" name="jumlahProduk" placeholder="Jumlah Produk"  value="{{old('jumlahProduk')}}" />
+                            <input type="text" class="form-control" id="jumlahProduk" name="jumlahProduk" placeholder="Jumlah Produk"  value="{{$produk->jumlah_produk}}" />
                             <span style="color: red;">{{ $errors->first('jumlahProduk')}}</span>
                         </div>
                     </div>
@@ -109,13 +109,12 @@
                 <div class="mb-3 row">
                     <label class="col-md-2 col-form-label" style="font-size: 16px" >Berat</label>
                     <div class="col-md-3">
-
                         <div class="input-group">
-
-                            <input type="text" class="form-control" id="beratProduk" name="beratProduk" aria-describedby="beratprodukinfo" placeholder="Berat Produk"  value="{{old('beratProduk')}}" />
+                            <input type="text" class="form-control" id="beratProduk" name="beratProduk" aria-describedby="beratprodukinfo" placeholder="Berat Produk"  value="{{$produk->berat_produk}}" />
                             <span class="input-group-text" id="beratprodukinfo">Gram</span>
                         </div>
                         <span style="color: red;">{{ $errors->first('beratProduk')}}</span>
+
                     </div>
                 </div>
 
@@ -126,27 +125,36 @@
                         <select name="satuanProduk" id="" class="theSelect form-select" style="height: 50px;width: 50%" >
                             <option value="" disabled selected hidden>Satuan Ukuran</option>
                             @for ($i=0; $i<count($satuan); $i++)
+                            @php
+                                $cek = 0;
+                                $dis = "";
+                                if ($produk->satuanUkuran_produk==$satuan[$i]->nama_satuan) {
+                                    # code...
+                                    $cek = 1;
+                                    $dis = "selected";
 
-                            <option value="{{$satuan[$i]->nama_satuan}}">{{$satuan[$i]->nama_satuan}}</option>
+                                }
+                            @endphp
+                            <option {{$dis}} value="{{$satuan[$i]->nama_satuan}}">{{$satuan[$i]->nama_satuan}}</option>
                             @endfor
 
                         </select>
                         <br><br>
                         <div class="input-group input-group-merge">
                             <span class="input-group-text" id="spanpanjang" style="">Panjang :</span>
-                            <input type="text" class="form-control" id="ukuranPanjang" name="ukuranPanjang" aria-describedby="spanpanjang" style="border: 1.3px ridge " value="{{old('ukuranPanjang')}}" />
+                            <input type="text" class="form-control" id="ukuranPanjang" name="ukuranPanjang" aria-describedby="spanpanjang" style="border: 1.3px ridge " value="{{$produk->ukuran_panjangproduk}}" />
                         </div>
                         <span style="color: red;">{{ $errors->first('ukuranPanjang')}}</span>
                         <br>
                         <div class="input-group input-group-merge">
                             <span class="input-group-text" id="spanlebar" style="">Lebar :</span>
-                            <input type="text" class="form-control" id="ukuranLebar" name="ukuranLebar" aria-describedby="spanlebar" style="border: 1.3px ridge " value="{{old('ukuranLebar')}}" />
+                            <input type="text" class="form-control" id="ukuranLebar" name="ukuranLebar" aria-describedby="spanlebar" style="border: 1.3px ridge " value="{{$produk->ukuran_lebarproduk}}" />
                         </div>
                         <span style="color: red;">{{ $errors->first('ukuranLebar')}}</span>
                         <br>
                         <div class="input-group input-group-merge">
                             <span class="input-group-text" id="spantinggi" style="">Tinggi :</span>
-                            <input type="text" class="form-control" id="ukuranTinggi" name="ukuranTinggi" aria-describedby="spantinggi" style="border: 1.3px ridge " value="{{old('ukuranTinggi')}}" />
+                            <input type="text" class="form-control" id="ukuranTinggi" name="ukuranTinggi" aria-describedby="spantinggi" style="border: 1.3px ridge " value="{{$produk->ukuran_tinggiproduk}}" />
                         </div>
                         <span style="color: red;">{{ $errors->first('ukuranTinggi')}}</span>
 
@@ -163,30 +171,71 @@
                     <label class="col-md-2 col-form-label" style="font-size: 16px" >Keterangan</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="keteranganProduk" name="keteranganProduk" placeholder="Keterangan" />
+                        <input type="text" class="form-control" id="keteranganProduk" name="keteranganProduk" placeholder="Keterangan" value="{{$produk->keterangan_produk}}" />
                         <span style="color: red;">{{ $errors->first('keteranganProduk')}}</span>
                     </div>
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 ">
                     <label class="form-label" style="font-size: 16px" >foto Utama</label>
+                    <div class="col-md-10">
 
-                    <input type="file" class="form-control" id="fotoUtama" name="fotoUtama" />
-                    <span style="color: red;">{{ $errors->first('fotoUtama')}}</span>
+                        <img src="{{url("/storage/imgProduk/".$produk->foto_produk1)}}" alt="" style="width:100px; height:100px" >
+
+                        <input type="file" class="form-control" id="fotoUtama" name="fotoUtama"/>
+
+                        <span style="color: red;">{{ $errors->first('fotoUtama')}}</span>
+
+                    </div>
+
+
+                </div>
+                <div class="mb-3 ">
+                    <label class="form-label" style="font-size: 16px">foto 2</label>
+                    <div class="col-md-10">
+                        @if ($produk->foto_produk2 != null)
+
+                        <img src="{{url("/storage/imgProduk/".$produk->foto_produk2)}}" alt="" style="width:100px; height:100px" >
+
+                        @else
+                        <p>foto kosong</p>
+                        @endif
+                        <input type="file" class="form-control" id="fotoProduk2" name="fotoProduk2"  />
+                    </div>
+
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" style="font-size: 16px" >foto 2</label>
-                    <input type="file" class="form-control" id="fotoProduk2" name="fotoProduk2"  />
+                    <label class="form-label" style="font-size: 16px">foto 3</label>
+                    <div class="col-md-10">
+                        @if ($produk->foto_produk3 != null)
+                        <img src="{{url("/storage/imgProduk/".$produk->foto_produk3)}}" alt="" style="width:100px; height:100px" >
+
+                        @else
+                        <p>foto kosong</p>
+                        @endif
+                        <input type="file" class="form-control" id="fotoProduk3" name="fotoProduk3"  />
+                    </div>
+
                 </div>
-                <label class="form-label" style="font-size: 16px" >foto 3</label>
-                <input type="file" class="form-control" id="fotoProduk3" name="fotoProduk3"  />
-                <label class="form-label" style="font-size: 16px" >foto 4</label>
-                <input type="file" class="form-control" id="fotoProduk4" name="fotoProduk4"  />
+                <div class="mb-3">
+                    <label class="form-label" style="font-size: 16px" >foto 4</label>
+
+                    <div class="col-md-10">
+                        @if ($produk->foto_produk4 != null)
+
+                        <img src="{{url("/storage/imgProduk/".$produk->foto_produk4)}}" alt="" style="width:100px; height:100px" >
+                        @else
+                        <p>foto kosong</p>
+
+                        @endif
+                        <input type="file" class="form-control" id="fotoProduk4" name="fotoProduk4"  />
+                    </div>
+                </div>
 
             </div>
             <br>
             <div style="float: right">
                 <a href="{{url('/seller/produk/daftarProduk')}}" class="btn btn-outline-dark">Kembali</a>
-                <button class="btn btn-primary">Tambah</button>
+                <button class="btn btn-primary">Simpan</button>
             </div>
 
 

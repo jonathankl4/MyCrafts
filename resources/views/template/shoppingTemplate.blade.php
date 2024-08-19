@@ -7,6 +7,7 @@
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
+        
 
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -66,7 +67,7 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="index.html" class="nav-item nav-link active">Home</a>
+                            {{-- <a href="index.html" class="nav-item nav-link active">Home</a>
                             <a href="shop.html" class="nav-item nav-link">Shop</a>
                             <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
@@ -78,7 +79,7 @@
                                     <a href="404.html" class="dropdown-item">404 Page</a>
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="contact.html" class="nav-item nav-link">Contact</a> --}}
                         </div>
                         <div class="d-flex m-3 me-0">
 
@@ -92,13 +93,16 @@
 
                             {{-- navbar jika sudah login  --}}
                             @else
-                            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                            {{-- search  --}}
+                            <button class="btn-search btn border border-dark btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-dark"></i></button>
+                            {{-- shopping cart  --}}
                             <a href="#" class="position-relative me-4 my-auto">
-                                <i class="fa fa-shopping-bag fa-2x"></i>
-                                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                                <i class="fa fa-shopping-bag fa-2x text-dark"></i>
+                                <span class="position-absolute bg-danger rounded-circle d-flex align-items-center justify-content-center text-white px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
                             </a>
+                            {{-- profile  --}}
                             <a href="#" class="my-auto" data-bs-toggle="dropdown">
-                                <i class="fas fa-user fa-2x"></i>
+                                <i class="fas fa-user fa-2x text-dark"></i>
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-end">
@@ -167,12 +171,16 @@
                         <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <form action="/anjaybisa" method="get">
                     <div class="modal-body d-flex align-items-center">
                         <div class="input-group w-75 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                                @csrf
+                                <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                                <button style="border: transparent"><span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span></button>
+
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -251,6 +259,8 @@
 
     <!-- Template Javascript -->
     <script src="{{asset('shop/js/main.js')}}"></script>
+
+    @yield('script')
     </body>
 
 </html>

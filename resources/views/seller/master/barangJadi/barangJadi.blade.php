@@ -33,7 +33,7 @@
 
     <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
         <h2 class="fw-bold py-3 mb-4">Mebel</h2>
-
+        
         <div class="card" style="padding: 15px">
             <h5 class="card-header">List Mebel</h5>
 
@@ -51,7 +51,7 @@
                             <th>Jumlah</th>
                             <th>Jenis Mebel</th>
                             <th>Harga Mebel</th>
-                            <th>foto Utama</th>
+
                             <th>aksi</th>
 
 
@@ -74,9 +74,9 @@
                             <td style="font-size: 16px"><b>{{$listMebel[$i]->jumlah_mebel}}</b></td>
                             <td style="font-size: 16px"><b>{{$listMebel[$i]->tipe_mebel}}</b></td>
                             <td style="font-size: 16px"><b>{{$listMebel[$i]->harga_mebel}}</b></td>
-                            <td>
+                            {{-- <td>
                                 <a href=""  data-bs-toggle="modal" data-bs-target="#modalImage{{$i}}"><img src="{{url("/storage/imgMebel/".$listMebel[$i]->foto_mebel1)}}" alt="" style="width:100px; height:100px" ></a>
-                            </td>
+                            </td> --}}
 
                             <td>
                                 <a href="{{url('/seller/pEditMebel/'.$listMebel[$i]->id)}}" class="btn btn-icon btn-warning"><i class='bx bxs-pencil'></i></a>
@@ -129,7 +129,8 @@
                             </div>
                         </div>
 
-                        <div id="modalImage{{$i}}" class="modal fade" aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%; height: 100%;">
+                        {{-- MODAL PERBESAR FOTO  --}}
+                        {{-- <div id="modalImage{{$i}}" class="modal fade" aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%; height: 100%;">
 
 
 
@@ -148,7 +149,7 @@
 
                               </div>
                             </div>
-                          </div>
+                          </div> --}}
 
 
                         @endfor

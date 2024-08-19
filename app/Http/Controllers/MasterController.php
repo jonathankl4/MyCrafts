@@ -198,10 +198,15 @@ class MasterController extends Controller
         // dd($user);
         $request->validate([
             "namaBahan"=>'required',
+            "ukuranBahan"=>'required',
+            "satuanBahan"=>'required',
+            "jumlahBahan"=>'required',
+            "jenisBahan"=>'required',
+            "hargaBahan"=>'required',
 
         ],
 
-        ["required" => ":attribute tidak boleh kosong"]);
+        ["required" => ":attribute harus di isi!"]);
 
         $b = new Bahan();
         $b->id_toko = $user->id_toko;
@@ -232,10 +237,15 @@ class MasterController extends Controller
     public function editbahan(Request $request, $id){
         $request->validate([
             "namaBahan"=>'required',
+            "ukuranBahan"=>'required',
+            "satuanBahan"=>'required',
+            "jumlahBahan"=>'required',
+            "jenisBahan"=>'required',
+            "hargaBahan"=>'required',
 
         ],
 
-        ["required" => ":attribute tidak boleh kosong"]);
+        ["required" => ":attribute harus di isi!"]);
 
         $b = Bahan::find($id);
 
@@ -292,22 +302,26 @@ class MasterController extends Controller
     public function addMebel(Request $request){
         $user = $this->getLogUser();
 
-        $foto1 = "";
-        $foto2 = "";
-        $foto3 = "";
-        $foto4 = "";
-        $namaFileGambar1  = "";
-        $namaFileGambar2  = "";
-        $namaFileGambar3  = "";
-        $namaFileGambar4  = "";
+        $request->validate([
+            'namaMebel' => 'required',
+            'tipeMebel' => 'required',
+            'hargaMebel' => 'required',
+            'jumlahMebel' => 'required',
+            'ukuranPanjang' => 'required',
+            'ukuranTinggi' => 'required',
+            'ukuranLebar' => 'required',
+            'satuanMebel' => 'required',
+            'keteranganMebel' => 'required',
 
-        try {
-            //code...
-            $foto1 = $request->file("fotoMebel1");
-            $namaFileGambar1  = Str::random(8).".".$foto1->getClientOriginalExtension();
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
+
+
+        ],
+
+        ["required" => ":attribute harus di isi !"]);
+
+
+
+
 
 
         $m = new Mebel();
@@ -321,39 +335,13 @@ class MasterController extends Controller
         $m->ukuran_tinggiMebel = $request->ukuranTinggi;
         $m->satuanUkuran_mebel = $request->satuanMebel;
         $m->keterangan_mebel = $request->keteranganMebel;
-        $m->foto_mebel1 = $namaFileGambar1;
-        $m->foto_mebel2 = $namaFileGambar2;
-        $m->foto_mebel3 = $namaFileGambar3;
-        $m->foto_mebel4 = $namaFileGambar4;
+
         $m->save();
 
-        $namaFolderPhoto = "imgMebel/";
+
 
             // storeAs akan menyimpan default ke local
-        try {
-            //code...
-            $foto1->storeAs($namaFolderPhoto,$namaFileGambar1, 'public');
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-        try {
-            //code...
-            $foto1->storeAs($namaFolderPhoto,$namaFileGambar2, 'public');
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-        try {
-            //code...
-            $foto1->storeAs($namaFolderPhoto,$namaFileGambar3, 'public');
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-        try {
-            //code...
-            $foto1->storeAs($namaFolderPhoto,$namaFileGambar4, 'public');
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
+
 
         toast('Berhasil tambah Mebel', 'success');
         // Alert::success('','berhasil tambah satuan');
@@ -363,7 +351,15 @@ class MasterController extends Controller
 
     public function editMebel(Request $request, $id){
         $request->validate([
-
+            'namaMebel' => 'required',
+            'tipeMebel' => 'required',
+            'hargaMebel' => 'required',
+            'jumlahMebel' => 'required',
+            'ukuranPanjang' => 'required',
+            'ukuranTinggi' => 'required',
+            'ukuranLebar' => 'required',
+            'satuanMebel' => 'required',
+            'keteranganMebel' => 'required',
 
         ],
 
@@ -371,14 +367,7 @@ class MasterController extends Controller
 
 
 
-        $foto1 = "";
-        $foto2 = "";
-        $foto3 = "";
-        $foto4 = "";
-        $namaFileGambar1  = "";
-        $namaFileGambar2  = "";
-        $namaFileGambar3  = "";
-        $namaFileGambar4  = "";
+
 
 
 
@@ -392,35 +381,6 @@ class MasterController extends Controller
         $m->ukuran_tinggiMebel = $request->ukuranTinggi;
         $m->satuanUkuran_mebel = $request->satuanMebel;
         $m->keterangan_mebel = $request->keteranganMebel;
-
-
-        $m->foto_mebel3 = $namaFileGambar3;
-        $m->foto_mebel4 = $namaFileGambar4;
-
-        $namaFolderPhoto = "imgMebel/";
-
-        try {
-            //code...
-            $foto1 = $request->file("fotoMebel1");
-            $namaFileGambar1  = Str::random(8).".".$foto1->getClientOriginalExtension();
-            $m->foto_mebel1 = $namaFileGambar1;
-            $foto1->storeAs($namaFolderPhoto,$namaFileGambar1, 'public');
-
-
-
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-        try {
-            //code...
-            $foto2 = $request->file("fotoMebel2");
-            $namaFileGambar2  = Str::random(8).".".$foto2->getClientOriginalExtension();
-            $m->foto_mebel2 = $namaFileGambar2;
-            $foto2->storeAs($namaFolderPhoto,$namaFileGambar2, 'public');
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-
 
 
         $m->save();

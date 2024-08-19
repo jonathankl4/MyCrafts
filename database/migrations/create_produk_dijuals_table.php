@@ -14,20 +14,20 @@ return new class extends Migration
         Schema::create('produk_dijuals', function (Blueprint $table) {
             $table->id();
             $table->integer('id_toko');
-            $table->string('nama_mebel');
-            $table->string('tipe_mebel')->nullable();
-            $table->integer('harga_mebel');
-            $table->integer('jumlah_mebel');
-            $table->integer('ukuran_panjangMebel')->nullable();
-            $table->integer('ukuran_lebarMebel')->nullable();
-            $table->integer('ukuran_tinggiMebel')->nullable();
-            $table->string('satuanUkuran_mebel')->nullable();
-            $table->string('keterangan_mebel')->nullable();
-            $table->integer('berat')->nullable();
-            $table->string('foto_mebel1')->nullable();
-            $table->string('foto_mebel2')->nullable();
-            $table->string('foto_mebel3')->nullable();
-            $table->string('foto_mebel4')->nullable();
+            $table->string('nama_produk');
+            $table->string('tipe_produk')->nullable();
+            $table->integer('harga_produk');
+            $table->integer('jumlah_produk');
+            $table->integer('ukuran_panjangproduk')->nullable();
+            $table->integer('ukuran_lebarproduk')->nullable();
+            $table->integer('ukuran_tinggiproduk')->nullable();
+            $table->string('satuanUkuran_produk')->nullable();
+            $table->string('keterangan_produk')->nullable();
+            $table->integer('berat_produk')->nullable();
+            $table->string('foto_produk1')->nullable();
+            $table->string('foto_produk2')->nullable();
+            $table->string('foto_produk3')->nullable();
+            $table->string('foto_produk4')->nullable();
             $table->string('status')->nullable();
 
             $table->timestamps();

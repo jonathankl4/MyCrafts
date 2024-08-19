@@ -4,9 +4,11 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DonationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\ProdukCustomController;
 use App\Http\Controllers\Produksi\BomController;
 use App\Http\Controllers\Produksi\PerencanaanProduksiController;
 use App\Http\Controllers\ProfileController;
@@ -37,9 +39,16 @@ Route::get('/testshop', function () {
     return view('template.shopTemplate');
 });
 
+Route::get('/testshop', function () {
+    return view('template.shopTemplate');
+});
 
 
-Route::get('/coba', [TestController::class, "coba"]);
+
+Route::get('/coba', [TestController::class, "testmid"]);
+Route::get('/bayar', [TestController::class, "testbayar"])->name('bayarbro');
+
+Route::post('donation/pay', [DonationController::class, 'pay'])->name('donation.pay');
 
 // Route::get('/dashboard', function () {
 //     // return view('template.homeTemplate');
@@ -86,8 +95,12 @@ Route::group([
     // 'prefix' => '/userc',
 ],function () {
     Route::get('/',[CustomerController::class, "homePage"]);
+
+
     Route::get('/daftarseller',[CustomerController::class, "daftarSeller"])->name('daftarseller');
     Route::get('/becomeSeller', [CustomerController::class, "becomeSeller"])->name('becomeSeller');
+
+    Route::get('/d/{id}',[CustomerController::class, "detailProduk"]);
 });
 
 
@@ -98,12 +111,22 @@ Route::group([
     Route::get('/',[SellerController::class, "homePage"]);
     Route::get('/test1',[SellerController::class, "homePage2"]);
 
-    //START OF PENJUALAN
+    //START OF TOKO
     //PRODUK
     Route::get('/produk/daftarProduk', [ProdukController::class, 'pageDaftarProduk']);
-    Route::get('/produk/tambahProduk', [ProdukController::class, 'pageTambahProduk']);
+    Route::get('/produk/tambahProduk', [ProdukController::class, 'pageAddProduk']);
+    Route::post('/addProduk',[ProdukController::class, 'addProduk']);
+    Route::post('/ubahStatusProduk', [ProdukController::class, 'ubahStatusProduk'])->name('ubahStatusProduk');
+    Route::get('/pEditProduk/{id}', [ProdukController::class, 'pageEditProduk']);
+    Route::post('editProduk/{id}', [ProdukController::class, 'editProduk']);
+    Route::get('deleteProduk/{id}',[ProdukController::class, 'deleteProduk']);
 
+    //START OF PRODUK CUSTOM
+    // PRODUK CUSTOM
+    Route::get('/produk/tambahProdukCustom',[ProdukController::class, 'pageAddCustomProduk']);
 
+    //TEMPLATE
+    Route::get('/produk/templateProduk', [ProdukCustomController::class, 'pageTemplateProduk']);
 
     //START OF Master
     //Satuan

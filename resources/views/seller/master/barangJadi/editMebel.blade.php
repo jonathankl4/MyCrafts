@@ -68,30 +68,44 @@
 
             <form action="{{url('seller/editMebel/'.$mebel->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="mb-3">
-                    <label class="form-label" >Nama Mebel</label>
-                    <input type="text" class="form-control" id="namaMebel" name="namaMebel" placeholder="nama mebel" value="{{$mebel->nama_mebel}}"/>
-                    <span style="color: red;">{{ $errors->first('namaMebel')}}</span>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px">Nama Mebel</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="namaMebel" name="namaMebel" placeholder="nama mebel" value="{{$mebel->nama_mebel}}"/>
+                        <span style="color: red;">{{ $errors->first('namaMebel')}}</span>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" >tipe mebel</label>
-                    <input type="text" class="form-control" id="tipeMebel" name="tipeMebel" placeholder="Tipe Mebel" value="{{$mebel->tipe_mebel}}" />
-                    <span style="color: red;">{{ $errors->first('ukuranMebel')}}</span>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" >Harga</label>
-                    <input type="text" class="form-control" id="hargaMebel" name="hargaMebel" placeholder="Harga" value="{{$mebel->harga_mebel}}" />
-                    <span style="color: red;">{{ $errors->first('satuanMebel')}}</span>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" >jumlah</label>
-                    <input type="text" class="form-control" id="jumlahMebel" name="jumlahMebel" placeholder="Jumlah Mebel" value="{{$mebel->jumlah_mebel}}" />
-                    <span style="color: red;">{{ $errors->first('jumlahMebel')}}</span>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" >Ukuran</label>
 
-                    <div>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >tipe mebel</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="tipeMebel" name="tipeMebel" placeholder="Tipe Mebel" value="{{$mebel->tipe_mebel}}" />
+                        <span style="color: red;">{{ $errors->first('tipeMebel')}}</span>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class=" col-md-2 col-form-label" style="font-size: 16px" >Harga</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="hargaMebel" name="hargaMebel" placeholder="Harga" value="{{$mebel->harga_mebel}}" />
+                        <span style="color: red;">{{ $errors->first('hargaMebel')}}</span>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="form-label col-md-2" style="font-size: 16px">jumlah</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="jumlahMebel" name="jumlahMebel" placeholder="Jumlah Mebel" value="{{$mebel->jumlah_mebel}}" />
+                        <span style="color: red;">{{ $errors->first('jumlahMebel')}}</span>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class=" col-md-2 col-form-label" style="font-size: 16px" >Ukuran</label>
+
+                    <div class="col-md-10">
                         <select name="satuanMebel" id="" class="theSelect" style="height: 50px;width: 50%" >
                             <option value="" disabled selected hidden>Satuan Ukuran</option>
                             @for ($i=0; $i<count($satuan); $i++)
@@ -111,12 +125,25 @@
                             @endfor
 
                         </select>
+                        <br><br>
 
-                        <input type="text" class="form-control" id="ukuranPanjang" name="ukuranPanjang" placeholder="Panjang" value="{{$mebel->ukuran_panjangMebel}}" />
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="spanpanjang" style="">Panjang :</span>
+                            <input type="text" class="form-control" id="ukuranPanjang" name="ukuranPanjang" aria-describedby="spanpanjang" style="border: 1.3px ridge " value="{{$mebel->ukuran_panjangMebel}}" />
+                        </div>
                         <span style="color: red;">{{ $errors->first('ukuranPanjang')}}</span>
-                        <input type="text" class="form-control" id="ukuranLebar" name="ukuranLebar" placeholder="Lebar"  value="{{$mebel->ukuran_lebarMebel}}"/>
+                        <br>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="spanlebar" style="">Lebar :</span>
+                            <input type="text" class="form-control" id="ukuranLebar" name="ukuranLebar" aria-describedby="spanlebar" style="border: 1.3px ridge " value="{{$mebel->ukuran_lebarMebel}}" />
+                        </div>
                         <span style="color: red;">{{ $errors->first('ukuranLebar')}}</span>
-                        <input type="text" class="form-control" id="ukuranTinggi" name="ukuranTinggi" placeholder="Tinggi" value="{{$mebel->ukuran_tinggiMebel}}" />
+                        <br>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="spantinggi" style="">Tinggi :</span>
+                            <input type="text" class="form-control" id="ukuranTinggi" name="ukuranTinggi" aria-describedby="spantinggi" style="border: 1.3px ridge " value="{{$mebel->ukuran_tinggiMebel}}" />
+                        </div>
+
                         <span style="color: red;">{{ $errors->first('ukuranTinggi')}}</span>
 
                     </div>
@@ -128,26 +155,7 @@
                     <input type="text" class="form-control" id="keteranganMebel" name="keteranganMebel" placeholder="Keterangan" value="{{$mebel->keterangan_mebel}}" />
                     <span style="color: red;">{{ $errors->first('hargaMebel')}}</span>
                 </div>
-                <div class="mb-3">
-                    <div>
-                        <label class="form-label" >foto Utama</label>
-                        <br>
-                        <img src="{{url("/storage/imgMebel/".$mebel->foto_mebel1)}}" alt="" style='width:100px;heigth:100px;'>
-                        <input type="file" class="form-control" id="fotoMebel1" name="fotoMebel1"  />
-                    </div>
-                    <div>
 
-                        <label class="form-label" >foto 2</label>
-                        <br>
-                        <img src="{{url("/storage/imgMebel/".$mebel->foto_mebel2)}}" alt="" style='width:100px;heigth:100px;'>
-                        <input type="file" class="form-control" id="fotoMebel2" name="fotoMebel2"  />
-                    </div>
-                    <label class="form-label" >foto 3</label>
-                    <input type="file" class="form-control" id="fotoMebel3" name="fotoMebel3"  />
-                    <label class="form-label" >foto 4</label>
-                    <input type="file" class="form-control" id="fotoMebel4" name="fotoMebel4"  />
-
-                </div>
 
                 <div style="float: right">
                     <a href="{{url('/seller/master/mebel')}}" class="btn btn-outline-dark">Kembali</a>

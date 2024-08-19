@@ -53,6 +53,37 @@
 
       </ul>
     </li>
+    <li class="menu-item {{request()->is('seller/produkCustom*') ? 'active open' : ''}}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-dock-top"></i>
+        <div data-i18n="">Produk Custom</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item {{request()->is('seller/produk/tambahProdukCustom') ? 'active' : ''}}">
+            <a href="{{url('/seller/produk/tambahProdukCustom')}}" class="menu-link">
+                <div >Tambah Produk Custom</div>
+            </a>
+        </li>
+        <li class="menu-item {{request()->is('seller/produk/daftarProdukCustom') ? 'active' : ''}}">
+            <a href="{{url('/seller/produk/daftarProdukCustom')}}" class="menu-link">
+                <div >Daftar Produk Custom</div>
+            </a>
+        </li>
+        <li class="menu-item {{request()->is('seller/produk/templateCustom') ? 'active' : ''}}">
+            <a href="{{url('/seller/produk/templateProduk')}}" class="menu-link">
+                <div >Template</div>
+            </a>
+        </li>
+        <li class="menu-item {{request()->is('seller/produk/addOn') ? 'active' : ''}}">
+            <a href="{{url('/seller/produk/addOn')}}" class="menu-link">
+                <div >Add On</div>
+            </a>
+        </li>
+
+
+
+      </ul>
+    </li>
 
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -38,5 +39,16 @@ class TestController extends Controller
 
         return view("customer.shopping.dashboard", ['user'=>$user]);
 
+    }
+
+    public function testmid(){
+        return view("trans");
+    }
+
+    public function testbayar(){
+
+        $data = Donation::find(42);
+
+        return view('bayar',['data'=>$data]);
     }
 }
