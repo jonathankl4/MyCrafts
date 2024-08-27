@@ -1,16 +1,18 @@
 @extends('template.MasterDesain')
 
-@section('title', 'Bill Of Material')
+@section('meta')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+@endsection
+
+@section('title', 'Dashboard')
 
 @section('style')
 <style>
-    .dataTables_wrapper .dataTables_filter {
-  /* position: absolute;
-  top: 130px;
-  right: 40px; */
 
 
-}
+
+
 
 
 
@@ -35,49 +37,56 @@
     <!-- Content -->
 
     <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
-        <h2 class="fw-bold py-3 mb-4">Produksi</h2>
+        <h2 class="fw-bold py-3 mb-4">Template Mebel</h2>
 
         <div class="card" style="padding: 15px">
-            <h5 class="card-header">Daftar Produksi</h5>
+            <h5 class="card-header">Daftar Template</h5>
 
-            <a href="{{url('/seller/pAddBom')}}">
-                <button class="btn btn-primary" id="add"  style="width: fit-content; margin-left: 10px"> Tambah Produksi</button>
+
+            <a href="{{url('/seller/produkCustom/tambahTemplate')}}">
+                <button class="btn btn-primary" id="add"  style="width: fit-content; margin-left: 10px"> Tambah Template Mebel</button>
             </a>
 
             <div class="table-responsive text-nowrap p-3">
-                <table id="tMebel" class="table table-striped" >
+                <table id="tTemplate" class="table table-striped" >
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>tanggal PRoduksi</th>
-
-
-                            <th>aksi</th>
-
-
-
+                            <th>Informasi</th>
+                            <th>tipe</th>
+                            <th>Harga</th>
+                            <th>Keterangan</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i=0; $i < count($listProduksi); $i++ )
+                        @for ($i=0; $i < count($listTemplate); $i++ )
+
+
 
                         <tr>
                             <td>{{$i+1}}</td>
-                            <td style="font-size: 16px"><b>{{$listProduksi[$i]->tgl_produksi}}</b></td>
+                            <td style="font-size: 16px">
+                                <div style="float: left">
+                                        <a href=""  data-bs-toggle="modal" data-bs-target="#modalImage{{$i}}"><img src="{{url("/storage/imgTemplate/".$listTemplate[$i]->gambar)}}" alt="" style="width:70px; height:70px" ></a>
+                                        <b>{{$listTemplate[$i]->nama}}</b>
+                                </div>
+                            </td>
 
+                            <td style="font-size: 16px"><b>{{$listTemplate[$i]->tipe}}</b></td>
 
-
+                            <td style="font-size: 16px"><b>Rp {{$listTemplate[$i]->harga}}</b></td>
+                            <td style="font-size: 16px"><b>{{$listTemplate[$i]->keterangan}}</b></td>
 
                             <td>
-
-                                <a href="{{url('/seller/pDetailBom/'.$listProduksi[$i]->id)}}" class="btn btn-warning">Detail</a>
-                                <a href="{{url('/seller/pEditBom/'.$listProduksi[$i]->id)}}" class="btn btn-icon btn-warning"><i class='bx bxs-pencil'></i></a>
+                                <a href="{{url('/seller/pEditTemplate/'.$listTemplate[$i]->id)}}" class="btn btn-icon btn-warning"><i class='bx bxs-pencil'></i></a>
                                 <a href="" class="btn btn-icon btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{$i}}"><span class="bx bxs-trash"></span></a>
+
                             </td>
 
 
                         </tr>
-                        {{-- modal delete Mebel --}}
+                        {{-- modal delete Produk --}}
                         <div class="modal fade" id="modalDelete{{$i}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -86,13 +95,13 @@
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <h2 class="card-title text-primary"> Delete  {{$listProduksi[$i]->tgl_produksi}} </h2>
+                                    <h2 class="card-title text-primary"> Delete Produk {{$listTemplate[$i]->nama}} </h2>
 
 
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <a href="{{url('seller/deleteBom/'.$listProduksi[$i]->id)}}">
+                                    <a href="{{url('seller/deleteTemplate/'.$listTemplate[$i]->id)}}">
 
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
                                     </a>
@@ -102,10 +111,31 @@
                             </div>
                         </div>
 
+                        <div id="modalImage{{$i}}" class="modal fade" aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%; height: 100%;">
 
+
+
+
+                            <div class="modal-dialog">
+                                <div class="modal-content" style="margin: auto;display: block;width: 80%;max-width: 700px;">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img class="modal-content" src="{{url("/storage/imgTemplate/".$listTemplate[$i]->gambar)}}"  >
+
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
 
 
                         @endfor
+
+
 
 
 
@@ -179,10 +209,12 @@
 
 @endsection
 
+
 @section('script')
+
 <script>
     $(document).ready( function () {
-        $('#tMebel').DataTable();
+        $('#tTemplate').DataTable();
 
 
 
@@ -195,4 +227,5 @@
 
 
   </script>
+
 @endsection

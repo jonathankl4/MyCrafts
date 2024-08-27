@@ -41,24 +41,36 @@
 
             <form action="{{url('seller/editSupplier/'.$sup->id)}}" method="POST">
                 @csrf
-                <div class="mb-3">
-                    <label class="form-label" >Nama Supplier</label>
-                    <input type="text" class="form-control" id="namaSupplier" name="namaSupplier" placeholder="" value="{{$sup->nama_sup}}" />
-                    <span style="color: red;">{{ $errors->first('namaSupplier')}}</span>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Nama Supplier</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="namaSupplier" name="namaSupplier" placeholder="Nama Supplier" value="{{$sup->nama_sup}}" />
+                        <span style="color: red;">{{ $errors->first('namaSupplier')}}</span>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" >No Telp</label>
-                    <input type="text" class="form-control" id="noTelpSupplier" name="noTelpSupplier" placeholder="" value="{{$sup->notelp_sup}}" />
-                    <span style="color: red;">{{ $errors->first('noTelpSupplier')}}</span>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label"  style="font-size: 16px">No Telp</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="noTelpSupplier" name="noTelpSupplier" placeholder="Nomor Telepon" value="{{$sup->notelp_sup}}" />
+                        <span style="color: red;">{{ $errors->first('noTelpSupplier')}}</span>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" >Alamat (opsional)</label>
-                    <input type="text" class="form-control" id="alamatSupplier" name="alamatSupplier" placeholder="" value="{{$sup->alamat_sup}}" />
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label"  style="font-size: 16px">Alamat (opsional)</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="alamatSupplier" name="alamatSupplier" placeholder="alamat" value="{{$sup->alamat_sup}}" />
+                    </div>
 
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" >Keterangan (opsional)</label>
-                    <input type="text" class="form-control" id="ketSupplier" name="ketSupplier" placeholder="contoh: gram, kg, dll" value="{{$sup->keterangan_sup}}" />
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label " style="font-size: 16px" >Keterangan (opsional)</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="ketSupplier" name="ketSupplier" placeholder="keterangan" value="{{$sup->keterangan_sup}}" />
+                    </div>
 
                 </div>
                 <div style="float: right">

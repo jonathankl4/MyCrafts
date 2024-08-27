@@ -105,10 +105,11 @@ class MasterController extends Controller
         // dd($user);
         $request->validate([
             "namaSupplier"=>'required',
-            "noTelpSupplier"=>'required',
+            "noTelpSupplier"=>'required|integer',
         ],
 
-        ["required" => ":attribute tidak boleh kosong"]);
+        ["required" => ":attribute tidak boleh kosong",
+        "integer" => ":attribute harus berupa angka"]);
 
         $s = new supplier();
         $s->id_toko = $user->id_toko;

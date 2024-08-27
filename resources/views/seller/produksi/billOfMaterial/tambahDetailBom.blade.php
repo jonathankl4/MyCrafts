@@ -41,35 +41,53 @@
 
             <form action="{{url('seller/addDetailBom/'.$bom->id)}}" method="POST">
                 @csrf
-                <div class="mb-3">
-                    <label class="form-label" >Nama bahan</label>
-                    <input type="text" class="form-control" id="namaBahan" name="namaBahan" placeholder="-" />
-                    <span style="color: red;">{{ $errors->first('namaBahan')}}</span>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px">Nama bahan</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="namaBahan" name="namaBahan" placeholder="-" />
+                        <span style="color: red;">{{ $errors->first('namaBahan')}}</span>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" >Deskripsi</label>
-                    <input type="text" class="form-control" id="n" name="deskripsi" placeholder="-" />
-                    <span style="color: red;">{{ $errors->first('deskripsi')}}</span>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label"  style="font-size: 16px">Deskripsi</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="n" name="deskripsi" placeholder="-" />
+                        <span style="color: red;">{{ $errors->first('deskripsi')}}</span>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" >Jumlah</label>
-                    <input type="text" class="form-control" id="jumlah" name="jumlah" placeholder="-" />
-                    <span style="color: red;">{{ $errors->first('jumlah')}}</span>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Jumlah</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="jumlah" name="jumlah" placeholder="-" />
+                        <span style="color: red;">{{ $errors->first('jumlah')}}</span>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" >Ukuran</label>
-                    <input type="text" class="form-control" id="ukuran" name="ukuran" placeholder="-" />
-                    <span style="color: red;">{{ $errors->first('ukuran')}}</span>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Ukuran</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="ukuran" name="ukuran" placeholder="-" />
+                        <span style="color: red;">{{ $errors->first('ukuran')}}</span>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" >Harga bahan</label>
-                    <input type="text" class="form-control" id="hargaBahan" name="hargaBahan" placeholder="-" />
-                    <span style="color: red;">{{ $errors->first('hargaBahan')}}</span>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Harga bahan</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="hargaBahan" name="hargaBahan" placeholder="-" />
+                        <span style="color: red;">{{ $errors->first('hargaBahan')}}</span>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" >Subtotal</label>
-                    <input type="text" class="form-control" id="subtotal" name="subtotal" placeholder="-" />
-                    <span style="color: red;">{{ $errors->first('subtotal')}}</span>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Subtotal</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="subtotal" name="subtotal" placeholder="-" />
+                        <span style="color: red;">{{ $errors->first('subtotal')}}</span>
+                    </div>
                 </div>
 
                 <div style="float: right">

@@ -55,6 +55,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
 
+
+    {{-- Data Table  --}}
+    <script src="{{asset('js/jquery-1.12.0.min.js')}}" language="javascript"></script>
+    <link href='http://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css' type='text/css' rel='stylesheet'>
+    <script src='http://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js' language='javascript'></script>
+
   </head>
 
   <body>
@@ -107,6 +113,9 @@
     </div>
     <!-- / Layout wrapper -->
 
+
+
+
     <!-- DataTable -->
 
 
@@ -134,8 +143,14 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
     <!-- Data Table -->
+    {{-- <link href='http://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css'>
+    <script src='https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js'></script> --}}
     <link href='http://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css'>
     <script src='https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js'></script>
+
+
+
+    @yield('script')
   </body>
 </html>
 

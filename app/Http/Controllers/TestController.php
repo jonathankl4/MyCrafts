@@ -51,4 +51,28 @@ class TestController extends Controller
 
         return view('bayar',['data'=>$data]);
     }
+
+    public function carimax(){
+
+        $input = "jojo";
+
+        $panjang = strlen($input);
+        $hasil = "";
+        $temp = str_split($input, 1);
+
+        dd($temp);
+
+
+
+    }
+
+
+    public function testingfabric(){
+
+        $user = $this->getLogUser();
+
+        return view('seller.produkCustom.produk.testing', ['user'=>$user]);
+    }
+
+
 }

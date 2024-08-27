@@ -37,30 +37,30 @@
     <!-- Content -->
 
     <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
-        <h2 class="fw-bold py-3 mb-4">Template Mebel</h2>
+        <h2 class="fw-bold py-3 mb-4">Add On</h2>
 
         <div class="card" style="padding: 15px">
-            <h5 class="card-header">Daftar Template</h5>
+            <h5 class="card-header">Daftar Add on</h5>
 
 
-            <a href="{{url('/seller/produk/tambahTemplate')}}">
-                <button class="btn btn-primary" id="add"  style="width: fit-content; margin-left: 10px"> Tambah Template Mebel</button>
+            <a href="{{url('/seller/produkCustom/tambahAddOn')}}">
+                <button class="btn btn-primary" id="add"  style="width: fit-content; margin-left: 10px"> Tambah Add On </button>
             </a>
 
             <div class="table-responsive text-nowrap p-3">
-                <table id="tProduk" class="table table-striped" >
+                <table id="tTemplate" class="table table-striped" >
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Info Produk</th>
-                            <th>Stok</th>
-                            <th>Harga Produk</th>
-                            <th>Status</th>
-                            <th>aksi</th>
+                            <th>Informasi</th>
+                            <th>tipe</th>
+                            <th>Harga</th>
+                            <th>Keterangan</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i=0; $i < count($listTemplate); $i++ )
+                        @for ($i=0; $i < count($listAddOn); $i++ )
 
 
 
@@ -68,34 +68,18 @@
                             <td>{{$i+1}}</td>
                             <td style="font-size: 16px">
                                 <div style="float: left">
-                                        <a href=""  data-bs-toggle="modal" data-bs-target="#modalImage{{$i}}"><img src="{{url("/storage/imgProduk/".$listTemplate[$i]->foto_produk1)}}" alt="" style="width:70px; height:70px" ></a>
-                                        <b>{{$listTemplate[$i]->nama_produk}}</b>
+                                        <a href=""  data-bs-toggle="modal" data-bs-target="#modalImage{{$i}}"><img src="{{url("/storage/imgAddOn/".$listAddOn[$i]->gambar)}}" alt="" style="width:70px; height:70px" ></a>
+                                        <b>{{$listAddOn[$i]->nama}}</b>
                                 </div>
                             </td>
 
-                            <td style="font-size: 16px"><b>{{$listTemplate[$i]->jumlah_produk}}</b></td>
+                            <td style="font-size: 16px"><b>{{$listAddOn[$i]->tipe}}</b></td>
 
-                            <td style="font-size: 16px"><b>Rp {{$listTemplate[$i]->harga_produk}}</b></td>
-                            <td style="font-size: 16px">
-                                @if ($listTemplate[$i]->status == "nonaktif")
-                                <div class="col-3 text-end">
-                                    <div class="form-check form-switch">
-                                      <input class="form-check-input float-end" id="statuscek{{$listTemplate[$i]->id}}" type="checkbox" role="switch"  onchange="statuschange({{$listTemplate[$i]->id}})"/>
-                                    </div>
-                                  </div>
-                                  @else
-                                  <div class="col-3 text-end">
-                                      <div class="form-check form-switch">
-                                        <input class="form-check-input float-end" id="statuscek{{$listTemplate[$i]->id}}" type="checkbox" role="switch"  checked onchange="statuschange({{$listTemplate[$i]->id}})"/>
-                                      </div>
-                                    </div>
-                                    @endif
-
-
-                            </td>
+                            <td style="font-size: 16px"><b>Rp {{$listAddOn[$i]->harga}}</b></td>
+                            <td style="font-size: 16px"><b>{{$listAddOn[$i]->keterangan}}</b></td>
 
                             <td>
-                                <a href="{{url('/seller/pEditProduk/'.$listTemplate[$i]->id)}}" class="btn btn-icon btn-warning"><i class='bx bxs-pencil'></i></a>
+                                <a href="{{url('/seller/pEditAddOn/'.$listAddOn[$i]->id)}}" class="btn btn-icon btn-warning"><i class='bx bxs-pencil'></i></a>
                                 <a href="" class="btn btn-icon btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{$i}}"><span class="bx bxs-trash"></span></a>
 
                             </td>
@@ -111,13 +95,13 @@
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <h2 class="card-title text-primary"> Delete Produk {{$listTemplate[$i]->nama_produk}} </h2>
+                                    <h2 class="card-title text-primary"> Delete {{$listAddOn[$i]->nama}} </h2>
 
 
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <a href="{{url('seller/deleteProduk/'.$listTemplate[$i]->id)}}">
+                                    <a href="{{url('seller/deleteAddOn/'.$listAddOn[$i]->id)}}">
 
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
                                     </a>
@@ -139,7 +123,7 @@
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img class="modal-content" src="{{url("/storage/imgProduk/".$listTemplate[$i]->foto_produk1)}}"  >
+                                    <img class="modal-content" src="{{url("/storage/imgAddOn/".$listAddOn[$i]->gambar)}}"  >
 
 
                                 </div>
@@ -228,6 +212,20 @@
 
 @section('script')
 
+<script>
+    $(document).ready( function () {
+        $('#tTemplate').DataTable();
 
+
+
+
+
+
+    });
+
+
+
+
+  </script>
 
 @endsection

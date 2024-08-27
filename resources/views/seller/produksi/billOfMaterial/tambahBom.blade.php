@@ -41,10 +41,13 @@
 
             <form action="{{url('seller/addBom')}}" method="POST">
                 @csrf
-                <div class="mb-3">
-                    <label class="form-label" >Nama Produk</label>
-                    <input type="text" class="form-control" id="namaProduk" name="namaProduk" placeholder="-" />
-                    <span style="color: red;">{{ $errors->first('namaProduk')}}</span>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px">Nama Produk</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="namaProduk" name="namaProduk" placeholder="-" />
+                        <span style="color: red;">{{ $errors->first('namaProduk')}}</span>
+                    </div>
                 </div>
 
                 <div style="float: right">

@@ -45,6 +45,9 @@ Route::get('/testshop', function () {
 
 
 
+
+
+Route::get('/carimax', [TestController::class, "carimax"]);
 Route::get('/coba', [TestController::class, "testmid"]);
 Route::get('/bayar', [TestController::class, "testbayar"])->name('bayarbro');
 
@@ -123,10 +126,29 @@ Route::group([
 
     //START OF PRODUK CUSTOM
     // PRODUK CUSTOM
-    Route::get('/produk/tambahProdukCustom',[ProdukController::class, 'pageAddCustomProduk']);
+    Route::get('/produkCustom/testing', [TestController::class, 'testingfabric']);
+    Route::get('/produkCustom/tambahProdukCustom',[ProdukCustomController::class, 'pageAddCustomProduk']);
+    Route::get('/produkCustom/tambahProdukCustom',[ProdukCustomController::class, 'pageAddCustomProduk']);
+    Route::post('/addProdukCustom',[ProdukCustomController::class, 'addCustomProduk']);
 
     //TEMPLATE
-    Route::get('/produk/templateProduk', [ProdukCustomController::class, 'pageTemplateProduk']);
+    Route::get('/produkCustom/templateProduk', [ProdukCustomController::class, 'pageTemplateProduk']);
+    Route::get('/produkCustom/tambahTemplate', [ProdukCustomController::class, 'pageTambahTemplate']);
+    Route::post('/addTemplate', [ProdukCustomController::class, 'addTemplate']);
+    Route::get('/pEditTemplate/{id}',[ProdukCustomController::class, 'pageEditTemplate']);
+    Route::post('/editTemplate/{id}', [ProdukCustomController::class, 'editTemplate']);
+    Route::get('/deleteTemplate/{id}', [ProdukCustomController::class, 'deleteTemplate']);
+
+    // ADD ON
+
+    Route::get("/produkCustom/addOn", [ProdukCustomController::class, 'pageAddOn']);
+    Route::get("/produkCustom/tambahAddOn", [ProdukCustomController::class, 'pageTambahAddOn']);
+    Route::post("/addAddOn", [ProdukCustomController::class, 'tambahAddOn']);
+    Route::get("pEditAddOn/{id}", [ProdukCustomController::class, "pageEditAddOn"]);
+    Route::post("editAddOn/{id}", [ProdukCustomController::class, "editAddOn"]);
+    Route::get("/deleteAddOn/{id}", [ProdukCustomController::class, "deleteAddOn"]);
+
+
 
     //START OF Master
     //Satuan

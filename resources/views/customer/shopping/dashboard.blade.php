@@ -94,15 +94,16 @@
                                 @for ($i = 0 ; $i < count($listProduk) ; $i++)
 
 
-                                <a href="{{url('/d/'.$listProduk[$i]->id)}}">
+
 
                                     <div class="col-md-6 col-lg-4 col-xl-3">
+                                        <a href="{{url('/d/'.$listProduk[$i]->id)}}">
                                         <div class="rounded position-relative fruite-item">
-                                            <div class="">
-                                                <img src="{{asset('storage/imgProduk/'.$listProduk[$i]->foto_produk1)}}" class="img-fluid w-100 rounded-top" alt="">
+                                            <div class="border rounded-top">
+                                                <img src="{{asset('storage/imgProduk/'.$listProduk[$i]->foto_produk1)}}" class="rounded-top image-fluid" style="height: 230px;" alt="">
                                             </div>
                                             {{-- <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div> --}}
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                            <div class="p-4 border  border-top-0 rounded-bottom">
                                                 <h4>{{$listProduk[$i]->nama_produk}}</h4>
 
                                                 <div class="d-flex justify-content-between flex-lg-wrap">
@@ -111,8 +112,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </a>
                                     </div>
-                                </a>
 
                                 @endfor
 

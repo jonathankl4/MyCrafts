@@ -33,7 +33,7 @@
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Toko</span>
     </li>
-    <li class="menu-item {{request()->is('seller/produk*') ? 'active open' : ''}}">
+    <li class="menu-item {{request()->is('seller/produk/*') ? 'active open' : ''}}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-dock-top"></i>
         <div data-i18n="">Produk</div>
@@ -59,24 +59,29 @@
         <div data-i18n="">Produk Custom</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item {{request()->is('seller/produk/tambahProdukCustom') ? 'active' : ''}}">
-            <a href="{{url('/seller/produk/tambahProdukCustom')}}" class="menu-link">
+        <li class="menu-item {{request()->is('seller/produkCustom/tambahProdukCustom') ? 'active' : ''}}">
+            <a href="{{url('/seller/produkCustom/tambahProdukCustom')}}" class="menu-link">
                 <div >Tambah Produk Custom</div>
             </a>
         </li>
-        <li class="menu-item {{request()->is('seller/produk/daftarProdukCustom') ? 'active' : ''}}">
-            <a href="{{url('/seller/produk/daftarProdukCustom')}}" class="menu-link">
+        <li class="menu-item {{request()->is('seller/produkCustom/daftarProdukCustom') ? 'active' : ''}}">
+            <a href="{{url('/seller/produkCustom/daftarProdukCustom')}}" class="menu-link">
                 <div >Daftar Produk Custom</div>
             </a>
         </li>
-        <li class="menu-item {{request()->is('seller/produk/templateCustom') ? 'active' : ''}}">
-            <a href="{{url('/seller/produk/templateProduk')}}" class="menu-link">
+        <li class="menu-item {{request()->is('seller/produkCustom/templateProduk') ? 'active' : ''}}">
+            <a href="{{url('/seller/produkCustom/templateProduk')}}" class="menu-link">
                 <div >Template</div>
             </a>
         </li>
-        <li class="menu-item {{request()->is('seller/produk/addOn') ? 'active' : ''}}">
-            <a href="{{url('/seller/produk/addOn')}}" class="menu-link">
+        <li class="menu-item {{request()->is('seller/produkCustom/addOn') ? 'active' : ''}}">
+            <a href="{{url('/seller/produkCustom/addOn')}}" class="menu-link">
                 <div >Add On</div>
+            </a>
+        </li>
+        <li class="menu-item {{request()->is('seller/produkCustom/testing') ? 'active' : ''}}">
+            <a href="{{url('/seller/produkCustom/testing')}}" class="menu-link">
+                <div >Testing</div>
             </a>
         </li>
 
