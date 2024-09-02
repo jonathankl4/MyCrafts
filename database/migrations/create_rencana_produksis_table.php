@@ -11,15 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
+        
         Schema::create('rencana_produksis', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_produksi')->nullable();
             $table->integer("id_toko");
-            $table->date("tgl_produksi");
+            $table->date("tgl_produksi_mulai");
+            $table->date("tgl_produksi_selesai")->nullable();
             $table->integer('jumlahdiproduksi');
             $table->string('waktu_produksi')->nullable();
             $table->string('nama_produk')->nullable();
             $table->integer('id_bom')->nullable();
-            $table->string('status');
+            $table->string('status')->comment("0=belum start, 1= sudah start, 2= sudah selesai, 3=dibatalkan");
             $table->timestamps();
         });
     }

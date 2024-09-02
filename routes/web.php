@@ -10,6 +10,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukCustomController;
 use App\Http\Controllers\Produksi\BomController;
+use App\Http\Controllers\Produksi\HasilProduksiController;
 use App\Http\Controllers\Produksi\PerencanaanProduksiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SellerController;
@@ -188,7 +189,13 @@ Route::group([
 
     //Perencanaan Produksi
     Route::get('/produksi/perencanaanProduksi',[PerencanaanProduksiController::class, "pagePerencanaanProduksi"]);
-
+    Route::get('/pAddProduksi',[PerencanaanProduksiController::class, 'pageAddProduksi']);
+    Route::post('/addProduksi',[PerencanaanProduksiController::class, 'addProduksi']);
+    Route::get('/pEditProduksi/{id}',[PerencanaanProduksiController::class, 'pageEditProduksi']);
+    Route::post('/editProduksi/{id}',[PerencanaanProduksiController::class, 'editProduksi']);
+    Route::get('/batalkanProduksi/{id}',[PerencanaanProduksiController::class, 'batalkanProduksi']);
+    Route::get('/selesaikanProduksi/{id}',[PerencanaanProduksiController::class, 'selesaikanProduksi']);
+    Route::get('/getBom',[PerencanaanProduksiController::class, 'getBom']);
 
     //BILL OF MATERIAL
     Route::get('/produksi/bom', [BomController::class, "pageBOM"]);
@@ -198,7 +205,7 @@ Route::group([
     Route::get('/pEditBom/{id}',[BomController::class, "pageEditBom"]);
     Route::post('/editBom/{id}', [BomController::class, "editBom"]);
 
-        // detail bom
+    // detail bom
     Route::get('/pDetailBom/{id}', [BomController::class, "pageDetailBom"]);
     Route::post('/addDetailBom/{id}', [BomController::class, "addDetailBom"]);
     Route::get('/pAddDetailBom/{id}', [BomController::class, "pageAddDetailBom"]);
@@ -206,7 +213,12 @@ Route::group([
     Route::post('/editDetailBom/{id}',[BomController::class, "editDetailBom"]);
     Route::get('/deleteDetailBom/{id}',[BomController::class, "deleteDetailBom"]);
 
+    // INPUT HASIL PRODUKSI
 
+    Route::get('/inputHasilProduksi', [HasilProduksiController::class, "pageInputHasilProduksi"]);
+    Route::get('/getRP', [HasilProduksiController::class, "getRencanaProduksi"]);
+    Route::post('/simpanHasilProduksi',[HasilProduksiController::class, 'addHasilProduksi']);
+    Route::get('/riwayatInputHasilProduksi',[HasilProduksiController::class, 'riwayatInputHasilProduksi']);
 
 
 

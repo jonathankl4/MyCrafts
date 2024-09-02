@@ -160,8 +160,8 @@
                 <div >Master Bill of Material</div>
                 </a>
             </li>
-            <li class="menu-item {{request()->is('seller/produksi/') ? 'active' : ''}}">
-                <a href="" class="menu-link">
+            <li class="menu-item {{request()->is('seller/produksi/inputHasilProduksi') ? 'active' : ''}}">
+                <a href="{{url('/seller/inputHasilProduksi')}}" class="menu-link">
                   <div >Input Hasil Produksi</div>
                 </a>
             </li>
