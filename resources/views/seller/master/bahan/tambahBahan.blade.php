@@ -1,6 +1,6 @@
 @extends('template.BackupMasterDesain')
 
-@section('title', 'Dashboard')
+@section('title', 'Tambah Bahan')
 
 @section('style')
 <style>
@@ -45,54 +45,67 @@
                     <label class="col-md-2 col-form-label" style="font-size: 16px" >Nama Bahan</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="namaBahan" name="namaBahan" placeholder="-" />
+                        <input type="text" class="form-control" id="namaBahan" name="namaBahan" placeholder="-" value="{{old('namaBahan')}}" />
                         <span style="color: red;">{{ $errors->first('namaBahan')}}</span>
                     </div>
                 </div>
+                
                 <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label " style="font-size: 16px" >Ukuran</label>
-                    <div class="col-md-10">
-
-                        <input type="text" class="form-control" id="ukuranBahan" name="ukuranBahan" placeholder="-" />
-                        <span style="color: red;">{{ $errors->first('ukuranBahan')}}</span>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label" style="font-size: 16px" >satuan</label>
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Ukuran</label>
                     {{-- <input type="text" class="form-control" id="satuanBahan" name="satuanBahan" placeholder="-" />
                     <span style="color: red;">{{ $errors->first('satuanBahan')}}</span> --}}
                     <div class="col-md-10">
 
-                        <select name="" id="" class="form-select theSelect">
-                            @for ($i = 0; $i < count($satuan);$i++)
+                        <select name="satuanBahan" id="" class="form-select theSelect">
+                            @if (count($satuan) < 1)
 
+                            <option>Belum ada Satuan</option>
+                             
+                            @elseif (count($satuan) > 0)
+                            <option disabled selected hidden >Pilih Satuan..</option>
+                                
+                            @endif
+                            @for ($i = 0; $i < count($satuan);$i++)
+                            
                                 <option value="{{$satuan[$i]->nama_satuan}}">{{$satuan[$i]->nama_satuan}}</option>
 
                             @endfor
                         </select>
+                        <br><br>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="spanpanjang" style="">Panjang :</span>
+                            <input type="number" class="form-control" id="ukuranPanjang" name="ukuranPanjang" aria-describedby="spanpanjang" style="border: 1.3px ridge " value="{{old('ukuranPanjang')}}" />
+                        </div>
+                        <span style="color: red;">{{ $errors->first('ukuranPanjang')}}</span>
+                        <br>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="spanlebar" style="">Lebar :</span>
+                            <input type="number" class="form-control" id="ukuranLebar" name="ukuranLebar" aria-describedby="spanlebar" style="border: 1.3px ridge " value="{{old('ukuranLebar')}}" />
+                        </div>
+                        <span style="color: red;">{{ $errors->first('ukuranLebar')}}</span>
+                        <br>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="spantinggi" style="">Tinggi :</span>
+                            <input type="number" class="form-control" id="ukuranTinggi" name="ukuranTinggi" aria-describedby="spantinggi" style="border: 1.3px ridge " value="{{old('ukuranTinggi')}}" />
+                        </div>
+                        <span style="color: red;">{{ $errors->first('ukuranTinggi')}}</span>
+
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label class="col-md-2 col-form-label" style="font-size: 16px" >jumlah</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="jumlahBahan" name="jumlahBahan" placeholder="-" />
+                        <input type="number" class="form-control" id="jumlahBahan" name="jumlahBahan" placeholder="-" value="{{old('jumlahBahan')}}" />
                         <span style="color: red;">{{ $errors->first('jumlahBahan')}}</span>
                     </div>
                 </div>
-                <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label" style="font-size: 16px">jenis</label>
-                    <div class="col-md-10">
-
-                        <input type="text" class="form-control" id="jenisBahan" name="jenisBahan" placeholder="-" />
-                        <span style="color: red;">{{ $errors->first('jenisBahan')}}</span>
-                    </div>
-                </div>
+                
                 <div class="mb-3 row">
                     <label class="col-md-2 col-form-label" style="font-size: 16px" >harga</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="hargaBahan" name="hargaBahan" placeholder="-" />
+                        <input type="number" class="form-control" id="hargaBahan" name="hargaBahan" placeholder="-" value="{{old('hargaBahan')}}" />
                         <span style="color: red;">{{ $errors->first('hargaBahan')}}</span>
                     </div>
                 </div>

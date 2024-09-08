@@ -40,7 +40,7 @@
         <div class="card" style="padding: 15px">
             <h5 class="card-header">List BOM</h5>
 
-            <a href="{{url('/seller/pAddBom')}}">
+            <a href="" data-bs-toggle="modal" data-bs-target="#modalTambahBom">
                 <button class="btn btn-primary" id="add"  style="width: fit-content; margin-left: 10px"> Tambah BOM Baru</button>
             </a>
 
@@ -50,8 +50,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Produk</th>
-                            <th>Total Harga</th>
-
+                            <th>Harga Produksi</th>
                             <th>aksi</th>
 
 
@@ -80,7 +79,7 @@
                             <td>
 
                                 <a href="{{url('/seller/pDetailBom/'.$listBom[$i]->id)}}" class="btn btn-warning">Detail</a>
-                                <a href="{{url('/seller/pEditBom/'.$listBom[$i]->id)}}" class="btn btn-icon btn-warning"><i class='bx bxs-pencil'></i></a>
+                                <a href="" data-bs-toggle="modal" data-bs-target="#modalEditBom{{$i}}" class="btn btn-icon btn-warning"><i class='bx bxs-pencil'></i></a>
                                 <a href="" class="btn btn-icon btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{$i}}"><span class="bx bxs-trash"></span></a>
                             </td>
 
@@ -97,6 +96,7 @@
                                 <div class="modal-body">
                                     <h2 class="card-title text-primary"> Delete BOM {{$listBom[$i]->nama_product}} </h2>
 
+                                    
 
                                 </div>
                                 <div class="modal-footer">
@@ -110,6 +110,46 @@
                               </div>
                             </div>
                         </div>
+                        {{-- modal edit bom  --}}
+                        <div class="modal fade" id="modalEditBom{{$i}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h2 class="card-title text-primary">Edit Bom </h2>
+                                    <form action="{{url('seller/editBom/'.$listBom[$i]->id)}}" method="POST">
+                                        @csrf
+                                        <div class="mb-3 row">
+                                            <label class=" col-form-label" style="font-size: 16px">Nama Produk</label>
+                                            <div class="col-md-10">
+                        
+                                                <input type="text" class="form-control" id="namaProdukEdit" name="namaProdukEdit" placeholder="-" required value="{{$listBom[$i]->nama_product}}" />
+                                                <span style="color: red;">{{ $errors->first('namaProdukEdit')}}</span>
+                                            </div>
+                                        </div>
+                                        
+                        
+                                        <div style="float: right">
+                                            
+                                            <button class="btn btn-primary">Simpan</button>
+                                        </div>
+                        
+                                    </form>
+                    
+                    
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+
+                        
 
 
 
@@ -138,7 +178,7 @@
 
 
 
-    <div class="modal fade" id="modalDeleteSup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalTambahBom" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -146,7 +186,26 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h2 class="card-title text-primary">  </h2>
+                <h2 class="card-title text-primary">Tambah Bom  </h2>
+                <form action="{{url('seller/addBom')}}" method="POST">
+                    @csrf
+                    <div class="mb-3 row">
+                        <label class="col-md-2 col-form-label" style="font-size: 16px">Nama Produk</label>
+                        <div class="col-md-10">
+    
+                            <input type="text" class="form-control" id="namaProduk" name="namaProduk" placeholder="-" required />
+                            <span style="color: red;">{{ $errors->first('namaProduk')}}</span>
+                        </div>
+                    </div>
+    
+                    <div style="float: right">
+                        
+                        <button class="btn btn-primary">Tambah</button>
+                    </div>
+    
+                </form>
+
+                
 
 
             </div>
@@ -157,6 +216,8 @@
           </div>
         </div>
     </div>
+
+    
 
 
 

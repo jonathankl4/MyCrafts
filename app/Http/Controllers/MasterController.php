@@ -189,8 +189,9 @@ class MasterController extends Controller
         $user = User::find($s->id);
 
         $bahan = Bahan::find($id);
+        $satuan = DB::table('satuans')->where("id_toko",'=',$user->id_toko)->get();
 
-        return view("seller.master.bahan.editBahan", ['user'=>$user, 'bahan'=>$bahan]);
+        return view("seller.master.bahan.editBahan", ['user'=>$user, 'bahan'=>$bahan, 'satuan'=>$satuan]);
     }
 
 
@@ -199,15 +200,31 @@ class MasterController extends Controller
         // dd($user);
         $request->validate([
             "namaBahan"=>'required',
-            "ukuranBahan"=>'required',
             "satuanBahan"=>'required',
             "jumlahBahan"=>'required',
-            "jenisBahan"=>'required',
+            
+            
             "hargaBahan"=>'required',
 
         ],
 
         ["required" => ":attribute harus di isi!"]);
+
+        $panjang = 0;
+        $lebar = 0 ;
+        $tinggi = 0 ;
+        if ($request->ukuranPanjang != null) {
+            # code...
+            $panjang = $request->ukuranPanjang;
+        }
+        if ($request->ukuranLebar != null) {
+            # code...
+            $lebar = $request->ukuranLebar;
+        }
+        if ($request->ukuranTinggi != null) {
+            # code...
+            $tinggi = $request->ukuranTinggi;
+        }
 
         $b = new Bahan();
         $b->id_toko = $user->id_toko;
@@ -215,7 +232,9 @@ class MasterController extends Controller
         $b->ukuran_bahan = $request->ukuranBahan;
         $b->satuan_bahan = $request->satuanBahan;
         $b->jumlah_bahan = $request->jumlahBahan;
-        $b->jenis_bahan = $request->jenisBahan;
+        $b->ukuran_panjangBahan = $panjang;
+        $b->ukuran_lebarBahan = $lebar;
+        $b->ukuran_tinggiBahan = $tinggi;
         $b->harga_bahan = $request->hargaBahan;
         $b->save();
         // dd($satuan);
@@ -225,7 +244,7 @@ class MasterController extends Controller
     }
 
     public function deleteBahan($id){
-        $act = DB::table("bahans")->where('id_bahan','=',$id)->delete();
+        $act = DB::table("bahans")->where('id','=',$id)->delete();
 
         if ($act) {
             # code...
@@ -241,7 +260,7 @@ class MasterController extends Controller
             "ukuranBahan"=>'required',
             "satuanBahan"=>'required',
             "jumlahBahan"=>'required',
-            "jenisBahan"=>'required',
+            
             "hargaBahan"=>'required',
 
         ],
@@ -254,7 +273,7 @@ class MasterController extends Controller
         $b->ukuran_bahan = $request->ukuranBahan;
         $b->satuan_bahan = $request->satuanBahan;
         $b->jumlah_bahan = $request->jumlahBahan;
-        $b->jenis_bahan = $request->jenisBahan;
+        
         $b->harga_bahan = $request->hargaBahan;
         $b->save();
         // dd($satuan);

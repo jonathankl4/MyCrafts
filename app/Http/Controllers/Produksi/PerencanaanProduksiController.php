@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Produksi;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bom;
+use App\Models\BomDetail;
 use App\Models\RencanaProduksi;
 use App\Models\User;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -29,6 +32,7 @@ class PerencanaanProduksiController extends Controller
         // dd($time);
         $user = $this->getLogUser();
         $pp = DB::update('update rencana_produksis set status = 1 where tgl_produksi_mulai <= CURRENT_DATE and status=0');
+        $pp = DB::update('update rencana_produksis set status = 0 where tgl_produksi_mulai > CURRENT_DATE and status=1');
         $pp = DB::table('rencana_produksis')->where('id_toko','=',$user->id_toko)->get();
 
 
@@ -91,25 +95,33 @@ class PerencanaanProduksiController extends Controller
 
     }
 
+    public function pageDetailProduksi($id){
+
+        $user = $this->getLogUser();
+        $produksi = RencanaProduksi::find($id);
+        $bom = Bom::find($produksi->id_bom);
+        $detail = DB::table('bom_details')->join('bahans','bahans.id','=','bom_details.id_bahan')->where('id_bom','=',$bom->id)->get();
+        
+
+        // dd($detail);
+
+
+        return view('seller.produksi.perencanaanProduksi.detailRencanaProduksi',['user'=>$user, 'produksi'=> $produksi, 'listDetail'=>$detail, 'bom'=> $bom]);
+    }
+
     public function pageEditProduksi($id){
 
         $user = $this->getLogUser();
         $produksi = RencanaProduksi::find($id);
 
-        return view("seller.produksi.perencanaanProduksi.editRencanaProduksi", ['user'=>$user, 'produksi'=>$produksi]);
+        $tgl =Carbon::parse($produksi->tgl_produksi)->format('m/d/y');
+
+        return view("seller.produksi.perencanaanProduksi.editRencanaProduksi", ['user'=>$user, 'produksi'=>$produksi, 'tgl'=>$tgl]);
     }
     public function editProduksi(Request $request, $id){
         $user = $this->getLogUser();
 
-        $request->validate([
-            'tglProduksi' => 'required',
-            'namaProduk' => 'required',
-            'jumlahProduksi' => 'required|integer',
-        ],
-
-        ["required" => ":attribute harus di isi !",
-        "integer" => ":attribute harus berupa angka !"]);
-
+        
 
 
 
@@ -118,7 +130,7 @@ class PerencanaanProduksiController extends Controller
         $p = RencanaProduksi::find($id);
         $p->id_toko = $user->id_toko;
         $p->tgl_produksi_mulai = $request->tglProduksi;
-        $p->nama_produk = $request->namaProduk;
+        
         $p->jumlahdiproduksi = $request->jumlahProduksi;
 
         $p->save();
@@ -130,7 +142,7 @@ class PerencanaanProduksiController extends Controller
 
         toast('Berhasil Simpan Perubahan', 'success');
         // Alert::success('','berhasil tambah satuan');
-        return redirect(url('/seller/produksi/perencanaanProduksi'));
+        return redirect(url('/seller/pDetailProduksi/'.$id));
     }
 
     public function batalkanProduksi($id){
@@ -175,4 +187,6 @@ class PerencanaanProduksiController extends Controller
 
         }
     }
+
+    
 }

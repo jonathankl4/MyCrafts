@@ -29,7 +29,7 @@
     <!-- Content -->
 
     <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 1cm ">
-        <h2 class="fw-bold  mb-4">Tambah Perencanaan Produksi</h2>
+        <h2 class="fw-bold  mb-4">Edit Perencanaan Produksi</h2>
 
         <div class="card" style="padding: 15px">
 
@@ -39,7 +39,8 @@
                     <label class="col-md-2 col-form-label"  style="font-size: 16px">Tanggal Produksi</label>
                     <div class="col-md-10">
 
-                        <input type="date" class="form-control" id="tglProduksi" name="tglProduksi" placeholder="Nama supplier" value="{{$produksi->tgl_produksi}}" />
+                        
+                        <input type="date" class="form-control" id="tglProduksi" name="tglProduksi" value={{ $produksi->tgl_produksi_mulai}}  />
                         <span style="color: red;">{{ $errors->first('tglProduksi')}}</span>
                     </div>
                 </div>
@@ -62,7 +63,7 @@
                 </div>
 
                 <div style="float: right">
-                    <a href="{{url('/seller/produksi/perencanaanProduksi')}}" class="btn btn-outline-dark">Kembali</a>
+                    <a href="{{url('/seller/pDetailProduksi/'.$produksi->id)}}" class="btn btn-outline-dark">Kembali</a>
                     <button class="btn btn-primary">Simpan</button>
                 </div>
 

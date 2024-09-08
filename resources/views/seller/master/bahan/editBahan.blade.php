@@ -49,20 +49,57 @@
                         <span style="color: red;">{{ $errors->first('namaBahan')}}</span>
                     </div>
                 </div>
+                
                 <div class="mb-3 row">
                     <label class="col-md-2 col-form-label" style="font-size: 16px" >Ukuran</label>
+                    {{-- <input type="text" class="form-control" id="satuanBahan" name="satuanBahan" placeholder="-" />
+                    <span style="color: red;">{{ $errors->first('satuanBahan')}}</span> --}}
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="ukuranBahan" name="ukuranBahan" placeholder="-" value="{{$bahan->ukuran_bahan}}"/>
-                        <span style="color: red;">{{ $errors->first('ukuranBahan')}}</span>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label"  style="font-size: 16px">satuan</label>
-                    <div class="col-md-10">
+                        <select name="satuanBahan" id="" class="form-select theSelect">
+                            @if (count($satuan) < 1)
 
-                        <input type="text" class="form-control" id="satuanBahan" name="satuanBahan" placeholder="-" value="{{$bahan->satuan_bahan}}"/>
-                        <span style="color: red;">{{ $errors->first('satuanBahan')}}</span>
+                            <option>Belum ada Satuan</option>
+                             
+                            @elseif (count($satuan) > 0)
+                            <option disabled selected hidden >Pilih Satuan..</option>
+                                
+                            @endif
+                            @for ($i = 0; $i < count($satuan);$i++)
+                            @php
+                                $cek = 0;
+                                $dis = "";
+                                if ($bahan->satuan_bahan==$satuan[$i]->nama_satuan) {
+                                    # code...
+                                    $cek = 1;
+                                    $dis = "selected";
+
+                                }
+                            @endphp
+                            
+                                <option {{$dis}} value="{{$satuan[$i]->nama_satuan}}">{{$satuan[$i]->nama_satuan}}</option>
+
+                            @endfor
+                        </select>
+                        <br><br>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="spanpanjang" style="">Panjang :</span>
+                            <input type="number" class="form-control" id="ukuranPanjang" name="ukuranPanjang" aria-describedby="spanpanjang" style="border: 1.3px ridge " value={{$bahan->ukuran_panjangBahan}} />
+                        </div>
+                        <span style="color: red;">{{ $errors->first('ukuranPanjang')}}</span>
+                        <br>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="spanlebar" style="">Lebar :</span>
+                            <input type="number" class="form-control" id="ukuranLebar" name="ukuranLebar" aria-describedby="spanlebar" style="border: 1.3px ridge " value={{$bahan->ukuran_lebarBahan}} />
+                        </div>
+                        <span style="color: red;">{{ $errors->first('ukuranLebar')}}</span>
+                        <br>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="spantinggi" style="">Tinggi :</span>
+                            <input type="number" class="form-control" id="ukuranTinggi" name="ukuranTinggi" min="0" aria-describedby="spantinggi" style="border: 1.3px ridge " value={{$bahan->ukuran_tinggiBahan}} />
+                        </div>
+                        <span style="color: red;">{{ $errors->first('ukuranTinggi')}}</span>
+
                     </div>
                 </div>
                 <div class="mb-3 row">
@@ -73,14 +110,7 @@
                         <span style="color: red;">{{ $errors->first('jumlahBahan')}}</span>
                     </div>
                 </div>
-                <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label"  style="font-size: 16px">jenis</label>
-                    <div class="col-md-10">
-
-                        <input type="text" class="form-control" id="jenisBahan" name="jenisBahan" placeholder="-" value="{{$bahan->jenis_bahan}}"/>
-                        <span style="color: red;">{{ $errors->first('jenisBahan')}}</span>
-                    </div>
-                </div>
+                
                 <div class="mb-3 row">
                     <label class="col-md-2 col-form-label"  style="font-size: 16px">harga</label>
                     <div class="col-md-10">
@@ -139,6 +169,16 @@
     <div class="content-backdrop fade"></div>
   </div>
 
+
+@endsection
+
+
+@section('script')
+
+<script>
+
+$(".theSelect").select2();
+</script>
 
 @endsection
 

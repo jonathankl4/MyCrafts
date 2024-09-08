@@ -91,11 +91,12 @@
                             <td>
 
 
-                                <a href="{{url('/seller/pEditProduksi/'.$listProduksi[$i]->id)}}" class="btn btn-icon btn-warning"><i class='bx bxs-pencil'></i></a>
-                                <a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{$i}}">Batalkan</a>
-                                @if ($s == 1)
-                                <a href="" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSelesai{{$i}}">Selesai</a>
-                                @endif
+                                <a href="{{url('/seller/pDetailProduksi/'.$listProduksi[$i]->id)}}" class="btn btn-warning">Detail</a>
+                                {{-- <a href="{{url('/seller/pEditProduksi/'.$listProduksi[$i]->id)}}" class="btn btn-icon btn-warning"><i class='bx bxs-pencil'></i></a> --}}
+                                {{-- <a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{$i}}">Batalkan</a> --}}
+                                {{-- @if ($s == 1) --}}
+                                {{-- <a href="" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSelesai{{$i}}">Selesai</a> --}}
+                                {{-- @endif --}}
                             </td>
 
 

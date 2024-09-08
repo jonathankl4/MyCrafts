@@ -76,10 +76,10 @@
                         <tr>
                             <td>{{$i+1}}</td>
                             <td style="font-size: 16px"><b>{{$listDetail[$i]->nama_bahan}}</b></td>
-                            <td style="font-size: 16px"><b>{{$listDetail[$i]->deskripsi}}</b></td>
+                            <td style="font-size: 16px"><b>{{$listDetail[$i]->keterangan}}</b></td>
                             <td style="font-size: 16px"><b>{{$listDetail[$i]->jumlah}}</b></td>
-                            <td style="font-size: 16px"><b>{{$listDetail[$i]->ukuran}}</b></td>
-                            <td style="font-size: 16px"><b>{{$listDetail[$i]->harga}}</b></td>
+                            <td style="font-size: 16px"><b> <p>panjang :{{$listDetail[$i]->ukuran_panjangBahan}}</p> <p>lebar :{{$listDetail[$i]->ukuran_lebarBahan}}</p> <p>lebar :{{$listDetail[$i]->ukuran_lebarBahan}}</p></b></td>
+                            <td style="font-size: 16px"><b>{{$listDetail[$i]->harga_bahan}}</b></td>
                             <td style="font-size: 16px"><b>{{$listDetail[$i]->subtotal}}</b></td>
 
 

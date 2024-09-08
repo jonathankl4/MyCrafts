@@ -196,6 +196,9 @@ Route::group([
     Route::get('/batalkanProduksi/{id}',[PerencanaanProduksiController::class, 'batalkanProduksi']);
     Route::get('/selesaikanProduksi/{id}',[PerencanaanProduksiController::class, 'selesaikanProduksi']);
     Route::get('/getBom',[PerencanaanProduksiController::class, 'getBom']);
+    Route::get('/pDetailProduksi/{id}',[PerencanaanProduksiController::class, 'pageDetailProduksi']);
+
+
 
     //BILL OF MATERIAL
     Route::get('/produksi/bom', [BomController::class, "pageBOM"]);
@@ -212,7 +215,7 @@ Route::group([
     Route::get('/pEditDetailBom/{id}',[BomController::class, "pageEditDetailBom"]);
     Route::post('/editDetailBom/{id}',[BomController::class, "editDetailBom"]);
     Route::get('/deleteDetailBom/{id}',[BomController::class, "deleteDetailBom"]);
-
+    Route::get('/tambahDetailBom/getBahan',[BomController::class, "getBahan"]);
     // INPUT HASIL PRODUKSI
 
     Route::get('/inputHasilProduksi', [HasilProduksiController::class, "pageInputHasilProduksi"]);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Produksi;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bahan;
 use App\Models\Bom;
 use App\Models\BomDetail;
 use App\Models\User;
@@ -36,12 +37,7 @@ class BomController extends Controller
     public function addBom(Request $request){
         $user = $this->getLogUser();
         // dd($user);
-        $request->validate([
-            "namaProduk"=>'required',
-
-        ],
-
-        ["required" => ":attribute tidak boleh kosong"]);
+        
 
         $b = new Bom();
         $b->id_toko = $user->id_toko;
@@ -78,15 +74,9 @@ class BomController extends Controller
     public function editBom(Request $request, $id){
         $user = $this->getLogUser();
         // dd($user);
-        $request->validate([
-            "namaProduk"=>'required',
-
-        ],
-
-        ["required" => ":attribute tidak boleh kosong"]);
-
+        
         $b = Bom::find($id);
-        $b->nama_product = $request->namaProduk;
+        $b->nama_product = $request->namaProdukEdit;
         $b->save();
         // dd($satuan);
         toast('Berhasil Edit Bom', 'success');
@@ -98,8 +88,9 @@ class BomController extends Controller
         $user = $this->getLogUser();
         $bom = DB::table("boms")->where("id",'=',$id)->first();
         // dd($bom->nama_product);
-        $detailBom = DB::table("bom_details")->where('id_bom','=',$bom->id)->get();
+        $detailBom = DB::table("bom_details")->join('bahans','bom_details.id_bahan','=','bahans.id')->where('id_bom','=',$bom->id)->get();
         // $detailBom = [];
+        // dd($detailBom);
         return view("seller.produksi.billOfMaterial.detailBom", ['user'=>$user, 'bom'=>$bom,'listDetail'=>$detailBom]);
 
     }
@@ -108,8 +99,8 @@ class BomController extends Controller
         $user = $this->getLogUser();
 
         $bom = DB::table("boms")->where("id",'=',$id)->first();
-
-        return view("seller.produksi.billOfMaterial.tambahDetailBom",['user'=>$user, 'bom'=>$bom]);
+        $bahan = DB::table('bahans')->where("id_toko",'=',$user->id_toko)->get();
+        return view("seller.produksi.billOfMaterial.tambahDetailBom",['user'=>$user, 'bom'=>$bom, 'listBahan'=>$bahan]);
 
 
     }
@@ -126,11 +117,11 @@ class BomController extends Controller
 
         $b = new BomDetail();
         $b->id_bom = $id;
-        $b->nama_bahan = $request->namaBahan;
-        $b->deskripsi = $request->deskripsi;
+        $b->id_bahan = $request->bahan;
+        $b->keterangan = $request->keterangan;
         $b->jumlah = $request->jumlah;
-        $b->ukuran = $request->ukuran;
-        $b->harga = $request->hargaBahan;
+        
+        
         $b->subtotal = $request->subtotal;
         $b->save();
 
@@ -198,5 +189,18 @@ class BomController extends Controller
             toast('Berhasil hapus', 'success');
             return redirect()->back();
         }
+    }
+
+    public function getBahan(Request $request){
+
+
+        if ($request->ajax()) {
+            # code...
+
+            $bahan = Bahan::find($request->id);
+
+            return response()->json($bahan);
+        }
+
     }
 }

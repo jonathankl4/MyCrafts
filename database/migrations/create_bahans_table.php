@@ -18,8 +18,11 @@ return new class extends Migration
             $table->string('ukuran_bahan')->nullable();
             $table->string('satuan_bahan')->nullable();
             $table->integer('jumlah_bahan')->nullable();
-            $table->string('jenis_bahan')->nullable();
             $table->integer('harga_bahan')->nullable();
+            $table->integer('ukuran_panjangBahan')->nullable();
+            $table->integer('ukuran_lebarBahan')->nullable();
+            $table->integer('ukuran_tinggiBahan')->nullable();
+
             $table->timestamps();
         });
     }

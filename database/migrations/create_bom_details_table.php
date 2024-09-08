@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::create('bom_details', function (Blueprint $table) {
             $table->id();
             $table->integer("id_bom");
-            $table->string("nama_bahan");
-            $table->string("deskripsi")->nullable();
+            $table->integer('id_bahan');
             $table->string("jumlah")->nullable();
-            $table->string("ukuran")->nullable();
             $table->integer("subtotal")->nullable();
-            $table->string("harga")->nullable();
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }

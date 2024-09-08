@@ -41,27 +41,24 @@
 
             <form action="{{url('seller/addDetailBom/'.$bom->id)}}" method="POST">
                 @csrf
+                
                 <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label" style="font-size: 16px">Nama bahan</label>
+                    <label class="col-md-2 col-form-label" style="font-size: 16px"> Pilih Bahan</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="namaBahan" name="namaBahan" placeholder="-" />
-                        <span style="color: red;">{{ $errors->first('namaBahan')}}</span>
+                        <select name="bahan" id="bahan" class="form-select theSelect" onchange=ambildata()>
+                            <option value="" disabled selected hidden>Pilih Bahan</option>
+                            @for ($i = 0; $i< count($listBahan); $i++)
+                            <option value="{{$listBahan[$i]->id}}"> {{$listBahan[$i]->nama_bahan}} </option>
+                            @endfor
+                        </select>
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label"  style="font-size: 16px">Deskripsi</label>
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >nama Bahan</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="n" name="deskripsi" placeholder="-" />
-                        <span style="color: red;">{{ $errors->first('deskripsi')}}</span>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Jumlah</label>
-                    <div class="col-md-10">
-
-                        <input type="text" class="form-control" id="jumlah" name="jumlah" placeholder="-" />
+                        <input type="text" class="form-control" id="namaBahan" name="namaBahan" placeholder="-" readonly/>
                         <span style="color: red;">{{ $errors->first('jumlah')}}</span>
                     </div>
                 </div>
@@ -69,24 +66,43 @@
                     <label class="col-md-2 col-form-label" style="font-size: 16px" >Ukuran</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="ukuran" name="ukuran" placeholder="-" />
+                        <input type="text" class="form-control" id="ukuran" name="ukuran" placeholder="-" readonly/>
                         <span style="color: red;">{{ $errors->first('ukuran')}}</span>
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Harga bahan</label>
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Harga</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="hargaBahan" name="hargaBahan" placeholder="-" />
-                        <span style="color: red;">{{ $errors->first('hargaBahan')}}</span>
+                        <input type="text" class="form-control" id="harga" name="harga" placeholder="-" readonly/>
+                        <span style="color: red;">{{ $errors->first('ukuran')}}</span>
                     </div>
                 </div>
+               
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Jumlah</label>
+                    <div class="col-md-10">
+
+                        <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="jumlah yang digunakan" />
+                        <span style="color: red;">{{ $errors->first('jumlah')}}</span>
+                    </div>
+                </div>
+               
+         
                 <div class="mb-3 row">
                     <label class="col-md-2 col-form-label" style="font-size: 16px" >Subtotal</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="subtotal" name="subtotal" placeholder="-" />
+                        <input type="number" class="form-control" id="subtotal" name="subtotal" placeholder="subtotal" />
                         <span style="color: red;">{{ $errors->first('subtotal')}}</span>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Keterangan</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="keterangan" />
+                        <span style="color: red;">{{ $errors->first('keterangan')}}</span>
                     </div>
                 </div>
 
@@ -139,6 +155,30 @@
   </div>
   <script>
     $(".theSelect").select2();
+</script>
+
+
+<script language='javascript' >
+
+    function ambildata(){
+
+        let anjay = $('#bahan').val();
+
+        $.ajax({
+            type :'get',
+            url : '{{url('/seller/tambahDetailBom/getBahan')}}',
+            data : {'id': anjay},
+            success : function(data){
+
+                console.log(data)
+                $('#namaBahan').val(data['nama_bahan']);
+                $('#ukuran').val('panjang :'+ data['ukuran_panjangBahan'] + data['satuan_bahan'] + ', lebar : ' + data['ukuran_lebarBahan'] + data['satuan_bahan'] + ', tinggi : ' + data['ukuran_tinggiBahan'] + data['satuan_bahan'] )
+                $('#harga').val(data['harga_bahan']);
+
+                
+            }
+        })
+    }
 </script>
 
 @endsection

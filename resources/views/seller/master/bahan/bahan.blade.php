@@ -46,7 +46,7 @@
                             <th>Nama Bahan</th>
                             <th>Ukuran</th>
                             <th>Jumlah</th>
-                            <th>Jenis Bahan</th>
+                            
                             <th>Harga Bahan</th>
                             <th>aksi</th>
 
@@ -57,12 +57,13 @@
                     <tbody>
                         @for ($i=0; $i < count($listBahan); $i++ )
 
+                        
                         <tr>
                             <td>{{$i+1}}</td>
                             <td style="font-size: 16px"><b>{{$listBahan[$i]->nama_bahan}}</b></td>
-                            <td style="font-size: 16px"><b>{{$listBahan[$i]->ukuran_bahan}}</b></td>
+                            <td style="font-size: 16px"> <p>panjang : {{$listBahan[$i]->ukuran_panjangBahan}} {{$listBahan[$i]->satuan_bahan}} </p><p>lebar : {{$listBahan[$i]->ukuran_lebarBahan}} {{$listBahan[$i]->satuan_bahan}}</p> <p>tinggi : {{$listBahan[$i]->ukuran_tinggiBahan}} {{$listBahan[$i]->satuan_bahan}}</p></td>
                             <td style="font-size: 16px"><b>{{$listBahan[$i]->jumlah_bahan}}</b></td>
-                            <td style="font-size: 16px"><b>{{$listBahan[$i]->jenis_bahan}}</b></td>
+                            
                             <td style="font-size: 16px"><b>{{$listBahan[$i]->harga_bahan}}</b></td>
 
                             <td>
