@@ -29,22 +29,12 @@
     <!-- Content -->
 
     <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
-        <h2 class="fw-bold py-3 mb-4">Produksi</h2>
+        <h2 class="fw-bold py-3 mb-4">Riwayat Input Hasil Produksi</h2>
 
         <div class="card" style="padding: 15px">
-            <h5 class="card-header">Daftar Produksi</h5>
+            <h5 class="card-header"></h5>
 
-            <div style="float: left">
 
-                <a href="{{url('/seller/pAddProduksi')}}">
-                    <button class="btn btn-primary" id="add"  style="width: fit-content; margin-left: 10px"> Tambah Produksi</button>
-                </a>
-    
-                <a href="{{url('/seller/pRiwayatProduksi')}}">
-                    <button>Riwayat Produksi</button>
-                </a>
-                
-            </div>
 
             {{-- ini jika mau table nya responsive --}}
             {{-- <div class="table-responsive text-nowrap p-3"> --}}
@@ -52,29 +42,28 @@
                 <table id="tMebel" class="table table-striped" >
                     <thead>
                         <tr>
-                            {{-- <th>No</th> --}}
+                            <th>No</th>
                             <th>Kode Produksi</th>
                             <th>Nama Produk</th>
                             <th>Jumlah Produksi</th>
-                            <th>tanggal Produksi</th>
+                            <th>Durasi Produksi</th>
                             <th>Status</th>
-                            <th>aksi</th>
-
 
 
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i=0; $i < count($listProduksi); $i++ )
+                        @for ($i=0; $i < count($listRiwayat); $i++ )
 
                         <tr>
-                            {{-- <td>{{$i+1}}</td> --}}
-                            <td style="font-size: 16px"><b>{{$listProduksi[$i]->kode_produksi}}</b></td>
-                            <td style="font-size: 16px"><b>{{$listProduksi[$i]->nama_produk}}</b></td>
-                            <td style="font-size: 16px"><b>{{$listProduksi[$i]->jumlahdiproduksi}}</b></td>
-                            <td style="font-size: 16px"><b>{{$listProduksi[$i]->tgl_produksi_mulai}}</b></td>
+                            <td>{{$i+1}}</td>
+                            <td style="font-size: 16px"><b>{{$listRiwayat[$i]->kode_produksi}}</b></td>
+                            <td style="font-size: 16px"><b>{{$listRiwayat[$i]->nama_produk}}</b></td>
+                            <td style="font-size: 16px"><b>Total : {{$listRiwayat[$i]->jumlahdiproduksi}}</b><p>berhasil = {{$listRiwayat[$i]->jumlah_berhasil}}</p><p>gagal = {{$listRiwayat[$i]->jumlah_gagal}}</p></td>
+                            <td style="font-size: 16px"><b>{{$listRiwayat[$i]->durasi +1}} Hari</b></td>
+
                             @php
-                                $s = $listProduksi[$i]->status;
+                                $s = $listRiwayat[$i]->status;
                                 $status = "";
                                 $color = "";
                                 if($s == 0){
@@ -94,18 +83,11 @@
                                     $color = "bg-success";
                                 }
                             @endphp
-                            <td style="font-size: 16px"><b><span class="badge {{$color}}">{{$status}}</span></b></td>
-
-                            <td>
+                            <td style="font-size: 16px"><span class="badge {{$color}}">{{$status}}</span></td>
 
 
-                                <a href="{{url('/seller/pDetailProduksi/'.$listProduksi[$i]->id)}}" class="btn btn-warning">Detail</a>
-                                {{-- <a href="{{url('/seller/pEditProduksi/'.$listProduksi[$i]->id)}}" class="btn btn-icon btn-warning"><i class='bx bxs-pencil'></i></a> --}}
-                                {{-- <a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{$i}}">Batalkan</a> --}}
-                                {{-- @if ($s == 1) --}}
-                                {{-- <a href="" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSelesai{{$i}}">Selesai</a> --}}
-                                {{-- @endif --}}
-                            </td>
+
+
 
 
                         </tr>
@@ -118,36 +100,13 @@
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <h2 class="card-title text-primary"> Yakin batalkan produksi {{$listProduksi[$i]->nama_produk}} ? </h2>
+                                    <h2 class="card-title text-primary"> Yakin batalkan produksi ? </h2>
 
 
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <a href="{{url('seller/batalkanProduksi/'.$listProduksi[$i]->id)}}">
-
-                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Yakin</button>
-                                    </a>
-
-                                </div>
-                              </div>
-                            </div>
-                        </div>
-                        <div class="modal fade" id="modalSelesai{{$i}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel"></h5>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <h2 class="card-title text-primary"> Yakin Selesaikan produksi {{$listProduksi[$i]->nama_produk}} ? </h2>
-
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <a href="{{url('seller/selesaikanProduksi/'.$listProduksi[$i]->id)}}">
+                                    <a href="{{url('seller/batalkanProduksi/'.$listRiwayat[$i]->id)}}">
 
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Yakin</button>
                                     </a>

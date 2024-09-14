@@ -197,7 +197,7 @@ Route::group([
     Route::get('/selesaikanProduksi/{id}',[PerencanaanProduksiController::class, 'selesaikanProduksi']);
     Route::get('/getBom',[PerencanaanProduksiController::class, 'getBom']);
     Route::get('/pDetailProduksi/{id}',[PerencanaanProduksiController::class, 'pageDetailProduksi']);
-
+    Route::get('/pRiwayatProduksi',[PerencanaanProduksiController::class, 'pageRiwayatProduksi']);
 
 
     //BILL OF MATERIAL

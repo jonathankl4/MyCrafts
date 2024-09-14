@@ -74,7 +74,7 @@
                     <label class="col-md-2 col-form-label" style="font-size: 16px" >Jumlah Produksi</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="jumlahProduksi" name="jumlahProduksi" placeholder="jumlah yang diproduksi" value="{{old('jumlahProduksi')}}" />
+                        <input type="number" class="form-control" id="jumlahProduksi" name="jumlahProduksi" placeholder="jumlah yang diproduksi" value="{{old('jumlahProduksi')}}" />
                         <span style="color: red;">{{ $errors->first('jumlahProduksi')}}</span>
                     </div>
 

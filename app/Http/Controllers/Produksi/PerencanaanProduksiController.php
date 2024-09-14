@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Produksi;
 use App\Http\Controllers\Controller;
 use App\Models\Bom;
 use App\Models\BomDetail;
+use App\Models\HasilProduksi;
 use App\Models\RencanaProduksi;
 use App\Models\User;
 use Carbon\Carbon;
@@ -103,10 +104,30 @@ class PerencanaanProduksiController extends Controller
         $detail = DB::table('bom_details')->join('bahans','bahans.id','=','bom_details.id_bahan')->where('id_bom','=',$bom->id)->get();
         
 
-        // dd($detail);
+        $s = $produksi->status;
+        $status = "";
+        $color = "";
+        if($s == 0){
+            $status = "Belum Dimulai";
+            $color = "bg-info";
+        }
+        else if($s == 1){
+            $status = "Dalam proses";
+            $color = "bg-warning";
+        }
+        else if($s == 3){
+            $status = "DiBatalkan";
+            $color = "bg-danger";
+        }
+        else {
+            $status = "Selesai";
+            $color = "bg-success";
+        }
+        
+        // dd($produksi);
 
 
-        return view('seller.produksi.perencanaanProduksi.detailRencanaProduksi',['user'=>$user, 'produksi'=> $produksi, 'listDetail'=>$detail, 'bom'=> $bom]);
+        return view('seller.produksi.perencanaanProduksi.detailRencanaProduksi',['user'=>$user, 'produksi'=> $produksi, 'listDetail'=>$detail, 'bom'=> $bom, 'status'=>$status,'color'=>$color]);
     }
 
     public function pageEditProduksi($id){
@@ -135,6 +156,9 @@ class PerencanaanProduksiController extends Controller
 
         $p->save();
 
+        $pp = DB::update('update rencana_produksis set status = 1 where tgl_produksi_mulai <= CURRENT_DATE and status=0');
+        $pp = DB::update('update rencana_produksis set status = 0 where tgl_produksi_mulai > CURRENT_DATE and status=1');
+
 
 
             // storeAs akan menyimpan default ke local
@@ -142,7 +166,8 @@ class PerencanaanProduksiController extends Controller
 
         toast('Berhasil Simpan Perubahan', 'success');
         // Alert::success('','berhasil tambah satuan');
-        return redirect(url('/seller/pDetailProduksi/'.$id));
+        return redirect()->back();
+        
     }
 
     public function batalkanProduksi($id){
@@ -186,6 +211,21 @@ class PerencanaanProduksiController extends Controller
             return response()->json($bom);
 
         }
+    }
+
+
+    public function pageRiwayatProduksi(){
+
+
+
+        $user = $this->getLogUser();
+
+        $riwayat = DB::table('hasil_produksis')->join('rencana_produksis','rencana_produksis.id','=','hasil_produksis.id_produksi')->where('hasil_produksis.id_toko','=',$user->id_toko)->get();
+        // dd($riwayat);
+        return view('seller.produksi.perencanaanProduksi.riwayatProduksi',['user'=>$user,'listRiwayat'=>$riwayat]);
+
+        
+
     }
 
     

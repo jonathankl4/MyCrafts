@@ -103,12 +103,12 @@
                 <option value="">Pilih...</option>
                 <option value="{{url('img/batman.png')}}">Batman</option>
                 <option value="{{url('img/sekathorizontal.jpeg')}}">Sekat Horizontal</option>
-                <option value="{{url('img/sekatvertical.jpeg')}}">Sekat Vertical</option>
+                <option value="{{url('img/testvertical.jpeg')}}">Sekat Vertical</option>
                 <option value="{{url('img/crop.jpeg')}}">Sekat Vertical 2</option>
             </select>
             
             
-            
+            <canvas id="c" width="800" height="600" style="border:1px solid #000000;"></canvas>
             
             <button id="btntambah">tambah</button>
 
@@ -192,139 +192,76 @@
 </script>
 
 <script>
-    let canvas = new fabric.Canvas('tshirt-canvas');
+  // Add an event listener to the button
+document.getElementById('btntambah').addEventListener('click', function() {
+    updateTshirtImage(document.getElementById('tshirt-design').value);
+}, false);
 
-    
-
-    canvas.on('object:moving', function(e) {
-        var obj = e.target;
-        var canvasWidth = canvas.getWidth();
-        var canvasHeight = canvas.getHeight();
-
-        if(obj.left < 0) {
-            obj.left = 0;
-        }
-        if(obj.left + obj.width * obj.scaleX > canvasWidth){
-            obj.left = canvasWidth - obj.width * obj.scaleX;
-        }
-
-        if(obj.top < 0) {
-            obj.top = 0;
-        }
-
-        if(obj.top + obj.height * obj.scaleY > canvasHeight){
-            obj.top = canvasHeight - obj.height * obj.scaleY;
-        }
-
-    });
-
-    canvas.on('object:scaling',function(e){
-        var obj = e.target;
-        var canvasWidth = canvas.getWidth();
-        var canvasHeight = canvas.getHeight();
-
-        var objWidth = obj.width * obj.scaleX;
-        var objHeight = obj.height * obj.scaleY;
-
-
-        if(objWidth > canvasWidth){
-            obj.scalex = canvasWidth / obj.width;
-        }
-        if(objHeight > canvasHeight){
-            obj.scaleY = canvasHeight / obj.height;
-        }
-
-        obj.setCoords();
-        canvas.renderAll();
-
-    });
-    
-
-    function updateTshirtImage(imageURL){
-
-        if(!imageURL){
-        //canvas.clear();
-        }
-
-        fabric.Image.fromURL(imageURL, function(img) {
-            // Define the image as background image of the Canvas
-
-            var canvasWidth = canvas.getWidth();
-            var canvasHeight = canvas.getHeight();
-
-            var imgWidth = img.width;
-            var imgHeight = img.height;
-
-            var scaleX = canvasWidth / imgWidth;
-            var scaleY = canvasHeight / imgHeight;
-
-            var scale = Math.min(scaleX, scaleY);
-
-            img.scale(scale);
-
-
-            // img.scaleToHeight(300, false);
-            // img.scaleToWidth(300);
-            canvas.add(img);
-
-            showDimensions(img, canvas);
-
-        // Update dimensions on scaling or moving
-        img.on('scaling:moving', function() {
-            canvas.getObjects('text').forEach(function(textObj) {
-                canvas.remove(textObj);  // Remove previous dimension text
-            });
-            showDimensions(img, canvas);
-        });
-
-        });
-    }
-
-    // Update the TShirt color according to the selected color by the user
-    
-
-    // Update the TShirt color according to the selected color by the user
-    // document.getElementById("tshirt-design").addEventListener("change", function(){
-
-    //     // Call the updateTshirtImage method providing as first argument the URL
-    //     // of the image provided by the select
-    //     updateTshirtImage(this.value);
-    // }, false);
-
-    document.getElementById('btntambah').addEventListener('click', function(){
-
-        updateTshirtImage(document.getElementById('tshirt-design').value);
-    },false);
-
-    
-    function showDimensions(img, canvas) {
+// Function to show dimensions of the image on the canvas
+function showDimensions(img) {
     const width = Math.round(img.width * img.scaleX);
     const height = Math.round(img.height * img.scaleY);
 
+    // Check if dimension text already exists, if yes, remove it
+    canvas.getObjects('text').forEach(function(textObj) {
+        canvas.remove(textObj); // remove previous dimensions text
+    });
+
+    // Create the dimension text and position it above the image
     const dimensionsText = new fabric.Text(`${width}px x ${height}px`, {
         fontSize: 16,
-        left: img.left,
-        top: img.top - 20,
+        left: img.left + img.width * img.scaleX / 2, // center horizontally on image
+        top: img.top - 20, // place above the image
         selectable: false
     });
 
     canvas.add(dimensionsText);
+    canvas.renderAll(); // Refresh the canvas
 }
 
+// Update the T-shirt design image
+function updateTshirtImage(imageURL) {
+    if (!imageURL) {
+        return;
+    }
 
+    // Clear the canvas before adding new image
+    canvas.clear();
 
-    
+    fabric.Image.fromURL(imageURL, function(img) {
+        var canvasWidth = canvas.getWidth();
+        var canvasHeight = canvas.getHeight();
 
-    // When the user selects a picture that has been added and press the DEL key
-    // The object will be removed !
-    document.addEventListener("keydown", function(e) {
-        var keyCode = e.keyCode;
+        var imgWidth = img.width;
+        var imgHeight = img.height;
 
-        if(keyCode == 46){
-            console.log("Removing selected element on Fabric.js on DELETE key !");
-            canvas.remove(canvas.getActiveObject());
-        }
-    }, false);
+        // Scale the image to fit within the canvas
+        var scaleX = canvasWidth / imgWidth;
+        var scaleY = canvasHeight / imgHeight;
+        var scale = Math.min(scaleX, scaleY);
+
+        img.scale(scale);
+
+        // Add image to canvas
+        canvas.add(img);
+
+        // Show dimensions of the image on the canvas
+        showDimensions(img);
+
+        // Update dimensions on scaling or moving
+        img.on('scaling moving', function() {
+            showDimensions(img);
+        });
+
+    });
+}
+
+// Initialize Fabric.js canvas
+var canvas = new fabric.Canvas('c', {
+    width: 800,
+    height: 600
+});
+
 </script>
 
 @endsection

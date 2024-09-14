@@ -36,14 +36,20 @@
             
             <div style="float: left">
                 <a href="{{url('/seller/produksi/perencanaanProduksi')}}" class="btn btn-primary">Kembali</a>
+                @if ($produksi->status == '0' || $produksi->status == '1')
                 <a href="" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdit">Edit Produksi</a>
-                
                 <a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete">Batalkan</a>
-                @if ($produksi->status == 1)
+                    
+                @endif
+                
+                @if ($produksi->status == '1')
                     
                 <a href="" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSelesai">Selesai</a>
                 @endif
             </div>
+         @php
+                                
+                            @endphp
                        
             
             <h5 class="card-header">Detail Produksi</h5>
@@ -51,6 +57,7 @@
             <p> Jumlah Produksi  : {{$produksi->jumlahdiproduksi}} </p>
             <p> Tanggal Produksi : {{$produksi->tgl_produksi_mulai}} </p>
             <p> Biaya produksi : {{$bom->total_biaya}} </p>
+            <p> Status Produksi : <span class="badge {{$color}}">{{$status}}</span></p>
 
         </div>
         <br>
@@ -92,53 +99,9 @@
     
     
                             </tr>
-                            {{-- modal delete Mebel --}}
-                            <div class="modal fade" id="modalDelete{{$i}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel"></h5>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h2 class="card-title text-primary"> Yakin batalkan produksi {{$listDetail[$i]->id}} ? </h2>
-    
-    
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <a href="{{url('seller/batalkanProduksi/'.$listDetail[$i]->id)}}">
-    
-                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Yakin</button>
-                                        </a>
-    
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
-                            <div class="modal fade" id="modalSelesai{{$i}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel"></h5>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h2 class="card-title text-primary"> Yakin Selesaikan produksi {{$listDetail[$i]->id}} ? </h2>
-    
-    
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <a href="{{url('seller/selesaikanProduksi/'.$listDetail[$i]->id)}}">
-    
-                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Yakin</button>
-                                        </a>
-    
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
+                            
+                            
+                            
     
     
     
@@ -200,16 +163,51 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h2 class="card-title text-primary"> Yakin Selesaikan produksi {{$produksi->nama_produk}} ? </h2>
+                
+                <form action="{{url('/seller/simpanHasilProduksi')}}" method="post">
+                    @csrf
+                    <h3>Input Hasil Produksi</h3>
+                    
+                    <p>Jumlah Produksi : {{$produksi->jumlahdiproduksi}}</p>
+                    <input type="text" name="id_produksi" hidden value="{{$produksi->id}}">
+                    <div class="mb-3">
+                        <label class="form-label" style="font-size: 16px" >Jumlah Produk Berhasil</label>
+                        
+    
+                            <input type="number" class="form-control" id="jumlahBerhasil" name="jumlahBerhasil" placeholder="jumlah yang berhasil diproduksi" required />
+                            <span style="color: red;">{{ $errors->first('jumlahBerhasil')}}</span>
+                        
+    
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" style="font-size: 16px" >Jumlah Produk Gagal</label>
+                        
+    
+                            <input type="number" class="form-control" id="jumlahGagal" name="jumlahGagal" placeholder="jumlah yang gagal diproduksi" required />
+                            <span style="color: red;">{{ $errors->first('jumlahGagal')}}</span>
+                        
+    
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" style="font-size: 16px" >Keteranganm (opsional) </label>
+                       
+    
+                            <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="keterangan" value="{{old('keterangan')}}" />
+                            <span style="color: red;">{{ $errors->first('keterangan')}}</span>
+                        
+    
+                    </div>
+
+
+                    <button class="btn btn-success">Simpan</button>
+
+                </form>
 
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a href="{{url('seller/selesaikanProduksi/'.$produksi->id)}}">
-
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Yakin</button>
-                </a>
+             
 
             </div>
           </div>

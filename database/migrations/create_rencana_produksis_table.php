@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('waktu_produksi')->nullable();
             $table->string('nama_produk')->nullable();
             $table->integer('id_bom')->nullable();
-            $table->string('status')->comment("0=belum start, 1= sudah start, 2= sudah selesai, 3=dibatalkan");
+            $table->integer('status')->comment("0=belum start, 1= sudah start, 2= sudah selesai, 3=dibatalkan");
             $table->timestamps();
         });
     }

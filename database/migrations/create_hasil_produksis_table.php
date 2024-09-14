@@ -14,13 +14,12 @@ return new class extends Migration
         Schema::create('hasil_produksis', function (Blueprint $table) {
             $table->id();
             $table->integer('id_toko');
-            $table->integer("id_bom");
-            $table->string("nama_produk");
-            $table->integer("jumlah_diproduksi");
+            $table->integer('id_produksi');
             $table->integer("jumlah_berhasil");
             $table->integer("jumlah_gagal");
+            $table->string('keterangan')->nullable();
             $table->integer("durasi");
-            $table->integer('id_produksi');
+            
             $table->timestamps();
         });
     }
