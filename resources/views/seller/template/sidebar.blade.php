@@ -107,16 +107,7 @@
                     <div >Mebel</div>
                 </a>
             </li>
-            <li class="menu-item">
-                <a href="" class="menu-link">
-                <div >Template</div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="" class="menu-link">
-                  <div >Master Add on</div>
-                </a>
-            </li>
+           
             <li class="menu-item {{request()->is('seller/master/Satuan') ? 'active' : ''}}">
                 <a href="{{url('/seller/master/Satuan')}}" class="menu-link">
                   <div >Master Satuan</div>
@@ -161,7 +152,7 @@
                 </a>
             </li>
             <li class="menu-item {{request()->is('seller/produksi/') ? 'active' : ''}}">
-                <a href="" class="menu-link">
+                <a href="{{url('/seller/produksi/tambahPenggunaanBahan')}}" class="menu-link">
                   <div >Penggunaan Bahan</div>
                 </a>
             </li>
@@ -199,44 +190,40 @@
         <ul class="menu-sub">
             <li class="menu-item">
                 <a href="" class="menu-link">
-                    <div >Perencanaan Produksi</div>
+                    <div >Master barang jadi</div>
                 </a>
             </li>
             <li class="menu-item">
                 <a href="" class="menu-link">
-                <div >Master Bill of material</div>
+                <div >Penerimaan Bahan</div>
                 </a>
             </li>
             <li class="menu-item">
                 <a href="" class="menu-link">
-                  <div >Input Hasil Produksi</div>
+                  <div >Penerimaan Barang</div>
                 </a>
             </li>
             <li class="menu-item">
                 <a href="" class="menu-link">
-                  <div >Penggunaan Bahan</div>
+                  <div >Permintaan Pembeian</div>
                 </a>
             </li>
             <li class="menu-item">
                 <a href="" class="menu-link">
-                  <div >Pengembalian Bahan</div>
+                  <div >Pengiriman</div>
                 </a>
             </li>
             <li class="menu-item">
                 <a href="" class="menu-link">
-                  <div >Laporan Produksi</div>
+                  <div >Laporan Stok Bahan</div>
                 </a>
             </li>
             <li class="menu-item">
                 <a href="" class="menu-link">
-                  <div >Laporan Penggunaan Bahan</div>
+                  <div >Laporan Retur</div>
                 </a>
             </li>
-            <li class="menu-item">
-                <a href="" class="menu-link">
-                  <div >Laporan Gagal Produksi</div>
-                </a>
-            </li>
+            
 
 
         </ul>
@@ -244,12 +231,12 @@
 
 
 
-    <li class="menu-item">
+    {{-- <li class="menu-item">
         <a href="#" class="menu-link">
           <i class="menu-icon bx bx-info-circle"></i>
           <div data-i18n="Analytics">Info Layanan </div>
         </a>
-    </li>
+    </li> --}}
 
 </ul>
 

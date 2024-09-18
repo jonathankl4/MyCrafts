@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Donation;
+use App\Models\tester;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use stdClass;
 
 class TestController extends Controller
@@ -37,7 +39,7 @@ class TestController extends Controller
 
         $user = $this->getLogUser();
 
-        return view("customer.shopping.dashboard", ['user'=>$user]);
+        return view("customer.dashboard", ['user'=>$user]);
 
     }
 
@@ -71,7 +73,53 @@ class TestController extends Controller
 
         $user = $this->getLogUser();
 
-        return view('seller.produkCustom.produk.testing', ['user'=>$user]);
+        return view('seller.produkCustom.produk.testing3', ['user'=>$user]);
+    }
+
+    public function uploadImage(Request $request){
+
+        $imageData = $request->image;
+
+        //buat nama file unik
+        $fileName = uniqid(). '.png';
+
+        //hapus prefix 'data:image/png;base64,'
+        $imageData = str_replace('data:image/png;base64','',$imageData);
+        $imageData = str_replace(' ','+',$imageData);
+
+        $image = base64_decode($imageData);
+
+        $filePath = 'public/hasilcustom/'. $fileName;
+        Storage::put($filePath,$image);
+
+        $n = new tester();
+        $n->isi1 = $fileName;
+        $n->save();
+
+        return response()->json(['success' =>true,'file_path'=>$filePath]);
+
+    }
+
+    public function beli(Request $request){
+        $imageData = $request->image;
+
+        //buat nama file unik
+        $fileName = uniqid(). '.png';
+
+        //hapus prefix 'data:image/png;base64,'
+        $imageData = str_replace('data:image/png;base64','',$imageData);
+        $imageData = str_replace(' ','+',$imageData);
+
+        $image = base64_decode($imageData);
+
+        $filePath = 'public/hasilcustom/'. $fileName;
+        Storage::put($filePath,$image);
+
+        $n = new tester();
+        $n->isi2 = $fileName;
+        $n->save();
+
+        return response()->json(['success' =>true,'file_path'=>$filePath]);
     }
 
 

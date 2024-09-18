@@ -11,6 +11,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukCustomController;
 use App\Http\Controllers\Produksi\BomController;
 use App\Http\Controllers\Produksi\HasilProduksiController;
+use App\Http\Controllers\produksi\PenggunaanBahanController;
 use App\Http\Controllers\Produksi\PerencanaanProduksiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SellerController;
@@ -51,6 +52,7 @@ Route::get('/testshop', function () {
 Route::get('/carimax', [TestController::class, "carimax"]);
 Route::get('/coba', [TestController::class, "testmid"]);
 Route::get('/bayar', [TestController::class, "testbayar"])->name('bayarbro');
+Route::get('/testcanvas',[TestController::class, "coba"]);
 
 Route::post('donation/pay', [DonationController::class, 'pay'])->name('donation.pay');
 
@@ -127,10 +129,14 @@ Route::group([
 
     //START OF PRODUK CUSTOM
     // PRODUK CUSTOM
-    Route::get('/produkCustom/testing', [TestController::class, 'testingfabric']);
+    
     Route::get('/produkCustom/tambahProdukCustom',[ProdukCustomController::class, 'pageAddCustomProduk']);
     Route::get('/produkCustom/tambahProdukCustom',[ProdukCustomController::class, 'pageAddCustomProduk']);
     Route::post('/addProdukCustom',[ProdukCustomController::class, 'addCustomProduk']);
+
+    //TESTING PRODUK CUSTOM
+    Route::get('/produkCustom/testing', [TestController::class, 'testingfabric']);
+    Route::post('/save-image',[TestController::class, 'uploadImage'])->name('save.image');
 
     //TEMPLATE
     Route::get('/produkCustom/templateProduk', [ProdukCustomController::class, 'pageTemplateProduk']);
@@ -194,10 +200,11 @@ Route::group([
     Route::get('/pEditProduksi/{id}',[PerencanaanProduksiController::class, 'pageEditProduksi']);
     Route::post('/editProduksi/{id}',[PerencanaanProduksiController::class, 'editProduksi']);
     Route::get('/batalkanProduksi/{id}',[PerencanaanProduksiController::class, 'batalkanProduksi']);
-    Route::get('/selesaikanProduksi/{id}',[PerencanaanProduksiController::class, 'selesaikanProduksi']);
     Route::get('/getBom',[PerencanaanProduksiController::class, 'getBom']);
     Route::get('/pDetailProduksi/{id}',[PerencanaanProduksiController::class, 'pageDetailProduksi']);
     Route::get('/pRiwayatProduksi',[PerencanaanProduksiController::class, 'pageRiwayatProduksi']);
+    Route::get('/penyelesaianProduksi/{id}',[PerencanaanProduksiController::class,'pagePenyelesaianProduksi']);
+    Route::post('/simpanHasilProduksi',[PerencanaanProduksiController::class, 'simpanHasilProduksi']);
 
 
     //BILL OF MATERIAL
@@ -216,13 +223,17 @@ Route::group([
     Route::post('/editDetailBom/{id}',[BomController::class, "editDetailBom"]);
     Route::get('/deleteDetailBom/{id}',[BomController::class, "deleteDetailBom"]);
     Route::get('/tambahDetailBom/getBahan',[BomController::class, "getBahan"]);
+
+
     // INPUT HASIL PRODUKSI
+    // Route::get('/inputHasilProduksi', [HasilProduksiController::class, "pageInputHasilProduksi"]);
+    // Route::get('/getRP', [HasilProduksiController::class, "getRencanaProduksi"]);
+    // Route::post('/simpanHasilProduksi',[HasilProduksiController::class, 'addHasilProduksi']);
+    // Route::get('/riwayatInputHasilProduksi',[HasilProduksiController::class, 'riwayatInputHasilProduksi']);
 
-    Route::get('/inputHasilProduksi', [HasilProduksiController::class, "pageInputHasilProduksi"]);
-    Route::get('/getRP', [HasilProduksiController::class, "getRencanaProduksi"]);
-    Route::post('/simpanHasilProduksi',[HasilProduksiController::class, 'addHasilProduksi']);
-    Route::get('/riwayatInputHasilProduksi',[HasilProduksiController::class, 'riwayatInputHasilProduksi']);
 
+    //PENGGUNAAN BAHAN
+    Route::get('/produksi/tambahPenggunaanBahan',[PenggunaanBahanController::class, 'pageAddPenggunaanBahan']);
 
 
     // END OF PRODUKSI

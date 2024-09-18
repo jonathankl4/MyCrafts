@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Bom;
 use App\Models\BomDetail;
 use App\Models\HasilProduksi;
+use App\Models\PenggunaanBahan;
 use App\Models\RencanaProduksi;
 use App\Models\User;
 use Carbon\Carbon;
@@ -34,7 +35,7 @@ class PerencanaanProduksiController extends Controller
         $user = $this->getLogUser();
         $pp = DB::update('update rencana_produksis set status = 1 where tgl_produksi_mulai <= CURRENT_DATE and status=0');
         $pp = DB::update('update rencana_produksis set status = 0 where tgl_produksi_mulai > CURRENT_DATE and status=1');
-        $pp = DB::table('rencana_produksis')->where('id_toko','=',$user->id_toko)->get();
+        $pp = DB::table('rencana_produksis')->where('id_toko','=',$user->id_toko)->where('status','=',0)->orWhere('status','=',1)->get();
 
 
         return view("seller.produksi.perencanaanProduksi.perencanaanProduksi", ['user'=>$user, 'listProduksi'=>$pp]);
@@ -144,7 +145,7 @@ class PerencanaanProduksiController extends Controller
 
         
 
-
+        dd($request);
 
 
 
@@ -179,25 +180,7 @@ class PerencanaanProduksiController extends Controller
         toast('Produksi '.$produksi->nama_produk .' berhasil dibatalkan');
         return redirect()->back();
     }
-    public function selesaikanProduksi($id){
-        $produksi = RencanaProduksi::find($id);
-
-        $produksi->status = 2;
-        $produksi->tgl_produksi_selesai = now();
-
-        $time1 = new DateTime($produksi->tgl_produksi_mulai);
-        $time2 = new DateTime('now');
-
-
-        $selisih = $time1->diff($time2);
-        // dd($selisih);
-        $produksi->waktu_produksi = $selisih->days;
-        $produksi->save();
-
-
-        toast('Produksi '.$produksi->nama_produk .' berhasil diselesaikan');
-        return redirect()->back();
-    }
+    
 
 
     public function getBom(Request $request){
@@ -220,13 +203,81 @@ class PerencanaanProduksiController extends Controller
 
         $user = $this->getLogUser();
 
-        $riwayat = DB::table('hasil_produksis')->join('rencana_produksis','rencana_produksis.id','=','hasil_produksis.id_produksi')->where('hasil_produksis.id_toko','=',$user->id_toko)->get();
+        // $riwayat = DB::table('hasil_produksis')->join('rencana_produksis','rencana_produksis.id','=','hasil_produksis.id_produksi')->where('hasil_produksis.id_toko','=',$user->id_toko)->get();
+        $riwayat = DB::table('rencana_produksis')->leftJoin('hasil_produksis','hasil_produksis.id_produksi','=','rencana_produksis.id')->where('rencana_produksis.id_toko','=',$user->id_toko)->where('status','=',2)->orWhere('status','=',3)->get();
         // dd($riwayat);
+
         return view('seller.produksi.perencanaanProduksi.riwayatProduksi',['user'=>$user,'listRiwayat'=>$riwayat]);
 
         
 
     }
+
+    public function pagePenyelesaianProduksi($id){
+
+        $user = $this->getLogUser();
+        $produksi = RencanaProduksi::find($id);
+        $bom = Bom::find($produksi->id_bom);
+        $detail = DB::table('bom_details')->join('bahans','bahans.id','=','bom_details.id_bahan')->where('id_bom','=',$bom->id)->get();
+
+        // dd($detail);
+        return view('seller.produksi.perencanaanProduksi.selesaikanProduksi',['user'=>$user, 'produksi'=>$produksi,'listBahan'=>$detail]);
+
+
+    }
+
+    public function simpanHasilProduksi(Request $request){
+         
+         $user = $this->getLogUser();
+
+        
+        // dd($request->namabahan[0]);
+
+
+         $rp = RencanaProduksi::find($request->id_produksi);
+         $rp->status = 2;
+         $rp->tgl_produksi_selesai = now();
+ 
+         $time1 = new DateTime($rp->tgl_produksi_mulai);
+         $time2 = new DateTime('now');
+ 
+         $selisih = $time1->diff($time2);
+         $rp->waktu_produksi = $selisih->days;
+         $rp->save();
+ 
+         
+ 
+         $h = new HasilProduksi();
+         $h->id_toko = $user->id_toko;
+         $h->id_produksi = $request->id_produksi;
+         $h->jumlah_berhasil = $request->jumlahBerhasil;
+         $h->jumlah_gagal = $request->jumlahGagal;
+         $h->durasi = $selisih->days;
+         $h->keterangan = $request->keterangan;
+         $h->save();
+
+
+         for ($i=0; $i < count($request->id_bahan) ; $i++) { 
+            # code...
+            $bahan = new PenggunaanBahan();
+            $bahan->id_produksi = $request->id_produksi;
+            $bahan->id_bahan = $request->id_bahan[$i];
+            $bahan->nama_bahan = $request->namabahan[$i];
+            $bahan->jumlah_penggunaan = $request->jumlah[$i];
+            $bahan->save();
+         }
+         
+             // storeAs akan menyimpan default ke local
+ 
+ 
+         toast('Berhasil Input Hasil Produksi', 'success');
+         // Alert::success('','berhasil tambah satuan');
+         return redirect()->back();
+    }
+
+    
+
+    
 
     
 }

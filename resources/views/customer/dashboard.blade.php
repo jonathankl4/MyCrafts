@@ -121,6 +121,8 @@
                                         canvas.add(img);
 
                                     });
+
+                                    canvas.renderAll();
                                 }
 
                                 // Update the TShirt color according to the selected color by the user

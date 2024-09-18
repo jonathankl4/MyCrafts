@@ -9,48 +9,45 @@
 
 @section('style')
 <style>
-
-.drawing-area{
-        position: absolute;
-        top: 23px;
-        left: 33px;
-        z-index: 10;
-        width: 200px;
-        height: 30px;
+    .content-container {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
     }
 
-    .canvas-container{
+    #left-panel {
         width: 200px;
-        height: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #canvas-container {
         position: relative;
-        user-select: none;
-    }
-
-    #produk-div{
         width: 452px;
         height: 548px;
-        position: relative;
         background-color: #fff;
     }
 
-    #canvas{
-        position: absolute;
-        width: 200px;
-        height: 370px;
-        left: 0px;
-        top: 0px;
+    .canvas-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
         user-select: none;
-        cursor: default;
     }
 
+    #tshirt-canvas {
+        border-style: solid;
+        border-width: 2px;
+    }
 
-
-
-
-
-
+    #image-count {
+        font-weight: bold;
+        font-size: 16px;
+    }
 </style>
 @endsection
+
 
 @section('sidebar')
 
@@ -66,167 +63,85 @@
 @section('content')
 <div class="content-wrapper">
     <!-- Content -->
-
-    <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
+    <div class="flex-grow-1 container-p-y" style="width: 100%; padding: 10px;">
         <h2 class="fw-bold py-3 mb-4">Template Mebel</h2>
+        <div class="content-container">
+            <!-- Left panel for select and buttons -->
+            <div id="left-panel">
+                <!-- The select that will allow the user to pick one of the static designs -->
+                <label for="tshirt-design">Add-on</label>
+                <select id="tshirt-design">
+                    <option value="">Pilih...</option>
+                    <option value="{{url('img/sekatHorizontal.jpeg')}}">Sekat Horizontal</option>
+                    <option value="{{url('img/sekatvertical.jpeg')}}">Sekat Vertical</option>
+                    <option value="{{url('img/gantungan.jpeg')}}">Gantungan</option>
+                </select>
 
-        {{-- <img id="template" src="{{url("img/test.png")}}" style="width: 1000px"/> --}}
-        <div class="card" style="padding: 15px">
+                <button id="btntambah">Tambah</button>
+                <button id="remove">Hapus</button>
 
-            <div id="produk-div">
-                <!--
-                    Initially, the image will have the background tshirt that has transparency
-                    So we can simply update the color with CSS or JavaScript dinamically
-                -->
-                {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
-                <img id="template" src="{{url("img/lemaribener.png")}}" style="width: 100%;height: 100%;"/>
+                <br>
 
-                <div id="drawingArea" class="drawing-area"  >
-                    <div class="canvas-container" >
-                        <canvas id="tshirt-canvas" width="390px" height="480" style="border-style: solid; border-width: 2px" ></canvas>
-                    </div>
-                </div>
+                <!-- Counter for the number of images in the canvas -->
+                <div id="image-count">Gambar di Kanvas: 0</div>
             </div>
 
-            <!-- The select that will allow the user to pick one of the static designs -->
-            <br>
-            <label for="tshirt-design">add on</label>
-            {{-- <select id="tshirt-design">
-                <option value="">pilih...</option>
-                
-                <option value="{{url('img/sekatHorizontal.jpeg')}}">sekat horizontal</option>
-                <option value="{{url('img/testvertical.jpeg')}}">sekat vertical </option>
-                <option value="{{url('img/crop.jpeg')}}">sekat vertical </option>
-               
-            </select> --}}
-            <select id="tshirt-design">
-                <option value="">Pilih...</option>
-                <option value="{{url('img/batman.png')}}">Batman</option>
-                <option value="{{url('img/sekathorizontal.jpeg')}}">Sekat Horizontal</option>
-                <option value="{{url('img/testvertical.jpeg')}}">Sekat Vertical</option>
-                <option value="{{url('img/crop.jpeg')}}">Sekat Vertical 2</option>
-            </select>
-            
-            
-            <canvas id="c" width="800" height="600" style="border:1px solid #000000;"></canvas>
-            
-            <button id="btntambah">tambah</button>
-
-            <button id="remove">delete</button>
-
-            <!-- The Select that allows the user to change the color of the T-Shirt -->
-            <br><br>
-            <label for="tshirt-color" hidden>T-Shirt Color:</label>
-            <select id="tshirt-color" hidden>
-                <!-- You can add any color with a new option and definings its hex code -->
-                <option value="#fff">White</option>
-                <option value="#000">Black</option>
-                <option value="#f00">Red</option>
-                <option value="#008000">Green</option>
-                <option value="#ff0">Yellow</option>
-            </select>
-
-            <br><br>
-    {{-- <label for="tshirt-custompicture">Upload your own design:</label>
-    <input type="file" id="tshirt-custompicture" /> --}}
-
-
+            <!-- Right panel for the canvas -->
+            <div id="canvas-container">
+                <div class="canvas-container">
+                    <canvas id="tshirt-canvas" width="390px" height="480"></canvas>
+                </div>
+            </div>
         </div>
-
-
-
-
-
-
-
-
-
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </div>
-    <!-- / Content -->
-
-    <!-- Footer -->
-    <footer class="content-footer footer bg-footer-theme">
-
-    </footer>
-    <!-- / Footer -->
-
-    <div class="content-backdrop fade"></div>
-  </div>
-
-
+</div>
 @endsection
+
 
 
 @section('script')
 
-<script>
-    $('#remove').click(function(){
-    var object = canvas.getActiveObject();
-    if (!object){
-        alert('Please select the element to remove');
-        return '';
-    }
-    canvas.remove(object);
-});
-</script>
+
 
 <script>
   // Add an event listener to the button
-document.getElementById('btntambah').addEventListener('click', function() {
-    updateTshirtImage(document.getElementById('tshirt-design').value);
-}, false);
+// Variabel untuk menghitung gambar yang ada di canvas
+let imageCounter = 0;
 
-// Function to show dimensions of the image on the canvas
-function showDimensions(img) {
-    const width = Math.round(img.width * img.scaleX);
-    const height = Math.round(img.height * img.scaleY);
+function setCanvasBackground(imageURL) {
+    fabric.Image.fromURL(imageURL, function(img) {
+        var canvasWidth = canvas.getWidth();
+        var canvasHeight = canvas.getHeight();
 
-    // Check if dimension text already exists, if yes, remove it
-    canvas.getObjects('text').forEach(function(textObj) {
-        canvas.remove(textObj); // remove previous dimensions text
+        // Hitung skala untuk gambar background agar sesuai dengan kanvas
+        var scaleX = canvasWidth / img.width;
+        var scaleY = canvasHeight / img.height;
+        var scale = Math.min(scaleX, scaleY);
+        img.scale(scale);
+
+        canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+            scaleX: scale,
+            scaleY: scale
+        });
     });
-
-    // Create the dimension text and position it above the image
-    const dimensionsText = new fabric.Text(`${width}px x ${height}px`, {
-        fontSize: 16,
-        left: img.left + img.width * img.scaleX / 2, // center horizontally on image
-        top: img.top - 20, // place above the image
-        selectable: false
-    });
-
-    canvas.add(dimensionsText);
-    canvas.renderAll(); // Refresh the canvas
 }
 
-// Update the T-shirt design image
+// Fungsi untuk memuat gambar lemari sebagai background ketika halaman dimuat
+document.addEventListener('DOMContentLoaded', function() {
+    setCanvasBackground('{{url("img/lemaribener.png")}}');
+});
+
+
+// Fungsi untuk mengupdate counter
+function updateImageCounter() {
+    document.getElementById('image-count').textContent = `Gambar di Kanvas: ${imageCounter}`;
+}
+
+// Fungsi untuk menambah gambar ke canvas
 function updateTshirtImage(imageURL) {
     if (!imageURL) {
         return;
     }
-
-    // Clear the canvas before adding new image
-    canvas.clear();
 
     fabric.Image.fromURL(imageURL, function(img) {
         var canvasWidth = canvas.getWidth();
@@ -235,32 +150,77 @@ function updateTshirtImage(imageURL) {
         var imgWidth = img.width;
         var imgHeight = img.height;
 
-        // Scale the image to fit within the canvas
+        // Hitung skala gambar agar sesuai dengan kanvas tanpa distorsi
         var scaleX = canvasWidth / imgWidth;
         var scaleY = canvasHeight / imgHeight;
         var scale = Math.min(scaleX, scaleY);
 
+        // Skala gambar berdasarkan ukuran kanvas
         img.scale(scale);
 
-        // Add image to canvas
-        canvas.add(img);
+        // Identifikasi apakah gambar vertikal atau horizontal
+        if (imgHeight > imgWidth) {
+            // Gambar vertikal, kunci scaling di sumbu X (horizontal)
+            img.lockScalingX = true;
+            img.scaleX = 0.3; // Skala X lebih kecil agar lebih tipis
+        } else {
+            // Gambar horizontal, kunci scaling di sumbu Y (vertikal)
+            img.lockScalingY = true;
+            img.scaleY = 0.3; // Skala Y lebih kecil agar lebih tipis
+        }
 
-        // Show dimensions of the image on the canvas
-        showDimensions(img);
+        // Kunci rotasi gambar
+        img.lockRotation = true;
 
-        // Update dimensions on scaling or moving
-        img.on('scaling moving', function() {
-            showDimensions(img);
+        // Event listener untuk mencegah gambar di-scale melebihi batas kanvas
+        img.on('scaling', function(e) {
+            var obj = e.target;
+
+            // Cek apakah gambar melebihi batas kanvas
+            if (obj.getScaledWidth() > canvasWidth) {
+                obj.scaleX = canvasWidth / obj.width;
+            }
+
+            if (obj.getScaledHeight() > canvasHeight) {
+                obj.scaleY = canvasHeight / obj.height;
+            }
+
+            obj.setCoords(); // Update koordinat setelah scaling
         });
 
+        // Tambahkan gambar ke kanvas
+        canvas.add(img);
+        imageCounter++;  // Tambah gambar ke counter
+        updateImageCounter(); // Perbarui jumlah gambar di kanvas
+
+        // Tambahkan event listener untuk hapus gambar
+        img.on('removed', function() {
+            imageCounter--;
+            updateImageCounter(); // Perbarui counter setelah gambar dihapus
+        });
+
+        canvas.renderAll();
     });
 }
 
-// Initialize Fabric.js canvas
-var canvas = new fabric.Canvas('c', {
-    width: 800,
-    height: 600
+// Event listener untuk tombol tambah gambar
+document.getElementById('btntambah').addEventListener('click', function() {
+    updateTshirtImage(document.getElementById('tshirt-design').value);
+}, false);
+
+// Fungsi untuk menghapus objek ketika tombol DEL ditekan
+document.getElementById('remove').addEventListener('click', function() {
+    var object = canvas.getActiveObject();
+    if (!object) {
+        alert('Pilih gambar yang ingin dihapus');
+        return;
+    }
+    canvas.remove(object); // Hapus gambar dari kanvas
 });
+
+// Inisialisasi canvas
+let canvas = new fabric.Canvas('tshirt-canvas');
+
 
 </script>
 
