@@ -48,6 +48,8 @@
                             <th>Jumlah Produksi</th>
                             <th>Durasi Produksi</th>
                             <th>Status</th>
+                            <th>Aksi</th>
+
 
 
                         </tr>
@@ -84,6 +86,9 @@
                                 }
                             @endphp
                             <td style="font-size: 16px"><span class="badge {{$color}}">{{$status}}</span></td>
+                            <td style="font-size: 16px">
+                                <a href="{{url('/seller/detailRiwayatProduksi/'.$listRiwayat[$i]->kode_produksi)}}" class="btn btn-info">detail</a>
+                            </td>
 
 
 

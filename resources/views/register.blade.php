@@ -99,12 +99,14 @@
                     name="username"
                     placeholder="Enter your username"
                     autofocus
+
+                    value="{{old('username')}}"
                   />
                   <span style="color: red;">{{ $errors->first('username')}}</span>
                 </div>
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
-                  <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" />
+                  <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" value="{{old('email')}}" />
                   <span style="color: red;">{{ $errors->first('email')}}</span>
                 </div>
                 <div class="mb-3 form-password-toggle">
@@ -118,6 +120,7 @@
                       autocomplete="new-password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
+
                     />
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                 </div>

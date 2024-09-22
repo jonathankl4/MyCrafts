@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('add_ons', function (Blueprint $table) {
+        Schema::create('detail_produk_customs', function (Blueprint $table) {
             $table->id();
-           
-            $table->string('nama');
-            $table->string('tipe');
-            $table->integer('harga');
-            $table->string('keterangan');
-            $table->string('gambar');
+            $table->integer('id_produk_custom');
+            $table->string('nama_addon');
+            $table->string("harga");
+            
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('add_ons');
+        Schema::dropIfExists('detail_produk_customs');
     }
 };

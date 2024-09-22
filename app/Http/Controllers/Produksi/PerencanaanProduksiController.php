@@ -266,13 +266,52 @@ class PerencanaanProduksiController extends Controller
             $bahan->jumlah_penggunaan = $request->jumlah[$i];
             $bahan->save();
          }
-         
+
              // storeAs akan menyimpan default ke local
  
  
          toast('Berhasil Input Hasil Produksi', 'success');
          // Alert::success('','berhasil tambah satuan');
          return redirect()->back();
+    }
+
+
+    public function detailRiwayatProduksi($id){
+
+
+        $user = $this->getLogUser();
+
+        $produksi = DB::table('rencana_produksis')->where('kode_produksi','=',$id)->first();
+        $bom = Bom::find($produksi->id_bom);
+        $detail = DB::table('bom_details')->join('bahans','bahans.id','=','bom_details.id_bahan')->where('id_bom','=',$bom->id)->get();
+        
+        $listbahan = DB::table('penggunaan_bahans')->where('id_produksi','=',$produksi->id)->get();
+
+        $s = $produksi->status;
+        $status = "";
+        $color = "";
+        if($s == 0){
+            $status = "Belum Dimulai";
+            $color = "bg-info";
+        }
+        else if($s == 1){
+            $status = "Dalam proses";
+            $color = "bg-warning";
+        }
+        else if($s == 3){
+            $status = "DiBatalkan";
+            $color = "bg-danger";
+        }
+        else {
+            $status = "Selesai";
+            $color = "bg-success";
+        }
+        
+        // dd($produksi);
+
+
+        return view('seller.produksi.perencanaanProduksi.detailRiwayatProduksi',['user'=>$user, 'produksi'=> $produksi, 'listDetail'=>$detail, 'bom'=> $bom, 'status'=>$status,'color'=>$color,'listBahan'=>$listbahan]);
+
     }
 
     

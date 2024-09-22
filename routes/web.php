@@ -86,10 +86,24 @@ Route::post('email/verification-notification', [EmailVerificationNotificationCon
 
 // ADMIN
 Route::group([
-    'middleware' => ['rememberMe:admin', 'customUserAuth'],
-    'prefix' => '/admin',
+    'middleware' => ['rememberMe:master'],
+    'prefix' => '/masteruser',
 ],function () {
     Route::get('/',[AdminController::class, "homepage"]);
+    Route::get('/produkCustom/tambahProdukCustom',[AdminController::class,'tambahProdukCustom']);
+    Route::get('/produkCustom/daftarProdukCustom',[AdminController::class,'daftarProdukCustom']);
+    Route::get('/produkCustom/templateProduk',[AdminController::class, 'templateProduk']);
+    Route::get('/produkCustom/addOn',[AdminController::class,'listAddOn']);
+
+    Route::post('/tambahTemplate',[AdminController::class,'tambahTemplate']);
+
+
+    Route::get('/produkCustom/lemari1',[AdminController::class, 'lemari1']);
+    Route::get('/produkCustom/lemari2',[AdminController::class, 'lemari2']);
+    Route::get('/produkCustom/lemari3',[AdminController::class, 'lemari3']);
+
+    
+
 });
 
 
@@ -205,6 +219,7 @@ Route::group([
     Route::get('/pRiwayatProduksi',[PerencanaanProduksiController::class, 'pageRiwayatProduksi']);
     Route::get('/penyelesaianProduksi/{id}',[PerencanaanProduksiController::class,'pagePenyelesaianProduksi']);
     Route::post('/simpanHasilProduksi',[PerencanaanProduksiController::class, 'simpanHasilProduksi']);
+    Route::get('/detailRiwayatProduksi/{id}',[PerencanaanProduksiController::class,'detailRiwayatProduksi']);
 
 
     //BILL OF MATERIAL

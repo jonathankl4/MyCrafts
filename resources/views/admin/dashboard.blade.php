@@ -1,5 +1,6 @@
-@extends("template.MasterDesain")
+@extends('template.MasterDesain')
 
+@section('title', 'Dashboard')
 
 @section('sidebar')
 
@@ -8,7 +9,7 @@
 @endsection
 
 @section('navbar')
-@include('admin.template.navbar')
+@include('seller.template.navbar')
 @endsection
 
 
