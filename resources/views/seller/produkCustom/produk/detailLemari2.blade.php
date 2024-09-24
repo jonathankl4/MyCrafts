@@ -29,7 +29,7 @@
         <!-- Content -->
 
         <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
-            <h2 class="fw-bold py-3 mb-4">Daftar Template Produk Custom</h2>
+            <h2 class="fw-bold py-3 mb-4">Daftar Lemari 2</h2>
 
 
             {{-- <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">Tambah Produk
@@ -56,41 +56,6 @@
                         <tbody>
 
 
-
-                                <tr>
-                                    <td>1</td>
-                                    <td style="font-size: 16px">
-                                        <img
-                                            src="{{ url('/img/lemari1/lemari1.png') }}"
-                                            alt="" style="width:50px; height:80px">
-                                        <b>Lemari 1</b>
-                                    </td>
-
-
-                                    <td>
-
-                                        <a href="{{url('/seller/produkCustom/tambahLemari1')}}" class="btn btn-success">Tambah</a>
-                                        <a href="{{url('/seller/produkCustom/Testing')}}" class="btn btn-dark">Coba Custom</a>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td style="font-size: 16px">
-                                        <img
-                                            src="{{ url('/img/lemari2/lemari2.png') }}"
-                                            alt="" style="width:50px; height:80px">
-                                        <b>Lemari 2</b>
-                                    </td>
-
-
-                                    <td>
-
-                                        <a href="{{url('/seller/produkCustom/tambahLemari2')}}" class="btn btn-success">Tambah</a>
-                                        <a href="{{url('/seller/produkCustom/Testing')}}" class="btn btn-dark">Coba Custom</a>
-                                    </td>
-
-                                </tr>
 
 
 

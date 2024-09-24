@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AddOn;
+use App\Models\ProdukCustomDijual;
 use App\Models\Template;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -311,34 +312,80 @@ class ProdukCustomController extends Controller
     // halaman tambah produk custom
     public function pageAddCustomProduk(){
         $user = $this->getLogUser();
-        
+
         $daftarproduk = DB::table('produk_customs')->get();
         return view('seller.produkCustom..produk.tambahProdukCustom', ['user'=>$user, 'listProduk'=>$daftarproduk]);
 
     }
 
-
-    public function addCustomProduk(Request $request){
+    public function pageDaftarProdukCustom(){
 
         $user = $this->getLogUser();
 
-        $request->validate([
-            "namaProduk"=>'required',
-            "tipeProduk"=>'required',
-            "hargaProduk"=>'required|integer',
-            
+        $daftarproduk = DB::table('produk_custom_dijuals')->where('id_toko','=',$user->id_toko)->get();
+
+        return view('seller.produkCustom.produk.daftarProdukCustom',['user'=>$user,'daftarProduk'=>$daftarproduk]);
+    }
+
+    public function pageDetailProdukCustom($id){
+
+        $user = $this->getLogUser();
+
+        $produk = ProdukCustomDijual::find($id);
+
+        if ($produk->nama_template == "Lemari 1") {
+            # code...
+            return view('seller.produkCustom.produk.detailLemari1',['user'=>$user]);
+        }
+        else if($produk->nama_template == "Lemari 2"){
+            return view('seller.produkCustom.produk.detailLemari2',['user'=>$user]);
+        }
+    }
 
 
-        ],
+    public function tambahLemari1(){
+        $user = $this->getLogUser();
 
-        ["required" => ":attribute harus di isi",
-        "integer" => ":attribute harus berupa angka"
-        ]);
+        $produk = DB::table('produk_custom_dijuals')->where('nama_template','=','Lemari 1')->where('id_toko','=',$user->id_toko)->first();
 
+        if ($produk != null) {
+            # code...
+            alert('produk sudah pernah ditambahkan');
+            return redirect()->back();
+        }
+        else{
+            $p = new ProdukCustomDijual();
+            $p->id_toko = $user->id_toko;
+            $p->nama_template = 'Lemari 1';
+            $p->save();
 
+            alert("berhasil tambah");
+            return redirect()->back();
+        }
 
     }
 
+
+    public function tambahLemari2(){
+        $user = $this->getLogUser();
+
+        $produk = DB::table('produk_custom_dijuals')->where('nama_template','=','Lemari 2')->where('id_toko','=',$user->id_toko)->first();
+
+        if ($produk != null) {
+            # code...
+            alert('produk sudah pernah ditambahkan');
+            return redirect()->back();
+        }
+        else{
+            $p = new ProdukCustomDijual();
+            $p->id_toko = $user->id_toko;
+            $p->nama_template = 'Lemari 2';
+            $p->save();
+
+            alert("berhasil tambah");
+            return redirect()->back();
+        }
+    }
 
 
 

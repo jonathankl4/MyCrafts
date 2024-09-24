@@ -55,42 +55,25 @@
                         </thead>
                         <tbody>
 
+                            @for ($i=0;$i<count($daftarProduk);$i++)
+                            <tr>
+                                <td>1</td>
+                                <td style="font-size: 16px">
+                                    <b> {{$daftarProduk[$i]->nama_template}} </b>
+                                </td>
 
 
-                                <tr>
-                                    <td>1</td>
-                                    <td style="font-size: 16px">
-                                        <img
-                                            src="{{ url('/img/lemari1/lemari1.png') }}"
-                                            alt="" style="width:50px; height:80px">
-                                        <b>Lemari 1</b>
-                                    </td>
+                                <td>
+
+                                    <a href="{{url('/seller/produkCustom/detailProdukCustom/'.$daftarProduk[$i]->id)}}" class="btn btn-success">Detail</a>
+                                    <a href="{{url('/seller/produkCustom/Testing')}}" class="btn btn-dark">Coba Custom</a>
+                                </td>
+
+                            </tr>
+
+                            @endfor
 
 
-                                    <td>
-
-                                        <a href="{{url('/seller/produkCustom/tambahLemari1')}}" class="btn btn-success">Tambah</a>
-                                        <a href="{{url('/seller/produkCustom/Testing')}}" class="btn btn-dark">Coba Custom</a>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td style="font-size: 16px">
-                                        <img
-                                            src="{{ url('/img/lemari2/lemari2.png') }}"
-                                            alt="" style="width:50px; height:80px">
-                                        <b>Lemari 2</b>
-                                    </td>
-
-
-                                    <td>
-
-                                        <a href="{{url('/seller/produkCustom/tambahLemari2')}}" class="btn btn-success">Tambah</a>
-                                        <a href="{{url('/seller/produkCustom/Testing')}}" class="btn btn-dark">Coba Custom</a>
-                                    </td>
-
-                                </tr>
 
 
 

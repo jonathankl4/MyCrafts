@@ -16,6 +16,7 @@ use App\Http\Controllers\Produksi\PerencanaanProduksiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\TestController;
+use App\Models\ProdukCustomDijual;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -105,7 +106,7 @@ Route::group([
     Route::get('/produkCustom/meja1',[AdminController::class, 'meja1']);
     Route::get('/produkCustom/lemari3',[AdminController::class, 'lemari3']);
 
-    
+
 
 });
 
@@ -146,9 +147,12 @@ Route::group([
 
     //START OF PRODUK CUSTOM
     // PRODUK CUSTOM
-    
+
     Route::get('/produkCustom/tambahProdukCustom',[ProdukCustomController::class, 'pageAddCustomProduk']);
-    Route::get('/produkCustom/tambahProdukCustom',[ProdukCustomController::class, 'pageAddCustomProduk']);
+    Route::get('/produkCustom/daftarProdukCustom',[ProdukCustomController::class,'pageDaftarProdukCustom']);
+    Route::get('/produkCustom/detailProdukCustom/{id}',[ProdukCustomController::class, 'pageDetailProdukCustom']);
+    Route::get('/produkCustom/tambahLemari1',[ProdukCustomController::class, 'tambahLemari1']);
+    Route::get('/produkCustom/tambahLemari2',[ProdukCustomController::class, 'tambahLemari2']);
     Route::post('/addProdukCustom',[ProdukCustomController::class, 'addCustomProduk']);
 
     //TESTING PRODUK CUSTOM
