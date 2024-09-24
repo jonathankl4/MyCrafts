@@ -311,9 +311,9 @@ class ProdukCustomController extends Controller
     // halaman tambah produk custom
     public function pageAddCustomProduk(){
         $user = $this->getLogUser();
-        $template = DB::table('templates')->where("id_toko",'=',$user->id_toko)->get();
-        $addon = DB::table('add_ons')->where("id_toko",'=',$user->id_toko)->get();
-        return view('seller.produkCustom..produk.tambahProdukCustom', ['user'=>$user, 'listTemplate'=>$template, 'listAddOn'=>$addon]);
+        
+        $daftarproduk = DB::table('produk_customs')->get();
+        return view('seller.produkCustom..produk.tambahProdukCustom', ['user'=>$user, 'listProduk'=>$daftarproduk]);
 
     }
 

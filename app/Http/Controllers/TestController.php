@@ -123,4 +123,11 @@ class TestController extends Controller
     }
 
 
+    public function testingLemari1(){
+
+        $user = $this->getLogUser();
+        return view('seller.produkCustom.produk.testinglemari1',['user'=>$user]);
+    }
+
+
 }

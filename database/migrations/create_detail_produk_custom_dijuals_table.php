@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detail_template_produk_customs', function (Blueprint $table) {
+        Schema::create('detail_produk_custom_dijuals', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_produk');
-            $table->integer('id_template');
-            
+            $table->integer('id_produk_custom_dijual');
+            $table->string('jenis_kayu');
+            $table->string("harga");     
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detail_template_produk_customs');
+        Schema::dropIfExists('detail_produk_custom_dijuals');
     }
 };

@@ -112,7 +112,8 @@
 
         <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
             <h2 class="fw-bold py-3 mb-4">Custom Mebel</h2>
-
+            <a href="{{url('seller/produkCustom/tambahProdukCustom')}}" class="btn btn-primary">Kembali</a>
+            <br><br>
             <div class="row">
 
                 <div class="col-md-6">
@@ -127,7 +128,7 @@
                                                         So we can simply update the color with CSS or JavaScript dinamically
                                                     -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
-                                <img id="template" src="{{ url('img/lemari1/lemari1.png') }}"
+                                <img id="template" src="{{ url('img/lemaribener.png') }}"
                                     style="width: 100%;height: 100%;" />
 
                                 <div id="drawingArea" class="drawing-area">
@@ -222,9 +223,9 @@
                                     <option value="">tanpa pintu</option>
 
                                    
-                                    <option value="{{ url('img/lemari1/pintu1.jpeg') }}">pintu</option>
-                                    <option value="{{ url('img/lemari1/pintu2.jpg') }}">pintu2</option>
-                                    <option value="{{url('img/lemari1/pintugeser.jpg')}}">pintu geser</option>
+                                    <option value="{{ url('img/pintu1.jpeg') }}">pintu</option>
+                                    <option value="{{ url('img/pintu2.jpg') }}">pintu2</option>
+                                    <option value="{{url('img/pintugeser.jpg')}}">pintu geser</option>
 
 
                                 </select>

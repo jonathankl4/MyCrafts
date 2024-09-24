@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('produk_customs', function (Blueprint $table) {
             $table->id();
             $table->string("nama_template");
-            $table->string('harga');
             $table->string('foto');
+            $table->json('detail');
+
             $table->timestamps();
         });
     }

@@ -81,7 +81,7 @@
                 </li>
                 <li class="menu-item {{ request()->is('masteruser/produkCustom/testing') ? 'active' : '' }}">
                     <a href="{{ url('/masteruser/produkCustom/lemari1') }}" class="menu-link">
-                        <div>Testing</div>
+                        <div>Lemari 1</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('masteruser/produkCustom/testing') ? 'active' : '' }}">
@@ -94,6 +94,11 @@
                         <div>Lemari 3</div>
                     </a>
                 </li>
+                <li class="menu-item {{ request()->is('masteruser/produkCustom/testing') ? 'active' : '' }}">
+                  <a href="{{ url('/masteruser/produkCustom/meja1') }}" class="menu-link">
+                      <div>meja 1</div>
+                  </a>
+              </li>
 
 
 

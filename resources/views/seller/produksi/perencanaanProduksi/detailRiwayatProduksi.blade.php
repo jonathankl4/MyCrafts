@@ -35,7 +35,7 @@
 
 
                 <div style="float: left">
-                    <a href="{{ url('/seller/produksi/perencanaanProduksi') }}" class="btn btn-primary">Kembali</a>
+                    <a href="{{ url('/seller/pRiwayatProduksi') }}" class="btn btn-primary">Kembali</a>
                     @if ($produksi->status == '0' || $produksi->status == '1')
                         <a href="" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdit">Edit
                             Produksi</a>

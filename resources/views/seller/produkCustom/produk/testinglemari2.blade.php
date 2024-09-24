@@ -11,11 +11,11 @@
     <style>
         .drawing-area {
             position: absolute;
-            top: 23px;
-            left: 33px;
+            top: 17px;
+            left: 50px;
             z-index: 10;
             width: 200px;
-            height: 30px;
+            height: 3000px;
         }
 
         .canvas-container {
@@ -28,7 +28,7 @@
 
         #produk-div {
             width: 452px;
-            height: 548px;
+            height: 630px;
             position: relative;
             background-color: #fff;
         }
@@ -127,12 +127,12 @@
                                                         So we can simply update the color with CSS or JavaScript dinamically
                                                     -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
-                                <img id="template" src="{{ url('img/lemari1/lemari1.png') }}"
+                                <img id="template" src="{{ url('img/lemari2/lemari2bener.png') }}"
                                     style="width: 100%;height: 100%;" />
 
                                 <div id="drawingArea" class="drawing-area">
                                     <div class="canvas-container" style="position: relative">
-                                        <canvas id="tshirt-canvas" width="390px" height="480"
+                                        <canvas id="tshirt-canvas" width="350px" height="590px"
                                             style="border-style: solid; border-width: 2px"></canvas>
 
                                         <div id="right-line"
@@ -144,10 +144,10 @@
 
                                         <!-- Garis horizontal di bawah untuk 70cm -->
                                         <div id="bottom-line"
-                                            style="position: absolute; left: -20px; bottom: -130px; width: 430px; height: 2px; background-color: black;">
+                                            style="position: absolute; left: -20px; bottom: -230px; width: 430px; height: 2px; background-color: black;">
                                         </div>
                                         <div id="bottom-text"
-                                            style="position: absolute; left: 50%; bottom: -160px; transform: translateX(-50%); font-size: 20px;">
+                                            style="position: absolute; left: 50%; bottom: -260px; transform: translateX(-50%); font-size: 20px;">
                                             70cm</div>
                                     </div>
                                 </div>
@@ -195,6 +195,7 @@
                                 <div>Jumlah Sekat Horizontal: <span id="count-sekat-horizontal">0</span></div>
                                 <div>Jumlah Sekat Vertical: <span id="count-sekat-vertical">0</span></div>
                                 <div>Jumlah Gantungan: <span id="count-gantungan">0</span></div>
+                                <div>Jumlah laci kecil: <span id="count-laci">0</span></div>
                             </div>
                             <div class="col-md-6">
                                 <label for="tshirt-design" ><b> Add On</b></label>
@@ -204,6 +205,8 @@
                                     <option value="{{ url('img/sekatHorizontal.jpeg') }}">sekat horizontal</option>
                                     <option value="{{ url('img/sekatvertical.jpeg') }}">sekat vertical </option>
                                     <option value="{{ url('img/gantungan.jpeg') }}">gantungan</option>
+                                    <option value="{{ url('img/lemari2/lacikecil.png') }}">laci</option>
+                                    <option value="{{ url('img/lemari2/lacibesar.png') }}">laci 2</option>
                                     
 
 
@@ -222,9 +225,10 @@
                                     <option value="">tanpa pintu</option>
 
                                    
-                                    <option value="{{ url('img/lemari1/pintu1.jpeg') }}">pintu</option>
-                                    <option value="{{ url('img/lemari1/pintu2.jpg') }}">pintu2</option>
-                                    <option value="{{url('img/lemari1/pintugeser.jpg')}}">pintu geser</option>
+                                    
+                                    <option value="{{url('img/pintugeser.jpg')}}">pintu geser</option>
+                                    <option value="{{url('img/lemari2/pintu1.jpg')}}">pintu 1</option>
+                                    <option value="{{url('img/lemari2/pintu2.jpeg')}}">pintu 2</option>
 
 
                                 </select>
@@ -332,12 +336,14 @@
         let counterSekatHorizontal = 0;
         let counterSekatVertical = 0;
         let counterGantungan = 0;
+        let counterlacikecil = 0;
 
         // Fungsi untuk memperbarui counter di UI
         function updateCounters() {
             document.getElementById('count-sekat-horizontal').textContent = counterSekatHorizontal;
             document.getElementById('count-sekat-vertical').textContent = counterSekatVertical;
             document.getElementById('count-gantungan').textContent = counterGantungan;
+            document.getElementById('count-laci').textContent = counterlacikecil;
         }
 
         let currentVerticalSize = 150;
@@ -446,16 +452,78 @@
                     scaleX = canvasWidth / imgWidth; // Sesuaikan lebar dengan kanvas
                     scaleY = 0.3; // Lebih tipis pada sumbu Y untuk sekat horizontal
                     counterSekatHorizontal++; // Tambah counter sekat horizontal
+                    img.setControlsVisibility({
+                        mt: false,
+                        mb: false,
+                        ml: true,
+                        mr: true,
+                        tl: false,
+                        tr: false,
+                        bl: false,
+                        br: false
+                    });
                 } else if (imageURL.includes('sekatvertical')) {
                     // Skala khusus untuk sekat vertical
                     scaleX = 0.3; // Lebih tipis pada sumbu X untuk sekat vertical
                     scaleY = canvasHeight / imgHeight; // Sesuaikan tinggi dengan kanvas
                     counterSekatVertical++; // Tambah counter sekat vertical
+
+                    img.setControlsVisibility({
+                        mt: true,
+                        mb: true,
+                        ml: false,
+                        mr: false,
+                        tl: false,
+                        tr: false,
+                        bl: false,
+                        br: false
+                    });
+
                 } else if (imageURL.includes('gantungan')) {
                     // Skala khusus untuk gantungan
                     scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
                     scaleY = 0.5; // Lebih tipis pada sumbu Y untuk gantungan
                     counterGantungan++; // Tambah counter gantungan
+                    img.setControlsVisibility({
+                        mt: false,
+                        mb: false,
+                        ml: true,
+                        mr: true,
+                        tl: false,
+                        tr: false,
+                        bl: false,
+                        br: false
+                    });
+                } else if (imageURL.includes('lacikecil')) {
+                    // Skala khusus untuk gantungan
+                    scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
+                    scaleY = 0.2; // Lebih tipis pada sumbu Y untuk gantungan
+                    counterlacikecil++; // Tambah counter gantungan
+                    img.setControlsVisibility({
+                        mt: false,
+                        mb: false,
+                        ml: true,
+                        mr: true,
+                        tl: false,
+                        tr: false,
+                        bl: false,
+                        br: false
+                    });
+                } else if (imageURL.includes('lacibesar')) {
+                    // Skala khusus untuk gantungan
+                    scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
+                    scaleY = 0.2; // Lebih tipis pada sumbu Y untuk gantungan
+                    counterlacikecil++; // Tambah counter gantungan
+                    img.setControlsVisibility({
+                        mt: false,
+                        mb: false,
+                        ml: false,
+                        mr: false,
+                        tl: false,
+                        tr: false,
+                        bl: false,
+                        br: false
+                    });
                 } 
 
                 // Terapkan skala yang ditentukan pada gambar
@@ -470,28 +538,10 @@
                 // Sembunyikan kontrol scaling berdasarkan orientasi gambar
                 if (imgHeight > imgWidth) {
                     // Jika gambar vertikal, sembunyikan kontrol scaling horizontal
-                    img.setControlsVisibility({
-                        mt: true,
-                        mb: true,
-                        ml: false,
-                        mr: false,
-                        tl: false,
-                        tr: false,
-                        bl: false,
-                        br: false
-                    });
+                    
                 } else {
                     // Jika gambar horizontal, sembunyikan kontrol scaling vertikal
-                    img.setControlsVisibility({
-                        mt: false,
-                        mb: false,
-                        ml: true,
-                        mr: true,
-                        tl: false,
-                        tr: false,
-                        bl: false,
-                        br: false
-                    });
+                    
                 }
 
                 // Event listener untuk mencegah gambar di-scale melebihi batas kanvas

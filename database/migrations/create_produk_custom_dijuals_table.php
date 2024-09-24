@@ -14,10 +14,7 @@ return new class extends Migration
         Schema::create('produk_custom_dijuals', function (Blueprint $table) {
             $table->id();
             $table->integer("id_toko");
-            $table->string('nama_produk');
-            $table->string('tipe_produk')->nullable();
-            $table->integer('harga_produk');
-            $table->string('status')->nullable();
+            $table->string('nama_template');
             $table->timestamps();
         });
     }

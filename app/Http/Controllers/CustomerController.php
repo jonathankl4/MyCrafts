@@ -20,6 +20,7 @@ class CustomerController extends Controller
     public function getLogUser(){
         $user = new stdClass();
         $s = Session::get("user");
+        
         if ($s!= null) {
             # code...
             $user = User::find($s->id);
@@ -36,6 +37,8 @@ class CustomerController extends Controller
     }
 
     public function homePage(){
+
+        
 
         // return view("admin.userlog",["user"])
         $user = $this->getLogUser();

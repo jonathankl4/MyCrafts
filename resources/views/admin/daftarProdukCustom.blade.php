@@ -49,8 +49,8 @@
                                 <th>No</th>
                                 <th>Nama Template</th>
                                 <th>Harga</th>
-                                <th>Foto</th>
                                 
+
                                 <th>Aksi</th>
 
 
@@ -58,11 +58,28 @@
                         </thead>
                         <tbody>
                             @for ($i = 0; $i < count($listProduk); $i++)
+
+                            @php
+                                $detail = json_decode($listProduk[$i]->detail);
+                            @endphp
                                 <tr>
                                     <td>{{ $i + 1 }}</td>
-                                    <td style="font-size: 16px"><b>{{ $listProduk[$i]->nama_template }}</b></td>
-                                    <td style="font-size: 16px"><b>{{ $listProduk[$i]->harga }}</b></td>
-                                    <td style="font-size: 16px"><img src="{{url('/storage/fotoTemplateMaster/'.$listProduk[$i]->foto)}}" alt="" style="width:70px; height:70px"></td>
+                                    <td style="font-size: 16px">
+                                        <img
+                                            src="{{ url('/storage/fotoTemplateMaster/' . $listProduk[$i]->foto) }}"
+                                            alt="" style="width:50px; height:80px">
+                                        <b>{{ $listProduk[$i]->nama_template }}</b>
+                                    </td>
+                                    <td style="font-size: 16px">
+                                        <b>
+                                            @for ($k = 0; $k < count($detail); $k++)
+                                            <p>{{$detail[$k]->jenis_kayu}}: {{$detail[$k]->harga }}</p>
+                                            @endfor
+                                                 
+                                        </b>
+                                        
+                                    </td>
+                                    
                                     <td><a href="" class="btn btn-info">Detail Add-On</a></td>
 
                                 </tr>
@@ -98,27 +115,48 @@
                     </div>
                     <div class="modal-body">
                         <h2 class="card-title text-primary"> Tambah Template </h2>
-                        <form action="{{ url('masteruser/tambahTemplate') }}" method="POST" enctype="multipart/form-data" >
+                        <form action="{{ url('masteruser/tambahTemplate') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3 row">
                                 <label class="col-md-2 col-form-label" style="font-size: 16px">Nama Template</label>
                                 <div class="col-md-10">
 
 
-                                    <input type="text" class="form-control" id="namaTemplate" required name="namaTemplate"
-                                         required/>
+                                    <input type="text" class="form-control" id="namaTemplate" required
+                                        name="namaTemplate" required />
                                     <span style="color: red;">{{ $errors->first('namaTemplate') }}</span>
                                 </div>
                             </div>
 
                             <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" style="font-size: 16px">Harga</label>
+                                <label class="col-md-2 col-form-label" style="font-size: 16px">Jenis Kayu</label>
                                 <div class="col-md-10">
 
-                                    <input type="number" class="form-control" id="harga" required
-                                        name="harga" placeholder="harga"
-                                         />
-                                    <span style="color: red;">{{ $errors->first('harga') }}</span>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon13"><b>Kayu Jati</b>, Harga :</span>
+                                        <input type="number" class="form-control" id="hargakayujati" required name="hargakayujati"
+                                            placeholder="harga" />
+                                            <span class="input-group-text" id="basic-addon13">Rupiah</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon13"><b>Kayu Mahoni</b>, Harga :</span>
+                                        <input type="number" class="form-control" id="hargakayumahoni" required name="hargakayumahoni"
+                                            placeholder="harga" />
+                                            <span class="input-group-text" id="basic-addon13">Rupiah</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon13"><b>Kayu Pinus</b>, Harga :</span>
+                                        <input type="number" class="form-control" id="hargakayupinus" required name="hargakayupinus"
+                                            placeholder="harga" />
+                                            <span class="input-group-text" id="basic-addon13">Rupiah</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon13"><b>Kayu Sungkai</b>, Harga :</span>
+                                        <input type="number" class="form-control" id="hargakayusungkai" required name="hargakayusungkai"
+                                            placeholder="harga" />
+                                            <span class="input-group-text" id="basic-addon13">Rupiah</span>
+                                    </div>
+                                        <span style="color: red;">{{ $errors->first('harga') }}</span>
                                 </div>
 
                             </div>
@@ -127,9 +165,7 @@
                                 <label class="col-md-2 col-form-label" style="font-size: 16px">Foto</label>
                                 <div class="col-md-10">
 
-                                    <input type="file" class="form-control" id="foto" required
-                                        name="foto"
-                                         />
+                                    <input type="file" class="form-control" id="foto" required name="foto" />
                                     <span style="color: red;">{{ $errors->first('foto') }}</span>
                                 </div>
 

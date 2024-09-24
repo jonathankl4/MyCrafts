@@ -127,7 +127,7 @@
                                                         So we can simply update the color with CSS or JavaScript dinamically
                                                     -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
-                                <img id="template" src="{{ url('img/lemari2/lemari2bener.png') }}"
+                                <img id="template" src="{{ url('img/lemari2/lemari2.png') }}"
                                     style="width: 100%;height: 100%;" />
 
                                 <div id="drawingArea" class="drawing-area">
@@ -226,7 +226,7 @@
 
                                    
                                     
-                                    <option value="{{url('img/pintugeser.jpg')}}">pintu geser</option>
+                                    <option value="{{url('img/lemari1/pintugeser.jpg')}}">pintu geser</option>
                                     <option value="{{url('img/lemari2/pintu1.jpg')}}">pintu 1</option>
                                     <option value="{{url('img/lemari2/pintu2.jpeg')}}">pintu 2</option>
 

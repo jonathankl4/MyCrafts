@@ -1,268 +1,201 @@
-@extends('template.BackupMasterDesain')
+@extends('template.MasterDesain')
 
-@section('title', 'Tambah Produk Custom')
+@section('title', 'Daftar Template Produk Custom')
 
 @section('style')
-<style>
+    <style>
 
 
 
 
 
 
-#image-label{
-    position: relative;
-    width: 200px;
-    height: 200px;
-    background: #fff;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 1px 7px rgba(105, 110, 232, 0.54);
-    border-radius: 10px;
-    flex-direction: column;
-    gap: 15px;
-    user-select: none;
-    cursor: pointer;
-    color: #207ed1;
-    transition: all 1s;
-}
-
-#image-label:hover{
-    color: #18ac1c;
-}
-
-
-
-
-
-
-
-</style>
+    </style>
 @endsection
 
 @section('sidebar')
 
-
+    @include('seller.template.sidebar')
 
 @endsection
 
 @section('navbar')
-@include('seller.template.navbar')
+    @include('seller.template.navbar')
 @endsection
 
 
 @section('content')
-<div class="content-wrapper">
-    <!-- Content -->
+    <div class="content-wrapper">
+        <!-- Content -->
 
-    <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 1cm ">
-        <h2 class="fw-bold  mb-4">Tambah Produk Custom</h2>
-        <form action="{{url('seller/addProdukCustom')}}" method="POST" enctype="multipart/form-data">
-            @csrf
+        <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
+            <h2 class="fw-bold py-3 mb-4">Daftar Template Produk Custom</h2>
+
+
+            <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">Tambah Produk
+                Custom</a>
+            <br><br>
             <div class="card" style="padding: 15px">
-                <h3 class="card-header text-dark ">Informasi Produk</h3>
-
-                    <div class="mb-3 row ">
-                        <label class="col-md-2 col-form-label" style="font-size: 16px">Nama Produk</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" id="namaProduk" name="namaProduk" placeholder="Nama Produk"  value="{{old('namaProduk')}}"/>
-                            <span style="color: red; font-size: 12px">*tambahkan kata custom pada nama paling belakang</span>
-                            <span style="color: red;">{{ $errors->first('namaProduk')}}</span>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label" style="font-size: 16px" >tipe Produk</label>
-                        <div class="col-md-10">
-                        <input type="text" class="form-control" id="tipeProduk" name="tipeProduk" placeholder="Tipe Produk"  value="{{old('tipeProduk')}}"/>
-                        <span style="color: red;">{{ $errors->first('tipeProduk')}}</span>
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label"  style="font-size: 16px">Harga</label>
-                        <div class="col-md-10">
-
-                            <input type="text" class="form-control" id="hargaProduk" name="hargaProduk" placeholder="Harga"  value="{{old('hargaProduk')}}" />
-                            <span style="color: red;">{{ $errors->first('hargaProduk')}}</span>
-                        </div>
-                    </div>
-                    
-
-
-            </div>
-            <br>
-            <div class="card" style="padding: 15px">
-                <h3 class="card-header text-dark ">Template Produk</h3>
-                <h5 class="test-dark">pilih template yang digunakan untuk produk ini <span style="color: red">(pilih 1)</span></h5>
-
-                <table id="tTemplate" class="table table-striped" >
-                    <thead>
-                        <tr>
-                            <th>Pilih </th>
-                            <th>Informasi</th>
-                            {{-- <th>tipe</th>
-                            <th>Harga</th>
-                            <th>Keterangan</th> --}}
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for ($i=0; $i < count($listTemplate); $i++ )
+                <h5 class="card-header"></h5>
 
 
 
-                        <tr>
-                            <td>
-                                <div class="form-check mt-3">
-                                    <input
-                                    name="templatePilihan"
-                                    class="form-check-input"
-                                    type="radio"
-                                    value="{{$listTemplate[$i]->id}}"
-                                    id="defaultRadio1"
-                                    />
-                                    <label class="form-check-label" for="defaultRadio1"> Pilih </label>
-                                </div>
-                            </td>
-                            <td style="font-size: 16px">
-                                <div style="float: left">
-                                        <a href=""  data-bs-toggle="modal" data-bs-target="#modalImage{{$i}}"><img src="{{url("/storage/imgTemplate/".$listTemplate[$i]->gambar)}}" alt="" style="width:70px; height:70px" ></a>
-                                        <b>{{$listTemplate[$i]->nama}}</b>
-                                </div>
-                            </td>
-
-                            {{-- <td style="font-size: 16px"><b>{{$listTemplate[$i]->tipe}}</b></td>
-
-                            <td style="font-size: 16px"><b>Rp {{$listTemplate[$i]->harga}}</b></td>
-                            <td style="font-size: 16px"><b>{{$listTemplate[$i]->keterangan}}</b></td> --}}
-
-
-
-
-                        </tr>
-
-                        <div id="modalImage{{$i}}" class="modal fade" aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%; height: 100%;">
-
-
-
-
-                            <div class="modal-dialog">
-                                <div class="modal-content" style="margin: auto;display: block;width: 80%;max-width: 700px;">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel"></h5>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <img class="modal-content" src="{{url("/storage/imgTemplate/".$listTemplate[$i]->gambar)}}"  >
-
-
-                                </div>
-
-                              </div>
-                            </div>
-                          </div>
-
-
-                        @endfor
-
-
-
-
-
-
-
-
-
-                    </tbody>
-
-                </table>
-
-
-
-
-            </div>
-            <br>
-            <div class="card" style="padding: 15px">
-                <h3 class="card-header text-dark ">Add On Produk</h3>
-                <h5 class="test-dark">pilih template yang digunakan untuk produk ini <span style="color: red">(bisa pilih lebih dari 1)</span></h5>
-
-                <div class="table-responsive text-nowrap p-3">
-                    <table id="tAddOn" class="table table-striped" >
+                {{-- ini jika mau table nya responsive --}}
+                {{-- <div class="table-responsive text-nowrap p-3"> --}}
+                <div class="">
+                    <table id="tMebel" class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Pilih</th>
-                                <th>Informasi</th>
+                                <th>No</th>
+                                <th>Nama Template</th>
+                               
+                                
+
+                                <th>Aksi</th>
+
 
                             </tr>
                         </thead>
                         <tbody>
-                            @for ($i=0; $i < count($listAddOn); $i++ )
+                            
 
-                            <tr>
-                                <td>
-                                    <div class="form-check mt-3">
-                                        <input class="form-check-input" type="checkbox" name="addon[]" value="{{$listAddOn[$i]->id}}" id="defaultCheck{{$listAddOn[$i]->id}}" />
-                                        <label class="form-check-label" for="defaultCheck{{$listAddOn[$i]->id}}"> Pilih </label>
-                                      </div>
-                                </td>
-                                <td style="font-size: 16px">
-                                    <div style="float: left">
-                                            <a href=""  data-bs-toggle="modal" data-bs-target="#modalImage{{$i}}"><img src="{{url("/storage/imgAddOn/".$listAddOn[$i]->gambar)}}" alt="" style="width:70px; height:70px" ></a>
-                                            <b>{{$listAddOn[$i]->nama}}</b>
-                                    </div>
-                                </td>
-{{--
-                                <td style="font-size: 16px"><b>{{$listAddOn[$i]->tipe}}</b></td>
+                            
+                                <tr>
+                                    <td>1</td>
+                                    <td style="font-size: 16px">
+                                        <img
+                                            src="{{ url('/img/lemari1/lemari1.png') }}"
+                                            alt="" style="width:50px; height:80px">
+                                        <b>Lemari 1</b>
+                                    </td>
+                                    
+                                    
+                                    <td>
+                                        
+                                        <a href="{{url('/seller')}}" class="btn btn-success">Tambah</a>
+                                        <a href="{{url('/seller/produkCustom/Testing')}}" class="btn btn-dark">Coba Custom</a>
+                                    </td>
 
-                                <td style="font-size: 16px"><b>Rp {{$listAddOn[$i]->harga}}</b></td>
-                                <td style="font-size: 16px"><b>{{$listAddOn[$i]->keterangan}}</b></td> --}}
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td style="font-size: 16px">
+                                        <img
+                                            src="{{ url('/img/lemari2/lemari2.png') }}"
+                                            alt="" style="width:50px; height:80px">
+                                        <b>Lemari 2</b>
+                                    </td>
+                                    
+                                    
+                                    <td>
+                                        
+                                        <a href="" class="btn btn-success">Detail</a>
+                                        <a href="{{url('/seller/produkCustom/Testing')}}" class="btn btn-dark">Coba Custom</a>
+                                    </td>
+
+                                </tr>
+                          
 
 
 
-                            </tr>
 
 
-                            <div id="modalImage{{$i}}" class="modal fade" aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%; height: 100%;">
 
-                                <div class="modal-dialog">
-                                    <div class="modal-content" style="margin: auto;display: block;width: 80%;max-width: 700px;">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel"></h5>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <img class="modal-content" src="{{url("/storage/imgAddOn/".$listAddOn[$i]->gambar)}}"  >
-
-                                    </div>
-
-                                  </div>
-                                </div>
-                              </div>
-
-                            @endfor
 
                         </tbody>
 
                     </table>
 
                 </div>
-
-            </div>
-            <br>
-            <div style="float: right">
-                <a href="{{url('/seller/produk/daftarProduk')}}" class="btn btn-outline-dark">Kembali</a>
-                <button class="btn btn-primary">Tambah</button>
             </div>
 
 
-    </form>
 
 
-    </div>
+
+
+        </div>
+
+        <div class="modal fade" id="modalTambah" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h2 class="card-title text-primary"> Tambah Template </h2>
+                        <form action="{{ url('masteruser/tambahTemplate') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" style="font-size: 16px">Nama Template</label>
+                                <div class="col-md-10">
+
+
+                                    <input type="text" class="form-control" id="namaTemplate" required
+                                        name="namaTemplate" required />
+                                    <span style="color: red;">{{ $errors->first('namaTemplate') }}</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" style="font-size: 16px">Jenis Kayu</label>
+                                <div class="col-md-10">
+
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon13"><b>Kayu Jati</b>, Harga :</span>
+                                        <input type="number" class="form-control" id="hargakayujati" required name="hargakayujati"
+                                            placeholder="harga" />
+                                            <span class="input-group-text" id="basic-addon13">Rupiah</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon13"><b>Kayu Mahoni</b>, Harga :</span>
+                                        <input type="number" class="form-control" id="hargakayumahoni" required name="hargakayumahoni"
+                                            placeholder="harga" />
+                                            <span class="input-group-text" id="basic-addon13">Rupiah</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon13"><b>Kayu Pinus</b>, Harga :</span>
+                                        <input type="number" class="form-control" id="hargakayupinus" required name="hargakayupinus"
+                                            placeholder="harga" />
+                                            <span class="input-group-text" id="basic-addon13">Rupiah</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon13"><b>Kayu Sungkai</b>, Harga :</span>
+                                        <input type="number" class="form-control" id="hargakayusungkai" required name="hargakayusungkai"
+                                            placeholder="harga" />
+                                            <span class="input-group-text" id="basic-addon13">Rupiah</span>
+                                    </div>
+                                        <span style="color: red;">{{ $errors->first('harga') }}</span>
+                                </div>
+
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label class="col-md-2 col-form-label" style="font-size: 16px">Foto</label>
+                                <div class="col-md-10">
+
+                                    <input type="file" class="form-control" id="foto" required name="foto" />
+                                    <span style="color: red;">{{ $errors->first('foto') }}</span>
+                                </div>
+
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Simpan</button>
+                        </form>
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     </div>
@@ -275,38 +208,17 @@
     <!-- / Footer -->
 
     <div class="content-backdrop fade"></div>
-  </div>
-
-  <script>
-
-
-
-
-</script>
+    </div>
 
 
 @endsection
-
 
 @section('script')
-
-<script>
-
-$(document).ready( function () {
-        $('#tTemplate').DataTable();
-        $('#tAddOn').DataTable();
+    <script>
+        $(document).ready(function() {
+            $('#tMebel').DataTable();
 
 
-
-
-
-
-    });
-
-
-
-  </script>
-
+        });
+    </script>
 @endsection
-
-

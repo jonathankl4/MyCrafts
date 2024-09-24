@@ -102,6 +102,9 @@ Route::group([
     Route::get('/produkCustom/lemari2',[AdminController::class, 'lemari2']);
     Route::get('/produkCustom/lemari3',[AdminController::class, 'lemari3']);
 
+    Route::get('/produkCustom/meja1',[AdminController::class, 'meja1']);
+    Route::get('/produkCustom/lemari3',[AdminController::class, 'lemari3']);
+
     
 
 });
@@ -150,6 +153,8 @@ Route::group([
 
     //TESTING PRODUK CUSTOM
     Route::get('/produkCustom/testing', [TestController::class, 'testingfabric']);
+    Route::get('/produkCustom/TestingMeja1',[TestController::class,'testingMeja1']);
+
     Route::post('/save-image',[TestController::class, 'uploadImage'])->name('save.image');
 
     //TEMPLATE
