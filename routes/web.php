@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\Lemari1Controller;
+use App\Http\Controllers\Lemari2Controller;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProdukController;
@@ -22,6 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use PgSql\Lob;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,7 +102,8 @@ Route::group([
     Route::post('/tambahTemplate',[AdminController::class,'tambahTemplate']);
 
 
-    Route::get('/produkCustom/lemari1',[AdminController::class, 'lemari1']);
+    Route::get('/produkCustom/h1lemari1',[AdminController::class, 'h1lemari1']);
+    Route::get('/produkCustom/h2lemari1',[AdminController::class, 'h2lemari1']);
     Route::get('/produkCustom/lemari2',[AdminController::class, 'lemari2']);
     Route::get('/produkCustom/lemari3',[AdminController::class, 'lemari3']);
 
@@ -151,9 +155,13 @@ Route::group([
     Route::get('/produkCustom/tambahProdukCustom',[ProdukCustomController::class, 'pageAddCustomProduk']);
     Route::get('/produkCustom/daftarProdukCustom',[ProdukCustomController::class,'pageDaftarProdukCustom']);
     Route::get('/produkCustom/detailProdukCustom/{id}',[ProdukCustomController::class, 'pageDetailProdukCustom']);
-    Route::get('/produkCustom/tambahLemari1',[ProdukCustomController::class, 'tambahLemari1']);
-    Route::get('/produkCustom/tambahLemari2',[ProdukCustomController::class, 'tambahLemari2']);
     Route::post('/addProdukCustom',[ProdukCustomController::class, 'addCustomProduk']);
+
+    Route::get('/produkCustom/tambahLemari1',[Lemari1Controller::class, 'tambahLemari1']);
+    Route::post('/produkCustom/ubahDetailLemari1',[Lemari1Controller::class, 'ubahDetailLemari1']);
+    
+    Route::get('/produkCustom/tambahLemari2',[Lemari2Controller::class, 'tambahLemari2']);
+    Route::post('/produkCustom/ubahDetailLemari2',[Lemari2Controller::class, 'ubahDetailLemari2']);
 
     //TESTING PRODUK CUSTOM
     Route::get('/produkCustom/testing', [TestController::class, 'testingfabric']);

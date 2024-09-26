@@ -11,11 +11,11 @@
     <style>
         .drawing-area {
             position: absolute;
-            top: 33px;
-            left: 30px;
+            top: 23px;
+            left: 33px;
             z-index: 10;
             width: 200px;
-            height: 300px;
+            height: 30px;
         }
 
         .canvas-container {
@@ -28,7 +28,7 @@
 
         #produk-div {
             width: 452px;
-            height: 630px;
+            height: 548px;
             position: relative;
             background-color: #fff;
         }
@@ -123,16 +123,16 @@
 
                             <div id="produk-div">
                                 <!--
-                                                        Initially, the image will have the background tshirt that has transparency
-                                                        So we can simply update the color with CSS or JavaScript dinamically
-                                                    -->
+                                                            Initially, the image will have the background tshirt that has transparency
+                                                            So we can simply update the color with CSS or JavaScript dinamically
+                                                        -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
-                                <img id="template" src="{{ url('img/lemari3/lemari3.png') }}"
+                                <img id="template" src="{{ url('img/lemari1/lemari1.png') }}"
                                     style="width: 100%;height: 100%;" />
 
                                 <div id="drawingArea" class="drawing-area">
                                     <div class="canvas-container" style="position: relative">
-                                        <canvas id="tshirt-canvas" width="393px" height="555px"
+                                        <canvas id="tshirt-canvas" width="390px" height="480"
                                             style="border-style: solid; border-width: 2px"></canvas>
 
                                         <div id="right-line"
@@ -144,10 +144,10 @@
 
                                         <!-- Garis horizontal di bawah untuk 70cm -->
                                         <div id="bottom-line"
-                                            style="position: absolute; left: -20px; bottom: -230px; width: 430px; height: 2px; background-color: black;">
+                                            style="position: absolute; left: -20px; bottom: -130px; width: 430px; height: 2px; background-color: black;">
                                         </div>
                                         <div id="bottom-text"
-                                            style="position: absolute; left: 50%; bottom: -260px; transform: translateX(-50%); font-size: 20px;">
+                                            style="position: absolute; left: 50%; bottom: -160px; transform: translateX(-50%); font-size: 20px;">
                                             70cm</div>
                                     </div>
                                 </div>
@@ -195,19 +195,16 @@
                                 <div>Jumlah Sekat Horizontal: <span id="count-sekat-horizontal">0</span></div>
                                 <div>Jumlah Sekat Vertical: <span id="count-sekat-vertical">0</span></div>
                                 <div>Jumlah Gantungan: <span id="count-gantungan">0</span></div>
-                                <div>Jumlah laci kecil: <span id="count-laci">0</span></div>
                             </div>
                             <div class="col-md-6">
-                                <label for="tshirt-design" ><b> Add On</b></label>
+                                <label for="tshirt-design"><b> Add On</b></label>
                                 <select id="tshirt-design" class="form-select">
                                     <option value="">pilih...</option>
 
                                     <option value="{{ url('img/sekatHorizontal.jpeg') }}">sekat horizontal</option>
                                     <option value="{{ url('img/sekatvertical.jpeg') }}">sekat vertical </option>
                                     <option value="{{ url('img/gantungan.jpeg') }}">gantungan</option>
-                                    <option value="{{ url('img/lemari2/lacikecil.png') }}">laci</option>
-                                    <option value="{{ url('img/lemari2/lacibesar.png') }}">laci 2</option>
-                                    
+
 
 
                                 </select>
@@ -218,26 +215,11 @@
                                 <button id="saveDiv" class="btn btn-success">Save AddOn</button>
                             </div>
                             <br><br>
-                            <div class="col-md-6">
-                                <label for="pintu-design">Pilih Pintu lemari</label>
-                                <select id="pintu-design" class="form-select">
-                                    <option value="">pilih.</option>
-                                    <option value="">tanpa pintu</option>
 
-                                   
-                            
-                                    <option value="{{url('img/lemari1/pintugeser.jpg')}}">pintu 1</option>
-                                    
-                                    <option value="{{url('img/lemari2/pintu2.jpeg')}}">pintu 2</option>
-                                    <option value="{{url('img/lemari3/pintu.png')}}">pintu 3</option>
+                            {{-- <button id="btn-beli" class="btn btn-success">Next</button> --}}
+                            {{-- <a href="#" id="next-page" class="btn btn-primary">Next</a> --}}
+                            <a href="#" id="next-page" class="btn btn-primary">Next</a>
 
-
-                                </select>
-                                <br>
-
-                                <button id="btn-beli" class="btn btn-success">Beli</button>
-                                
-                            </div>
                             <br>
 
 
@@ -284,8 +266,8 @@
     <script>
         let canvas = new fabric.Canvas('tshirt-canvas');
         let currentDoor = null;
-        
-        
+
+
         canvas.on('object:moving', function(e) {
             var obj = e.target;
             var canvasWidth = canvas.getWidth();
@@ -337,14 +319,12 @@
         let counterSekatHorizontal = 0;
         let counterSekatVertical = 0;
         let counterGantungan = 0;
-        let counterlacikecil = 0;
 
         // Fungsi untuk memperbarui counter di UI
         function updateCounters() {
             document.getElementById('count-sekat-horizontal').textContent = counterSekatHorizontal;
             document.getElementById('count-sekat-vertical').textContent = counterSekatVertical;
             document.getElementById('count-gantungan').textContent = counterGantungan;
-            document.getElementById('count-laci').textContent = counterlacikecil;
         }
 
         let currentVerticalSize = 150;
@@ -376,60 +356,7 @@
 
 
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
-        function updatePintu(imageURL){
-            
-
-            if(currentDoor !== null){
-                canvas.remove(currentDoor);
-                currentDoor = null;
-            }
-
-            // jika memilih tanpa pintu maka akan menjalankan perintah dibawah ini sehingga tidak ada pintu baru yang ditambah
-            if(!imageURL || imageURL ===""){
-                return;
-            }
-
-            fabric.Image.fromURL(imageURL, function(img){
-                var canvasWidth = canvas.getWidth();
-                var canvasHeight = canvas.getHeight();
-
-                var imgWidth = img.width;
-                var imgHeight = img.height;
-
-
-                if (imageURL.includes('pintu1')) {
-                    scaleX = canvasWidth / imgWidth;
-                    scaleY = canvasHeight / imgHeight;
-                } else if (imageURL.includes('pintu2')) {
-                    scaleX = canvasWidth / imgWidth;
-                    scaleY = canvasHeight / imgHeight;
-                } else if(imageURL.includes('pintugeser')){
-                    scaleX = canvasWidth / imgWidth;
-                    scaleY = canvasHeight /  imgHeight;
-                }
-                else if(imageURL.includes('pintu')){
-                    scaleX = canvasWidth / imgWidth;
-                    scaleY = canvasHeight /  imgHeight;
-                }
-
-                img.scaleX = scaleX;
-                img.scaleY = scaleY;
-                img.setControlsVisibility({
-                        mt: false,
-                        mb: false,
-                        ml: false,
-                        mr: false,
-                        tl: false,
-                        tr: false,
-                        bl: false,
-                        br: false
-                    });
-
-                canvas.add(img);
-                currentDoor = img;
-                canvas.renderAll();
-            });
-        }
+        
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
         function updateAddOn(imageURL) {
             if (!imageURL) {
@@ -457,79 +384,17 @@
                     scaleX = canvasWidth / imgWidth; // Sesuaikan lebar dengan kanvas
                     scaleY = 0.3; // Lebih tipis pada sumbu Y untuk sekat horizontal
                     counterSekatHorizontal++; // Tambah counter sekat horizontal
-                    img.setControlsVisibility({
-                        mt: false,
-                        mb: false,
-                        ml: true,
-                        mr: true,
-                        tl: false,
-                        tr: false,
-                        bl: false,
-                        br: false
-                    });
                 } else if (imageURL.includes('sekatvertical')) {
                     // Skala khusus untuk sekat vertical
                     scaleX = 0.3; // Lebih tipis pada sumbu X untuk sekat vertical
                     scaleY = canvasHeight / imgHeight; // Sesuaikan tinggi dengan kanvas
                     counterSekatVertical++; // Tambah counter sekat vertical
-
-                    img.setControlsVisibility({
-                        mt: true,
-                        mb: true,
-                        ml: false,
-                        mr: false,
-                        tl: false,
-                        tr: false,
-                        bl: false,
-                        br: false
-                    });
-
                 } else if (imageURL.includes('gantungan')) {
                     // Skala khusus untuk gantungan
                     scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
                     scaleY = 0.5; // Lebih tipis pada sumbu Y untuk gantungan
                     counterGantungan++; // Tambah counter gantungan
-                    img.setControlsVisibility({
-                        mt: false,
-                        mb: false,
-                        ml: true,
-                        mr: true,
-                        tl: false,
-                        tr: false,
-                        bl: false,
-                        br: false
-                    });
-                } else if (imageURL.includes('lacikecil')) {
-                    // Skala khusus untuk gantungan
-                    scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
-                    scaleY = 0.2; // Lebih tipis pada sumbu Y untuk gantungan
-                    counterlacikecil++; // Tambah counter gantungan
-                    img.setControlsVisibility({
-                        mt: false,
-                        mb: false,
-                        ml: true,
-                        mr: true,
-                        tl: false,
-                        tr: false,
-                        bl: false,
-                        br: false
-                    });
-                } else if (imageURL.includes('lacibesar')) {
-                    // Skala khusus untuk gantungan
-                    scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
-                    scaleY = 0.2; // Lebih tipis pada sumbu Y untuk gantungan
-                    counterlacikecil++; // Tambah counter gantungan
-                    img.setControlsVisibility({
-                        mt: false,
-                        mb: false,
-                        ml: false,
-                        mr: false,
-                        tl: false,
-                        tr: false,
-                        bl: false,
-                        br: false
-                    });
-                } 
+                }
 
                 // Terapkan skala yang ditentukan pada gambar
                 img.scaleX = scaleX;
@@ -543,10 +408,28 @@
                 // Sembunyikan kontrol scaling berdasarkan orientasi gambar
                 if (imgHeight > imgWidth) {
                     // Jika gambar vertikal, sembunyikan kontrol scaling horizontal
-                    
+                    img.setControlsVisibility({
+                        mt: true,
+                        mb: true,
+                        ml: false,
+                        mr: false,
+                        tl: false,
+                        tr: false,
+                        bl: false,
+                        br: false
+                    });
                 } else {
                     // Jika gambar horizontal, sembunyikan kontrol scaling vertikal
-                    
+                    img.setControlsVisibility({
+                        mt: false,
+                        mb: false,
+                        ml: true,
+                        mr: true,
+                        tl: false,
+                        tr: false,
+                        bl: false,
+                        br: false
+                    });
                 }
 
                 // Event listener untuk mencegah gambar di-scale melebihi batas kanvas
@@ -611,15 +494,13 @@
             });
         }
 
-        
+
         // Event listener untuk tombol tambah gambar
         document.getElementById('btntambah').addEventListener('click', function() {
             updateAddOn(document.getElementById('tshirt-design').value);
         }, false);
 
-        document.getElementById('pintu-design').addEventListener('change',function(){
-            updatePintu(document.getElementById('pintu-design').value);
-        },false);
+        
 
         // Fungsi untuk menghapus objek ketika tombol DEL ditekan
         document.getElementById('remove').addEventListener('click', function() {
@@ -628,8 +509,7 @@
                 alert('Pilih Add-On yang ingin dihapus');
                 return;
             }
-            canvas.remove(object);
-            ; // Hapus gambar dari kanvas
+            canvas.remove(object);; // Hapus gambar dari kanvas
         });
 
         document.getElementById('saveDiv').addEventListener('click', function() {
@@ -679,55 +559,63 @@
             });
         });
 
-        document.getElementById('btn-beli').addEventListener('click', function() {
-            // Ambil elemen produk-div
-            var element = document.getElementById('produk-div');
+        // document.getElementById('btn-beli').addEventListener('click', function() {
+        //     // Ambil elemen produk-div
+        //     var element = document.getElementById('produk-div');
 
-            // Gunakan html2canvas untuk membuat screenshot dari elemen
-            html2canvas(element).then(function(canvas) {
-                // Ubah canvas menjadi URL gambar base64
-                var dataURL = canvas.toDataURL('image/png');
+        //     // Gunakan html2canvas untuk membuat screenshot dari elemen
+        //     html2canvas(element).then(function(canvas) {
+        //         // Ubah canvas menjadi URL gambar base64
+        //         var dataURL = canvas.toDataURL('image/png');
 
-                fetch('/seller/save-image', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                .getAttribute('content')
-                        },
-                        body: JSON.stringify({
-                            image: dataURL
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('GAmbar berhasil disimpan');
-                        } else {
-                            alert("gambar gagal disimpan");
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Terjadi kesalahan saat mengirim gambar');
-                    });
+        //         fetch('/seller/save-image', {
+        //                 method: 'POST',
+        //                 headers: {
+        //                     'Content-Type': 'application/json',
+        //                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+        //                         .getAttribute('content')
+        //                 },
+        //                 body: JSON.stringify({
+        //                     image: dataURL
+        //                 })
+        //             })
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 if (data.success) {
+        //                     alert('GAmbar berhasil disimpan');
+        //                 } else {
+        //                     alert("gambar gagal disimpan");
+        //                 }
+        //             })
+        //             .catch(error => {
+        //                 console.error('Error:', error);
+        //                 alert('Terjadi kesalahan saat mengirim gambar');
+        //             });
 
 
-                // ini untuk save foto ke download
-                // Buat elemen link sementara
-                // var link = document.createElement('a');
-                // link.href = dataURL;
+        //         // ini untuk save foto ke download
+        //         // Buat elemen link sementara
+        //         // var link = document.createElement('a');
+        //         // link.href = dataURL;
 
-                // Set nama file untuk download
-                // link.download = 'produk-div-image.png';
+        //         // Set nama file untuk download
+        //         // link.download = 'produk-div-image.png';
 
-                // Trigger klik untuk download gambar
-                // link.click();
-            });
+        //         // Trigger klik untuk download gambar
+        //         // link.click();
+        //     });
+        // });
+
+        document.getElementById('next-page').addEventListener('click', function() {
+            // Ambil data dari canvas dalam format JSON
+            const canvasDesign = canvas.toJSON();
+
+            // Simpan JSON ke localStorage untuk digunakan di halaman kedua
+            localStorage.setItem('canvasDesign', JSON.stringify(canvasDesign));
+
+            // Redirect ke halaman kedua
+            window.location.href = "{{ url('/masteruser/produkCustom/h2lemari1') }}";
         });
-
-
-        
     </script>
 
 @endsection

@@ -30,11 +30,17 @@ class AdminController extends Controller
         return view("admin.dashboard", ['user'=>$user]);
         // dd($user);
     }
-    public function lemari1(){
+    public function h1lemari1(){
 
         $user = $this->getUserLog();
 
-        return view('admin.produkcustom.lemari.lemari1',["user"=>$user]);
+        return view('admin.produkcustom.lemari.lemari1.h1lemari1',["user"=>$user]);
+    }
+    public function h2lemari1(){
+
+        $user = $this->getUserLog();
+
+        return view('admin.produkcustom.lemari.lemari1.h2lemari1',["user"=>$user]);
     }
 
 

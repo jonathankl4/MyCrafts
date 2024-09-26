@@ -80,7 +80,7 @@
                     </a>
                 </li>
                 <li class="menu-item {{ request()->is('masteruser/produkCustom/testing') ? 'active' : '' }}">
-                    <a href="{{ url('/masteruser/produkCustom/lemari1') }}" class="menu-link">
+                    <a href="{{ url('/masteruser/produkCustom/h1lemari1') }}" class="menu-link">
                         <div>Lemari 1</div>
                     </a>
                 </li>

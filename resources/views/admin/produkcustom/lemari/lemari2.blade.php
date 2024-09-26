@@ -205,8 +205,8 @@
                                     <option value="{{ url('img/sekatHorizontal.jpeg') }}">sekat horizontal</option>
                                     <option value="{{ url('img/sekatvertical.jpeg') }}">sekat vertical </option>
                                     <option value="{{ url('img/gantungan.jpeg') }}">gantungan</option>
-                                    <option value="{{ url('img/lemari2/lacikecil.png') }}">laci</option>
-                                    <option value="{{ url('img/lemari2/lacibesar.png') }}">laci 2</option>
+                                    <option value="{{ url('img/lemari2/lacikecil.png') }}">laci kecil</option>
+                                    <option value="{{ url('img/lemari2/lacibesar.png') }}">laci besar</option>
                                     
 
 
