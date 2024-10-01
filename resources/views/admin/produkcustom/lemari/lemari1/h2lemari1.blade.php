@@ -123,9 +123,9 @@
 
                             <div id="produk-div">
                                 <!--
-                                                            Initially, the image will have the background tshirt that has transparency
-                                                            So we can simply update the color with CSS or JavaScript dinamically
-                                                        -->
+                                                                    Initially, the image will have the background tshirt that has transparency
+                                                                    So we can simply update the color with CSS or JavaScript dinamically
+                                                                -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
                                 <img id="template" src="{{ url('img/lemari1/lemari1.png') }}"
                                     style="width: 100%;height: 100%;" />
@@ -180,6 +180,15 @@
 
                                 </select>
                                 <br>
+                                <div>
+                                    <h2>Detail Produk Custom</h2>
+                                    <p><strong>Jumlah Sekat Horizontal:</strong> <span id="sekatHorizontalCount"></span></p>
+                                    <p><strong>Jumlah Sekat Vertikal:</strong> <span id="sekatVerticalCount"></span></p>
+                                    <p><strong>Jumlah Gantungan:</strong> <span id="gantunganCount"></span></p>
+                                    <p><strong>Ukuran Tinggi:</strong> <span id="ukuranTinggi"></span></p>
+                                    <p><strong>Ukuran Panjang:</strong> <span id="ukuranPanjang"></span></p>
+                                    <p><strong>Total Harga:</strong> <span id="totalHarga"></span></p>
+                                </div>
 
                                 <button id="btn-beli" class="btn btn-success">Beli</button>
 
@@ -626,9 +635,45 @@
 
             // Periksa apakah ada data desain yang tersimpan di localStorage
             const savedDesign = localStorage.getItem('canvasDesign');
-            if (savedDesign) {
+
+            const canvasDesign = localStorage.getItem('canvasDesign');
+            const addonData = JSON.parse(localStorage.getItem('addonData'));
+            const ukuranData = JSON.parse(localStorage.getItem('ukuranData'));
+            const totalPrice = localStorage.getItem('totalPrice');
+
+            // Cek apakah data ada
+            if (canvasDesign && addonData && ukuranData && totalPrice) {
+                console.log('Canvas Design:', JSON.parse(canvasDesign));
+                console.log('Addon Data:', addonData);
+                console.log('Ukuran Data:', ukuranData);
+                console.log('Total Harga:', totalPrice + ' IDR');
+
+                // Contoh menampilkan data di halaman
+                document.getElementById('sekatHorizontalCount').textContent = addonData.sekatHorizontal;
+                document.getElementById('sekatVerticalCount').textContent = addonData.sekatVertical;
+                document.getElementById('gantunganCount').textContent = addonData.gantungan;
+                document.getElementById('ukuranTinggi').textContent = ukuranData.tinggi + ' cm';
+                document.getElementById('ukuranPanjang').textContent = ukuranData.panjang + ' cm';
+                document.getElementById('totalHarga').textContent = totalPrice + ' IDR';
+            } else {
+                console.error('Data tidak tersedia di localStorage');
+            }
+            if (canvasDesign) {
                 // Jika ada, konversi kembali JSON ke format object fabric
-                canvas.loadFromJSON(savedDesign, function() {
+                canvas.loadFromJSON(canvasDesign, function() {
+
+
+                    canvas.getObjects().forEach(function(obj) {
+                        obj.set({
+                            selectable: false, // Nonaktifkan agar objek tidak bisa dipilih
+                            evented: false, // Nonaktifkan semua event klik dan interaksi
+                            lockMovementX: true, // Cegah gerakan ke sumbu X
+                            lockMovementY: true, // Cegah gerakan ke sumbu Y
+                            lockScalingX: true, // Cegah pengubahan ukuran pada sumbu X
+                            lockScalingY: true, // Cegah pengubahan ukuran pada sumbu Y
+                            lockRotation: true // Cegah rotasi objek
+                        });
+                    });
                     // Render ulang setelah load
                     canvas.renderAll();
                 });

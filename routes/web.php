@@ -159,11 +159,12 @@ Route::group([
 
     Route::get('/produkCustom/tambahLemari1',[Lemari1Controller::class, 'tambahLemari1']);
     Route::post('/produkCustom/ubahDetailLemari1',[Lemari1Controller::class, 'ubahDetailLemari1']);
-    
+
     Route::get('/produkCustom/tambahLemari2',[Lemari2Controller::class, 'tambahLemari2']);
     Route::post('/produkCustom/ubahDetailLemari2',[Lemari2Controller::class, 'ubahDetailLemari2']);
 
     //TESTING PRODUK CUSTOM
+    Route::get('/produkCustom/testing/lemari1',[Lemari1Controller::class, 'testing']);
     Route::get('/produkCustom/testing', [TestController::class, 'testingfabric']);
     Route::get('/produkCustom/TestingMeja1',[TestController::class,'testingMeja1']);
 

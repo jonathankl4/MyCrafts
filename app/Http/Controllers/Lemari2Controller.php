@@ -27,16 +27,17 @@ class Lemari2Controller extends Controller
 
         if ($produk != null) {
             # code...
-            alert('produk sudah pernah ditambahkan');
+            toast('Produk Sudah Pernah ditambahkan', 'info');
             return redirect()->back();
         }
         else{
             $p = new ProdukCustomDijual();
             $p->id_toko = $user->id_toko;
             $p->nama_template = 'Lemari 2';
+            $p->kode = 'lemari2';
             $p->save();
 
-            alert("berhasil tambah");
+            Alert::success("Sukses", "Berhasil menambahkan produk");
             return redirect()->back();
         }
     }
@@ -49,12 +50,12 @@ class Lemari2Controller extends Controller
         $idProdukCustomDijual = $produk->id;
         $detail = DB::table('detail_produk_custom_dijuals')->where('id_produk_custom_dijual','=',$produk->id)->get();
         $addon = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->get();
-        
+
         $ctrdetail = false;
         $ctraddon = false;
 
         // dd($request);
-       
+
         if ($request->has('hargaJati')) {
             if (!empty($request->hargaJati)) {
                 // Update atau buat data baru jika checkbox dicentang
@@ -74,7 +75,7 @@ class Lemari2Controller extends Controller
                     ->where('jenis_kayu', 'Kayu Jati')
                     ->delete();
             }
-        } 
+        }
 
         if ($request->has('hargaMahoni')) {
             if (!empty($request->hargaMahoni)) {
@@ -93,7 +94,7 @@ class Lemari2Controller extends Controller
                     ->where('jenis_kayu', 'Kayu Mahoni')
                     ->delete();
             }
-        } 
+        }
 
 
         if ($request->has('hargaPinus')) {
@@ -234,7 +235,7 @@ class Lemari2Controller extends Controller
 
 
         // Proses input untuk Pintu
-        
+
         if ($request->has('pintu1')) {
             if (!empty($request->pintu1)) {
                 DetailAddonDijual::updateOrCreate(
@@ -297,7 +298,7 @@ class Lemari2Controller extends Controller
         }
 
         Alert::success('success', 'berhasil save detail');
-        
+
         return redirect()->back();
 
     }

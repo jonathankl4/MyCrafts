@@ -205,9 +205,9 @@
                                     <option value="{{ url('img/sekatHorizontal.jpeg') }}">sekat horizontal</option>
                                     <option value="{{ url('img/sekatvertical.jpeg') }}">sekat vertical </option>
                                     <option value="{{ url('img/gantungan.jpeg') }}">gantungan</option>
-                                    <option value="{{ url('img/lemari2/lacikecil.png') }}">laci kecil</option>
-                                    <option value="{{ url('img/lemari2/lacibesar.png') }}">laci besar</option>
-                                    
+                                    <option value="{{ url('img/lemari2/lacikecil2.png') }}">laci kecil</option>
+                                    <option value="{{ url('img/lemari2/lacibesar2.png') }}">laci besar</option>
+
 
 
                                 </select>
@@ -224,10 +224,10 @@
                                     <option value="">pilih.</option>
                                     <option value="">tanpa pintu</option>
 
-                                   
-                                    
+
+
                                     <option value="{{url('img/lemari1/pintugeser.jpg')}}">pintu geser</option>
-                                    <option value="{{url('img/lemari2/pintu1.jpg')}}">pintu 1</option>
+                                    <option value="{{url('img/lemari2/pintu1.png')}}">pintu 1</option>
                                     <option value="{{url('img/lemari2/pintu2.jpeg')}}">pintu 2</option>
 
 
@@ -235,7 +235,7 @@
                                 <br>
 
                                 <button id="btn-beli" class="btn btn-success">Beli</button>
-                                
+
                             </div>
                             <br>
 
@@ -283,8 +283,8 @@
     <script>
         let canvas = new fabric.Canvas('tshirt-canvas');
         let currentDoor = null;
-        
-        
+
+
         canvas.on('object:moving', function(e) {
             var obj = e.target;
             var canvasWidth = canvas.getWidth();
@@ -376,7 +376,7 @@
 
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
         function updatePintu(imageURL){
-            
+
 
             if(currentDoor !== null){
                 canvas.remove(currentDoor);
@@ -497,7 +497,7 @@
                 } else if (imageURL.includes('lacikecil')) {
                     // Skala khusus untuk gantungan
                     scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
-                    scaleY = 0.2; // Lebih tipis pada sumbu Y untuk gantungan
+                    scaleY = 0.13; // Lebih tipis pada sumbu Y untuk gantungan
                     counterlacikecil++; // Tambah counter gantungan
                     img.setControlsVisibility({
                         mt: false,
@@ -524,7 +524,7 @@
                         bl: false,
                         br: false
                     });
-                } 
+                }
 
                 // Terapkan skala yang ditentukan pada gambar
                 img.scaleX = scaleX;
@@ -538,10 +538,10 @@
                 // Sembunyikan kontrol scaling berdasarkan orientasi gambar
                 if (imgHeight > imgWidth) {
                     // Jika gambar vertikal, sembunyikan kontrol scaling horizontal
-                    
+
                 } else {
                     // Jika gambar horizontal, sembunyikan kontrol scaling vertikal
-                    
+
                 }
 
                 // Event listener untuk mencegah gambar di-scale melebihi batas kanvas
@@ -606,7 +606,7 @@
             });
         }
 
-        
+
         // Event listener untuk tombol tambah gambar
         document.getElementById('btntambah').addEventListener('click', function() {
             updateAddOn(document.getElementById('tshirt-design').value);
@@ -722,7 +722,7 @@
         });
 
 
-        
+
     </script>
 
 @endsection

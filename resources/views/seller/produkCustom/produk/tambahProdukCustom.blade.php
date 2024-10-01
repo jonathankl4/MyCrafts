@@ -75,7 +75,7 @@
 
                                 </tr>
                                 <tr>
-                                    <td>1</td>
+                                    <td>2</td>
                                     <td style="font-size: 16px">
                                         <img
                                             src="{{ url('/img/lemari2/lemari2.png') }}"

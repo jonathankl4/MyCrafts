@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->integer("id_toko");
             $table->string('nama_template');
+            $table->string('kode');
+
             $table->timestamps();
         });
     }

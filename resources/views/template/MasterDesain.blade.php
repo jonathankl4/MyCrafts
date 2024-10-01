@@ -160,6 +160,8 @@
 
     @yield('script')
 
+    
+
 
   </body>
 </html>

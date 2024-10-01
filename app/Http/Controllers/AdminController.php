@@ -25,7 +25,7 @@ class AdminController extends Controller
 
         // return view("admin.userlog",["user"])
         $user = $this->getUserLog();
-        
+
         // dd($user);
         return view("admin.dashboard", ['user'=>$user]);
         // dd($user);
@@ -34,7 +34,13 @@ class AdminController extends Controller
 
         $user = $this->getUserLog();
 
-        return view('admin.produkcustom.lemari.lemari1.h1lemari1',["user"=>$user]);
+       $addonPrices = [
+        'sekatHorizontal' => 1111,
+        'sekatvertical' => 2222,
+        'gantungan' => 3333
+       ];
+
+        return view('admin.produkcustom.lemari.lemari1.h1lemari1',["user"=>$user, 'harga'=>$addonPrices]);
     }
     public function h2lemari1(){
 
@@ -91,7 +97,7 @@ class AdminController extends Controller
     }
 
     public function tambahTemplate(Request $request){
-        
+
 
         $foto = "";
         $namaFileGambar = "";
@@ -104,7 +110,7 @@ class AdminController extends Controller
 
 
         $json_data = [
-            
+
                 [
                     'jenis_kayu'=> 'Kayu Jati',
                     'harga'=> $request->hargakayujati
@@ -121,8 +127,8 @@ class AdminController extends Controller
                     'jenis_kayu'=> 'Kayu Sungkai',
                     'harga'=> $request->hargakayusungkai
                 ],
-                
-            
+
+
         ];
 
 
@@ -134,10 +140,10 @@ class AdminController extends Controller
         toast("Berhasil tambah Template");
 
         return redirect()->back();
-        
+
     }
     public function listAddOn(){
-        
+
         $user = $this->getUserLog();
         $daftarAddOn = DB::table('');
     }

@@ -5,7 +5,7 @@
 
 @endsection
 
-@section('title', 'Dashboard')
+@section('title', 'Coba Custom Lemari 1')
 
 @section('style')
     <style>
@@ -97,12 +97,12 @@
 
 @section('sidebar')
 
-    @include('admin.template.sidebar')
+    @include('seller.template.sidebar')
 
 @endsection
 
 @section('navbar')
-    @include('admin.template.navbar')
+    @include('seller.template.navbar')
 @endsection
 
 
@@ -111,7 +111,7 @@
         <!-- Content -->
 
         <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
-            <h2 class="fw-bold py-3 mb-4">Custom Mebel</h2>
+            <h2 class="fw-bold py-3 mb-4">Custom Mebel Halaman 2</h2>
 
             <div class="row">
 
@@ -165,64 +165,34 @@
                     <div class="card mb-4">
                         <h5 class="card-header"><b>Kustomisasi</b></h5>
                         <div style="padding: 15px">
+
                             <div class="col-md-6">
+                                <label for="pintu-design">Pilih Pintu lemari</label>
+                                <select id="pintu-design" class="form-select">
+                                    <option value="">pilih.</option>
+                                    <option value="">tanpa pintu</option>
 
-                                <div>
-                                    <label for="jeniskayu">Jenis Kayu</label>
-                                    <select name="" id="jeniskayu" class="form-select">
-                                        <option value="">Jati</option>
-                                        <option value="">Mahoni</option>
-                                        <option value="">Pinus</option>
-                                        <option value="">Sungkai</option>
-                                    </select>
-                                </div>
 
-                                <div>
-                                    <label for="input-vertical-size">Ubah ukuran Tinggi (cm):</label>
-                                    <input type="number" id="input-vertical-size" class="form-control" value="150">
-                                </div>
-
-                                <div>
-                                    <label for="input-horizontal-size">Ubah ukuran panjang (cm):</label>
-                                    <input type="number" id="input-horizontal-size" class="form-control" value="70">
-                                </div>
-                                <br>
-                                <button id="update-size" class="btn btn-primary">Update Ukuran</button>
-
-                            </div>
-
-                            <div id="counters">
-                                <div>Jumlah Sekat Horizontal: <span id="count-sekat-horizontal">0</span></div>
-                                <div>Jumlah Sekat Vertical: <span id="count-sekat-vertical">0</span></div>
-                                <div>Jumlah Gantungan: <span id="count-gantungan">0</span></div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="tshirt-design"><b> Add On</b></label>
-                                <select id="tshirt-design" class="form-select">
-                                    <option value="">pilih...</option>
-
-                                    <option value="{{ url('img/sekatHorizontal.jpeg') }}">sekat horizontal</option>
-                                    <option value="{{ url('img/sekatvertical.jpeg') }}">sekat vertical </option>
-                                    <option value="{{ url('img/gantungan.jpeg') }}">gantungan</option>
-
+                                    <option value="{{ url('img/lemari1/pintu1.jpeg') }}">pintu</option>
+                                    <option value="{{ url('img/lemari1/pintu2.jpg') }}">pintu2</option>
+                                    <option value="{{ url('img/lemari1/pintugeser.jpg') }}">pintu geser</option>
 
 
                                 </select>
                                 <br>
-                                <button id="btntambah" class="btn btn-primary">tambah</button>
+                                <div>
+                                    <h2>Detail Produk Custom</h2>
+                                    <p><strong>Jumlah Sekat Horizontal:</strong> <span id="sekatHorizontalCount"></span></p>
+                                    <p><strong>Jumlah Sekat Vertikal:</strong> <span id="sekatVerticalCount"></span></p>
+                                    <p><strong>Jumlah Gantungan:</strong> <span id="gantunganCount"></span></p>
+                                    <p><strong>Ukuran Tinggi:</strong> <span id="ukuranTinggi"></span></p>
+                                    <p><strong>Ukuran Panjang:</strong> <span id="ukuranPanjang"></span></p>
+                                    <p><strong>Total Harga:</strong> <span id="totalHarga"></span></p>
+                                </div>
 
-                                <button id="remove" class="btn btn-danger">delete</button>
-                                <button id="saveDiv" class="btn btn-success">Save AddOn</button>
+                                <button id="btn-beli" class="btn btn-success">Beli</button>
+
                             </div>
-                            <br><br>
-                            <div id="total-price-container">
-                                <h5>Total Harga: <span id="total-price">0</span> IDR</h5>
-                            </div>
-
-                            {{-- <button id="btn-beli" class="btn btn-success">Next</button> --}}
-                            {{-- <a href="#" id="next-page" class="btn btn-primary">Next</a> --}}
-                            <a href="#" id="next-page" class="btn btn-primary">Next</a>
-
                             <br>
 
 
@@ -353,30 +323,23 @@
         }
 
         // Event listener untuk tombol update ukuran
-        document.getElementById('update-size').addEventListener('click', function() {
-            updateDimensions();
-        });
+        // document.getElementById('update-size').addEventListener('click', function() {
+        //     updateDimensions();
+        // });
 
 
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
+        function updatePintu(imageURL) {
 
-        // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
-        let addonPrices = @json($harga);
-        //    console.log(addonPrices);
 
-        // Variabel untuk menyimpan total harga
-        let totalPrice = 0;
+            if (currentDoor !== null) {
+                canvas.remove(currentDoor);
+                currentDoor = null;
+            }
 
-        // Fungsi untuk memperbarui total harga di UI
-        function updateTotalPrice() {
-            document.getElementById('total-price').textContent = totalPrice;
-        }
-
-        // Fungsi untuk menambahkan add-on
-        function updateAddOn(imageURL) {
-            if (!imageURL) {
-                canvas.clear();
-                canvas.renderAll();
+            // jika memilih tanpa pintu maka akan menjalankan perintah dibawah ini sehingga tidak ada pintu baru yang ditambah
+            if (!imageURL || imageURL === "") {
+                return;
             }
 
             fabric.Image.fromURL(imageURL, function(img) {
@@ -386,35 +349,87 @@
                 var imgWidth = img.width;
                 var imgHeight = img.height;
 
-                var scaleX = 1;
-                var scaleY = 1;
 
-                if (imageURL.includes('sekatHorizontal')) {
+                if (imageURL.includes('pintu1')) {
                     scaleX = canvasWidth / imgWidth;
-                    scaleY = 0.3;
-                    counterSekatHorizontal++;
-                    totalPrice += addonPrices.sekatHorizontal; // Tambahkan harga sekatHorizontal
-                } else if (imageURL.includes('sekatvertical')) {
-                    scaleX = 0.3;
                     scaleY = canvasHeight / imgHeight;
-                    counterSekatVertical++;
-                    totalPrice += addonPrices.sekatvertical; // Tambahkan harga sekatVertical
-                } else if (imageURL.includes('gantungan')) {
+                } else if (imageURL.includes('pintu2')) {
                     scaleX = canvasWidth / imgWidth;
-                    scaleY = 0.5;
-                    counterGantungan++;
-                    totalPrice += addonPrices.gantungan; // Tambahkan harga gantungan
+                    scaleY = canvasHeight / imgHeight;
+                } else if (imageURL.includes('pintugeser')) {
+                    scaleX = canvasWidth / imgWidth;
+                    scaleY = canvasHeight / imgHeight;
                 }
 
                 img.scaleX = scaleX;
                 img.scaleY = scaleY;
+                img.setControlsVisibility({
+                    mt: false,
+                    mb: false,
+                    ml: false,
+                    mr: false,
+                    tl: false,
+                    tr: false,
+                    bl: false,
+                    br: false
+                });
 
-                updateCounters();
-                updateTotalPrice(); // Perbarui total harga di UI
+                canvas.add(img);
+                currentDoor = img;
+                canvas.renderAll();
+            });
+        }
+        // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
+        function updateAddOn(imageURL) {
+            if (!imageURL) {
+                canvas.clear();
+                canvas.renderAll();
 
-                img.lockRotation = true;
 
+
+            }
+
+            fabric.Image.fromURL(imageURL, function(img) {
+                var canvasWidth = canvas.getWidth();
+                var canvasHeight = canvas.getHeight();
+
+                var imgWidth = img.width;
+                var imgHeight = img.height;
+
+                // Default scale values
+                var scaleX = 1;
+                var scaleY = 1;
+
+                // Tentukan skala berdasarkan jenis gambar
+                if (imageURL.includes('sekatHorizontal')) {
+                    // Skala khusus untuk sekat horizontal
+                    scaleX = canvasWidth / imgWidth; // Sesuaikan lebar dengan kanvas
+                    scaleY = 0.3; // Lebih tipis pada sumbu Y untuk sekat horizontal
+                    counterSekatHorizontal++; // Tambah counter sekat horizontal
+                } else if (imageURL.includes('sekatvertical')) {
+                    // Skala khusus untuk sekat vertical
+                    scaleX = 0.3; // Lebih tipis pada sumbu X untuk sekat vertical
+                    scaleY = canvasHeight / imgHeight; // Sesuaikan tinggi dengan kanvas
+                    counterSekatVertical++; // Tambah counter sekat vertical
+                } else if (imageURL.includes('gantungan')) {
+                    // Skala khusus untuk gantungan
+                    scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
+                    scaleY = 0.5; // Lebih tipis pada sumbu Y untuk gantungan
+                    counterGantungan++; // Tambah counter gantungan
+                }
+
+                // Terapkan skala yang ditentukan pada gambar
+                img.scaleX = scaleX;
+                img.scaleY = scaleY;
+
+                updateCounters(); // Perbarui tampilan counter di UI
+
+                // Kunci rotasi gambar
+                img.lockRotation = true; // Disable rotation
+
+                // Sembunyikan kontrol scaling berdasarkan orientasi gambar
                 if (imgHeight > imgWidth) {
+                    // Jika gambar vertikal, sembunyikan kontrol scaling horizontal
                     img.setControlsVisibility({
                         mt: true,
                         mb: true,
@@ -426,6 +441,7 @@
                         br: false
                     });
                 } else {
+                    // Jika gambar horizontal, sembunyikan kontrol scaling vertikal
                     img.setControlsVisibility({
                         mt: false,
                         mb: false,
@@ -438,9 +454,11 @@
                     });
                 }
 
+                // Event listener untuk mencegah gambar di-scale melebihi batas kanvas
                 img.on('scaling', function(e) {
                     var obj = e.target;
 
+                    // Cek apakah gambar melebihi batas kanvas
                     if (obj.getScaledWidth() > canvasWidth) {
                         obj.scaleX = canvasWidth / obj.width;
                     }
@@ -451,6 +469,7 @@
 
                     obj.setCoords();
                     canvas.renderAll();
+                    // Update koordinat setelah scaling
                 });
 
                 canvas.on('object:moving', function(e) {
@@ -473,27 +492,24 @@
                         obj.top = canvasHeight - obj.height * obj.scaleY;
                     }
 
-                    obj.setCoords();
+                    obj.setCoords(); // Update koordinat setelah objek dipindahkan
                     canvas.renderAll();
+
                 });
 
                 // Tambahkan gambar ke kanvas
                 canvas.add(img);
 
-                // Event listener untuk mengurangi counter dan total harga saat gambar dihapus
+                // Event listener untuk mengurangi counter saat gambar dihapus
                 img.on('removed', function() {
                     if (imageURL.includes('sekatHorizontal')) {
-                        counterSekatHorizontal--;
-                        totalPrice -= addonPrices.sekatHorizontal; // Kurangi harga sekatHorizontal
+                        counterSekatHorizontal--; // Kurangi counter sekat horizontal
                     } else if (imageURL.includes('sekatvertical')) {
-                        counterSekatVertical--;
-                        totalPrice -= addonPrices.sekatvertical; // Kurangi harga sekatVertical
+                        counterSekatVertical--; // Kurangi counter sekat vertical
                     } else if (imageURL.includes('gantungan')) {
-                        counterGantungan--;
-                        totalPrice -= addonPrices.gantungan; // Kurangi harga gantungan
+                        counterGantungan--; // Kurangi counter gantungan
                     }
-                    updateCounters();
-                    updateTotalPrice(); // Perbarui total harga di UI
+                    updateCounters(); // Perbarui tampilan counter di UI
                 });
 
                 canvas.renderAll();
@@ -502,72 +518,25 @@
 
 
         // Event listener untuk tombol tambah gambar
-        document.getElementById('btntambah').addEventListener('click', function() {
-            updateAddOn(document.getElementById('tshirt-design').value);
+        // document.getElementById('btntambah').addEventListener('click', function() {
+        //     updateAddOn(document.getElementById('tshirt-design').value);
+        // }, false);
+
+        document.getElementById('pintu-design').addEventListener('change', function() {
+            updatePintu(document.getElementById('pintu-design').value);
         }, false);
 
-
-
         // Fungsi untuk menghapus objek ketika tombol DEL ditekan
+        // document.getElementById('remove').addEventListener('click', function() {
+        //     var object = canvas.getActiveObject();
+        //     if (!object) {
+        //         alert('Pilih Add-On yang ingin dihapus');
+        //         return;
+        //     }
+        //     canvas.remove(object);; // Hapus gambar dari kanvas
+        // });
 
-        document.getElementById('remove').addEventListener('click', function() {
-            var object = canvas.getActiveObject();
-            if (!object) {
-                alert('Pilih Add-On yang ingin dihapus');
-                return;
-            }
-            canvas.remove(object);
-            canvas.renderAll();
-        });
-
-        document.getElementById('saveDiv').addEventListener('click', function() {
-            // Ambil elemen produk-div
-            var element = document.getElementById('produk-div');
-
-            // Gunakan html2canvas untuk membuat screenshot dari elemen
-            html2canvas(element).then(function(canvas) {
-                // Ubah canvas menjadi URL gambar base64
-                var dataURL = canvas.toDataURL('image/png');
-
-                fetch('/seller/save-image', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                .getAttribute('content')
-                        },
-                        body: JSON.stringify({
-                            image: dataURL
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('GAmbar berhasil disimpan');
-                        } else {
-                            alert("gambar gagal disimpan");
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Terjadi kesalahan saat mengirim gambar');
-                    });
-
-
-                // ini untuk save foto ke download
-                // Buat elemen link sementara
-                // var link = document.createElement('a');
-                // link.href = dataURL;
-
-                // Set nama file untuk download
-                // link.download = 'produk-div-image.png';
-
-                // Trigger klik untuk download gambar
-                // link.click();
-            });
-        });
-
-        // document.getElementById('btn-beli').addEventListener('click', function() {
+        // document.getElementById('saveDiv').addEventListener('click', function() {
         //     // Ambil elemen produk-div
         //     var element = document.getElementById('produk-div');
 
@@ -614,35 +583,102 @@
         //     });
         // });
 
-        document.getElementById('next-page').addEventListener('click', function() {
-            // Ambil data dari canvas dalam format JSON
-            const canvasDesign = canvas.toJSON();
+        document.getElementById('btn-beli').addEventListener('click', function() {
+            // Ambil elemen produk-div
+            var element = document.getElementById('produk-div');
 
-            // Simpan JSON ke localStorage untuk digunakan di halaman kedua
-            localStorage.setItem('canvasDesign', JSON.stringify(canvasDesign));
+            // Gunakan html2canvas untuk membuat screenshot dari elemen
+            html2canvas(element).then(function(canvas) {
+                // Ubah canvas menjadi URL gambar base64
+                var dataURL = canvas.toDataURL('image/png');
 
-            const addonData = {
-                sekatHorizontal: counterSekatHorizontal,
-                sekatVertical: counterSekatVertical,
-                gantungan: counterGantungan
-            };
-            localStorage.setItem('addonData', JSON.stringify(addonData));
+                fetch('/seller/save-image', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                .getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            image: dataURL
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('GAmbar berhasil disimpan');
+                        } else {
+                            alert("gambar gagal disimpan");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat mengirim gambar');
+                    });
 
-            // Simpan data ukuran
-            const ukuranData = {
-                tinggi: currentVerticalSize,
-                panjang: currentHorizontalSize
-            };
-            localStorage.setItem('ukuranData', JSON.stringify(ukuranData));
 
-            // Simpan total harga
-            localStorage.setItem('totalPrice', totalPrice);
+                // ini untuk save foto ke download
+                // Buat elemen link sementara
+                // var link = document.createElement('a');
+                // link.href = dataURL;
 
-            // Redirect ke halaman kedua
-            window.location.href = "{{ url('/masteruser/produkCustom/h2lemari1') }}";
+                // Set nama file untuk download
+                // link.download = 'produk-div-image.png';
+
+                // Trigger klik untuk download gambar
+                // link.click();
+            });
         });
 
-        
+        document.addEventListener('DOMContentLoaded', function() {
+            // let canvas = new fabric.Canvas('tshirt-canvas');
+
+            // Periksa apakah ada data desain yang tersimpan di localStorage
+            const savedDesign = localStorage.getItem('canvasDesign');
+
+            const canvasDesign = localStorage.getItem('canvasDesign');
+            const addonData = JSON.parse(localStorage.getItem('addonData'));
+            const ukuranData = JSON.parse(localStorage.getItem('ukuranData'));
+            const totalPrice = localStorage.getItem('totalPrice');
+
+            // Cek apakah data ada
+            if (canvasDesign && addonData && ukuranData && totalPrice) {
+                console.log('Canvas Design:', JSON.parse(canvasDesign));
+                console.log('Addon Data:', addonData);
+                console.log('Ukuran Data:', ukuranData);
+                console.log('Total Harga:', totalPrice + ' IDR');
+
+                // Contoh menampilkan data di halaman
+                document.getElementById('sekatHorizontalCount').textContent = addonData.sekatHorizontal;
+                document.getElementById('sekatVerticalCount').textContent = addonData.sekatVertical;
+                document.getElementById('gantunganCount').textContent = addonData.gantungan;
+                document.getElementById('ukuranTinggi').textContent = ukuranData.tinggi + ' cm';
+                document.getElementById('ukuranPanjang').textContent = ukuranData.panjang + ' cm';
+                document.getElementById('totalHarga').textContent = totalPrice + ' IDR';
+            } else {
+                console.error('Data tidak tersedia di localStorage');
+            }
+            if (canvasDesign) {
+                // Jika ada, konversi kembali JSON ke format object fabric
+                canvas.loadFromJSON(canvasDesign, function() {
+
+
+                    canvas.getObjects().forEach(function(obj) {
+                        obj.set({
+                            selectable: false, // Nonaktifkan agar objek tidak bisa dipilih
+                            evented: false, // Nonaktifkan semua event klik dan interaksi
+                            lockMovementX: true, // Cegah gerakan ke sumbu X
+                            lockMovementY: true, // Cegah gerakan ke sumbu Y
+                            lockScalingX: true, // Cegah pengubahan ukuran pada sumbu X
+                            lockScalingY: true, // Cegah pengubahan ukuran pada sumbu Y
+                            lockRotation: true // Cegah rotasi objek
+                        });
+                    });
+                    // Render ulang setelah load
+                    canvas.renderAll();
+                });
+            }
+        });
     </script>
 
 @endsection

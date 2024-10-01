@@ -66,7 +66,7 @@
                                 <td>
 
                                     <a href="{{url('/seller/produkCustom/detailProdukCustom/'.$daftarProduk[$i]->id)}}" class="btn btn-success">Detail</a>
-                                    <a href="{{url('/seller/produkCustom/Testing')}}" class="btn btn-dark">Coba Custom</a>
+                                    <a href="{{url('/seller/produkCustom/testing/'.$daftarProduk[$i]->kode)}}" class="btn btn-dark">Coba Custom</a>
                                 </td>
 
                             </tr>

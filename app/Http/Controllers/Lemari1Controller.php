@@ -21,7 +21,7 @@ class Lemari1Controller extends Controller
         return $user;
     }
 
-    
+
     public function tambahLemari1(){
         $user = $this->getLogUser();
 
@@ -37,11 +37,44 @@ class Lemari1Controller extends Controller
             $p = new ProdukCustomDijual();
             $p->id_toko = $user->id_toko;
             $p->nama_template = 'Lemari 1';
+            $p->kode = 'lemari1';
             $p->save();
 
             Alert::success("Sukses", "Berhasil menambahkan produk");
             return redirect()->back();
         }
+
+    }
+
+    public function testing(){
+        $user = $this->getLogUser();
+        $produk = DB::table('produk_custom_dijuals')->where('nama_template','=','Lemari 1')->where('id_toko','=',$user->id_toko)->first();
+
+        $idProdukCustomDijual = $produk->id;
+        $detail = DB::table('detail_produk_custom_dijuals')->where('id_produk_custom_dijual','=',$produk->id)->get();
+        $addon = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->get();
+        // dd($addon);
+
+        
+        $addonPrices = [];
+
+        foreach($addon as $item){
+            if ($item->nama_addon === 'Sekat Horizontal') {
+                $addonPrices['sekatHorizontal'] = $item->harga;
+            } elseif ($item->nama_addon === 'Sekat Vertical') {
+                $addonPrices['sekatvertical'] = $item->harga;
+            } elseif ($item->nama_addon === 'Gantungan') {
+                $addonPrices['gantungan'] = $item->harga;
+            }
+        }
+
+
+
+
+        return view('seller.produkCustom.produk.testing.lemari1.h1lemari1', ['user'=>$user, 'detail'=>$detail, 'addon'=>$addonPrices]);
+    }
+
+    public function testing2(){
 
     }
 
@@ -53,12 +86,12 @@ class Lemari1Controller extends Controller
         $idProdukCustomDijual = $produk->id;
         $detail = DB::table('detail_produk_custom_dijuals')->where('id_produk_custom_dijual','=',$produk->id)->get();
         $addon = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->get();
-        
+
         $ctrdetail = false;
         $ctraddon = false;
 
         // dd($request);
-       
+
         if ($request->has('hargaJati')) {
             if (!empty($request->hargaJati)) {
                 // Update atau buat data baru jika checkbox dicentang
@@ -78,7 +111,7 @@ class Lemari1Controller extends Controller
                     ->where('jenis_kayu', 'Kayu Jati')
                     ->delete();
             }
-        } 
+        }
 
         if ($request->has('hargaMahoni')) {
             if (!empty($request->hargaMahoni)) {
@@ -97,7 +130,7 @@ class Lemari1Controller extends Controller
                     ->where('jenis_kayu', 'Kayu Mahoni')
                     ->delete();
             }
-        } 
+        }
 
 
         if ($request->has('hargaPinus')) {
@@ -200,7 +233,7 @@ class Lemari1Controller extends Controller
 
 
         // Proses input untuk Pintu
-        
+
         if ($request->has('pintu1')) {
             if (!empty($request->pintu1)) {
                 DetailAddonDijual::updateOrCreate(
@@ -263,7 +296,7 @@ class Lemari1Controller extends Controller
         }
 
         Alert::success('success', 'berhasil save detail');
-        
+
         return redirect()->back();
 
     }

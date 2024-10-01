@@ -5,7 +5,7 @@
 
 @endsection
 
-@section('title', 'Dashboard')
+@section('title', 'Coba Custom Lemari 1')
 
 @section('style')
     <style>
@@ -97,12 +97,12 @@
 
 @section('sidebar')
 
-    @include('admin.template.sidebar')
+    @include('seller.template.sidebar')
 
 @endsection
 
 @section('navbar')
-    @include('admin.template.navbar')
+    @include('seller.template.navbar')
 @endsection
 
 
@@ -115,53 +115,53 @@
 
             <div class="row">
 
-                <div class="col-md-6">
-                    <div class="card mb-4">
+                <div class="col-md-7">
+                    <div class="card mb-4" style="padding: 15px">
                         <h5 class="card-header">Desain</h5>
 
-                        <div class="card" style="padding: 15px">
 
-                            <div id="produk-div">
-                                <!--
-                                                                    Initially, the image will have the background tshirt that has transparency
-                                                                    So we can simply update the color with CSS or JavaScript dinamically
-                                                                -->
-                                {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
-                                <img id="template" src="{{ url('img/lemari1/lemari1.png') }}"
-                                    style="width: 100%;height: 100%;" />
 
-                                <div id="drawingArea" class="drawing-area">
-                                    <div class="canvas-container" style="position: relative">
-                                        <canvas id="tshirt-canvas" width="390px" height="480"
-                                            style="border-style: solid; border-width: 2px"></canvas>
+                        <div id="produk-div">
+                            <!--
+                                                                            Initially, the image will have the background tshirt that has transparency
+                                                                            So we can simply update the color with CSS or JavaScript dinamically
+                                                                        -->
+                            {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
+                            <img id="template" src="{{ url('img/lemari1/lemari1.png') }}"
+                                style="width: 100%;height: 100%;" />
 
-                                        <div id="right-line"
-                                            style="position: absolute; right: -240px; top: -20px; height:550px; width: 2px; background-color: black;">
-                                        </div>
-                                        <div id="right-text"
-                                            style="position: absolute; right: -320px; top: 50%; transform: translateY(-50%); font-size: 20px;">
-                                            150cm</div>
+                            <div id="drawingArea" class="drawing-area">
+                                <div class="canvas-container" style="position: relative">
+                                    <canvas id="tshirt-canvas" width="390px" height="480"
+                                        style="border-style: solid; border-width: 2px"></canvas>
 
-                                        <!-- Garis horizontal di bawah untuk 70cm -->
-                                        <div id="bottom-line"
-                                            style="position: absolute; left: -20px; bottom: -130px; width: 430px; height: 2px; background-color: black;">
-                                        </div>
-                                        <div id="bottom-text"
-                                            style="position: absolute; left: 50%; bottom: -160px; transform: translateX(-50%); font-size: 20px;">
-                                            70cm</div>
+                                    <div id="right-line"
+                                        style="position: absolute; right: -240px; top: -20px; height:550px; width: 2px; background-color: black;">
                                     </div>
+                                    <div id="right-text"
+                                        style="position: absolute; right: -320px; top: 50%; transform: translateY(-50%); font-size: 20px;">
+                                        150cm</div>
+
+                                    <!-- Garis horizontal di bawah untuk 70cm -->
+                                    <div id="bottom-line"
+                                        style="position: absolute; left: -20px; bottom: -130px; width: 430px; height: 2px; background-color: black;">
+                                    </div>
+                                    <div id="bottom-text"
+                                        style="position: absolute; left: 50%; bottom: -160px; transform: translateX(-50%); font-size: 20px;">
+                                        70cm</div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div style="height: 40px">
-
-                            </div>
+                        <div style="height: 40px">
 
                         </div>
 
+
+
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="card mb-4">
                         <h5 class="card-header"><b>Kustomisasi</b></h5>
                         <div style="padding: 15px">
@@ -170,10 +170,13 @@
                                 <div>
                                     <label for="jeniskayu">Jenis Kayu</label>
                                     <select name="" id="jeniskayu" class="form-select">
-                                        <option value="">Jati</option>
-                                        <option value="">Mahoni</option>
+                                        @for ($i = 0; $i < count($detail); $i++)
+                                            <option value="{{ $detail[$i]->id }}"> {{ $detail[$i]->jenis_kayu }} (
+                                                Rp.{{ number_format($detail[$i]->harga) }} )</option>
+                                        @endfor
+                                        {{-- <option value="">Mahoni</option>
                                         <option value="">Pinus</option>
-                                        <option value="">Sungkai</option>
+                                        <option value="">Sungkai</option> --}}
                                     </select>
                                 </div>
 
@@ -333,6 +336,8 @@
         let currentVerticalSize = 150;
         let currentHorizontalSize = 70;
 
+        let selectedKayuPrice = 0;
+
         // Fungsi untuk mengupdate garis dan teks
         function updateDimensions() {
             // Ambil nilai baru dari input
@@ -353,7 +358,14 @@
         }
 
         // Event listener untuk tombol update ukuran
-        document.getElementById('update-size').addEventListener('click', function() {
+        // document.getElementById('update-size').addEventListener('click', function() {
+        //     updateDimensions();
+        // });
+
+        document.getElementById('input-vertical-size').addEventListener('change', function() {
+            updateDimensions();
+        });
+        document.getElementById('input-horizontal-size').addEventListener('change', function() {
             updateDimensions();
         });
 
@@ -361,16 +373,49 @@
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
 
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
-        let addonPrices = @json($harga);
-        //    console.log(addonPrices);
+        let kayuData = @json($detail);
+        let addonPrices = @json($addon);
+        console.log(jeniskayu);
+        console.log(addonPrices);
+
 
         // Variabel untuk menyimpan total harga
+        let hargakayu = 0;
         let totalPrice = 0;
 
+
         // Fungsi untuk memperbarui total harga di UI
-        function updateTotalPrice() {
-            document.getElementById('total-price').textContent = totalPrice;
+        function updateTotalPrice(selectedKayuPrice) {
+            hargakayu = parseInt(selectedKayuPrice);
+            let finalPrice = totalPrice + parseInt(selectedKayuPrice);
+            document.getElementById('total-price').textContent = finalPrice;
         }
+
+        function updateTotalPrice2(){
+             let finalPrice = totalPrice + hargakayu;
+            document.getElementById('total-price').textContent = finalPrice;
+        }
+
+        // Event listener untuk dropdown jenis kayu
+        document.getElementById('jeniskayu').addEventListener('change', function() {
+            let selectedKayuId = this.value;
+
+            // Cari data kayu berdasarkan id di array kayuData
+            let selectedKayu = kayuData.find(kayu => kayu.id == selectedKayuId);
+
+            // Jika data kayu ditemukan, ambil jenis kayu dan harga
+            if (selectedKayu) {
+                let selectedKayuType = selectedKayu.jenis_kayu;
+                let selectedKayuPrice = selectedKayu.harga;
+
+                // Perbarui total harga
+                updateTotalPrice(selectedKayuPrice);
+
+                // Contoh log jenis kayu dan harga yang dipilih
+                console.log("Jenis kayu yang dipilih:", selectedKayuType);
+                console.log("Harga kayu yang dipilih:", selectedKayuPrice);
+            }
+        });
 
         // Fungsi untuk menambahkan add-on
         function updateAddOn(imageURL) {
@@ -410,7 +455,7 @@
                 img.scaleY = scaleY;
 
                 updateCounters();
-                updateTotalPrice(); // Perbarui total harga di UI
+                updateTotalPrice2(); // Perbarui total harga di UI
 
                 img.lockRotation = true;
 
@@ -493,7 +538,7 @@
                         totalPrice -= addonPrices.gantungan; // Kurangi harga gantungan
                     }
                     updateCounters();
-                    updateTotalPrice(); // Perbarui total harga di UI
+                    updateTotalPrice2(); // Perbarui total harga di UI
                 });
 
                 canvas.renderAll();
@@ -641,8 +686,6 @@
             // Redirect ke halaman kedua
             window.location.href = "{{ url('/masteruser/produkCustom/h2lemari1') }}";
         });
-
-        
     </script>
 
 @endsection

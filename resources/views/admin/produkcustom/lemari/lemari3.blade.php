@@ -127,7 +127,7 @@
                                                         So we can simply update the color with CSS or JavaScript dinamically
                                                     -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
-                                <img id="template" src="{{ url('img/lemari3/lemari3.png') }}"
+                                <img id="template" src="{{ url('img/lemari3/lemari3baru.png') }}"
                                     style="width: 100%;height: 100%;" />
 
                                 <div id="drawingArea" class="drawing-area">
@@ -205,9 +205,9 @@
                                     <option value="{{ url('img/sekatHorizontal.jpeg') }}">sekat horizontal</option>
                                     <option value="{{ url('img/sekatvertical.jpeg') }}">sekat vertical </option>
                                     <option value="{{ url('img/gantungan.jpeg') }}">gantungan</option>
-                                    <option value="{{ url('img/lemari2/lacikecil.png') }}">laci</option>
-                                    <option value="{{ url('img/lemari2/lacibesar.png') }}">laci 2</option>
-                                    
+                                    <option value="{{ url('img/lemari2/lacikecil2.png') }}">laci</option>
+                                    <option value="{{ url('img/lemari2/lacibesar2.png') }}">laci 2</option>
+
 
 
                                 </select>
@@ -224,10 +224,10 @@
                                     <option value="">pilih.</option>
                                     <option value="">tanpa pintu</option>
 
-                                   
-                            
+
+
                                     <option value="{{url('img/lemari1/pintugeser.jpg')}}">pintu 1</option>
-                                    
+
                                     <option value="{{url('img/lemari2/pintu2.jpeg')}}">pintu 2</option>
                                     <option value="{{url('img/lemari3/pintu.png')}}">pintu 3</option>
 
@@ -236,7 +236,7 @@
                                 <br>
 
                                 <button id="btn-beli" class="btn btn-success">Beli</button>
-                                
+
                             </div>
                             <br>
 
@@ -284,8 +284,8 @@
     <script>
         let canvas = new fabric.Canvas('tshirt-canvas');
         let currentDoor = null;
-        
-        
+
+
         canvas.on('object:moving', function(e) {
             var obj = e.target;
             var canvasWidth = canvas.getWidth();
@@ -377,7 +377,7 @@
 
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
         function updatePintu(imageURL){
-            
+
 
             if(currentDoor !== null){
                 canvas.remove(currentDoor);
@@ -529,7 +529,7 @@
                         bl: false,
                         br: false
                     });
-                } 
+                }
 
                 // Terapkan skala yang ditentukan pada gambar
                 img.scaleX = scaleX;
@@ -543,10 +543,10 @@
                 // Sembunyikan kontrol scaling berdasarkan orientasi gambar
                 if (imgHeight > imgWidth) {
                     // Jika gambar vertikal, sembunyikan kontrol scaling horizontal
-                    
+
                 } else {
                     // Jika gambar horizontal, sembunyikan kontrol scaling vertikal
-                    
+
                 }
 
                 // Event listener untuk mencegah gambar di-scale melebihi batas kanvas
@@ -611,7 +611,7 @@
             });
         }
 
-        
+
         // Event listener untuk tombol tambah gambar
         document.getElementById('btntambah').addEventListener('click', function() {
             updateAddOn(document.getElementById('tshirt-design').value);
@@ -727,7 +727,7 @@
         });
 
 
-        
+
     </script>
 
 @endsection
