@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeMail;
 use App\Models\User;
+use App\Models\Verifytoken;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -11,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 
 class LoginController extends Controller
@@ -130,14 +134,60 @@ class LoginController extends Controller
                 "status" => "buyer",
             ]);
 
-            event(new Registered($result));
+            $validToken = rand(10,100..'2022');
+        Log::info("valid token is".$validToken);
+        $get_token = new Verifytoken();
+        $get_token->token =  $validToken;
+        $get_token->email =  $request->email;
+        $get_token->save();
+        $get_user_email = $request->email;
+        $get_user_name = $request->username;
+        Mail::to($request['email'])->send(new WelcomeMail($get_user_email,$validToken,$get_user_name));
 
-            $result->sendEmailVerificationNotification();
-            Auth::login($result);
+        $selecteduser = DB::table('users')->where("username",'=',$result->username)->orWhere("email",'=',$result->email)->first();
+        Session::put('role', $selecteduser->role);
+        Session::put('user',$selecteduser);
 
-            Alert::success("Email ", "$request->email");
-            return redirect(url("/verify"))->with("email", $request->email);
+        return redirect()->route('verification.notice');
+
+            // event(new Registered($result));
+
+            // $result->sendEmailVerificationNotification();
+            // Auth::login($result);
+
+            // Alert::success("Email ", "$request->email");
+            // return redirect(url("/verify"))->with("email", $request->email);
         }
+
+    }
+
+    public function verifyEmail(){
+        $s = Session::get("user");
+        $user = User::find($s->id);
+
+        return view('Email.submitotp');
+    }
+
+    public function cekOtp(Request $request){
+        $verifycoursetoken = $request->otp;
+        $verifycoursetoken = Verifytoken::where('token', $verifycoursetoken)->first();
+        if ($verifycoursetoken) {
+            $verifycoursetoken->is_activated = 1;
+            $verifycoursetoken->save();
+            $user = User::where('email', $verifycoursetoken->email)->first();
+            $user->is_activated = 1;
+            $user->email_verified_at = now();
+            $user->save();
+            $getting_token = Verifytoken::where('token', $verifycoursetoken->token)->first();
+            Log::info('getting token me kyaaa aa rha hai'.$getting_token);
+            $getting_token->delete();
+            toast("Berhasil Verifikasi", "success");
+            return redirect('/');
+        } else {
+            Alert::error("Gagal", "Kode OTP Salah!!!");
+            return redirect()->back();
+        }
+
 
     }
 

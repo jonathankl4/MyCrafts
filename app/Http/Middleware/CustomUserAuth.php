@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class CustomUserAuth
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next , $redirectToRoute = null): Response
+    public function handle(Request $request, Closure $next): Response
     {
         // if(!auth()->guard('customUserAuth')->check()){
         //     Alert::error("Gagal", "login dulu kimak");
@@ -24,13 +25,30 @@ class CustomUserAuth
         // }
 
         // return $next($request);
-        if (! $request->user() ||
-            ($request->user() instanceof MustVerifyEmail &&
-            ! $request->user()->hasVerifiedEmail())) {
-            return $request->expectsJson()
-                    ? abort(403, 'Your email address is not verified.')
-                    : Redirect::guest(URL::route($redirectToRoute ?: 'verification.notice'));
+
+        $s = session()->get('user');
+
+        $user = User::find($s->id);
+
+        if($user != null){
+            if ($user->is_activated != 1) {
+                # code...
+                return redirect()->route('verification.notice');
+            }
         }
+        else{
+            return redirect(url('/'));
+        }
+
+
+
+        // if (! $request->user() ||
+        //     ($request->user() instanceof MustVerifyEmail &&
+        //     ! $request->user()->hasVerifiedEmail())) {
+        //     return $request->expectsJson()
+        //             ? abort(403, 'Your email address is not verified.')
+        //             : Redirect::guest(URL::route($redirectToRoute ?: 'verification.notice'));
+        // }
 
         return $next($request);
     }

@@ -7,6 +7,7 @@ use App\Models\ProdukDijual;
 use App\Models\toko;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -17,35 +18,47 @@ class CustomerController extends Controller
     //
 
 
-    public function getLogUser(){
+    public function getLogUser()
+    {
         $user = new stdClass();
         $s = Session::get("user");
-        
-        if ($s!= null) {
+
+        if ($s != null) {
             # code...
-            $user = User::find($s->id);
-
-
-        }
-        else {
+            $us = User::find($s->id);
+            if ($us == null) {
+                Auth::guard('web')->logout();
+                Session::forget('role');
+                Session::forget('user');
+                
+                # code...
+                $user->username = "Guest";
+                $user->email = "Guest";
+                $user->role = "guest";
+            } else {
+                $user = $us;
+            }
+        } else {
             $user->username = "Guest";
             $user->email = "Guest";
             $user->role = "guest";
         }
+        // dd($s);
 
         return $user;
     }
 
-    public function homePage(){
+    public function homePage()
+    {
 
-        
+
 
         // return view("admin.userlog",["user"])
         $user = $this->getLogUser();
 
         $listproduk = DB::table('produk_dijuals')->get();
 
-        return view("customer.shopping.dashboard", ['user'=>$user, 'listProduk'=>$listproduk]);
+        return view("customer.shopping.dashboard", ['user' => $user, 'listProduk' => $listproduk]);
         // return view("customer.dashboard", ['user'=>$user]);
 
         // dd($user);
@@ -54,18 +67,19 @@ class CustomerController extends Controller
 
 
 
-    public function daftarSeller(){
+    public function daftarSeller()
+    {
         $user = $this->getLogUser();
 
         if ($user->status == "owner") {
             # code...
             return redirect('/seller');
         }
-        return view("seller.regseller", ['user'=>$user]);
-
+        return view("seller.regseller", ['user' => $user]);
     }
 
-    public function becomeSeller(){
+    public function becomeSeller()
+    {
 
         $user = $this->getLogUser();
         $user->status = "owner";
@@ -86,7 +100,8 @@ class CustomerController extends Controller
     }
 
 
-    public function detailProduk($id){
+    public function detailProduk($id)
+    {
 
 
         $user = $this->getLogUser();
@@ -94,8 +109,6 @@ class CustomerController extends Controller
 
         // dd($produk);
 
-        return view("customer.shopping.produkDetail", ['user'=>$user, 'produk'=>$produk]);
-
+        return view("customer.shopping.produkDetail", ['user' => $user, 'produk' => $produk]);
     }
 }
-

@@ -20,12 +20,20 @@ class CheckStatusUser
 
         $user = User::find($s->id);
 
-        $stat = $user->status;
-        if ($stat == "buyer") {
+        if ($user != null) {
             # code...
-            
-            return redirect(route('daftarseller'));
+            $stat = $user->status;
+            if ($stat == "buyer") {
+                # code...
+
+                return redirect(route('daftarseller'));
+            }
         }
+        else{
+            return redirect(url('/'));
+        }
+
+
 
 
         // dd($user);

@@ -83,10 +83,12 @@ Route::get('/register', [LoginController::class,"formRegister"])->middleware('ch
 Route::post('/register',[LoginController::class, "registerAction"])->name("register");
 
 // Route::view("/verif","Email.Hverify")->name("verification.notice");
-Route::get('verify', EmailVerificationPromptController::class)->name("verification.notice");
-Route::get("/verify/{id}/{hash}", [LoginController::class, "verification"])->name('verification.verify');
+Route::get('verify', [LoginController::class, 'verifyemail'])->name("verification.notice");
+Route::post('/cekotp',[LoginController::class, 'cekOtp'])->name('cekotp');
+// Route::get('verify', EmailVerificationPromptController::class)->name("verification.notice");
+// Route::get("/verify/{id}/{hash}", [LoginController::class, "verification"])->name('verification.verify');
 
-Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])->middleware('throttle:6,1')->name('verification.send');
+// Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])->middleware('throttle:6,1')->name('verification.send');
 
 // ADMIN
 Route::group([
