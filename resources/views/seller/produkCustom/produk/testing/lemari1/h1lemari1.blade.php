@@ -61,6 +61,7 @@
             /* Sesuaikan tinggi */
             width: 2px;
             background-color: black;
+
         }
 
 
@@ -115,17 +116,17 @@
 
             <div class="row">
 
-                <div class="col-md-7">
-                    <div class="card mb-4" style="padding: 15px">
+                <div class="col-md-7" style="overflow: auto; z-index: 3;">
+                    <div class="card" style="padding: 15px">
                         <h5 class="card-header">Desain</h5>
 
 
 
                         <div id="produk-div">
                             <!--
-                                                                            Initially, the image will have the background tshirt that has transparency
-                                                                            So we can simply update the color with CSS or JavaScript dinamically
-                                                                        -->
+                                                                                            Initially, the image will have the background tshirt that has transparency
+                                                                                            So we can simply update the color with CSS or JavaScript dinamically
+                                                                                        -->
                             {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
                             <img id="template" src="{{ url('img/lemari1/lemari1.png') }}"
                                 style="width: 100%;height: 100%;" />
@@ -136,10 +137,10 @@
                                         style="border-style: solid; border-width: 2px"></canvas>
 
                                     <div id="right-line"
-                                        style="position: absolute; right: -240px; top: -20px; height:550px; width: 2px; background-color: black;">
+                                        style="position: absolute; right: -230px; top: -20px; height:550px; width: 2px; background-color: black;">
                                     </div>
                                     <div id="right-text"
-                                        style="position: absolute; right: -320px; top: 50%; transform: translateY(-50%); font-size: 20px;">
+                                        style="position: absolute; right: -300px; top: 50%; transform: translateY(-50%); font-size: 20px;">
                                         150cm</div>
 
                                     <!-- Garis horizontal di bawah untuk 70cm -->
@@ -161,15 +162,19 @@
 
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5" style="z-index: 3">
                     <div class="card mb-4">
                         <h5 class="card-header"><b>Kustomisasi</b></h5>
                         <div style="padding: 15px">
-                            <div class="col-md-6">
+                            <div class="col-md-10">
 
                                 <div>
                                     <label for="jeniskayu">Jenis Kayu</label>
                                     <select name="" id="jeniskayu" class="form-select">
+                                        <option value="" selected disabled>Pilih </option>
+                                        @if (count($detail) < 1)
+                                            <option value="" selected disabled>Tidak Ada Pilihan kayu </option>
+                                        @endif
                                         @for ($i = 0; $i < count($detail); $i++)
                                             <option value="{{ $detail[$i]->id }}"> {{ $detail[$i]->jenis_kayu }} (
                                                 Rp.{{ number_format($detail[$i]->harga) }} )</option>
@@ -181,32 +186,38 @@
                                 </div>
 
                                 <div>
-                                    <label for="input-vertical-size">Ubah ukuran Tinggi (cm):</label>
-                                    <input type="number" id="input-vertical-size" class="form-control" value="150">
+                                    <label for="input-vertical-size">Ubah ukuran Tinggi: {{$produk->tinggi_min}} s/d {{$produk->tinggi_max}} cm  </label>
+                                    <input type="number" id="input-vertical-size" class="form-control" value="{{$produk->tinggi_min}}">
                                 </div>
 
                                 <div>
-                                    <label for="input-horizontal-size">Ubah ukuran panjang (cm):</label>
-                                    <input type="number" id="input-horizontal-size" class="form-control" value="70">
+                                    <label for="input-horizontal-size">Ubah ukuran panjang: {{$produk->panjang_min}} s/d {{$produk->panjang_max}} cm</label>
+                                    <input type="number" id="input-horizontal-size" class="form-control" value="{{$produk->panjang_min}}">
                                 </div>
                                 <br>
-                                <button id="update-size" class="btn btn-primary">Update Ukuran</button>
+
 
                             </div>
 
                             <div id="counters">
-                                <div>Jumlah Sekat Horizontal: <span id="count-sekat-horizontal">0</span></div>
-                                <div>Jumlah Sekat Vertical: <span id="count-sekat-vertical">0</span></div>
-                                <div>Jumlah Gantungan: <span id="count-gantungan">0</span></div>
+                                <div style="display: none">Jumlah Sekat Horizontal: <span
+                                        id="count-sekat-horizontal">0</span></div>
+                                <div style="display:none">Jumlah Sekat Vertical: <span id="count-sekat-vertical">0</span>
+                                </div>
+                                <div style="display: none">Jumlah Gantungan: <span id="count-gantungan">0</span></div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <label for="tshirt-design"><b> Add On</b></label>
                                 <select id="tshirt-design" class="form-select">
                                     <option value="">pilih...</option>
 
-                                    <option value="{{ url('img/sekatHorizontal.jpeg') }}">sekat horizontal</option>
-                                    <option value="{{ url('img/sekatvertical.jpeg') }}">sekat vertical </option>
-                                    <option value="{{ url('img/gantungan.jpeg') }}">gantungan</option>
+                                    @for ($i = 0; $i < count($listAddOnMain); $i++)
+                                        <option value="{{ url($listAddOnMain[$i]->url) }}">
+                                            {{ $listAddOnMain[$i]->nama_addon }}
+                                            (Rp.{{ number_format($listAddOnMain[$i]->harga) }}) </option>
+                                    @endfor
+
+
 
 
 
@@ -219,7 +230,7 @@
                             </div>
                             <br><br>
                             <div id="total-price-container">
-                                <h5>Total Harga: <span id="total-price">0</span> IDR</h5>
+                                <h5>Perkiraan Harga <span id="total-price">0</span> </h5>
                             </div>
 
                             {{-- <button id="btn-beli" class="btn btn-success">Next</button> --}}
@@ -272,6 +283,8 @@
     <script>
         let canvas = new fabric.Canvas('tshirt-canvas');
         let currentDoor = null;
+
+        let produk = @json($produk);
 
 
         canvas.on('object:moving', function(e) {
@@ -328,9 +341,19 @@
 
         // Fungsi untuk memperbarui counter di UI
         function updateCounters() {
+            const sekatHorizontalDiv = document.getElementById('count-sekat-horizontal').parentElement;
+            const sekatVerticalDiv = document.getElementById('count-sekat-vertical').parentElement;
+            const gantunganDiv = document.getElementById('count-gantungan').parentElement;
+
+            // Perbarui teks counter
             document.getElementById('count-sekat-horizontal').textContent = counterSekatHorizontal;
             document.getElementById('count-sekat-vertical').textContent = counterSekatVertical;
             document.getElementById('count-gantungan').textContent = counterGantungan;
+
+            // Tampilkan atau sembunyikan seluruh div berdasarkan jumlah add-on
+            sekatHorizontalDiv.style.display = (counterSekatHorizontal > 0) ? 'block' : 'none';
+            sekatVerticalDiv.style.display = (counterSekatVertical > 0) ? 'block' : 'none';
+            gantunganDiv.style.display = (counterGantungan > 0) ? 'block' : 'none';
         }
 
         let currentVerticalSize = 150;
@@ -338,24 +361,67 @@
 
         let selectedKayuPrice = 0;
 
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+
         // Fungsi untuk mengupdate garis dan teks
         function updateDimensions() {
-            // Ambil nilai baru dari input
-            let newVerticalSize = document.getElementById('input-vertical-size').value;
-            let newHorizontalSize = document.getElementById('input-horizontal-size').value;
+            // Define min and max values
+            const minVerticalSize = produk.tinggi_min; // Example minimum value for vertical size
+            const maxVerticalSize = produk.tinggi_max; // Example maximum value for vertical size
+            const minHorizontalSize = produk.panjang_min; // Example minimum value for horizontal size
+            const maxHorizontalSize = produk.panjang_max; // Example maximum value for horizontal size
 
-            // Update teks dan ukuran garis vertikal (kanan)
+            // Get new values from inputs
+            let newVerticalSize = parseInt(document.getElementById('input-vertical-size').value);
+            let newHorizontalSize = parseInt(document.getElementById('input-horizontal-size').value);
+
+            // Validate vertical size
+            if (newVerticalSize < minVerticalSize || newVerticalSize > maxVerticalSize) {
+                Toast.fire({
+                    icon: "error",
+                    title: `Ukuran vertikal harus antara ${minVerticalSize}cm dan ${maxVerticalSize}cm.`
+                });
+                return; // Exit the function if validation fails
+            }
+
+            // Validate horizontal size
+            if (newHorizontalSize < minHorizontalSize || newHorizontalSize > maxHorizontalSize) {
+                Toast.fire({
+                    icon: "error",
+                    title: `Ukuran horizontal harus antara ${minHorizontalSize}cm dan ${maxHorizontalSize}cm.`
+                });
+                return; // Exit the function if validation fails
+            }
+
+            // Update text and size for vertical line (right)
             document.getElementById('right-text').innerHTML = newVerticalSize + 'cm';
-            // document.getElementById('right-line').style.height = (newVerticalSize * 3.67) + 'px';  // Sesuaikan skala jika perlu
+            // document.getElementById('right-line').style.height = (newVerticalSize * 3.67) + 'px';  // Adjust scale if needed
 
-            // Update teks dan ukuran garis horizontal (bawah)
+            // Update text and size for horizontal line (bottom)
             document.getElementById('bottom-text').innerHTML = newHorizontalSize + 'cm';
-            // document.getElementById('bottom-line').style.width = (newHorizontalSize * 4.3) + 'px';  // Sesuaikan skala jika perlu
+            // document.getElementById('bottom-line').style.width = (newHorizontalSize * 4.3) + 'px';  // Adjust scale if needed
 
-            // Simpan ukuran yang baru
+            // Save the new sizes
             currentVerticalSize = newVerticalSize;
             currentHorizontalSize = newHorizontalSize;
+
+            // Show success message
+            Toast.fire({
+                icon: "success",
+                title: "Ukuran berhasil diperbarui!"
+            });
         }
+
 
         // Event listener untuk tombol update ukuran
         // document.getElementById('update-size').addEventListener('click', function() {
@@ -374,7 +440,8 @@
 
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
         let kayuData = @json($detail);
-        let addonPrices = @json($addon);
+        let addonPrices = @json($addonPrices);
+
         console.log(jeniskayu);
         console.log(addonPrices);
 
@@ -388,12 +455,22 @@
         function updateTotalPrice(selectedKayuPrice) {
             hargakayu = parseInt(selectedKayuPrice);
             let finalPrice = totalPrice + parseInt(selectedKayuPrice);
-            document.getElementById('total-price').textContent = finalPrice;
+            document.getElementById('total-price').textContent = finalPrice.toLocaleString('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
         }
 
-        function updateTotalPrice2(){
-             let finalPrice = totalPrice + hargakayu;
-            document.getElementById('total-price').textContent = finalPrice;
+        function updateTotalPrice2() {
+            let finalPrice = totalPrice + hargakayu;
+            document.getElementById('total-price').textContent = finalPrice.toLocaleString('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
         }
 
         // Event listener untuk dropdown jenis kayu
@@ -443,7 +520,7 @@
                     scaleX = 0.3;
                     scaleY = canvasHeight / imgHeight;
                     counterSekatVertical++;
-                    totalPrice += addonPrices.sekatvertical; // Tambahkan harga sekatVertical
+                    totalPrice += addonPrices.sekatVertical; // Tambahkan harga sekatVertical
                 } else if (imageURL.includes('gantungan')) {
                     scaleX = canvasWidth / imgWidth;
                     scaleY = 0.5;
@@ -532,7 +609,7 @@
                         totalPrice -= addonPrices.sekatHorizontal; // Kurangi harga sekatHorizontal
                     } else if (imageURL.includes('sekatvertical')) {
                         counterSekatVertical--;
-                        totalPrice -= addonPrices.sekatvertical; // Kurangi harga sekatVertical
+                        totalPrice -= addonPrices.sekatVertical; // Kurangi harga sekatVertical
                     } else if (imageURL.includes('gantungan')) {
                         counterGantungan--;
                         totalPrice -= addonPrices.gantungan; // Kurangi harga gantungan
@@ -660,6 +737,15 @@
         // });
 
         document.getElementById('next-page').addEventListener('click', function() {
+
+            let selectedKayuId = document.getElementById('jeniskayu').value;
+
+            // Pengecekan apakah jenis kayu sudah dipilih
+            if (!selectedKayuId) {
+                alert('Jenis Kayu belum di pilih.');
+                return; // Berhenti dan tidak melanjutkan ke halaman berikutnya
+            }
+
             // Ambil data dari canvas dalam format JSON
             const canvasDesign = canvas.toJSON();
 
@@ -681,10 +767,10 @@
             localStorage.setItem('ukuranData', JSON.stringify(ukuranData));
 
             // Simpan total harga
-            localStorage.setItem('totalPrice', totalPrice);
+            localStorage.setItem('totalPrice', totalPrice + hargakayu);
 
             // Redirect ke halaman kedua
-            window.location.href = "{{ url('/masteruser/produkCustom/h2lemari1') }}";
+            window.location.href = "{{ url('/seller/produkCustom/testing/h2lemari1') }}";
         });
     </script>
 

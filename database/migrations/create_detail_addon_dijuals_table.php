@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('harga');
             $table->string('jenis');
             $table->string('tipe');
+            $table->string('kode');
+            $table->string('url');
             $table->timestamps();
         });
     }

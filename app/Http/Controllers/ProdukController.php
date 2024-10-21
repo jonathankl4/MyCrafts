@@ -185,7 +185,7 @@ class ProdukController extends Controller
             "satuanProduk"=>'required',
             "keteranganProduk"=>'required',
             "beratProduk"=>'required',
-            "fotoUtama"=>'required',
+
         ],
 
         ["required" => ":attribute tidak boleh kosong"]);
@@ -215,8 +215,12 @@ class ProdukController extends Controller
 
         if ($request->file("fotoUtama")!= null) {
             # code...
-            $image_path = public_path('storage/imgProduk/'.$m->foto_produk1);
-            unlink($image_path);
+            if ($m->foto_produk1 != null) {
+                # code...
+                $image_path = public_path('storage/imgProduk/'.$m->foto_produk1);
+                unlink($image_path);
+            }
+
             $foto1 = $request->file("fotoUtama");
             $namaFileGambar1  = Str::random(8).".".$foto1->getClientOriginalExtension();
             $m->foto_produk1 = $namaFileGambar1;
@@ -225,8 +229,12 @@ class ProdukController extends Controller
 
         if ($request->file("fotoProduk2") != null) {
             # code...
-            $image_path = public_path('storage/imgProduk/'.$m->foto_produk2);
-            unlink($image_path);
+            if ($m->foto_produk2 != null) {
+                # code...
+
+                $image_path = public_path('storage/imgProduk/'.$m->foto_produk2);
+                unlink($image_path);
+            }
             $foto2 = $request->file("fotoProduk2");
             $namaFileGambar2  = Str::random(8).".".$foto2->getClientOriginalExtension();
             $m->foto_produk2 = $namaFileGambar2;
@@ -235,8 +243,12 @@ class ProdukController extends Controller
 
         if ($request->file("fotoProduk3") != null) {
             # code...
-            $image_path = public_path('storage/imgProduk/'.$m->foto_produk3);
-            unlink($image_path);
+            if ($m->foto_produk3 != null) {
+                # code...
+
+                $image_path = public_path('storage/imgProduk/'.$m->foto_produk3);
+                unlink($image_path);
+            }
             $foto3 = $request->file("fotoProduk3");
             $namaFileGambar3  = Str::random(8).".".$foto3->getClientOriginalExtension();
             $m->foto_produk3 = $namaFileGambar3;
@@ -245,8 +257,12 @@ class ProdukController extends Controller
 
         if ($request->file("fotoProduk4") != null ) {
             # code...
-            $image_path = public_path('storage/imgProduk/'.$m->foto_produk4);
-            unlink($image_path);
+            if ($m->foto_produk4 != null) {
+                # code...
+                $image_path = public_path('storage/imgProduk/'.$m->foto_produk4);
+                unlink($image_path);
+
+            }
             $foto4 = $request->file("fotoProduk4");
             $namaFileGambar4  = Str::random(8).".".$foto4->getClientOriginalExtension();
             $m->foto_produk4 = $namaFileGambar4;

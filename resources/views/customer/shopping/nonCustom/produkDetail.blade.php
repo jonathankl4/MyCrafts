@@ -2,9 +2,31 @@
 
 @section('title', "Produk Detail")
 
+@section('style')
+
+<style>
+    .image-container {
+height: 250px; /* Sesuaikan dengan tinggi yang diinginkan */
+width: 100%; /* Lebar penuh */
+
+
+border: 1px solid #ddd;
+overflow: hidden; /* Pastikan gambar tidak melampaui container */
+}
+
+.image-container img {
+height: 100%; /* Isi tinggi container */
+width: auto; /* Lebar disesuaikan dengan rasio gambar */
+object-fit: contain; /* Pertahankan rasio gambar, tidak terpotong */
+display: block;
+max-width: 100%; /* Pastikan gambar tidak melebihi container */
+}
+</style>
+@endsection
+
 @section('content')
 
-<form action="{{url('donation/pay')}}" method="POST" >
+<form action="{{url('/halamanCheckout')}}" method="POST" >
     @csrf
     <!-- Single Product Start -->
     <div class="container-fluid py-5 mt-5">
@@ -12,12 +34,36 @@
             <div class="row g-4 mb-5">
                 <div class="col-lg-8 col-xl-9">
                     <div class="row g-4">
-                        <div class="col-lg-6">
-                            <div class="border rounded">
-                                <a href="#">
-                                    <img src="{{asset('storage/imgProduk/'.$produk->foto_produk1)}}" class="img-fluid rounded" alt="Image" style="width: 200px; height: 200px;">
-                                </a>
+                        <div class="col-lg-4">
+                            <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel" >
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="carousel-item active rounded image-container">
+                                        <img src="{{ asset('storage/imgProduk/'.$produk->foto_produk1) }}" class="img-fluid w-100 h-100  rounded"
+                                            alt="First slide">
+                                        {{-- <a href="#" class="btn px-4 py-2 text-white rounded">Lemari</a> --}}
+                                    </div>
+                                    @for ($i=0;$i<count($foto);$i++)
+                                    <div class="carousel-item  rounded image-container">
+                                        <img src="{{ asset('storage/imgProduk/'.$foto[$i]) }}" class="img-fluid w-100 h-100 rounded"
+                                            alt="First slide">
+
+                                    </div>
+                                    @endfor
+
+
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselId"
+                                    data-bs-slide="prev" style="width: 30px;height: 30px;">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true" style="width: 50%"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselId"
+                                    data-bs-slide="next" style="width: 30px;height: 30px;">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"  style="width: 50%"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
                             </div>
+
                         </div>
                         <div class="col-lg-6">
                             <h4 class="fw-bold mb-3"> {{$produk->nama_produk}}  </h4>
@@ -43,16 +89,17 @@
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
-                                <input type="text" class="form-control form-control-sm text-center border-0" value="1">
+                                <input type="text" class="form-control form-control-sm text-center border-0" value="1" name="jumlah">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-sm btn-plus rounded-circle bg-light border">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
                             </div>
-
-                            <button type="submit" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary" id="pay-button"> beli langsung</button>
-                            <a href="#" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                            <input type="text" name="idProduk" id="idProduk" hidden value="{{$produk->id}}">
+                            <button class="btn btn-dark" >Beli</button>
+                            {{-- <button type="submit" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-dark" id="pay-button">Beli</button> --}}
+                            {{-- <a href="#" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a> --}}
                         </div>
                         <div class="col-lg-12">
                             <nav>
@@ -67,6 +114,7 @@
                             </nav>
                             <div class="tab-content mb-5">
                                 <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                                    <h5>Deskripsi</h5>
                                     <p>{{$produk->keterangan_produk}} </p>
 
                                     {{-- <div class="px-2">
@@ -137,21 +185,7 @@
 
 @section('script')
 
-<script type="text/javascript">
-    // $('#pay-button').click(function (event) {
-    // event.preventDefault();
 
-    // $.post("{{ route('donation.pay') }}", {
-    //     _method: 'POST',
-    //     _token: '{{ csrf_token() }}',
-    //     name: '{{$produk->nama_produk}}',
-    //     email: "email@gmail.com",
-    //     amount: 10000,
-    //     note: "anjay",
-    // }
-    // );
-    // });
-</script>
 
 
 

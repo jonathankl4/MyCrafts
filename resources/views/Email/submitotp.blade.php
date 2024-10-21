@@ -102,6 +102,7 @@
                     placeholder="Masukan Kode OTP"
                     autofocus
                   />
+                  <span>Silahkan Cek email untuk melihat kode OTP</span>
                 </div>
 
 

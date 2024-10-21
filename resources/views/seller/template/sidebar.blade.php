@@ -20,11 +20,19 @@
 
 <ul class="menu-inner py-1">
     <!-- Dashboard -->
-    <li class="menu-item">
+    <li class="menu-item {{request()->is('seller') ? 'active open' : ''}} ">
       <a href="{{url('seller/')}}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
         <div data-i18n="Analytics">Dashboard Toko </div>
       </a>
+
+    </li>
+    <li class="menu-item {{request()->is('seller/membership') ? 'active open' : ''}} ">
+        <a href="{{url('seller/membership')}}" class="menu-link">
+            <i class="menu-icon tf-icons bx bxs-lock-open"></i>
+            <div data-i18n="Analytics">Membership </div>
+          </a>
+
     </li>
 
     <!-- HOME MENU -->
@@ -35,7 +43,7 @@
     </li>
     <li class="menu-item {{request()->is('seller/produk/*') ? 'active open' : ''}}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-dock-top"></i>
+        <i class="menu-icon tf-icons bx bx-box"></i>
         <div data-i18n="">Produk</div>
       </a>
       <ul class="menu-sub">
@@ -55,7 +63,7 @@
     </li>
     <li class="menu-item {{request()->is('seller/produkCustom*') ? 'active open' : ''}}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-dock-top"></i>
+        <i class="menu-icon tf-icons bx bx-box"></i>
         <div data-i18n="">Produk Custom</div>
       </a>
       <ul class="menu-sub">
@@ -69,25 +77,28 @@
                 <div >Daftar Produk Custom</div>
             </a>
         </li>
-        <li class="menu-item {{request()->is('seller/produkCustom/templateProduk') ? 'active' : ''}}">
-            <a href="{{url('/seller/produkCustom/templateProduk')}}" class="menu-link">
-                <div >Template</div>
-            </a>
-        </li>
-        <li class="menu-item {{request()->is('seller/produkCustom/addOn') ? 'active' : ''}}">
-            <a href="{{url('/seller/produkCustom/addOn')}}" class="menu-link">
-                <div >Add On</div>
-            </a>
-        </li>
+
         <li class="menu-item {{request()->is('seller/produkCustom/testing') ? 'active' : ''}}">
             <a href="{{url('/seller/produkCustom/testing')}}" class="menu-link">
-                <div >Testing</div>
+                <div >Contoh Custom</div>
+            </a>
+        </li>
+        <li class="menu-item {{request()->is('seller/produkCustom/informasi') ? 'active' : ''}}">
+            <a href="{{url('/seller/produkCustom/informasi')}}" class="menu-link">
+                <div >Informasi</div>
             </a>
         </li>
 
 
 
       </ul>
+    </li>
+    <li class="menu-item {{request()->is('seller/pesanan') ? 'active open' : ''}}">
+      <a href="{{url('/seller/pesanan')}}" class="menu-link ">
+        <i class="menu-icon tf-icons bx bxs-food-menu"></i>
+        <div >Pesanan</div>
+      </a>
+
     </li>
 
 
@@ -96,6 +107,9 @@
         <span class="menu-header-text">Manajemen</span>
     </li>
     {{-- Master --}}
+   
+
+    @endif
     <li class="menu-item {{request()->is('seller/master*') ? 'active open' : ''}}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-dock-top"></i>
@@ -107,7 +121,7 @@
                     <div >Mebel</div>
                 </a>
             </li>
-           
+
             <li class="menu-item {{request()->is('seller/master/Satuan') ? 'active' : ''}}">
                 <a href="{{url('/seller/master/Satuan')}}" class="menu-link">
                   <div >Master Satuan</div>
@@ -137,7 +151,7 @@
     {{-- Produksi --}}
     <li class="menu-item {{request()->is('seller/produksi*') ? 'active open' : ''}}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
-          <i class="menu-icon tf-icons bx bx-dock-top"></i>
+          <i class="menu-icon tf-icons bx bx-briefcase"></i>
           <div data-i18n="Account Settings">Produksi</div>
         </a>
         <ul class="menu-sub">
@@ -184,7 +198,7 @@
     {{-- Gudang --}}
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
-          <i class="menu-icon tf-icons bx bx-dock-top"></i>
+          <i class="menu-icon tf-icons bx bxl-dropbox"></i>
           <div data-i18n="Account Settings">Gudang</div>
         </a>
         <ul class="menu-sub">
@@ -223,7 +237,7 @@
                   <div >Laporan Retur</div>
                 </a>
             </li>
-            
+
 
 
         </ul>

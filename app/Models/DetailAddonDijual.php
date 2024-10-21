@@ -15,5 +15,7 @@ class DetailAddonDijual extends Model
         'harga',
         'jenis',
         'tipe',
+        'kode',
+        'url'
     ];
 }

@@ -47,9 +47,9 @@ class TestController extends Controller
         return view("trans");
     }
 
-    public function testbayar(){
+    public function testbayar($id){
 
-        $data = Donation::find(42);
+        $data = Donation::find($id);
 
         return view('bayar',['data'=>$data]);
     }
@@ -60,7 +60,7 @@ class TestController extends Controller
 
         $panjang = strlen($input);
         $hasil = "";
-        $temp = str_split($input, 1);
+        $temp = now();
 
         dd($temp);
 
@@ -73,7 +73,7 @@ class TestController extends Controller
 
         $user = $this->getLogUser();
 
-        return view('seller.produkCustom.produk.testing3', ['user'=>$user]);
+        return view('seller.produkCustom.produk.CobaCustomH1', ['user'=>$user]);
     }
 
     public function uploadImage(Request $request){

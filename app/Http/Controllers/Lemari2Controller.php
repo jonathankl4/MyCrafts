@@ -14,27 +14,29 @@ use RealRashid\SweetAlert\Facades\Alert;
 class Lemari2Controller extends Controller
 {
     //
-    public function getLogUser(){
+    public function getLogUser()
+    {
         $s = Session::get("user");
         $user = User::find($s->id);
         return $user;
     }
 
-    public function tambahLemari2(){
+    public function tambahLemari2()
+    {
         $user = $this->getLogUser();
 
-        $produk = DB::table('produk_custom_dijuals')->where('nama_template','=','Lemari 2')->where('id_toko','=',$user->id_toko)->first();
+        $produk = DB::table('produk_custom_dijuals')->where('nama_template', '=', 'Lemari 2')->where('id_toko', '=', $user->id_toko)->first();
 
         if ($produk != null) {
             # code...
             toast('Produk Sudah Pernah ditambahkan', 'info');
             return redirect()->back();
-        }
-        else{
+        } else {
             $p = new ProdukCustomDijual();
             $p->id_toko = $user->id_toko;
             $p->nama_template = 'Lemari 2';
             $p->kode = 'lemari2';
+            $p->status = 'nonaktif';
             $p->save();
 
             Alert::success("Sukses", "Berhasil menambahkan produk");
@@ -42,14 +44,89 @@ class Lemari2Controller extends Controller
         }
     }
 
-    public function ubahDetailLemari2(Request $request){
 
+    public function testing()
+    {
         $user = $this->getLogUser();
-        $produk = DB::table('produk_custom_dijuals')->where('nama_template','=','Lemari 2')->where('id_toko','=',$user->id_toko)->first();
+        $produk = DB::table('produk_custom_dijuals')->where('nama_template', '=', 'Lemari 2')->where('id_toko', '=', $user->id_toko)->first();
 
         $idProdukCustomDijual = $produk->id;
-        $detail = DB::table('detail_produk_custom_dijuals')->where('id_produk_custom_dijual','=',$produk->id)->get();
-        $addon = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->get();
+        $detail = DB::table('detail_produk_custom_dijuals')->where('id_produk_custom_dijual', '=', $produk->id)->get();
+        $addonMain = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=', $produk->id)->where('jenis', '=', 'main')->get();
+
+
+        $addonPrices = [];
+
+        foreach ($addonMain as $item) {
+
+            $addonPrices[$item->kode] = $item->harga;
+        }
+        // foreach($addonMain as $item){
+        //     if ($item->nama_addon === 'Sekat Horizontal') {
+        //         $addonPrices['sekatHorizontal'] = $item->harga;
+        //     } elseif ($item->nama_addon === 'Sekat Vertical') {
+        //         $addonPrices['sekatvertical'] = $item->harga;
+        //     } elseif ($item->nama_addon === 'Gantungan') {
+        //         $addonPrices['gantungan'] = $item->harga;
+        //     }
+        // }
+
+        // dd($addonPrices);
+        return view('seller.produkCustom.produk.testing.lemari2.h1lemari2', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk'=>$produk]);
+    }
+
+    public function testing2(){
+        $user = $this->getLogUser();
+        $produk = DB::table('produk_custom_dijuals')->where('nama_template','=','Lemari 1')->where('id_toko','=',$user->id_toko)->first();
+        $addonSecond = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->where('jenis','=','second')->get();
+
+
+        $addonPrices = [];
+
+        foreach($addonSecond as $item){
+
+            $addonPrices[$item->kode] = $item->harga;
+
+        }
+
+        // dd($addonPrices);
+
+
+        return view('seller.produkCustom.produk.testing.lemari2.h2lemari2', ['user'=>$user, 'listPintu'=>$addonSecond, 'addonPrices'=>$addonPrices]);
+    }
+
+    public function page2Custom($id){
+
+        // dd("kebukak coi");
+        $user = $this->getLogUser();
+        $produk = ProdukCustomDijual::find($id);
+        $addonSecond = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->where('jenis','=','second')->get();
+
+
+        $addonPrices = [];
+
+        foreach($addonSecond as $item){
+
+            $addonPrices[$item->kode] = $item->harga;
+
+        }
+
+        // dd($addonPrices);
+
+
+        return view('customer.shopping.produkCustom.lemari2.Ch2lemari2', ['user'=>$user, 'listPintu'=>$addonSecond, 'addonPrices'=>$addonPrices]);
+    }
+
+
+    public function ubahDetailLemari2(Request $request)
+    {
+
+        $user = $this->getLogUser();
+        $produk = DB::table('produk_custom_dijuals')->where('nama_template', '=', 'Lemari 2')->where('id_toko', '=', $user->id_toko)->first();
+
+        $idProdukCustomDijual = $produk->id;
+        $detail = DB::table('detail_produk_custom_dijuals')->where('id_produk_custom_dijual', '=', $produk->id)->get();
+        $addon = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=', $produk->id)->get();
 
         $ctrdetail = false;
         $ctraddon = false;
@@ -68,8 +145,7 @@ class Lemari2Controller extends Controller
                         'harga' => $request->hargaJati,
                     ]
                 );
-            }
-            else {
+            } else {
                 // Hapus data jika checkbox tidak dicentang
                 DetailProdukCustomDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
                     ->where('jenis_kayu', 'Kayu Jati')
@@ -88,8 +164,7 @@ class Lemari2Controller extends Controller
                         'harga' => $request->hargaMahoni,
                     ]
                 );
-            }
-            else {
+            } else {
                 DetailProdukCustomDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
                     ->where('jenis_kayu', 'Kayu Mahoni')
                     ->delete();
@@ -146,6 +221,8 @@ class Lemari2Controller extends Controller
                         'harga' => $request->sekatVertical,
                         'jenis' => 'main',
                         'tipe' => 'lemari',
+                        'kode'=> 'sekatVertical',
+                        'url' => 'img/sekatvertical.jpeg'
                     ]
                 );
             } else {
@@ -166,6 +243,8 @@ class Lemari2Controller extends Controller
                         'harga' => $request->sekatHorizontal,
                         'jenis' => 'main',
                         'tipe' => 'lemari',
+                        'kode'=> 'sekatHorizontal',
+                        'url' => 'img/sekatHorizontal.jpeg'
                     ]
                 );
             } else {
@@ -186,6 +265,8 @@ class Lemari2Controller extends Controller
                         'harga' => $request->gantungan,
                         'jenis' => 'main',
                         'tipe' => 'lemari',
+                        'kode'=> 'gantungan',
+                        'url' => 'img/gantungan.jpeg'
                     ]
                 );
             } else {
@@ -205,6 +286,8 @@ class Lemari2Controller extends Controller
                         'harga' => $request->lacikecil,
                         'jenis' => 'main',
                         'tipe' => 'lemari',
+                        'kode'=> 'laciKecil',
+                        'url' => 'img/lemari2/lacikecil.png'
                     ]
                 );
             } else {
@@ -224,6 +307,8 @@ class Lemari2Controller extends Controller
                         'harga' => $request->lacibesar,
                         'jenis' => 'main',
                         'tipe' => 'lemari',
+                        'kode'=> 'laciBesar',
+                        'url' => 'img/lemari2/lacibesar.png'
                     ]
                 );
             } else {
@@ -232,6 +317,7 @@ class Lemari2Controller extends Controller
                     ->delete();
             }
         }
+
 
 
         // Proses input untuk Pintu
@@ -247,6 +333,9 @@ class Lemari2Controller extends Controller
                         'harga' => $request->pintu1,
                         'jenis' => 'second',
                         'tipe' => 'lemari',
+                        'kode'=> 'pintu1',
+                         'url' => 'img/lemari2/pintu1.png'
+
                     ]
                 );
             } else {
@@ -267,6 +356,9 @@ class Lemari2Controller extends Controller
                         'harga' => $request->pintu2,
                         'jenis' => 'second',
                         'tipe' => 'lemari',
+                        'kode'=> 'pintu2',
+                        'url' => 'img/lemari2/pintu2.jpeg'
+
                     ]
                 );
             } else {
@@ -288,6 +380,9 @@ class Lemari2Controller extends Controller
                         'harga' => $request->pintu3,
                         'jenis' => 'second',
                         'tipe' => 'lemari',
+                        'kode'=> 'pintu3',
+                        'url' => 'img/lemari1/pintugeser.jpg'
+
                     ]
                 );
             } else {
@@ -300,6 +395,5 @@ class Lemari2Controller extends Controller
         Alert::success('success', 'berhasil save detail');
 
         return redirect()->back();
-
     }
 }

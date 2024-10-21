@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('id_produk_custom_dijual');
             $table->string('jenis_kayu');
-            $table->string("harga");     
+            $table->string("harga");  
             $table->timestamps();
         });
     }

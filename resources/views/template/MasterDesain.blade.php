@@ -35,7 +35,7 @@
     <!-- Favicon -->
     {{-- <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" /> --}}
     <link rel="icon" type="image/x-icon" href="{{asset('img/icons/wood.png') }}"  />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/510/fabric.min.js"></script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -160,7 +160,7 @@
 
     @yield('script')
 
-    
+
 
 
   </body>

@@ -7,6 +7,7 @@ use App\Models\DetailAddonDijual;
 use App\Models\DetailProdukCustomDijual;
 use App\Models\ProdukCustomDijual;
 use App\Models\Template;
+use App\Models\toko;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,41 +19,55 @@ class ProdukCustomController extends Controller
 {
     //
 
-    public function getLogUser(){
+    public function getLogUser()
+    {
         $s = Session::get("user");
         $user = User::find($s->id);
         return $user;
     }
 
+    public function getToko()
+    {
+        $user = $this->getLogUser();
+
+        $toko = toko::find($user->id_toko);
+        return $toko;
+    }
+
     // START OF TEMPLATE
     // halaman daftar template
-    public function pageTemplateProduk(){
+    public function pageTemplateProduk()
+    {
         $user = $this->getLogUser();
-        $template = DB::table('templates')->where("id_toko",'=',$user->id_toko)->get();
-        return view("seller.produkCustom.template.daftarTemplate", ['user'=>$user, 'listTemplate'=>$template]);
-
+        $template = DB::table('templates')->where("id_toko", '=', $user->id_toko)->get();
+        return view("seller.produkCustom.template.daftarTemplate", ['user' => $user, 'listTemplate' => $template]);
     }
 
-    public function pageTambahTemplate(){
+    public function pageTambahTemplate()
+    {
         $user = $this->getLogUser();
-        return view("seller.produkCustom.template.tambahTemplate", ['user'=>$user]);
+        return view("seller.produkCustom.template.tambahTemplate", ['user' => $user]);
     }
 
-    public function addTemplate(Request $request){
+    public function addTemplate(Request $request)
+    {
         $user = $this->getLogUser();
 
-        $request->validate([
-            "nama"=>'required',
-            "tipe"=>'required',
-            "harga"=>'required|integer',
-            "keterangan"=>'required',
-            "foto"=>'required',
+        $request->validate(
+            [
+                "nama" => 'required',
+                "tipe" => 'required',
+                "harga" => 'required|integer',
+                "keterangan" => 'required',
+                "foto" => 'required',
 
-        ],
+            ],
 
-        ["required" => ":attribute harus di isi",
-        "integer" => ":attribute harus berupa angka"
-        ]);
+            [
+                "required" => ":attribute harus di isi",
+                "integer" => ":attribute harus berupa angka"
+            ]
+        );
 
         $foto1 = "";
         $namaFileGambar1  = "";
@@ -69,12 +84,12 @@ class ProdukCustomController extends Controller
 
         $namaFolderPhoto = "imgTemplate/";
 
-            // storeAs akan menyimpan default ke local
+        // storeAs akan menyimpan default ke local
         if ($request->file('foto') != null) {
             # code...
             $foto1 = $request->file("foto");
-            $namaFileGambar1  = Str::random(8).".".$foto1->getClientOriginalExtension();
-            $foto1->storeAs($namaFolderPhoto,$namaFileGambar1, 'public');
+            $namaFileGambar1  = Str::random(8) . "." . $foto1->getClientOriginalExtension();
+            $foto1->storeAs($namaFolderPhoto, $namaFileGambar1, 'public');
         }
 
 
@@ -85,31 +100,35 @@ class ProdukCustomController extends Controller
         toast('Berhasil tambah Produk', 'success');
         // Alert::success('','berhasil tambah satuan');
         return redirect(url('/seller/produkCustom/templateProduk'));
-
     }
 
-    public function pageEditTemplate($id){
+    public function pageEditTemplate($id)
+    {
         $user = $this->getLogUser();
 
         $template = Template::find($id);
-        return view("seller.produkCustom.template.editTemplate", ['user'=>$user, 'template'=>$template]);
+        return view("seller.produkCustom.template.editTemplate", ['user' => $user, 'template' => $template]);
     }
 
-    public function editTemplate(Request $request, $id){
+    public function editTemplate(Request $request, $id)
+    {
         $user = $this->getLogUser();
 
-        $request->validate([
-            "nama"=>'required',
-            "tipe"=>'required',
-            "harga"=>'required|integer',
-            "keterangan"=>'required',
+        $request->validate(
+            [
+                "nama" => 'required',
+                "tipe" => 'required',
+                "harga" => 'required|integer',
+                "keterangan" => 'required',
 
 
-        ],
+            ],
 
-        ["required" => ":attribute harus di isi",
-        "integer" => ":attribute harus berupa angka"
-        ]);
+            [
+                "required" => ":attribute harus di isi",
+                "integer" => ":attribute harus berupa angka"
+            ]
+        );
 
         $foto1 = "";
         $namaFileGambar1  = "";
@@ -123,18 +142,18 @@ class ProdukCustomController extends Controller
 
         $namaFolderPhoto = "imgTemplate/";
 
-            // storeAs akan menyimpan default ke local
+        // storeAs akan menyimpan default ke local
         if ($request->file('foto') != null) {
             # code...
-            $image_path = public_path('storage/imgTemplate/'.$p->gambar);
+            $image_path = public_path('storage/imgTemplate/' . $p->gambar);
             if (file_exists($image_path)) {
                 # code...
                 unlink($image_path);
             }
             $foto1 = $request->file("foto");
-            $namaFileGambar1  = Str::random(8).".".$foto1->getClientOriginalExtension();
+            $namaFileGambar1  = Str::random(8) . "." . $foto1->getClientOriginalExtension();
             $p->gambar = $namaFileGambar1;
-            $foto1->storeAs($namaFolderPhoto,$namaFileGambar1, 'public');
+            $foto1->storeAs($namaFolderPhoto, $namaFileGambar1, 'public');
         }
 
 
@@ -145,13 +164,13 @@ class ProdukCustomController extends Controller
         toast('Berhasil Ubah Template', 'success');
         // Alert::success('','berhasil tambah satuan');
         return redirect(url('/seller/produkCustom/templateProduk'));
-
     }
 
-    public function deleteTemplate($id){
+    public function deleteTemplate($id)
+    {
         $template = Template::find($id);
 
-        $path1 = public_path('storage/imgTemplate/'.$template->gambar);
+        $path1 = public_path('storage/imgTemplate/' . $template->gambar);
         if ($template->gambar != null && file_exists($path1)) {
             # code...
             unlink($path1);
@@ -167,33 +186,38 @@ class ProdukCustomController extends Controller
 
     // START OF ADD ON
 
-    public function pageAddOn(){
+    public function pageAddOn()
+    {
         $user = $this->getLogUser();
-        $template = DB::table('add_ons')->where("id_toko",'=',$user->id_toko)->get();
-        return view("seller.produkCustom.addon.daftarAddOn", ['user'=>$user, 'listAddOn'=>$template]);
-
+        $template = DB::table('add_ons')->where("id_toko", '=', $user->id_toko)->get();
+        return view("seller.produkCustom.addon.daftarAddOn", ['user' => $user, 'listAddOn' => $template]);
     }
 
-    public function pageTambahAddOn(){
+    public function pageTambahAddOn()
+    {
         $user = $this->getLogUser();
-        return view("seller.produkCustom.addon.tambahAddOn", ['user'=>$user]);
+        return view("seller.produkCustom.addon.tambahAddOn", ['user' => $user]);
     }
 
-    public function tambahAddOn(Request $request){
+    public function tambahAddOn(Request $request)
+    {
         $user = $this->getLogUser();
 
-        $request->validate([
-            "nama"=>'required',
-            "tipe"=>'required',
-            "harga"=>'required|integer',
-            "keterangan"=>'required',
-            "foto"=>'required',
+        $request->validate(
+            [
+                "nama" => 'required',
+                "tipe" => 'required',
+                "harga" => 'required|integer',
+                "keterangan" => 'required',
+                "foto" => 'required',
 
-        ],
+            ],
 
-        ["required" => ":attribute harus di isi",
-        "integer" => ":attribute harus berupa angka"
-        ]);
+            [
+                "required" => ":attribute harus di isi",
+                "integer" => ":attribute harus berupa angka"
+            ]
+        );
 
         $foto1 = "";
         $namaFileGambar1  = "";
@@ -210,12 +234,12 @@ class ProdukCustomController extends Controller
 
         $namaFolderPhoto = "imgAddOn/";
 
-            // storeAs akan menyimpan default ke local
+        // storeAs akan menyimpan default ke local
         if ($request->file('foto') != null) {
             # code...
             $foto1 = $request->file("foto");
-            $namaFileGambar1  = Str::random(8).".".$foto1->getClientOriginalExtension();
-            $foto1->storeAs($namaFolderPhoto,$namaFileGambar1, 'public');
+            $namaFileGambar1  = Str::random(8) . "." . $foto1->getClientOriginalExtension();
+            $foto1->storeAs($namaFolderPhoto, $namaFileGambar1, 'public');
         }
 
 
@@ -226,31 +250,35 @@ class ProdukCustomController extends Controller
         toast('Berhasil tambah Add-On', 'success');
         // Alert::success('','berhasil tambah satuan');
         return redirect(url('/seller/produkCustom/addOn'));
-
     }
 
-    public function pageEditAddOn($id){
+    public function pageEditAddOn($id)
+    {
         $user = $this->getLogUser();
 
         $addon = AddOn::find($id);
-        return view("seller.produkCustom.addon.editAddOn", ['user'=>$user, 'addon'=>$addon]);
+        return view("seller.produkCustom.addon.editAddOn", ['user' => $user, 'addon' => $addon]);
     }
 
-    public function editAddOn(Request $request, $id){
+    public function editAddOn(Request $request, $id)
+    {
         $user = $this->getLogUser();
 
-        $request->validate([
-            "nama"=>'required',
-            "tipe"=>'required',
-            "harga"=>'required|integer',
-            "keterangan"=>'required',
+        $request->validate(
+            [
+                "nama" => 'required',
+                "tipe" => 'required',
+                "harga" => 'required|integer',
+                "keterangan" => 'required',
 
 
-        ],
+            ],
 
-        ["required" => ":attribute harus di isi",
-        "integer" => ":attribute harus berupa angka"
-        ]);
+            [
+                "required" => ":attribute harus di isi",
+                "integer" => ":attribute harus berupa angka"
+            ]
+        );
 
         $foto1 = "";
         $namaFileGambar1  = "";
@@ -264,18 +292,18 @@ class ProdukCustomController extends Controller
 
         $namaFolderPhoto = "imgAddOn/";
 
-            // storeAs akan menyimpan default ke local
+        // storeAs akan menyimpan default ke local
         if ($request->file('foto') != null) {
             # code...
-            $image_path = public_path('storage/imgAddOn/'.$p->gambar);
+            $image_path = public_path('storage/imgAddOn/' . $p->gambar);
             if (file_exists($image_path)) {
                 # code...
                 unlink($image_path);
             }
             $foto1 = $request->file("foto");
-            $namaFileGambar1  = Str::random(8).".".$foto1->getClientOriginalExtension();
+            $namaFileGambar1  = Str::random(8) . "." . $foto1->getClientOriginalExtension();
             $p->gambar = $namaFileGambar1;
-            $foto1->storeAs($namaFolderPhoto,$namaFileGambar1, 'public');
+            $foto1->storeAs($namaFolderPhoto, $namaFileGambar1, 'public');
         }
 
 
@@ -286,13 +314,13 @@ class ProdukCustomController extends Controller
         toast('Berhasil Edit Add On', 'success');
         // Alert::success('','berhasil tambah satuan');
         return redirect(url('/seller/produkCustom/addOn'));
-
     }
 
-    public function deleteAddOn($id){
+    public function deleteAddOn($id)
+    {
         $addon = AddOn::find($id);
 
-        $path1 = public_path('storage/imgAddOn/'.$addon->gambar);
+        $path1 = public_path('storage/imgAddOn/' . $addon->gambar);
         if ($addon->gambar != null && file_exists($path1)) {
             # code...
             unlink($path1);
@@ -301,7 +329,6 @@ class ProdukCustomController extends Controller
         $addon->delete();
         toast('berhasil hapus add on', 'success');
         return redirect()->back();
-
     }
 
 
@@ -313,34 +340,48 @@ class ProdukCustomController extends Controller
 
 
     // halaman tambah produk custom
-    public function pageAddCustomProduk(){
+    public function pageAddCustomProduk()
+    {
         $user = $this->getLogUser();
 
         $daftarproduk = DB::table('produk_customs')->get();
-        return view('seller.produkCustom..produk.tambahProdukCustom', ['user'=>$user, 'listProduk'=>$daftarproduk]);
-
+        return view('seller.produkCustom..produk.tambahProdukCustom', ['user' => $user, 'listProduk' => $daftarproduk]);
     }
 
-    public function pageDaftarProdukCustom(){
+    public function pageDaftarProdukCustom()
+    {
 
         $user = $this->getLogUser();
 
-        $daftarproduk = DB::table('produk_custom_dijuals')->where('id_toko','=',$user->id_toko)->get();
+        $daftarproduk = DB::table('produk_custom_dijuals')->where('id_toko', '=', $user->id_toko)->get();
 
-        return view('seller.produkCustom.produk.daftarProdukCustom',['user'=>$user,'daftarProduk'=>$daftarproduk]);
+        return view('seller.produkCustom.produk.daftarProdukCustom', ['user' => $user, 'daftarProduk' => $daftarproduk]);
     }
 
-    public function pageDetailProdukCustom($id){
+    public function ubahStatusProduk(Request $request)
+    {
+
+        $produk = ProdukCustomDijual::find($request->idProduk);
+        // error_log($produk);
+        $produk->status = $request->status;
+        $produk->save();
+        // toast('Berhasil Ubah Status', 'success');
+        // error_log($request->status);
+        // dd($produk);
+    }
+
+    public function pageDetailProdukCustom($id)
+    {
 
         $user = $this->getLogUser();
 
         $produk = ProdukCustomDijual::find($id);
         $detailKayu = DetailProdukCustomDijual::where('id_produk_custom_dijual', $id)->get();
-            $detailAddon = DetailAddonDijual::where('id_produk_custom_dijual', $id)->get();
+        $detailAddon = DetailAddonDijual::where('id_produk_custom_dijual', $id)->get();
 
         if ($produk->nama_template == "Lemari 1") {
             # code...
-            
+
 
             // Kirim data ke view
             return view('seller.produkCustom.produk.detailLemari1', [
@@ -348,10 +389,16 @@ class ProdukCustomController extends Controller
                 'detailKayu' => $detailKayu,
                 'detailAddon' => $detailAddon
             ]);
-        }
-        else if($produk->nama_template == "Lemari 2"){
+        } else if ($produk->nama_template == "Lemari 2") {
 
             return view('seller.produkCustom.produk.detailLemari2', [
+                'user' => $user,
+                'detailKayu' => $detailKayu,
+                'detailAddon' => $detailAddon
+            ]);
+        } else if ($produk->nama_template == "Lemari 3") {
+
+            return view('seller.produkCustom.produk.detailLemari3', [
                 'user' => $user,
                 'detailKayu' => $detailKayu,
                 'detailAddon' => $detailAddon
@@ -360,10 +407,31 @@ class ProdukCustomController extends Controller
     }
 
 
-    
+    public function editDetailProduk(Request $request)
+    {
+
+        $produk = ProdukCustomDijual::find($request->idProduk);
+
+        $produk->nama_produk = $request->namaProduk;
+        $produk->deskripsi = $request->deskripsi;
+        $produk->panjang_min = $request->panjangMin;
+        $produk->panjang_max = $request->panjangMax;
+        $produk->tinggi_min = $request->tinggiMin;
+        $produk->tinggi_max = $request->tinggiMax;
+        $produk->lebar_min = $request->lebarMin;
+        $produk->lebar_max = $request->lebarMax;
+
+        $produk->save();
+
+        toast('Detail Produk Berhasil diubah', 'success');
+        return redirect()->back();
+    }
 
 
-    
+
+
+
+
 
 
 

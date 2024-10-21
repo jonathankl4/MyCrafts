@@ -46,6 +46,7 @@ class DonationController extends Controller
         $transaction->snap_token = $snapToken;
         $transaction->save();
 
-        return redirect()->route('bayarbro');
+        // return redirect()->route('bayarbro');
+        return response()->json(['success' => true, 'isi'=>$transaction]);
     }
 }

@@ -70,7 +70,7 @@
                                     <td>
 
                                         <a href="{{url('/seller/produkCustom/tambahLemari1')}}" class="btn btn-success">Tambah</a>
-                                        <a href="{{url('/seller/produkCustom/Testing')}}" class="btn btn-dark">Coba Custom</a>
+
                                     </td>
 
                                 </tr>
@@ -87,7 +87,41 @@
                                     <td>
 
                                         <a href="{{url('/seller/produkCustom/tambahLemari2')}}" class="btn btn-success">Tambah</a>
-                                        <a href="{{url('/seller/produkCustom/Testing')}}" class="btn btn-dark">Coba Custom</a>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td style="font-size: 16px">
+                                        <img
+                                            src="{{ url('/img/lemari3/lemari3.png') }}"
+                                            alt="" style="width:50px; height:80px">
+                                        <b>Lemari 3</b>
+                                    </td>
+
+
+                                    <td>
+
+                                        <a href="{{url('/seller/produkCustom/tambahLemari3')}}" class="btn btn-success">Tambah</a>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td style="font-size: 16px">
+                                        <img
+                                            src="{{ url('/img/meja1/meja1baru.png') }}"
+                                            alt="" style="width:70px; height:50px">
+                                        <b>Meja 1</b>
+                                    </td>
+
+
+                                    <td>
+
+                                        <a href="{{url('/seller/produkCustom/tambahMeja1')}}" class="btn btn-success">Tambah</a>
+
                                     </td>
 
                                 </tr>

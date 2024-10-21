@@ -17,5 +17,7 @@ class Donation extends Model
         'note',
         'status',
         'snap_token',
+        'pilihan',
+        'h_trans_id'
     ];
 }

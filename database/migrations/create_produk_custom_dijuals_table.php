@@ -16,7 +16,15 @@ return new class extends Migration
             $table->integer("id_toko");
             $table->string('nama_template');
             $table->string('kode');
-
+            $table->string('status');
+            $table->string('nama_produk')->nullable();
+            $table->longText('deskripsi')->nullable();
+            $table->integer('panjang_max')->nullable();
+            $table->integer('panjang_min')->nullable();
+            $table->integer('tinggi_min')->nullable();
+            $table->integer('tinggi_max')->nullable();
+            $table->integer('lebar_max')->nullable();
+            $table->integer('lebar_min')->nullable();
             $table->timestamps();
         });
     }

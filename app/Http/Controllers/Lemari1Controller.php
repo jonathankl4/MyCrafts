@@ -38,6 +38,14 @@ class Lemari1Controller extends Controller
             $p->id_toko = $user->id_toko;
             $p->nama_template = 'Lemari 1';
             $p->kode = 'lemari1';
+            $p->status = 'nonaktif';
+            $p->nama_produk = 'lemari 1';
+            $p->panjang_max = 80;
+            $p->panjang_min = 60;
+            $p->tinggi_max = 180;
+            $p->tinggi_min = 160;
+            $p->lebar_max = 60;
+            $p->lebar_min = 60;
             $p->save();
 
             Alert::success("Sukses", "Berhasil menambahkan produk");
@@ -52,31 +60,75 @@ class Lemari1Controller extends Controller
 
         $idProdukCustomDijual = $produk->id;
         $detail = DB::table('detail_produk_custom_dijuals')->where('id_produk_custom_dijual','=',$produk->id)->get();
-        $addon = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->get();
-        // dd($addon);
+        $addonMain = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->where('jenis','=','main')->get();
 
-        
+
         $addonPrices = [];
 
-        foreach($addon as $item){
-            if ($item->nama_addon === 'Sekat Horizontal') {
-                $addonPrices['sekatHorizontal'] = $item->harga;
-            } elseif ($item->nama_addon === 'Sekat Vertical') {
-                $addonPrices['sekatvertical'] = $item->harga;
-            } elseif ($item->nama_addon === 'Gantungan') {
-                $addonPrices['gantungan'] = $item->harga;
-            }
+        foreach($addonMain as $item){
+
+            $addonPrices[$item->kode] = $item->harga;
+
         }
+        // foreach($addonMain as $item){
+        //     if ($item->nama_addon === 'Sekat Horizontal') {
+        //         $addonPrices['sekatHorizontal'] = $item->harga;
+        //     } elseif ($item->nama_addon === 'Sekat Vertical') {
+        //         $addonPrices['sekatvertical'] = $item->harga;
+        //     } elseif ($item->nama_addon === 'Gantungan') {
+        //         $addonPrices['gantungan'] = $item->harga;
+        //     }
+        // }
 
-
-
-
-        return view('seller.produkCustom.produk.testing.lemari1.h1lemari1', ['user'=>$user, 'detail'=>$detail, 'addon'=>$addonPrices]);
+        // dd($addonPrices);
+        return view('seller.produkCustom.produk.testing.lemari1.h1lemari1', ['user'=>$user, 'detail'=>$detail, 'addonPrices'=>$addonPrices, 'listAddOnMain'=>$addonMain, 'produk'=>$produk]);
     }
+
 
     public function testing2(){
+        $user = $this->getLogUser();
+        $produk = DB::table('produk_custom_dijuals')->where('nama_template','=','Lemari 1')->where('id_toko','=',$user->id_toko)->first();
+        $addonSecond = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->where('jenis','=','second')->get();
+
+
+        $addonPrices = [];
+
+        foreach($addonSecond as $item){
+
+            $addonPrices[$item->kode] = $item->harga;
+
+        }
+
+        // dd($addonPrices);
+
+
+        return view('seller.produkCustom.produk.testing.lemari1.h2lemari1', ['user'=>$user, 'listPintu'=>$addonSecond, 'addonPrices'=>$addonPrices]);
 
     }
+
+    public function page2Custom($id){
+
+        // dd("kebukak coi");
+        $user = $this->getLogUser();
+        $produk = ProdukCustomDijual::find($id);
+        $addonSecond = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->where('jenis','=','second')->get();
+
+
+        $addonPrices = [];
+
+        foreach($addonSecond as $item){
+
+            $addonPrices[$item->kode] = $item->harga;
+
+        }
+
+        // dd($addonPrices);
+
+
+        return view('customer.shopping.produkCustom.lemari1.h2lemari1', ['user'=>$user, 'listPintu'=>$addonSecond, 'addonPrices'=>$addonPrices]);
+    }
+
+
 
     public function ubahDetailLemari1(Request $request){
 
@@ -182,6 +234,9 @@ class Lemari1Controller extends Controller
                         'harga' => $request->sekatVertical,
                         'jenis' => 'main',
                         'tipe' => 'lemari',
+                        'kode'=> 'sekatVertical',
+                        'url' => 'img/sekatvertical.jpeg'
+
                     ]
                 );
             } else {
@@ -202,6 +257,9 @@ class Lemari1Controller extends Controller
                         'harga' => $request->sekatHorizontal,
                         'jenis' => 'main',
                         'tipe' => 'lemari',
+                        'kode'=> 'sekatHorizontal',
+                        'url' => 'img/sekatHorizontal.jpeg'
+
                     ]
                 );
             } else {
@@ -222,6 +280,8 @@ class Lemari1Controller extends Controller
                         'harga' => $request->gantungan,
                         'jenis' => 'main',
                         'tipe' => 'lemari',
+                        'kode'=> 'gantungan',
+                        'url' => 'img/gantungan.jpeg'
                     ]
                 );
             } else {
@@ -245,6 +305,8 @@ class Lemari1Controller extends Controller
                         'harga' => $request->pintu1,
                         'jenis' => 'second',
                         'tipe' => 'lemari',
+                        'kode'=> 'pintu1',
+                        'url' => 'img/lemari1/pintu1.jpeg'
                     ]
                 );
             } else {
@@ -265,6 +327,8 @@ class Lemari1Controller extends Controller
                         'harga' => $request->pintu2,
                         'jenis' => 'second',
                         'tipe' => 'lemari',
+                        'kode'=> 'pintu2',
+                        'url' => 'img/lemari1/pintu2.jpg'
                     ]
                 );
             } else {
@@ -286,6 +350,8 @@ class Lemari1Controller extends Controller
                         'harga' => $request->pintu3,
                         'jenis' => 'second',
                         'tipe' => 'lemari',
+                        'kode'=> 'pintu3',
+                        'url' => 'img/lemari1/pintugeser.jpg'
                     ]
                 );
             } else {

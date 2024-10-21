@@ -47,7 +47,9 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Template</th>
+                                <th>Template</th>
+                                <th>Nama Produk</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
 
 
@@ -55,22 +57,140 @@
                         </thead>
                         <tbody>
 
-                            @for ($i=0;$i<count($daftarProduk);$i++)
-                            <tr>
-                                <td>1</td>
-                                <td style="font-size: 16px">
-                                    <b> {{$daftarProduk[$i]->nama_template}} </b>
-                                </td>
+                            @for ($i = 0; $i < count($daftarProduk); $i++)
+                                <tr>
+                                    <td>1</td>
+                                    <td style="font-size: 16px">
+                                        <b> {{ $daftarProduk[$i]->nama_template }} </b>
+                                    </td>
+                                    <td style="font-size: 16px">
+                                        <b> {{ $daftarProduk[$i]->nama_produk }} </b>
+                                    </td>
+                                    <td style="font-size: 16px">
+                                        @if ($daftarProduk[$i]->status == 'nonaktif')
+                                            <div class="col-3 text-end">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input float-end"
+                                                        id="statuscek{{ $daftarProduk[$i]->id }}" type="checkbox"
+                                                        role="switch"
+                                                        onchange="statuschange({{ $daftarProduk[$i]->id }})" />
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="col-3 text-end">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input float-end"
+                                                        id="statuscek{{ $daftarProduk[$i]->id }}" type="checkbox"
+                                                        role="switch" checked
+                                                        onchange="statuschange({{ $daftarProduk[$i]->id }})" />
+                                                </div>
+                                            </div>
+                                        @endif
 
 
-                                <td>
+                                    </td>
 
-                                    <a href="{{url('/seller/produkCustom/detailProdukCustom/'.$daftarProduk[$i]->id)}}" class="btn btn-success">Detail</a>
-                                    <a href="{{url('/seller/produkCustom/testing/'.$daftarProduk[$i]->kode)}}" class="btn btn-dark">Coba Custom</a>
-                                </td>
 
-                            </tr>
+                                    <td>
 
+                                        <a href="" data-bs-toggle="modal"
+                                            data-bs-target="#modalDetailProdukCustom{{ $i }}" class="btn "
+                                            style="background-color: #898063; color: white">Detail Produk</a>
+                                        <a href="{{ url('/seller/produkCustom/detailProdukCustom/' . $daftarProduk[$i]->id) }}"
+                                            class="btn " style="background-color: #4b4737; color: white">Detail
+                                            Kustomisai</a>
+                                        <a href="{{ url('/seller/produkCustom/testing/' . $daftarProduk[$i]->kode) }}"
+                                            class="btn btn-dark">Coba Custom</a>
+                                    </td>
+
+                                </tr>
+
+                                {{-- modal edit satuan --}}
+                                <div class="modal fade" id="modalDetailProdukCustom{{ $i }}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h2 class="card-title text-primary"> Edit </h2>
+
+                                                <form
+                                                    action="{{ url('seller/produkCustom/editDetailProduk') }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <input type="text" name="idProduk" id="idProduk" value="{{$daftarProduk[$i]->id}}" hidden>
+                                                    <div class="mb-3 ">
+                                                        <label class="" for="namaProduk"><b>Nama
+                                                                Produk</b></label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" class="form-control" id="namaProduk"
+                                                                name="namaProduk" value="{{ $daftarProduk[$i]->nama_produk }}"
+                                                                required />
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label><b>Panjang</b> (Minimal s/d Maksimal)</label>
+                                                        <div class="input-group">
+                                                            <input type="number" class="form-control" id="panjangMin"
+                                                            name="panjangMin" value="{{ $daftarProduk[$i]->panjang_min }}"
+                                                            required />
+                                                        <span class="input-group-text">Cm</span>
+                                                        <span class="input-group-text">s/d</span>
+                                                        <input type="number" class="form-control" id="panjangMax"
+                                                            name="panjangMax" value="{{ $daftarProduk[$i]->panjang_max }}"
+                                                            required />
+                                                        <span class="input-group-text">Cm</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label><b>Tinggi</b> (Minimal s/d Maksimal)</label>
+                                                        <div class="input-group">
+                                                            <input type="number" class="form-control" id="tinggiMin" name="tinggiMin"
+                                                                value="{{ $daftarProduk[$i]->tinggi_min }}" required />
+                                                            <span class="input-group-text">Cm</span>
+                                                            <span class="input-group-text">s/d</span>
+                                                            <input type="number" class="form-control" id="tinggiMax" name="tinggiMax"
+                                                                value="{{ $daftarProduk[$i]->tinggi_max }}" required />
+                                                            <span class="input-group-text">Cm</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label><b>Lebar</b> (Minimal s/d Maksimal)</label>
+                                                        <div class="input-group">
+                                                            <input type="number" class="form-control" id="lebarMin" name="lebarMin"
+                                                                value="{{ $daftarProduk[$i]->lebar_min }}" required />
+                                                            <span class="input-group-text">Cm</span>
+                                                            <span class="input-group-text">s/d</span>
+                                                            <input type="number" class="form-control" id="lebarMax" name="lebarMax"
+                                                                value="{{ $daftarProduk[$i]->lebar_max }}" required />
+                                                            <span class="input-group-text">Cm</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for=""><b>Deskripsi</b></label>
+                                                        <textarea name="deskripsi" id="deskripsi" cols="30" rows="5" class="form-control" required>{{$daftarProduk[$i]->deskripsi}}</textarea>
+                                                    </div>
+
+
+                                                    <button class="btn btn-primary">Simpan</button>
+
+
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endfor
 
 
@@ -96,86 +216,7 @@
 
         </div>
 
-        <div class="modal fade" id="modalTambah" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h2 class="card-title text-primary"> Tambah Template </h2>
-                        <form action="{{ url('masteruser/tambahTemplate') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" style="font-size: 16px">Nama Template</label>
-                                <div class="col-md-10">
-
-
-                                    <input type="text" class="form-control" id="namaTemplate" required
-                                        name="namaTemplate" required />
-                                    <span style="color: red;">{{ $errors->first('namaTemplate') }}</span>
-                                </div>
-                            </div>
-
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" style="font-size: 16px">Jenis Kayu</label>
-                                <div class="col-md-10">
-
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon13"><b>Kayu Jati</b>, Harga :</span>
-                                        <input type="number" class="form-control" id="hargakayujati" required name="hargakayujati"
-                                            placeholder="harga" />
-                                            <span class="input-group-text" id="basic-addon13">Rupiah</span>
-                                    </div>
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon13"><b>Kayu Mahoni</b>, Harga :</span>
-                                        <input type="number" class="form-control" id="hargakayumahoni" required name="hargakayumahoni"
-                                            placeholder="harga" />
-                                            <span class="input-group-text" id="basic-addon13">Rupiah</span>
-                                    </div>
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon13"><b>Kayu Pinus</b>, Harga :</span>
-                                        <input type="number" class="form-control" id="hargakayupinus" required name="hargakayupinus"
-                                            placeholder="harga" />
-                                            <span class="input-group-text" id="basic-addon13">Rupiah</span>
-                                    </div>
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon13"><b>Kayu Sungkai</b>, Harga :</span>
-                                        <input type="number" class="form-control" id="hargakayusungkai" required name="hargakayusungkai"
-                                            placeholder="harga" />
-                                            <span class="input-group-text" id="basic-addon13">Rupiah</span>
-                                    </div>
-                                        <span style="color: red;">{{ $errors->first('harga') }}</span>
-                                </div>
-
-                            </div>
-
-                            <div class="mb-3 row">
-                                <label class="col-md-2 col-form-label" style="font-size: 16px">Foto</label>
-                                <div class="col-md-10">
-
-                                    <input type="file" class="form-control" id="foto" required name="foto" />
-                                    <span style="color: red;">{{ $errors->first('foto') }}</span>
-                                </div>
-
-                            </div>
-
-                            <button type="submit" class="btn btn-success">Simpan</button>
-                        </form>
-
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
 
 
     </div>
@@ -200,5 +241,56 @@
 
 
         });
+    </script>
+
+    <script>
+        function statuschange(id) {
+
+            var x = document.getElementById("statuscek" + id).checked;
+            var stat = "";
+            var notif = ""
+            if (x == true) {
+                stat = "aktif";
+                notif = "produk diaktifkan !"
+            } else {
+                stat = "nonaktif";
+                notif = "produk di nonaktifkan !"
+            }
+
+            // $.post("{{ route('ubahStatusProduk') }}", {
+            //     _method: 'POST',
+            //     _token: '{{ csrf_token() }}',
+            //     status : x,
+            //     idProduk : id,
+            // });
+            $.post("{{ route('ubahStatusProdukCustom') }}", {
+                _method: 'POST',
+                _token: '{{ csrf_token() }}',
+                status: stat,
+                idProduk: id,
+            });
+
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: notif
+            });
+
+
+
+            // window.location.href = '{{ url('document.getElementById("status").value') }}';
+
+        };
     </script>
 @endsection

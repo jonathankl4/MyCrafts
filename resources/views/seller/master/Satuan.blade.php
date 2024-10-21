@@ -75,7 +75,7 @@
                                                 @csrf
                                                 <div class="mb-3">
                                                     <label class="form-label" >Nama Satuan</label>
-                                                    <input type="text" class="form-control" id="satuan" name="editSatuan" placeholder="contoh: gram, kg, dll" value="{{$listSatuan[$i]->nama_satuan}}" />
+                                                    <input type="text" class="form-control" id="satuan" name="editSatuan" placeholder="contoh: gram, kg, dll" value="{{$listSatuan[$i]->nama_satuan}}" required />
                                                     <span style="color: red;">{{ $errors->first('editSatuan')}}</span>
                                                 </div>
 
@@ -118,7 +118,7 @@
                                 @csrf
                                 <div class="mb-3">
                                     <label class="form-label" >Nama Satuan</label>
-                                    <input type="text" class="form-control" id="satuan" name="namaSatuan" placeholder="contoh: gram, kg, dll" />
+                                    <input type="text" class="form-control" id="satuan" name="namaSatuan" placeholder="contoh: gram, kg, dll" required />
                                     <span style="color: red;">{{ $errors->first('namaSatuan')}}</span>
                                 </div>
 
@@ -138,43 +138,6 @@
 
 
     </div>
-
-
-    @php
-        $cektambah = $errors->first('namaSatuan');
-        $cekedit = $errors->first('editSatuan')
-    @endphp
-    @if($cektambah != null)
-    <script>
-
-
-        $(document).ready( function () {
-            $("#add").trigger('click');
-
-
-
-
-
-
-
-    });
-    </script>
-
-
-
-    @endif
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

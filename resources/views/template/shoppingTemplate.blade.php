@@ -3,11 +3,12 @@
 
     <head>
         <meta charset="utf-8">
+        @yield('meta')
         <title>@yield('title')</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
-        
+
 
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,6 +29,11 @@
 
         <!-- Template Stylesheet -->
         <link href="{{asset('shop/css/style.css')}}" rel="stylesheet">
+
+        {{-- untuk save canvas  --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+        @yield('style')
     </head>
 
     <body>
@@ -38,7 +44,7 @@
 
 
         <!-- Navbar start -->
-        <div class="container-fluid fixed-top">
+        <div class="container-fluid fixed-top" style="z-index: 2">
             <div class="container topbar bg-dark d-none d-lg-block">
                 <div class="d-flex justify-content-between">
                     <div class="top-info ps-2">
@@ -60,7 +66,7 @@
                 </div>
             </div>
             <div class="container px-0">
-                <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                <nav class="navbar navbar-light bg-white navbar-expand-xl" >
                     <a href="{{url('/')}}" class="navbar-brand"><h1 class=" display-6">MyCrafts</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
@@ -83,9 +89,12 @@
                         </div>
                         <div class="d-flex m-3 me-0">
 
+                            {{-- <a href="" class="btn " style="background-color: #b39368 ;color: black">Custom Meja/Lemari</a> --}}
+                            &nbsp;
+                            &nbsp;
+                            <button class="btn-search btn border border-dark btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-dark"></i></button>
                             {{-- navbar jika belum login  --}}
                             @if ($user->role == "guest")
-                            <button class="btn-search btn border border-dark btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-dark"></i></button>
                             <a href="{{url('/register')}}" class="btn btn-dark">Daftar</a>
                             &nbsp;
                             <a href="{{url('/login')}}" class="btn btn-dark">Masuk</a>
@@ -94,11 +103,11 @@
                             {{-- navbar jika sudah login  --}}
                             @else
                             {{-- search  --}}
-                            <button class="btn-search btn border border-dark btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-dark"></i></button>
+
                             {{-- shopping cart  --}}
-                            <a href="#" class="position-relative me-4 my-auto">
+                            <a href="{{url('/customer/pembelian')}}" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x text-dark"></i>
-                                <span class="position-absolute bg-danger rounded-circle d-flex align-items-center justify-content-center text-white px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
+                                {{-- <span class="position-absolute bg-danger rounded-circle d-flex align-items-center justify-content-center text-white px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span> --}}
                             </a>
                             {{-- profile  --}}
                             <a href="#" class="my-auto" data-bs-toggle="dropdown">
@@ -259,6 +268,11 @@
 
     <!-- Template Javascript -->
     <script src="{{asset('shop/js/main.js')}}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/510/fabric.min.js"></script>
 
     @yield('script')
     </body>
