@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\produksi;
+namespace App\Http\Controllers\Produksi;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 
 class PenggunaanBahanController extends Controller
 {
- 
+
     //
     public function getLogUser(){
         $s = Session::get("user");
@@ -22,7 +22,7 @@ class PenggunaanBahanController extends Controller
 
         $user = $this->getLogUser();
 
-        
+
 
 
         return view("seller.produksi.penggunaanBahan.tambahPenggunaanBahan", ["user"=>$user]);
