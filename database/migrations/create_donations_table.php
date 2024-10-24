@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('donations', function (Blueprint $table) {
             $table->id();
-            $table->integer('h_trans_id');
+            $table->integer('h_trans_id')->nullable();
             $table->string('code')->nullable();
             $table->string('name');
             $table->string('email')->nullable();

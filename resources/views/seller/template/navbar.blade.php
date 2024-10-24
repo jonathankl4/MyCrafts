@@ -7,7 +7,7 @@
 			<i class="bx bx-menu bx-sm"></i>
 		</a>
 	</div>
-
+    
 	<div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
 

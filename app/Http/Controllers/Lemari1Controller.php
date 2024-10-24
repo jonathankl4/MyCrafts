@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DetailAddonDijual;
 use App\Models\DetailProdukCustomDijual;
 use App\Models\ProdukCustomDijual;
+use App\Models\toko;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,9 +22,19 @@ class Lemari1Controller extends Controller
         return $user;
     }
 
+    public function getToko()
+    {
+        $user = $this->getLogUser();
+
+        $toko = toko::find($user->id_toko);
+        return $toko;
+    }
+
 
     public function tambahLemari1(){
         $user = $this->getLogUser();
+        $toko =$this->getToko();
+
 
         $produk = DB::table('produk_custom_dijuals')->where('nama_template','=','Lemari 1')->where('id_toko','=',$user->id_toko)->first();
 

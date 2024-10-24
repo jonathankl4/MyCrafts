@@ -13,6 +13,13 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+
+        $schedule->call(function () {
+            app(\App\Http\Controllers\MembershipController::class)->checkExpiredMembership();
+        })->daily();
+        // jika ingin cek
+        // php artisan schedule:run
+        // ubah ->everyMinute();
     }
 
     /**

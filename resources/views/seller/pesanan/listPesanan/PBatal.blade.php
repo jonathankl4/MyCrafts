@@ -40,42 +40,42 @@
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
 
-                            <a href="{{ url('/seller/pesanan') }}" class="nav-link active">
+                            <a href="{{url('/seller/pesanan')}}" class="nav-link">
                                 Semua
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/nonCustom') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/nonCustom')}}" class="nav-link">
                                 Non Custom
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/custom') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/custom')}}" class="nav-link">
                                 Custom
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/produksi') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/produksi')}}" class="nav-link">
                                 Proses Produksi
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/siapDikirim') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/siapDikirim')}}" class="nav-link">
                                 Siap Dikirim
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/dalamPengiriman') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/dalamPengiriman')}}" class="nav-link">
                                 Dalam Pengiriman
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/selesai') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/selesai')}}" class="nav-link">
                                 Pesanan Selesai
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/batal') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/batal')}}" class="nav-link active">
                                 Dibatalkan
                             </a>
                         </li>
@@ -116,9 +116,6 @@
                                         <b>{{ \Carbon\Carbon::parse($pembelian[$i]->tgl_transaksi)->translatedFormat('j F Y') }}</b>
                                     </td>
 
-
-
-
                                     @php
                                         $s = $pembelian[$i]->status;
                                         $status = '';
@@ -150,11 +147,7 @@
                                         } elseif ($s == 9) {
                                             $status = 'Pesanan Batal';
                                             $color = 'bg-dark';
-                                        } elseif ($s == 11) {
-                                            $status = 'Belum di Konfirmasi';
-                                            $color = 'bg-warning';
                                         }
-
 
                                     @endphp
                                     <td style="font-size: 16px"><b><span

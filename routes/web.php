@@ -11,6 +11,7 @@ use App\Http\Controllers\Lemari3Controller;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\Meja1Controller;
+use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukCustomController;
@@ -94,7 +95,7 @@ Route::post('/cekotp', [LoginController::class, 'cekOtp'])->name('cekotp');
 // Route::get("/verify/{id}/{hash}", [LoginController::class, "verification"])->name('verification.verify');
 
 // Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])->middleware('throttle:6,1')->name('verification.send');
-
+Route::get('/toko/membership/check-expired', [MembershipController::class, 'checkExpiredMembership']);
 // ADMIN
 Route::group([
     'middleware' => ['rememberMe:master'],
@@ -179,8 +180,14 @@ Route::group([
     Route::get('/', [SellerController::class, "homePage"]);
     Route::get('/test1', [SellerController::class, "homePage2"]);
 
-    Route::get('/membership', [SellerController::class, 'membershipPage']);
+    Route::get('/membership', [MembershipController::class, 'membershipPage']);
+    Route::post('/beliMembership', [MembershipController::class, 'checkoutPage']);
+    Route::post('/checkout',[MembershipController::class, 'checkout'])->name('checkout');
 
+    Route::get('/pegawai', [SellerController::class, 'pegawaiPage']);
+    Route::post('/addPegawai', [SellerController::class, 'addPegawai']);
+    Route::post('/editPegawai/{id}', [SellerController::class, 'editPegawai']);
+    Route::get('/deletePegawai/{id}', [SellerController::class, 'deletePegawai']);
     //START OF TOKO
     //PRODUK
     Route::get('/produk/daftarProduk', [ProdukController::class, 'pageDaftarProduk']);
@@ -217,6 +224,7 @@ Route::group([
     // END OF TAMBAH PRODUK CUSTOM
 
 
+    // END OF PRODUK CUSTOM
 
     //TESTING PRODUK CUSTOM
     // LEMARI 1
@@ -236,11 +244,21 @@ Route::group([
 
 
     // PESANAN
+
     Route::get('/pesanan', [PesananController::class, 'pagePesanan']);
+        // List Pesanan
+        Route::get('/pesanan/nonCustom', [PesananController::class, 'pagePesananNonCustom']);
+        Route::get('/pesanan/custom', [PesananController::class, 'pagePesananCustom']);
+        Route::get('/pesanan/produksi', [PesananController::class, 'pagePesananProduksi']);
+        Route::get('/pesanan/siapDikirim', [PesananController::class, 'pagePesananSiapDikirim']);
+        Route::get('/pesanan/dalamPengiriman', [PesananController::class, 'pagePesananDalamPengiriman']);
+        Route::get('/pesanan/selesai', [PesananController::class, 'pagePesananSelesai']);
+        Route::get('/pesanan/batal', [PesananController::class, 'pagePesananBatal']);
+
     Route::get('/detailPesanan/{id}', [PesananController::class, 'detailPesanan']);
     Route::get('/custom/redesain/{id}', [PesananController::class, "redesain"]);
     Route::post('/kirimRedesain', [PesananController::class, 'kirimRedesain']);
-    Route::post('/custom/terimaPesanan', [PesananController::class, 'terimaPesanan']);
+    Route::post('/custom/terimaPesanan', [PesananController::class, 'terimaPesananCustom']);
 
     // TESTING APA AJAH
     Route::get('/produkCustom/testing', [TestController::class, 'testingfabric']);
@@ -270,74 +288,91 @@ Route::group([
     Route::get("/deleteAddOn/{id}", [ProdukCustomController::class, "deleteAddOn"]);
 
 
-
-    //START OF Master
     //Satuan
-    Route::get('/master/Satuan', [MasterController::class, "pageMasterSatuan"]);
+    Route::get('/Satuan', [MasterController::class, "pageMasterSatuan"]);
     Route::post('/addSatuan', [MasterController::class, "addSatuan"])->name('addSatuan');
     Route::get('/deleteSatuan/{id}', [MasterController::class, "deleteSatuan"]);
     Route::post('/editSatuan/{id}', [MasterController::class, "editSatuan"]);
 
-    //Supplier
-    Route::get('/master/supplier', [MasterController::class, "pageMasterSupplier"]);
-    Route::get('/pAddSupplier', [MasterController::class, "pageAddSupplier"]);
-    Route::post('/addSupplier', [MasterController::class, "addSupplier"]);
-    Route::get('/deleteSupplier/{id}', [MasterController::class, "deleteSupplier"]);
-    Route::get('/pEditSupplier/{id}', [MasterController::class, "pageEditSupplier"]);
-    Route::post('/editSupplier/{id}', [MasterController::class, "editSupplier"]);
+    //==================================================================================================================================
+    // FITUR PRO ONLY
+    Route::group([
+        'middleware' => ['proOnly'],
+    ], function () {
+        //START OF Master
 
-    //Bahan
-    Route::get('/master/bahan', [MasterController::class, "pageMasterBahan"]);
-    Route::get('/pAddBahan', [MasterController::class, "pageAddBahan"]);
-    Route::post('/addBahan', [MasterController::class, "addBahan"]);
-    Route::get('/deleteBahan/{id}', [MasterController::class, "deleteBahan"]);
-    Route::get('/pEditBahan/{id}', [MasterController::class, "pageEditBahan"]);
-    Route::post('/editBahan/{id}', [MasterController::class, "editBahan"]);
+        // SUPPLIER
+        Route::get('/master/supplier', [MasterController::class, "pageMasterSupplier"]);
+        Route::get('/pAddSupplier', [MasterController::class, "pageAddSupplier"]);
+        Route::post('/addSupplier', [MasterController::class, "addSupplier"]);
+        Route::get('/deleteSupplier/{id}', [MasterController::class, "deleteSupplier"]);
+        Route::get('/pEditSupplier/{id}', [MasterController::class, "pageEditSupplier"]);
+        Route::post('/editSupplier/{id}', [MasterController::class, "editSupplier"]);
 
-    //Mebel
-    Route::get('/master/mebel', [MasterController::class, "pageMasterMebel"]);
-    Route::get('/pAddMebel', [MasterController::class, "pageAddMebel"]);
-    Route::post('/addMebel', [MasterController::class, "addMebel"]);
-    Route::get('/deleteMebel/{id}', [MasterController::class, "deleteMebel"]);
-    Route::get('/pEditMebel/{id}', [MasterController::class, "pageEditMebel"]);
-    Route::post('/editMebel/{id}', [MasterController::class, "editMebel"]);
+        // BAHAN
+        Route::get('/master/bahan', [MasterController::class, "pageMasterBahan"]);
+        Route::get('/pAddBahan', [MasterController::class, "pageAddBahan"]);
+        Route::post('/addBahan', [MasterController::class, "addBahan"]);
+        Route::get('/deleteBahan/{id}', [MasterController::class, "deleteBahan"]);
+        Route::get('/pEditBahan/{id}', [MasterController::class, "pageEditBahan"]);
+        Route::post('/editBahan/{id}', [MasterController::class, "editBahan"]);
 
-    // END OF MASTER
+        //Mebel
+        Route::get('/master/mebel', [MasterController::class, "pageMasterMebel"]);
+        Route::get('/pAddMebel', [MasterController::class, "pageAddMebel"]);
+        Route::post('/addMebel', [MasterController::class, "addMebel"]);
+        Route::get('/deleteMebel/{id}', [MasterController::class, "deleteMebel"]);
+        Route::get('/pEditMebel/{id}', [MasterController::class, "pageEditMebel"]);
+        Route::post('/editMebel/{id}', [MasterController::class, "editMebel"]);
 
-    // START OF PRODUKSI
+        // END OF MASTER
 
-
-    //Perencanaan Produksi
-    Route::get('/produksi/perencanaanProduksi', [PerencanaanProduksiController::class, "pagePerencanaanProduksi"]);
-    Route::get('/pAddProduksi', [PerencanaanProduksiController::class, 'pageAddProduksi']);
-    Route::post('/addProduksi', [PerencanaanProduksiController::class, 'addProduksi']);
-    Route::get('/pEditProduksi/{id}', [PerencanaanProduksiController::class, 'pageEditProduksi']);
-    Route::post('/editProduksi/{id}', [PerencanaanProduksiController::class, 'editProduksi']);
-    Route::get('/batalkanProduksi/{id}', [PerencanaanProduksiController::class, 'batalkanProduksi']);
-    Route::get('/getBom', [PerencanaanProduksiController::class, 'getBom']);
-    Route::get('/pDetailProduksi/{id}', [PerencanaanProduksiController::class, 'pageDetailProduksi']);
-    Route::get('/pRiwayatProduksi', [PerencanaanProduksiController::class, 'pageRiwayatProduksi']);
-    Route::get('/penyelesaianProduksi/{id}', [PerencanaanProduksiController::class, 'pagePenyelesaianProduksi']);
-    Route::post('/simpanHasilProduksi', [PerencanaanProduksiController::class, 'simpanHasilProduksi']);
-    Route::get('/detailRiwayatProduksi/{id}', [PerencanaanProduksiController::class, 'detailRiwayatProduksi']);
+        // START OF PRODUKSI
 
 
-    //BILL OF MATERIAL
-    Route::get('/produksi/bom', [BomController::class, "pageBOM"]);
-    Route::get('/pAddBom', [BomController::class, "pageAddBom"]);
-    Route::post('/addBom', [BomController::class, "addBom"]);
-    Route::get('/deleteBom/{id}', [BomController::class, "deleteBom"]);
-    Route::get('/pEditBom/{id}', [BomController::class, "pageEditBom"]);
-    Route::post('/editBom/{id}', [BomController::class, "editBom"]);
+        //Perencanaan Produksi
+        Route::get('/produksi/perencanaanProduksi', [PerencanaanProduksiController::class, "pagePerencanaanProduksi"]);
+        Route::get('/pAddProduksi', [PerencanaanProduksiController::class, 'pageAddProduksi']);
+        Route::post('/addProduksi', [PerencanaanProduksiController::class, 'addProduksi']);
+        Route::get('/pEditProduksi/{id}', [PerencanaanProduksiController::class, 'pageEditProduksi']);
+        Route::post('/editProduksi/{id}', [PerencanaanProduksiController::class, 'editProduksi']);
+        Route::get('/batalkanProduksi/{id}', [PerencanaanProduksiController::class, 'batalkanProduksi']);
+        Route::get('/getBom', [PerencanaanProduksiController::class, 'getBom']);
+        Route::get('/pDetailProduksi/{id}', [PerencanaanProduksiController::class, 'pageDetailProduksi']);
+        Route::get('/pRiwayatProduksi', [PerencanaanProduksiController::class, 'pageRiwayatProduksi']);
+        Route::get('/penyelesaianProduksi/{id}', [PerencanaanProduksiController::class, 'pagePenyelesaianProduksi']);
+        Route::post('/simpanHasilProduksi', [PerencanaanProduksiController::class, 'simpanHasilProduksi']);
+        Route::get('/detailRiwayatProduksi/{id}', [PerencanaanProduksiController::class, 'detailRiwayatProduksi']);
 
-    // detail bom
-    Route::get('/pDetailBom/{id}', [BomController::class, "pageDetailBom"]);
-    Route::post('/addDetailBom/{id}', [BomController::class, "addDetailBom"]);
-    Route::get('/pAddDetailBom/{id}', [BomController::class, "pageAddDetailBom"]);
-    Route::get('/pEditDetailBom/{id}', [BomController::class, "pageEditDetailBom"]);
-    Route::post('/editDetailBom/{id}', [BomController::class, "editDetailBom"]);
-    Route::get('/deleteDetailBom/{id}', [BomController::class, "deleteDetailBom"]);
-    Route::get('/tambahDetailBom/getBahan', [BomController::class, "getBahan"]);
+
+        //BILL OF MATERIAL
+        Route::get('/produksi/bom', [BomController::class, "pageBOM"]);
+        Route::get('/pAddBom', [BomController::class, "pageAddBom"]);
+        Route::post('/addBom', [BomController::class, "addBom"]);
+        Route::get('/deleteBom/{id}', [BomController::class, "deleteBom"]);
+        Route::get('/pEditBom/{id}', [BomController::class, "pageEditBom"]);
+        Route::post('/editBom/{id}', [BomController::class, "editBom"]);
+
+        // detail bom
+        Route::get('/pDetailBom/{id}', [BomController::class, "pageDetailBom"]);
+        Route::post('/addDetailBom/{id}', [BomController::class, "addDetailBom"]);
+        Route::get('/pAddDetailBom/{id}', [BomController::class, "pageAddDetailBom"]);
+        Route::get('/pEditDetailBom/{id}', [BomController::class, "pageEditDetailBom"]);
+        Route::post('/editDetailBom/{id}', [BomController::class, "editDetailBom"]);
+        Route::get('/deleteDetailBom/{id}', [BomController::class, "deleteDetailBom"]);
+        Route::get('/tambahDetailBom/getBahan', [BomController::class, "getBahan"]);
+
+        // END OF PRODUKSI
+
+    });
+
+
+
+
+
+
+
+
 
 
     // INPUT HASIL PRODUKSI

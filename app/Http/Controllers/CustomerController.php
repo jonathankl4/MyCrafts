@@ -7,6 +7,7 @@ use App\Models\HTrans;
 use App\Models\Post;
 use App\Models\ProdukCustomDijual;
 use App\Models\ProdukDijual;
+use App\Models\satuan;
 use App\Models\tester;
 use App\Models\toko;
 use App\Models\User;
@@ -107,12 +108,25 @@ class CustomerController extends Controller
         $toko = new toko();
         $toko->id_owner = $user->id;
         $toko->nama = $user->username;
-        $toko->status = "free";
+        $toko->status = "Free";
         $toko->save();
 
 
         $user->id_toko = $toko->id;
         $user->save();
+
+        $s = [];
+        $s[] = 'cm';
+        $s[] = 'kg';
+        $s[] = 'meter';
+
+        for ($i = 0; $i < count($s); $i++) {
+            # code...
+            $satuan = new satuan();
+            $satuan->id_toko = $user->id_toko;
+            $satuan->nama_satuan = $s[$i];
+            $satuan->save();
+        }
 
         Alert::success('Berhasil menjadi Seller', '');
 
@@ -150,7 +164,8 @@ class CustomerController extends Controller
         return view("customer.shopping.nonCustom.produkDetail", ['user' => $user, 'produk' => $produk, 'foto' => $foto]);
     }
 
-    public function detailProdukCustom($id){
+    public function detailProdukCustom($id)
+    {
         $user = $this->getLogUser();
         $produk = ProdukCustomDijual::find($id);
 
@@ -171,8 +186,7 @@ class CustomerController extends Controller
             $foto[] = 'img/lemari3/lemari3.png';
             $foto[] = 'img/lemari3/lemari3samping.png';
         }
-        return view("customer.shopping.produkCustom.produkCustomDetail", ['user' => $user, 'produk' => $produk, 'foto' => $foto, 'detail'=>$detail, 'addonMain'=>$addonMain, 'addonSec'=>$addonSec]);
-
+        return view("customer.shopping.produkCustom.produkCustomDetail", ['user' => $user, 'produk' => $produk, 'foto' => $foto, 'detail' => $detail, 'addonMain' => $addonMain, 'addonSec' => $addonSec]);
     }
 
     public function halamanCheckout(Request $request)
@@ -205,7 +219,7 @@ class CustomerController extends Controller
             'jumlah' => $request->jumlah,
             'tipe_trans' => 'Non-Custom',
             'harga' => $harga,
-            'status' => 3,
+            'status' => 1,
             'tgl_transaksi' => now(),
             'catatan' => $request->catatan,
             'alamat' => $request->alamat,
@@ -249,35 +263,30 @@ class CustomerController extends Controller
         $transaction->save();
 
         toast('transaksi berhasil, silahkan lakukan pembayaran', 'success');
-        return redirect(url('/'));
+        return redirect(url('/detailTransaksiNonCustom/' . $trans->id));
     }
 
     public function pembayaran(Request $request)
     {
 
-
-        $donation = Donation::where('h_trans_id', $request->idHtrans)->first();
+        $htrans = Htrans::find($request->idHtrans);
         if ($request->pilihan == 'awal') {
             # code...
-            $donation = Donation::where('h_trans_id', $request->idHtrans)->where('pilihan', 'awal')->first();
+            $htrans->pilihan = 'awal';
+            $htrans->status = 4;
+        } else if ($request->pilihan == 'baru') {
+            $htrans->pilihan = 'baru';
+            $htrans->status = 4;
         }
-        else if($request->pilihan == 'baru'){
-            $donation = Donation::where('h_trans_id', $request->idHtrans)->where('pilihan', 'baru')->first();
-
+        else if ($request->pilihan == 'jadi') {
+            # code...
+            $htrans->pilihan = 'jadi';
+            $htrans->status = 11;
         }
-       $htrans = Htrans::find($request->idHtrans);
-        // Find the donation by its order ID
-
-        // Find the related h_trans record
-
-        $donation->status = 'success';
-        $htrans->status = 4; // Update
-
-        // Save the updated donation and h_trans records
-        $donation->save();
+        $htrans->status_pembayaran = 1;
         $htrans->save();
 
-        return response()->json(['success' => true], 200);
+        return response()->json(['status' => 'success']);
     }
 
     public function listPembelian()

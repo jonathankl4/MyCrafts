@@ -17,6 +17,9 @@ class toko extends Model
         'slogan',
         'deskripsi',
         'foto',
+        'status',
+        'membership_expires_at',
+        'membership_type'
 
     ];
 }

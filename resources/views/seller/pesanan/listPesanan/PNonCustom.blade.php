@@ -40,42 +40,42 @@
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
 
-                            <a href="{{ url('/seller/pesanan') }}" class="nav-link active">
+                            <a href="{{url('/seller/pesanan')}}" class="nav-link">
                                 Semua
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/nonCustom') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/nonCustom')}}" class="nav-link active">
                                 Non Custom
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/custom') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/custom')}}" class="nav-link">
                                 Custom
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/produksi') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/produksi')}}" class="nav-link">
                                 Proses Produksi
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/siapDikirim') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/siapDikirim')}}" class="nav-link">
                                 Siap Dikirim
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/dalamPengiriman') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/dalamPengiriman')}}" class="nav-link">
                                 Dalam Pengiriman
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/selesai') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/selesai')}}" class="nav-link">
                                 Pesanan Selesai
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/batal') }}" class="nav-link">
+                            <a href="{{url('/seller/pesanan/batal')}}" class="nav-link">
                                 Dibatalkan
                             </a>
                         </li>
@@ -99,6 +99,7 @@
                                 <th>Tipe Transaksi</th>
                                 <th>Tanggal Transaksi</th>
 
+                                <th>Status Pembayaran</th>
                                 <th>Status Pesanan</th>
                                 <th>Aksi</th>
 
@@ -115,9 +116,22 @@
                                     <td style="font-size: 16px">
                                         <b>{{ \Carbon\Carbon::parse($pembelian[$i]->tgl_transaksi)->translatedFormat('j F Y') }}</b>
                                     </td>
+                                    @php
+                                        $p = $pembelian[$i]->status_pembayaran;
+                                        $pstatus = '';
+                                        $pcolor = '';
+                                        if ($p == 0) {
+                                            $pstatus = 'Belum Di Bayar';
+                                            $pcolor = 'bg-warning';
+                                        } elseif ($p == 1) {
+                                            $pstatus = 'Sudah Dibayar';
+                                            $pcolor = 'bg-secondary';
+                                        }
 
-
-
+                                    @endphp
+                                    <td style="font-size: 16px"><b><span
+                                                class="badge {{ $pcolor }}">{{ $pstatus }}</span></b>
+                                    </td>
 
                                     @php
                                         $s = $pembelian[$i]->status;
@@ -151,10 +165,9 @@
                                             $status = 'Pesanan Batal';
                                             $color = 'bg-dark';
                                         } elseif ($s == 11) {
-                                            $status = 'Belum di Konfirmasi';
-                                            $color = 'bg-warning';
+                                            $status = 'Belum di Konrimasi';
+                                            $color = 'bg-dark';
                                         }
-
 
                                     @endphp
                                     <td style="font-size: 16px"><b><span

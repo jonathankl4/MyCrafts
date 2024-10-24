@@ -24,6 +24,7 @@ class HTrans extends Model
         'fotoredesain',
         'status_redesain',
         'status',
+        'status_pembayaran',
         'tgl_transaksi',
         'panjang',
         'tinggi',
@@ -31,7 +32,8 @@ class HTrans extends Model
         'jenis_kayu',
         'catatan',
         'alamat',
-        'nomorTelepon'
+        'nomorTelepon',
+        'pilihan'
 
     ];
 }

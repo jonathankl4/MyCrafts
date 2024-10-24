@@ -88,6 +88,8 @@
                                     }
                                 } elseif ($htrans->status == 3) {
                                     $customStatus = 'Menunggu Pembayaran';
+                                } else if($htrans->status == 4){
+                                    $customStatus = 'Pembayaran diterima, menunggu';
                                 }
                             @endphp
 
@@ -124,7 +126,10 @@
                                         Belum Ada
                                     @else
                                         Rp. {{ number_format($htrans->harga, 0, ',', '.') }}
+                                        @if ($htrans->status == 3)
+
                                         <button class="btn btn-dark mt-2" id="pay-button">Bayar</button>
+                                        @endif
                                     @endif
                                 </span>
                             </div>
@@ -167,37 +172,46 @@
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}">
     </script>
     <script>
-
         let htrans = @json($htrans);
-        @if ($data1)
+        @if ($data1 && $htrans->status == 3)
             document.getElementById('pay-button').addEventListener('click', function() {
                 snap.pay('{{ $data1->snap_token }}', {
                     onSuccess: function(result) {
-                        fetch("{{ route('pembayaran') }}", {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                },
-                                body: JSON.stringify({
-                                    hasil: result,
-                                    idHtrans: htrans.id
 
-                                })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.status === 'success') {
-                                    // Redirect user to custom page after successful payment
-                                    window.location.href = "{{ url('/customer/pembelian') }}" ;
+                        $.ajax({
+                            url: '{{ route('pembayaran') }}', // URL ke route untuk update membership
+                            method: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                hasil: result,
+                                idHtrans: htrans.id,// Data paket yang dipilih
+                                pilihan: 'jadi'
+                            },
+                            success: function(response) {
+                                if (response.status == 'success') {
+                                    window.location.href =
+                                        '{{ url('/customer/pembelian') }}'; // Redirect ke dashboard
+                                } else {
+                                    alert(
+                                        'Pembayaran berhasil, tapi ada masalah dalam pembaruan membership.'
+                                    );
                                 }
-                            });
+                                console.log(response)
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error:', error);
+                                alert('Terjadi kesalahan saat memperbarui membership.');
+                            }
+                        });
                     },
                     onPending: function(result) {
 
                     },
                     onError: function(result) {
 
+                    },
+                    onClose: function() {
+                        alert('kemu menututp popup tanpa menyelesaikan pembayaran');
                     }
                 });
             });

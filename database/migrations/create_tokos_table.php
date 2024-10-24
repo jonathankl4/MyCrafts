@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string("slogan")->nullable();
             $table->string("deskripsi")->nullable();
             $table->string("foto")->nullable();
+            $table->string('status')->nullable();
+            $table->date('membership_expires_at')->nullable();
+            $table->enum('membership_type', ['free', '1-month', '6-months', '12-months'])->default('free');
             $table->timestamps();
         });
     }

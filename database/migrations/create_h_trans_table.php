@@ -33,10 +33,12 @@ return new class extends Migration
             $table->string('fotoredesain')->nullable();
             $table->integer('status_redesain')->nullable();
             $table->integer('status')->nullable();
-            $table->date('tgl_transaksi');
+            $table->integer('status_pembayaran')->default(0);
+            $table->dateTime('tgl_transaksi');
             $table->longText('catatan')->nullable();
             $table->longText('alamat')->nullable();
             $table->string('nomorTelepon')->nullable();
+            $table->string('pilihan')->nullable();
             $table->timestamps();
         });
     }
@@ -46,12 +48,18 @@ return new class extends Migration
     // status 1 = transkasi custom sudah submit (dalam review seller)
     // status 2 = seller mengajukan perbaikan desain
     // status 3 = pembelian sudah fix tinggal pembayaran
-    // status 4 = sudah melakukan pembayaran
-    // status 5 = dalam pengiriman
-    // stasus 6 = selesai
-    // stasus 7 = pembayaran pending
-    // stasus 8 = pembayaran ditolak
-    // stasus 9 = pembayaran dibatalkan
+    // status 4 = sudah melakukan pembayaran, dalam proses produksi
+    // status 5 = sudah melakukan pembayaran, siap dikirim, sudah selesai produksi(jika custom)
+    // status 6 = dalam pengiriman
+    // stasus 7 = Pesanan selesai
+    // stasus 8 = Pesanan dibatalkan seller
+    // stasus 9 = Pesanan dibatalkan buyer
+    // stasus 10 = pembayaran dibatalkan
+    // status 11 = belum di konfirmasi penjual (non custom)
+
+    // keterangan atribute status pembayaran
+    // status 0 = belom bayar
+    // status 1 = sudah bayar
 
     // keterangan atribute status_redesain
     // status 1 = diajukan oleh seller

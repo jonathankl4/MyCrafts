@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'rememberMe' => \App\Http\Middleware\Rememberme::class,
         'checkLog' => \App\Http\Middleware\checklog::class,
         'checkStatusUser' => \App\Http\Middleware\CheckStatusUser::class,
+        'proOnly' => \App\Http\Middleware\ProOnly::class
     ];
 }

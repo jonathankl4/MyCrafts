@@ -92,7 +92,7 @@
                                         <br>
                                         <span id="hargabaru">Rp.
                                             {{ number_format($htrans->harga_redesain, 0, ',', '.') }} </span>
-                                            <button class="btn btn-dark" id="pay-button2">Bayar</button>
+                                        <button class="btn btn-dark" id="pay-button2">Bayar</button>
                                     @endif
                                 </div>
                                 {{-- <button id="pay-button">bayar</button> --}}
@@ -194,9 +194,8 @@
                     <h2 class="card-title "> Perbaikan Desain </h2>
 
                     @if ($htrans->fotoredesain != null)
-
-                    <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoredesain) }}"
-                        style="width: 300px;height:450px">
+                        <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoredesain) }}"
+                            style="width: 300px;height:450px">
                     @endif
                     {{-- <form id="myForm">
                     <div class="mb-3">
@@ -246,92 +245,104 @@
 
         let htrans = @json($htrans);
         @if ($data1)
-        document.getElementById('pay-button').addEventListener('click', function() {
-            snap.pay('{{ $data1->snap_token }}', {
-                // Optional
-                onSuccess: function(result) {
-                    /* You may add your own js here, this is just example */
-                    // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-                    fetch("{{ route('pembayaran') }}", {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                },
-                                body: JSON.stringify({
-                                    hasil: result,
-                                    idHtrans: htrans.id,
-                                    pilihan: 'awal'
+            document.getElementById('pay-button').addEventListener('click', function() {
+                snap.pay('{{ $data1->snap_token }}', {
+                    // Optional
+                    onSuccess: function(result) {
+                        /* You may add your own js here, this is just example */
+                        // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
 
-
-                                })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.status === 'success') {
-                                    // Redirect user to custom page after successful payment
-                                    window.location.href = "{{ url('/customer/pembelian') }}" ;
+                        $.ajax({
+                            url: '{{ route('pembayaran') }}', // URL ke route untuk update membership
+                            method: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                hasil: result,
+                                idHtrans: htrans.id,
+                                pilihan: 'awal' // Data paket yang dipilih
+                            },
+                            success: function(response) {
+                                if (response.status == 'success') {
+                                    window.location.href =
+                                        '{{ url('/customer/pembelian') }}'; // Redirect ke dashboard
+                                } else {
+                                    alert(
+                                        'Pembayaran berhasil, tapi ada masalah dalam pembaruan membership.'
+                                        );
                                 }
-                            });
-                },
-                // Optional
-                onPending: function(result) {
-                    /* You may add your own js here, this is just example */
-                    // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-                },
-                // Optional
-                onError: function(result) {
-                    /* You may add your own js here, this is just example */
-                    // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error:', error);
+                                alert('Terjadi kesalahan saat memperbarui membership.');
+                            }
+                        });
+                    },
+                    // Optional
+                    onPending: function(result) {
+                        /* You may add your own js here, this is just example */
+                        // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    },
+                    // Optional
+                    onError: function(result) {
+                        /* You may add your own js here, this is just example */
+                        // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    },
+                    onClose: function() {
+                        alert('kemu menututp popup tanpa menyelesaikan pembayaran');
+                    }
+                });
             });
-        });
         @endif
 
 
         @if ($data2)
-        document.getElementById('pay-button2').addEventListener('click', function() {
-            snap.pay('{{ $data2->snap_token }}', {
-                // Optional
-                onSuccess: function(result) {
-                    /* You may add your own js here, this is just example */
-                    // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-                    fetch("{{ route('pembayaran') }}", {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                },
-                                body: JSON.stringify({
-                                    hasil: result,
-                                    idHtrans: htrans.id,
-                                    pilihan: 'baru'
-
-
-                                })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.status === 'success') {
-                                    // Redirect user to custom page after successful payment
-                                    window.location.href = "{{ url('/customer/pembelian') }}" ;
+            document.getElementById('pay-button2').addEventListener('click', function() {
+                snap.pay('{{ $data2->snap_token }}', {
+                    // Optional
+                    onSuccess: function(result) {
+                        /* You may add your own js here, this is just example */
+                        // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                        $.ajax({
+                            url: '{{ route('pembayaran') }}', // URL ke route untuk update membership
+                            method: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                hasil: result,
+                                idHtrans: htrans.id,
+                                pilihan: 'baru' // Data paket yang dipilih
+                            },
+                            success: function(response) {
+                                if (response.status == 'success') {
+                                    window.location.href =
+                                        '{{ url('/customer/pembelian') }}'; // Redirect ke dashboard
+                                } else {
+                                    alert(
+                                        'Pembayaran berhasil, tapi ada masalah dalam pembaruan membership.'
+                                        );
                                 }
-                            });
-                },
-                // Optional
-                onPending: function(result) {
-                    /* You may add your own js here, this is just example */
-                    // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-                },
-                // Optional
-                onError: function(result) {
-                    /* You may add your own js here, this is just example */
-                    // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error:', error);
+                                alert('Terjadi kesalahan saat memperbarui membership.');
+                            }
+                        });
+                    },
+                    // Optional
+                    onPending: function(result) {
+                        /* You may add your own js here, this is just example */
+                        // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    },
+                    // Optional
+                    onError: function(result) {
+                        /* You may add your own js here, this is just example */
+                        // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    },
+                    onClose: function() {
+                        alert('kemu menututp popup tanpa menyelesaikan pembayaran');
+                    }
+                });
             });
-        });
         @endif
-
     </script>
 
 @endsection

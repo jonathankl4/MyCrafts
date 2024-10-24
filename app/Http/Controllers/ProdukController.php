@@ -81,23 +81,7 @@ class ProdukController extends Controller
     public function addProduk(Request $request){
         $user = $this->getLogUser();
 
-        $request->validate([
-            "namaProduk"=>'required',
-            "tipeProduk"=>'required',
-            "hargaProduk"=>['required', 'integer'],
-            "jumlahProduk"=>['required', 'integer'],
-            "ukuranPanjang"=>['required', 'integer'],
-            "ukuranLebar"=>['required','integer'],
-            "ukuranTinggi"=>'required|integer',
-            "satuanProduk"=>'required',
-            "keteranganProduk"=>'required',
-            "beratProduk"=>'required|integer',
-            "fotoUtama"=>'required',
-        ],
-
-        ["required" => ":attribute harus di isi",
-        "integer" => ":attribute harus berupa angka"
-        ]);
+       
 
         $foto1 = "";
         $foto2 = "";

@@ -67,7 +67,7 @@
                         <label class="col-md-2 col-form-label" style="font-size: 16px">Nama Produk</label>
                         <div class="col-md-10">
                             <input type="text" class="form-control" id="namaProduk" name="namaProduk"
-                                placeholder="Nama Produk" value="{{ old('namaProduk') }}" />
+                                placeholder="Nama Produk" value="{{ old('namaProduk') }}" required />
                             <span style="color: red;">{{ $errors->first('namaProduk') }}</span>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                         <label class="col-md-2 col-form-label" style="font-size: 16px">tipe Produk</label>
                         <div class="col-md-10">
                             <input type="text" class="form-control" id="tipeProduk" name="tipeProduk"
-                                placeholder="Tipe Produk" value="{{ old('tipeProduk') }}" />
+                                placeholder="Tipe Produk" value="{{ old('tipeProduk') }}" required />
                             <span style="color: red;">{{ $errors->first('tipeProduk') }}</span>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                         <div class="col-md-10">
 
                             <input type="number" class="form-control" id="hargaProduk" name="hargaProduk"
-                                placeholder="Harga" value="{{ old('hargaProduk') }}" />
+                                placeholder="Harga" value="{{ old('hargaProduk') }}" required />
                             <span style="color: red;">{{ $errors->first('hargaProduk') }}</span>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                         <div class="col-md-10">
 
                             <input type="number" class="form-control" id="jumlahProduk" name="jumlahProduk"
-                                placeholder="Jumlah Produk" value="{{ old('jumlahProduk') }}" />
+                                placeholder="Jumlah Produk" value="{{ old('jumlahProduk') }}" required/>
                             <span style="color: red;">{{ $errors->first('jumlahProduk') }}</span>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
 
                                 <input type="number" class="form-control" id="beratProduk" name="beratProduk"
                                     aria-describedby="beratprodukinfo" placeholder="Berat Produk"
-                                    value="{{ old('beratProduk') }}" />
+                                    value="{{ old('beratProduk') }}" required />
                                 <span class="input-group-text" id="beratprodukinfo">Gram</span>
                             </div>
                             <span style="color: red;">{{ $errors->first('beratProduk') }}</span>
@@ -128,7 +128,7 @@
 
                         <div class="col-md-10">
                             <select name="satuanProduk" id="satuanProduk" class="theSelect form-select"
-                                style="height: 50px;width: 50%">
+                                style="height: 50px;width: 50%" required>
                                 <option value="" disabled selected hidden>Satuan Ukuran</option>
                                 @for ($i = 0; $i < count($satuan); $i++)
                                     <option value="{{ $satuan[$i]->nama_satuan }}">{{ $satuan[$i]->nama_satuan }}
@@ -143,7 +143,7 @@
                                 <span class="input-group-text" id="spanpanjang" style="">Panjang :</span>
                                 <input type="number" class="form-control" id="ukuranPanjang" name="ukuranPanjang"
                                     aria-describedby="spanpanjang" style="border: 1.3px ridge "
-                                    value="{{ old('ukuranPanjang') }}" />
+                                    value="{{ old('ukuranPanjang') }}" required />
                                 <span class="input-group-text " id="labelPanjang"></span>
                             </div>
                             <span style="color: red;">{{ $errors->first('ukuranPanjang') }}</span>
@@ -152,7 +152,7 @@
                                 <span class="input-group-text" id="spanlebar" style="">Lebar :</span>
                                 <input type="number" class="form-control" id="ukuranLebar" name="ukuranLebar"
                                     aria-describedby="spanlebar" style="border: 1.3px ridge "
-                                    value="{{ old('ukuranLebar') }}" />
+                                    value="{{ old('ukuranLebar') }}" required />
                                 <span class="input-group-text" id="labelLebar"></span>
                             </div>
                             <span style="color: red;">{{ $errors->first('ukuranLebar') }}</span>
@@ -161,7 +161,7 @@
                                 <span class="input-group-text" id="spantinggi" style="">Tinggi :</span>
                                 <input type="number" class="form-control" id="ukuranTinggi" name="ukuranTinggi"
                                     aria-describedby="spantinggi" style="border: 1.3px ridge "
-                                    value="{{ old('ukuranTinggi') }}" />
+                                    value="{{ old('ukuranTinggi') }}" required/>
                                 <span class="input-group-text " id="labelTinggi"></span>
                             </div>
                             <span style="color: red;">{{ $errors->first('ukuranTinggi') }}</span>
