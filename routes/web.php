@@ -259,6 +259,7 @@ Route::group([
     Route::get('/custom/redesain/{id}', [PesananController::class, "redesain"]);
     Route::post('/kirimRedesain', [PesananController::class, 'kirimRedesain']);
     Route::post('/custom/terimaPesanan', [PesananController::class, 'terimaPesananCustom']);
+    Route::post('/nonCustom/terimaPesanan', [PesananController::class, 'terimaPesananNonCustom']);
 
     // TESTING APA AJAH
     Route::get('/produkCustom/testing', [TestController::class, 'testingfabric']);

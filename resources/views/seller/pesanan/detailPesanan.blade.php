@@ -209,30 +209,37 @@
 
         </div>
 
+
         <div class="modal fade" id="modalTerimaPesanan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"></h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-header" style="background-color: #bfb596; color: white;">
+                        {{-- <h5 class="modal-title" id="exampleModalLabel">Pesanan Baru</h5> --}}
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <h2 class="card-title text-dark" style="font-weight: bold;"> Terima Pesanan </h2>
+                        <form id="myForm">
+                            <div class="mb-3">
+                                <label for="" style="font-size: 18px; font-weight: bold;"> Perkiraan Harga: <span style="color: #3c7e63;">Rp {{number_format($detail->perkiraan_harga, 0, ',', '.')}}</span></label>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Harga Fix</label>
+                                <input type="number" class="form-control" id="hargafix" name="hargafix" required />
+                                {{-- <span style="color: red">*Harga Fix yang harus dibayarkan oleh customer</span> --}}
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" style="font-size: 16px; font-weight: 500;">Ongkir</label>
+                                <input type="number" class="form-control" id="ongkir" name="ongkir" required placeholder="Masukkan ongkir" />
+                                <small style="color: red;">*Total yang harus dibayarkan customer (harga + ongkir)</small>
+                            </div>
+                            <button type="submit" class="btn" id="terimaPesanan" style="background-color: #bfb596; color: black; width: 100%; padding: 10px; font-size: 16px;">Terima</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer" style="border-top: none;">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 8px 16px;">Close</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <h2 class="card-title text-primary"> Terima Pesanan </h2>
-
-                    <form id="myForm">
-                        <div class="mb-3">
-                            <label class="form-label">Harga Fix</label>
-                            <input type="number" class="form-control" id="hargafix" name="hargafix" required />
-                            <span style="color: red">*Harga Fix yang harus dibayarkan oleh customer</span>
-                        </div>
-                        <button class="btn" id="terimaPesanan" style="background-color: #3c7e63; color: white">Terima</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                </div>
-              </div>
             </div>
         </div>
 
@@ -309,7 +316,7 @@ document.getElementById('terimaPesanan').addEventListener('click', function(even
             event.preventDefault(); // Mencegah submit default jika valid
 
             const fixHarga = document.getElementById('hargafix').value;
-
+            const ongkir = document.getElementById('ongkir').value;
             fetch('/seller/custom/terimaPesanan', {
                     method: 'POST',
                     headers: {
@@ -318,7 +325,8 @@ document.getElementById('terimaPesanan').addEventListener('click', function(even
                     },
                     body: JSON.stringify({
                         fixHarga: fixHarga,
-                        id_htrans: htrans.id
+                        id_htrans: htrans.id,
+                        ongkir: ongkir
                     })
                 })
                 .then(response => response.json())

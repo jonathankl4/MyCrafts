@@ -16,26 +16,33 @@
         .card {
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border: none;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         .card-header {
             background-color: #343a40;
             color: #fff;
             font-weight: bold;
+            font-size: 18px;
+            padding: 20px;
         }
 
         .card-body {
+            padding: 30px;
+            background-color: #fff;
             color: #333;
         }
 
         .detail-row {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .detail-label {
             font-size: 16px;
             font-weight: bold;
             margin-bottom: 5px;
+            color: #6c757d;
         }
 
         .detail-value {
@@ -44,19 +51,24 @@
         }
 
         .status-label {
-            background-color: #ffc107;
+            background-color: #f0deb4;
             color: #000;
-            padding: 5px 10px;
+            padding: 8px 15px;
             border-radius: 5px;
+            font-size: 14px;
         }
 
         .btn-custom {
-            background-color: #bfb596;
-            color: #000;
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
         }
 
         .btn-custom:hover {
-            background-color: #a49c84;
+            background-color: #218838;
         }
 
         .total-amount {
@@ -64,13 +76,27 @@
             font-weight: bold;
             color: #d9534f;
         }
+
+        .modal-header {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .btn-close {
+            background-color: #fff;
+        }
     </style>
 @endsection
 
 @section('content')
     <div class="content-wrapper">
         <div class="container py-5">
-            <h2 class="fw-bold text-center mb-4">Detail Transaksi</h2>
+            <br><br>
+            <h2 class="fw-bold text-center mb-4"></h2>
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
@@ -90,15 +116,16 @@
                                     $customStatus = 'Menunggu Pembayaran';
                                 } else if($htrans->status == 4){
                                     $customStatus = 'Pembayaran diterima, menunggu';
+                                } else if($htrans->status == 5){
+                                    $customStatus = 'Pembelian di Siapkan';
                                 }
                             @endphp
 
                             <div class="detail-row">
                                 <span class="detail-label">Status Transaksi:</span>
-                                <span class="detail-value">{{ $customStatus }}</span>
+                                <span class="status-label">{{ $customStatus }}</span>
                                 @if ($htrans->status == 2)
-                                    <button class="btn btn-custom mt-2" data-bs-toggle="modal"
-                                        data-bs-target="#modalDesainBaru">Lihat Perbaikan Desain</button>
+                                    <button class="btn btn-custom mt-3" data-bs-toggle="modal" data-bs-target="#modalDesainBaru">Lihat Perbaikan Desain</button>
                                 @endif
                             </div>
 
@@ -111,33 +138,45 @@
                                 <span class="detail-label">Alamat Pengiriman:</span>
                                 <span class="detail-value">{{ $htrans->alamat }}</span>
                             </div>
+
                             <div class="detail-row">
                                 <span class="detail-label">Produk:</span>
-                                <br>
-                                <span class="detail-value">Nama: {{ $htrans->nama_produk }}</span>
-                                <br>
-                                <span class="detail-value">jumlah: {{ $htrans->jumlah }}</span>
+                                <span class="detail-value">Nama: {{ $htrans->nama_produk }}</span><br>
+                                <span class="detail-value">Jumlah: {{ $htrans->jumlah }}</span>
                             </div>
 
                             <div class="detail-row">
-                                <span class="detail-label">Harga:</span>
+                                <span class="detail-label">Ongkir:</span>
                                 <span class="detail-value">
-                                    @if ($htrans->harga <= 0)
-                                        Belum Ada
+                                    @if ($htrans->ongkir == null)
+                                        Menunggu Konfirmasi
                                     @else
-                                        Rp. {{ number_format($htrans->harga, 0, ',', '.') }}
-                                        @if ($htrans->status == 3)
-
-                                        <button class="btn btn-dark mt-2" id="pay-button">Bayar</button>
-                                        @endif
+                                        Rp. {{ number_format($htrans->ongkir, 0, ',', '.') }}
                                     @endif
                                 </span>
                             </div>
 
-                            @if ($htrans->harga_redesain != null)
-                                <div class="alert alert-warning mt-3">
-                                    Silahkan Bayar dengan desain baru atau tetap dengan desain lama.
-                                </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Harga:</span>
+                                <span class="detail-value">Rp. {{ number_format($htrans->harga, 0, ',', '.') }}</span>
+                            </div>
+
+                            <div class="detail-row">
+                                <span class="detail-label">Total:</span>
+                                <span class="total-amount">
+                                    @if ($htrans->ongkir == null)
+                                        Menunggu Konfirmasi
+                                    @else
+                                        Rp. {{ number_format($htrans->ongkir + $htrans->harga, 0, ',', '.') }}
+                                    @endif
+                                </span>
+                            </div>
+                            @if ($htrans->status == 3)
+
+                            <button id="pay-button" class="btn btn-dark">Bayar</button>
+                            @endif
+                            @if ($htrans->status_pembayaran == 1)
+                            <span class="badge " style="background-color: #00c9ab"> Pembayaran Berhasil</span>
                             @endif
                         </div>
                     </div>
@@ -155,7 +194,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Desain perbaikan dapat diisikan di sini -->
                     <p>Desain perbaikan ditampilkan di sini...</p>
                 </div>
                 <div class="modal-footer">
@@ -164,39 +202,31 @@
             </div>
         </div>
     </div>
-
-    <!-- / Content -->
 @endsection
 
 @section('script')
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}">
-    </script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}"></script>
     <script>
         let htrans = @json($htrans);
         @if ($data1 && $htrans->status == 3)
             document.getElementById('pay-button').addEventListener('click', function() {
                 snap.pay('{{ $data1->snap_token }}', {
                     onSuccess: function(result) {
-
                         $.ajax({
-                            url: '{{ route('pembayaran') }}', // URL ke route untuk update membership
+                            url: '{{ route('pembayaran') }}',
                             method: 'POST',
                             data: {
                                 _token: '{{ csrf_token() }}',
                                 hasil: result,
-                                idHtrans: htrans.id,// Data paket yang dipilih
+                                idHtrans: htrans.id,
                                 pilihan: 'jadi'
                             },
                             success: function(response) {
                                 if (response.status == 'success') {
-                                    window.location.href =
-                                        '{{ url('/customer/pembelian') }}'; // Redirect ke dashboard
+                                    window.location.href = '{{ url('/customer/pembelian') }}';
                                 } else {
-                                    alert(
-                                        'Pembayaran berhasil, tapi ada masalah dalam pembaruan membership.'
-                                    );
+                                    alert('Pembayaran berhasil, tapi ada masalah dalam pembaruan membership.');
                                 }
-                                console.log(response)
                             },
                             error: function(xhr, status, error) {
                                 console.error('Error:', error);
@@ -204,14 +234,10 @@
                             }
                         });
                     },
-                    onPending: function(result) {
-
-                    },
-                    onError: function(result) {
-
-                    },
+                    onPending: function(result) {},
+                    onError: function(result) {},
                     onClose: function() {
-                        alert('kemu menututp popup tanpa menyelesaikan pembayaran');
+                        alert('Anda menutup popup tanpa menyelesaikan pembayaran');
                     }
                 });
             });

@@ -70,6 +70,16 @@
                             </div>
                             <br>
                             <div class="row">
+                                <span style="font-size: 16px"><b>Ongkir</b></span>
+                                @if ($htrans->ongkir == null)
+                                    <span>Tunggu Konfirmasi penjual</span>
+                                    @else
+
+                                    <span>Rp. {{ number_format($htrans->ongkir, 0, ',', '.') }} </span>
+                                @endif
+                            </div>
+                            <br>
+                            <div class="row">
 
 
 
@@ -98,7 +108,7 @@
                                 {{-- <button id="pay-button">bayar</button> --}}
 
                                 @if ($htrans->harga_redesain != null)
-                                    <label for="" class="badge bg-warning" style="margin-top: 10px">Silahkan Bayar
+                                    <label for="" class="badge bg-warning" style="margin-top: 10px">Silahkan Pilih Bayar
                                         dengan desain baru atau tetap dengan desain lama </label>
                                 @endif
                             </div>

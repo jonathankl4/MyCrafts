@@ -229,40 +229,7 @@ class CustomerController extends Controller
 
         // dd($trans->id);
 
-        $transaction = Donation::create([
-            'code'   => 'DONATION-' . mt_rand(100000, 999999),
-            'name'   => $user->username,
-            'email'  => $user->email,
-            'amount' => $harga,
-            'note'   => "-",
-            'pilihan' => 'jadi',
-            'h_trans_id' => $trans->id,
-        ]);
-        \Midtrans\Config::$serverKey    = config('midtrans.serverKey');
-        \Midtrans\Config::$isProduction = config('midtrans.isProduction');
-        \Midtrans\Config::$isSanitized  = config('midtrans.isSanitized');
-        \Midtrans\Config::$is3ds        = config('midtrans.is3ds');
-
-
-        $params = array(
-            'transaction_details' => array(
-                'order_id' => rand(),
-                'gross_amount' => $harga,
-            ),
-            'customer_details' => array(
-                'first_name' => $user->username,
-                'email'      => $user->email,
-
-            ),
-
-        );
-
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
-
-        $transaction->snap_token = $snapToken;
-        $transaction->save();
-
-        toast('transaksi berhasil, silahkan lakukan pembayaran', 'success');
+        toast('transaksi berhasil, silahkan tunggu konfirmasi penjual', 'success');
         return redirect(url('/detailTransaksiNonCustom/' . $trans->id));
     }
 
@@ -281,7 +248,7 @@ class CustomerController extends Controller
         else if ($request->pilihan == 'jadi') {
             # code...
             $htrans->pilihan = 'jadi';
-            $htrans->status = 11;
+            $htrans->status = 5;
         }
         $htrans->status_pembayaran = 1;
         $htrans->save();
@@ -289,13 +256,59 @@ class CustomerController extends Controller
         return response()->json(['status' => 'success']);
     }
 
-    public function listPembelian()
+    public function listPembelian(Request $request)
     {
         $user = $this->getLogUser();
 
-        $pembelian = DB::table('h_trans')->where('id_user', $user->id)->whereIn('status', [1, 2, 3, 4])->orderBy('tgl_transaksi', 'desc')->get();
+        $status = $request->query('status', 'semua');
+        $subStatus = $request->query('sub_status', null);
 
-        return view('customer.shopping.pembelian', ['user' => $user, 'pembelian' => $pembelian]);
+        switch ($status) {
+            case 'berjalan':
+                // Filter berdasarkan sub-status jika ada
+                $query = DB::table('h_trans')->where('id_user', $user->id);
+
+                if ($subStatus == 'menunggu_konfirmasi') {
+                    $query->whereIn('status',[1, 2] ); // Misal status 1 adalah Menunggu Konfirmasi
+                } elseif ($subStatus == 'siap_dikirim') {
+                    $query->where('status', 5); // Misal status 2 adalah Siap Dikirim
+                } elseif ($subStatus == 'sedang_produksi') {
+                    $query->where('status', 4); // Misal status 3 adalah Sedang di Produksi
+                } elseif ($subStatus == 'dikirim') {
+                    $query->where('status', 6); // Misal status 4 adalah Dikirim
+                } else {
+                    $query->whereIn('status', [1, 2, 3, 4, 5, 6]); // Semua status yang termasuk dalam "berjalan"
+                }
+
+                $pembelian = $query->orderBy('tgl_transaksi', 'desc')->get();
+                break;
+
+            case 'berhasil':
+                $pembelian = DB::table('h_trans')
+                    ->where('id_user', $user->id)
+                    ->where('status', 7) // Misal status 5 adalah berhasil
+                    ->orderBy('tgl_transaksi', 'desc')
+                    ->get();
+                break;
+
+            case 'tidak_berhasil':
+                $pembelian = DB::table('h_trans')
+                    ->where('id_user', $user->id)
+                    ->where('status', 8) // Misal status 6 adalah tidak berhasil
+                    ->orderBy('tgl_transaksi', 'desc')
+                    ->get();
+                break;
+
+            default:
+                $pembelian = DB::table('h_trans')
+                    ->where('id_user', $user->id)
+                    ->where('status','!=', 0)
+                    ->orderBy('tgl_transaksi', 'desc')
+                    ->get();
+                break;
+        }
+
+        return view('customer.shopping.pembelian', ['user' => $user, 'pembelian' => $pembelian, 'status'=>$status, 'sub_status'=> $subStatus]);
     }
 
     public function detailTransaksiCustom($id)
@@ -320,7 +333,7 @@ class CustomerController extends Controller
         $dtrans = DB::table('d_trans')->where('h_trans_id', $id)->get();
 
         $data1 = DB::table('donations')->where('h_trans_id', $id)->first();
-
+        // dd($data1);
 
         return view('customer.shopping.nonCustom.detailPembelianNonCustom', ['user' => $user, 'htrans' => $htrans, 'dtrans' => $dtrans, 'data1' => $data1]);
     }

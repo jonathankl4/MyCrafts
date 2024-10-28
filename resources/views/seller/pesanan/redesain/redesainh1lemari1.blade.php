@@ -278,24 +278,7 @@
                                 <h5>Perkiraan Harga <span id="total-price">Rp 0</span> </h5>
 
                             </div>
-                            <form id="redesain-form">
-                                <div>
-                                    <label for="harga-fix">Harga Fix Untuk Desain Lama</label>
-                                    <input type="number" id="harga-fix" name="harga-fix" class="form-control" required>
-                                </div>
-                                <div>
-                                    <label for="harga-redesain">Harga Fix Untuk Desain Baru </label>
-                                    <input type="number" name="harga-redesain" id="harga-redesain" required
-                                        class="form-control">
-                                </div>
-                                <br>
-
-
-
-                                {{-- <a href="#" id="redesain" class="btn btn-primary">Kirim Desain Baru</a> --}}
-                                <button class="btn btn-primary">Kirim Desain Baru</button>
-
-                            </form>
+                            @include('seller.pesanan.redesain.template.form-redesain')
 
 
 
@@ -392,6 +375,69 @@
     <script>
         let canvas = new fabric.Canvas('tshirt-canvas');
         let currentDoor = null;
+        let kayuData = @json($detail);
+        let addonPrices = @json($addonPrices);
+        // console.log(jeniskayu);
+        console.log(addonPrices);
+        let produk = @json($produk);
+        console.log(produk);
+        let user = @json($user);
+        let pembelian = @json($pembelian);
+        let datapilihan = @json($datapilihan);
+
+        function updateGrid(canvas, widthCm, heightCm) {
+            // Clear existing grid
+            canvas.getObjects().forEach(obj => {
+                if (obj.gridLine) {
+                    canvas.remove(obj);
+                }
+            });
+
+            const canvasWidth = canvas.getWidth();
+            const canvasHeight = canvas.getHeight();
+            widthCm -= 4;
+            heightCm -= 13;
+
+
+            // Calculate pixel to cm ratio for each axis independently
+            const pixelPerCmX = canvasWidth / widthCm;
+            const pixelPerCmY = canvasHeight / heightCm;
+            let gridColor = '#231d00';
+            let gridOpacity = 0.5;
+            let gridLines = [];
+            // Draw vertical lines every 5cm based on width
+            for (let i = 0; i <= widthCm; i += 10) {
+                const x = i * pixelPerCmX;
+                const line = new fabric.Line([x, 0, x, canvasHeight], {
+                    stroke: gridColor,
+                    selectable: false,
+                    strokeWidth: i % 10 === 0 ? 2 : 1, // Thicker line every 10cm
+                    gridLine: true,
+                    opacity: gridOpacity
+                });
+                canvas.add(line);
+                gridLines.push(line);
+            }
+
+            // Draw horizontal lines every 5cm based on height
+            for (let i = 0; i <= heightCm; i += 10) {
+                const y = i * pixelPerCmY;
+                const line = new fabric.Line([0, y, canvasWidth, y], {
+                    stroke: gridColor,
+                    selectable: false,
+                    strokeWidth: i % 10 === 0 ? 2 : 1, // Thicker line every 10cm
+                    gridLine: true,
+                    opacity: gridOpacity
+                });
+                canvas.add(line);
+                gridLines.push(line);
+            }
+            gridLines.forEach(line => {
+                canvas.sendToBack(line); // Pindahkan garis ke lapisan paling belakang
+            });
+
+            canvas.renderAll();
+        }
 
 
         canvas.on('object:moving', function(e) {
@@ -463,8 +509,9 @@
             gantunganDiv.style.display = (counterGantungan > 0) ? 'block' : 'none';
         }
 
-        let currentVerticalSize = 150;
-        let currentHorizontalSize = 70;
+        let currentVerticalSize = pembelian.tinggi;
+        let currentHorizontalSize = pembelian.panjang;
+        updateGrid(canvas, currentHorizontalSize, currentVerticalSize);
 
         let selectedKayuPrice = 0;
 
@@ -505,15 +552,7 @@
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
 
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
-        let kayuData = @json($detail);
-        let addonPrices = @json($addonPrices);
-        // console.log(jeniskayu);
-        console.log(addonPrices);
-        let produk = @json($produk);
-        console.log(produk);
-        let user = @json($user);
-        let pembelian = @json($pembelian);
-        let datapilihan = @json($datapilihan);
+
 
 
 
@@ -728,13 +767,13 @@
 
                 let fixHarga = document.getElementById('harga-fix').value;
                 let hargaRedesain = document.getElementById('harga-redesain').value;
-
+                let ongkir = document.getElementById('ongkir').value
 
                 // Gunakan html2canvas untuk membuat screenshot dari elemen
                 html2canvas(element).then(function(canvas) {
                     // Ubah canvas menjadi URL gambar base64
                     var dataURL = canvas.toDataURL('image/png');
-
+                    document.getElementById('loadingScreen').style.display = 'block';
                     fetch('/seller/kirimRedesain', {
                             method: 'POST',
                             headers: {
@@ -751,7 +790,8 @@
                                 addonPrices: addonPrices,
                                 total_harga: totalPrice,
                                 hargaFix: fixHarga,
-                                hargaRedesain: hargaRedesain
+                                hargaRedesain: hargaRedesain,
+                                ongkir: ongkir
 
 
 
@@ -760,7 +800,8 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                alert('Perbaikan Desain Berhasil dikirim');
+                                // alert('Perbaikan Desain Berhasil dikirim');
+                                window.location.href = '{{ url('/seller/detailPesanan') }}' + '/' + pembelian.id;
                             } else {
                                 alert("gambar gagal disimpan");
                             }
@@ -768,6 +809,10 @@
                         .catch(error => {
                             console.error('Error:', error);
                             alert('Terjadi kesalahan saat mengirim gambar');
+                        })
+                        .finally(() => {
+                            // Sembunyikan loading screen setelah proses selesai
+                            document.getElementById('loadingScreen').style.display = 'none';
                         });
 
                 });

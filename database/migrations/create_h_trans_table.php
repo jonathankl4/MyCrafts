@@ -27,7 +27,7 @@ return new class extends Migration
             $table->integer('tinggi')->nullable();
             $table->string('jenis_kayu')->nullable();
             $table->integer('harga_kayu')->nullable();
-
+            $table->integer('ongkir')->nullable();
             $table->string('fotoh1')->nullable();
             $table->string('fotoh2')->nullable();
             $table->string('fotoredesain')->nullable();

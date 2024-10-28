@@ -854,7 +854,7 @@
             html2canvas(element).then(function(canvas) {
                 // Ubah canvas menjadi URL gambar base64
                 var dataURL = canvas.toDataURL('image/png');
-
+                document.getElementById('loadingScreen').style.display = 'block';
                 fetch('/save', {
                         method: 'POST',
                         headers: {
@@ -891,7 +891,11 @@
                     .catch(error => {
                         console.error('Error:', error);
                         alert('Terjadi kesalahan saat mengirim gambar');
-                    });
+                    })
+                    .finally(() => {
+                            // Sembunyikan loading screen setelah proses selesai
+                            document.getElementById('loadingScreen').style.display = 'none';
+                        });
 
             });
 

@@ -10,6 +10,7 @@ use App\Models\ProdukDijual;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
@@ -72,7 +73,7 @@ class PesananController extends Controller
         $user = $this->getLogUser();
 
 
-        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->where('tipe_trans', 'custom')->whereIn('status', [5])->orderBy('tgl_transaksi', 'desc')->get();
+        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->whereIn('status', [5])->orderBy('tgl_transaksi', 'desc')->get();
 
         // dd($pembelian);
         return view('seller.pesanan.listPesanan.PSiapDikirim', ['user' => $user, 'pembelian' => $pembelian]);
@@ -83,7 +84,7 @@ class PesananController extends Controller
         $user = $this->getLogUser();
 
 
-        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->where('tipe_trans', 'custom')->whereIn('status', [6])->orderBy('tgl_transaksi', 'desc')->get();
+        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->whereIn('status', [6])->orderBy('tgl_transaksi', 'desc')->get();
 
         // dd($pembelian);
         return view('seller.pesanan.listPesanan.PDalamPengiriman', ['user' => $user, 'pembelian' => $pembelian]);
@@ -93,7 +94,7 @@ class PesananController extends Controller
         $user = $this->getLogUser();
 
 
-        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->where('tipe_trans', 'custom')->whereIn('status', [7])->orderBy('tgl_transaksi', 'desc')->get();
+        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->whereIn('status', [7])->orderBy('tgl_transaksi', 'desc')->get();
 
         // dd($pembelian);
         return view('seller.pesanan.listPesanan.PSelesai', ['user' => $user, 'pembelian' => $pembelian]);
@@ -103,7 +104,7 @@ class PesananController extends Controller
         $user = $this->getLogUser();
 
 
-        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->where('tipe_trans', 'custom')->whereIn('status', [8,9])->orderBy('tgl_transaksi', 'desc')->get();
+        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->whereIn('status', [8,9])->orderBy('tgl_transaksi', 'desc')->get();
 
         // dd($pembelian);
         return view('seller.pesanan.listPesanan.PBatal', ['user' => $user, 'pembelian' => $pembelian]);
@@ -116,13 +117,17 @@ class PesananController extends Controller
 
         $pembelian = HTrans::find($id);
 
+
+
+
         // dd($pembelian);
-        if ($pembelian->tipe_trans = 'Non-Custom') {
+        if ($pembelian->tipe_trans == 'Non-Custom') {
 
             $produk = ProdukDijual::find($pembelian->id_produk);
             # code...
             return view('seller.pesanan.detailPesananNonCustom', ['user' => $user, 'detail' => $pembelian, 'produk'=>$produk]);
-        }else {
+        }elseif ($pembelian->tipe_trans == 'custom') {
+            # code...
             $addon = DB::table('d_trans')->where('h_trans_id', $id)->get();
             // dd($addon);
 
@@ -130,8 +135,54 @@ class PesananController extends Controller
         }
 
 
-    }
 
+
+    }
+    public function terimaPesananNonCustom(Request $request){
+        $user = $this->getLogUser();
+
+        $pembelian = HTrans::find($request->id_htrans);
+        $pembelian->status = 3;
+        $pembelian->ongkir = $request->ongkir;
+        $pembelian->save();
+
+        $harga = $pembelian->harga + $request->ongkir;
+
+        $transaction = Donation::create([
+            'code'   => 'DONATION-' . mt_rand(100000, 999999),
+            'name'   => $user->username,
+            'email'  => $user->email,
+            'amount' => $harga,
+            'note'   => "-",
+            'pilihan' => 'jadi',
+            'h_trans_id' => $request->id_htrans,
+        ]);
+        \Midtrans\Config::$serverKey    = config('midtrans.serverKey');
+        \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+        \Midtrans\Config::$isSanitized  = config('midtrans.isSanitized');
+        \Midtrans\Config::$is3ds        = config('midtrans.is3ds');
+
+
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => rand(),
+                'gross_amount' => $harga,
+            ),
+            'customer_details' => array(
+                'first_name' => $user->username,
+                'email'      => $user->email,
+
+            ),
+
+        );
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+        $transaction->snap_token = $snapToken;
+        $transaction->save();
+
+        return response()->json(['success' => true]);
+    }
     public function terimaPesananCustom(Request $request) {
 
         $user = $this->getLogUser();
@@ -139,14 +190,18 @@ class PesananController extends Controller
         $pembelian = HTrans::find($request->id_htrans);
         $pembelian->harga = $request->fixHarga;
         $pembelian->status = 3;
+        $pembelian->ongkir = $request->ongkir;
+        $pembelian->pilihan = 'awal';
         $pembelian->save();
+
+        $harga = $request->fixHarga+$request->ongkir;
 
 
         $transaction = Donation::create([
             'code'   => 'DONATION-' . mt_rand(100000, 999999),
             'name'   => $user->username,
             'email'  => $user->email,
-            'amount' => $request->fixHarga,
+            'amount' => $harga,
             'note'   => "-",
             'pilihan' => 'awal',
             'h_trans_id' => $request->id_htrans,
@@ -160,7 +215,7 @@ class PesananController extends Controller
         $params = array(
             'transaction_details' => array(
                 'order_id' => rand(),
-                'gross_amount' => $request->fixHarga,
+                'gross_amount' => $harga,
             ),
             'customer_details' => array(
                 'first_name' => $user->username,
@@ -240,13 +295,14 @@ class PesananController extends Controller
         $trans->harga = $request->hargaFix;
         $trans->harga_redesain = $request->hargaRedesain;
         $trans->status = 2;
+        $trans->ongkir = $request->ongkir;
         $trans->save();
 
         $transaction = Donation::create([
             'code'   => 'DONATION-' . mt_rand(100000, 999999),
             'name'   => $user->username,
             'email'  => $user->email,
-            'amount' => $request->hargaFix,
+            'amount' => $request->hargaFix+$request->ongkir,
             'note'   => "-",
             'pilihan' => 'awal',
             'h_trans_id' => $request->id_Htrans,
@@ -260,7 +316,7 @@ class PesananController extends Controller
         $params = array(
             'transaction_details' => array(
                 'order_id' => rand(),
-                'gross_amount' => $request->hargaFix,
+                'gross_amount' => $request->hargaFix+$request->ongkir,
             ),
             'customer_details' => array(
                 'first_name' => $user->username,
@@ -279,7 +335,7 @@ class PesananController extends Controller
             'code'   => 'DONATION-' . mt_rand(100000, 999999),
             'name'   => $user->username,
             'email'  => $user->email,
-            'amount' => $request->hargaRedesain,
+            'amount' => $request->hargaRedesain+$request->ongkir,
             'note'   => "-",
             'pilihan' => 'baru',
             'h_trans_id' => $request->id_Htrans,
@@ -293,7 +349,7 @@ class PesananController extends Controller
         $params2 = array(
             'transaction_details' => array(
                 'order_id' => rand(),
-                'gross_amount' => $request->hargaRedesain,
+                'gross_amount' => $request->hargaRedesain+$request->ongkir,
             ),
             'customer_details' => array(
                 'first_name' => $user->username,
