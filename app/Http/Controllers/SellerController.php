@@ -35,7 +35,11 @@ class SellerController extends Controller
 
         $toko = $this->getToko();
 
-        return view("seller.dashboard", ['user'=>$user, 'toko'=>$toko]);
+        $nonCustom = DB::table('produk_dijuals')->where('id_toko',$toko->id)->where('status', 'aktif')->get();
+        $custom = DB::table('produk_custom_dijuals')->where('id_toko',$toko->id)->where('status', 'aktif')->get();
+
+        // dd(count($custom));
+        return view("seller.dashboard", ['user'=>$user, 'toko'=>$toko, 'nonCustom'=>$nonCustom, 'custom'=>$custom]);
 
 
     }

@@ -29,7 +29,7 @@
         <!-- Content -->
 
         <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
-            <h2 class="fw-bold py-3 mb-4">Daftar Template Produk Custom</h2>
+            <h2 class="fw-bold py-3 mb-4">Daftar Produk Custom</h2>
 
 
             {{-- <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">Tambah Produk
@@ -101,11 +101,12 @@
                                             Kustomisai</a>
                                         <a href="{{ url('/seller/produkCustom/testing/' . $daftarProduk[$i]->kode) }}"
                                             class="btn btn-dark">Coba Custom</a>
+                                            <a href="{{url('seller/produkCustom/delete/'.$daftarProduk[$i]->id)}}" class="btn btn-icon btn-danger"><span class="bx bxs-trash"></span></a>
                                     </td>
 
                                 </tr>
 
-                                {{-- modal edit satuan --}}
+                                {{-- modal edit Detail Produk --}}
                                 <div class="modal fade" id="modalDetailProdukCustom{{ $i }}" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -135,6 +136,11 @@
 
                                                     </div>
                                                     <div class="mb-3">
+                                                        <label for=""><b>Deskripsi</b></label>
+                                                        <textarea name="deskripsi" id="deskripsi" cols="30" rows="5" class="form-control" required>{{$daftarProduk[$i]->deskripsi}}</textarea>
+                                                    </div>
+                                                    @if (in_array($daftarProduk[$i]->kode, ['meja1', 'meja2', 'meja3']))
+                                                    <div class="mb-3">
                                                         <label><b>Panjang</b> (Minimal s/d Maksimal)</label>
                                                         <div class="input-group">
                                                             <input type="number" class="form-control" id="panjangMin"
@@ -160,24 +166,58 @@
                                                             <span class="input-group-text">Cm</span>
                                                         </div>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label><b>Lebar</b> (Minimal s/d Maksimal)</label>
-                                                        <div class="input-group">
-                                                            <input type="number" class="form-control" id="lebarMin" name="lebarMin"
-                                                                value="{{ $daftarProduk[$i]->lebar_min }}" required />
-                                                            <span class="input-group-text">Cm</span>
-                                                            <span class="input-group-text">s/d</span>
-                                                            <input type="number" class="form-control" id="lebarMax" name="lebarMax"
-                                                                value="{{ $daftarProduk[$i]->lebar_max }}" required />
-                                                            <span class="input-group-text">Cm</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for=""><b>Deskripsi</b></label>
-                                                        <textarea name="deskripsi" id="deskripsi" cols="30" rows="5" class="form-control" required>{{$daftarProduk[$i]->deskripsi}}</textarea>
-                                                    </div>
 
+                                                   <div class="mb-3">
+                                                    <label><b>Lebar</b> (Minimal s/d Maksimal)</label>
+                                                    <div class="input-group">
+                                                        <input type="number" class="form-control" id="lebarMin" name="lebarMin"
+                                                            value="{{ $daftarProduk[$i]->lebar_min }}" required />
+                                                        <span class="input-group-text">Cm</span>
+                                                        <span class="input-group-text">s/d</span>
+                                                        <input type="number" class="form-control" id="lebarMax" name="lebarMax"
+                                                            value="{{ $daftarProduk[$i]->lebar_max }}" required />
+                                                        <span class="input-group-text">Cm</span>
+                                                    </div>
+                                                </div>
+                                                @else
+                                                <div class="mb-3">
+                                                    <label><b>Kedalaman</b> (Minimal s/d Maksimal)</label>
+                                                    <div class="input-group">
+                                                        <input type="number" class="form-control" id="panjangMin"
+                                                        name="panjangMin" value="{{ $daftarProduk[$i]->panjang_min }}"
+                                                        readonly />
+                                                    <span class="input-group-text">Cm</span>
+                                                    <span class="input-group-text">s/d</span>
+                                                    <input type="number" class="form-control" id="panjangMax"
+                                                        name="panjangMax" value="{{ $daftarProduk[$i]->panjang_max }}"
+                                                        readonly />
+                                                    <span class="input-group-text">Cm</span>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label><b>Tinggi</b> (Minimal s/d Maksimal)</label>
+                                                    <div class="input-group">
+                                                        <input type="number" class="form-control" id="tinggiMin" name="tinggiMin"
+                                                            value="{{ $daftarProduk[$i]->tinggi_min }}" required />
+                                                        <span class="input-group-text">Cm</span>
+                                                        <span class="input-group-text">s/d</span>
+                                                        <input type="number" class="form-control" id="tinggiMax" name="tinggiMax"
+                                                            value="{{ $daftarProduk[$i]->tinggi_max }}" required />
+                                                        <span class="input-group-text">Cm</span>
+                                                    </div>
+                                                </div>
+                                                <label><b>Lebar</b> (Minimal s/d Maksimal)</label>
+                                                <div class="input-group">
+                                                    <input type="number" class="form-control" id="lebarMin" name="lebarMin"
+                                                        value="{{ $daftarProduk[$i]->lebar_min }}" />
+                                                    <span class="input-group-text">Cm</span>
+                                                    <span class="input-group-text">s/d</span>
+                                                    <input type="number" class="form-control" id="lebarMax" name="lebarMax"
+                                                        value="{{ $daftarProduk[$i]->lebar_max }}" />
+                                                    <span class="input-group-text">Cm</span>
+                                                </div>
 
+                                                   @endif
                                                     <button class="btn btn-primary">Simpan</button>
 
 

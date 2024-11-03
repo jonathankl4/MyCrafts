@@ -192,8 +192,8 @@
                                 </div>
 
                                 <div>
-                                    <label for="input-horizontal-size">Ubah ukuran panjang: {{$produk->panjang_min}} s/d {{$produk->panjang_max}} cm</label>
-                                    <input type="number" id="input-horizontal-size" class="form-control" value="{{$produk->panjang_min}}">
+                                    <label for="input-horizontal-size">Ubah ukuran Lebar: {{$produk->lebar_min}} s/d {{$produk->lebar_max}} cm</label>
+                                    <input type="number" id="input-horizontal-size" class="form-control" value="{{$produk->lebar_min}}">
                                 </div>
                                 <br>
 
@@ -386,8 +386,8 @@
             // Define min and max values
             const minVerticalSize = produk.tinggi_min; // Example minimum value for vertical size
             const maxVerticalSize = produk.tinggi_max; // Example maximum value for vertical size
-            const minHorizontalSize = produk.panjang_min; // Example minimum value for horizontal size
-            const maxHorizontalSize = produk.panjang_max; // Example maximum value for horizontal size
+            const minHorizontalSize = produk.lebar_min; // Example minimum value for horizontal size
+            const maxHorizontalSize = produk.lebar_max; // Example maximum value for horizontal size
 
             // Get new values from inputs
             let newVerticalSize = parseInt(document.getElementById('input-vertical-size').value);
@@ -729,7 +729,7 @@
             // Simpan data ukuran
             const ukuranData = {
                 tinggi: currentVerticalSize,
-                panjang: currentHorizontalSize
+                lebar: currentHorizontalSize
             };
             localStorage.setItem('ukuranData', JSON.stringify(ukuranData));
 

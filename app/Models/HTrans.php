@@ -28,6 +28,7 @@ class HTrans extends Model
         'tgl_transaksi',
         'panjang',
         'tinggi',
+        'lebar',
         'harga_kayu',
         'jenis_kayu',
         'catatan',

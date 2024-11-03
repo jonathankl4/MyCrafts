@@ -31,21 +31,28 @@
 
                         <div style="padding: 15px ;color: black">
                             @php
-                                $customStatus = '';
+                                 $customStatus = '';
                                 $pesan = '';
                                 if ($htrans->status == 1) {
-                                    # code...
                                     $customStatus = 'Menunggu Konfirmasi Penjual';
                                 } elseif ($htrans->status == 2) {
                                     $customStatus = 'Penjual Memberikan Perbaikan Desain';
                                     if ($htrans->status_redesain == 1) {
-                                        # code...
                                         $pesan = ' Dengan ';
                                     }
                                 } elseif ($htrans->status == 3) {
-                                    # code...
                                     $customStatus = 'Menunggu Pembayaran';
-                                }
+                                } else if($htrans->status == 4){
+                                    $customStatus = 'Pembayaran diterima, menunggu';
+                                } else if($htrans->status == 5){
+                                    $customStatus = 'Pembelian di Siapkan';
+                                } else if($htrans->status == 6){
+                                    $customStatus = 'Dalam Pengiriman';
+                                } else if($htrans->status == 7){
+                                    $customStatus = 'Transaksi Berhasil';
+                                } else if($htrans->status == 8){
+                                    $customStatus = 'Pembelian gagal';
+                                } 
                             @endphp
                             <div class="row">
                                 <span style="font-size: 16px"><b>Status Transaksi</b></span>
@@ -92,8 +99,10 @@
                                         <br>
                                         <span id="hargalama">Rp. {{ number_format($htrans->harga, 0, ',', '.') }}
                                         </span>
+                                        @if ($htrans->status_pembayaran == 0)
 
                                         <button class="btn btn-dark" id="pay-button">Bayar</button>
+                                        @endif
                                     @endif
                                 </div>
                                 <div class="col">
@@ -102,12 +111,25 @@
                                         <br>
                                         <span id="hargabaru">Rp.
                                             {{ number_format($htrans->harga_redesain, 0, ',', '.') }} </span>
+                                            @if ($htrans->status_pembayaran == 0)
                                         <button class="btn btn-dark" id="pay-button2">Bayar</button>
+                                        @endif
                                     @endif
                                 </div>
+                                @if ($htrans->status_pembayaran == 3)
+                                <span style="font-size: 20px" class="btn"><b>Waktu Pembayaran Habis</b></span>
+                                @elseif ($htrans->status_pembayaran == 1)
+                                    @if ($htrans->pilihan == 'baru')
+
+                                    <span style="font-size: 20px" class="btn btn-dark"><b>Pembayaran Berhasil (Desain Baru)</b></span>
+                                    @else
+                                    <span style="font-size: 20px" class="btn btn-dark"><b>Pembayaran Berhasil (Desain Awal)</b></span>
+
+                                    @endif
+                                @endif
                                 {{-- <button id="pay-button">bayar</button> --}}
 
-                                @if ($htrans->harga_redesain != null)
+                                @if ($htrans->harga_redesain != null && $htrans->status_pembayaran == 0 )
                                     <label for="" class="badge bg-warning" style="margin-top: 10px">Silahkan Pilih Bayar
                                         dengan desain baru atau tetap dengan desain lama </label>
                                 @endif

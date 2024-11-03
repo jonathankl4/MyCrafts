@@ -160,14 +160,14 @@
                 <div class="col-md-6" style="z-index: 3">
                     <form id="customForm">
                         <div class="card mb-4">
-                            <h5 class="card-header"><b>Kustomisasi</b></h5>
-                            <div style="padding: 15px; color: black">
+                            <h5 class="card-header text-center"><b>Kustomisasi</b></h5>
+                            <div style="padding: 20px; color: black">
 
-                                <div>
-                                    <label for="pintu-design">Pilih Pintu lemari</label>
+                                <div class="mb-3">
+                                    <label for="pintu-design" class="form-label">Pilih Pintu Lemari</label>
                                     <select id="pintu-design" class="form-select" required>
                                         <option value="" selected disabled>pilih.</option>
-                                        <option value="" data-price="0" data-nama="Tanpa Pintu">tanpa pintu</option>
+                                        <option value="" data-price="0" data-nama="Tanpa Pintu">Tanpa Pintu</option>
 
                                         @for ($i = 0; $i < count($listPintu); $i++)
                                             <option value="{{ url($listPintu[$i]->url) }}"
@@ -177,48 +177,33 @@
                                                 (Rp.{{ number_format($listPintu[$i]->harga) }})
                                             </option>
                                         @endfor
-
-
-
                                     </select>
-                                    <p style="font-size: 12px; color: red">*warna pintu di gambar hanyalah contoh, warna
+                                    <p style="font-size: 12px; color: red;">*Warna pintu di gambar hanyalah contoh, warna
                                         aslinya nanti akan sama dengan warna lemari</p>
-                                    <span class="badge bg-info" style="font-size: 16px">Perkiraan Harga: <span
-                                            id="totalHarga"></span></span>
-                                    <div>
-                                        <br>
-                                        <label for="detail">Catatan untuk Penjual</label>
-                                        <br>
-                                        <textarea name="detail" id="detail" cols="30" rows="5" placeholder="" class="form-control"></textarea>
-                                        <br>
-
-                                    </div>
-
-                                    <div>
-                                        <label for="alamat">Alamat Pengiriman</label>
-                                        <br>
-                                        <textarea name="alamat" id="alamat" cols="30" rows="5" class="form-control" required></textarea>
-                                    </div>
-                                    <div>
-                                        <br>
-                                        <label for="notelp">Nomor Telepon</label>
-                                        <input type="text" name="notelp" id="notelp" class="form-control" required>
-                                    </div>
-                                    <br>
-                                    <button id="btn-beli" class="btn btn-success">Beli</button>
-
+                                    <span class="badge bg-info" style="font-size: 16px;">Perkiraan Harga: <span id="totalHarga">Rp 0</span></span>
                                 </div>
-                                <br>
 
+                                <div class="mb-3">
+                                    <label for="detail" class="form-label">Catatan untuk Penjual</label>
+                                    <textarea name="detail" id="detail" cols="30" rows="5" placeholder="Tuliskan catatan..." class="form-control"></textarea>
+                                </div>
 
+                                <div class="mb-3">
+                                    <label for="alamat" class="form-label">Alamat Pengiriman</label>
+                                    <textarea name="alamat" id="alamat" cols="30" rows="5" placeholder="Masukkan alamat lengkap..." class="form-control" required></textarea>
+                                </div>
 
+                                <div class="mb-3">
+                                    <label for="notelp" class="form-label">Nomor Telepon</label>
+                                    <input type="text" name="notelp" id="notelp" class="form-control" placeholder="Masukkan nomor telepon" required>
+                                </div>
+
+                                <button id="btn-beli" class="btn btn-success w-100">Beli</button>
                             </div>
-
-
-
                         </div>
                     </form>
                 </div>
+
             </div>
 
 
@@ -527,7 +512,7 @@
                 });
 
                 document.getElementById('right-text').innerHTML = ukuranData.tinggi + 'cm';
-                document.getElementById('bottom-text').innerHTML = ukuranData.panjang + 'cm';
+                document.getElementById('bottom-text').innerHTML = ukuranData.lebar + 'cm';
             } else {
                 console.error('Data tidak tersedia di localStorage');
             }

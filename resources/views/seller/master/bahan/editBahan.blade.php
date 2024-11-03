@@ -49,7 +49,7 @@
                         <span style="color: red;">{{ $errors->first('namaBahan')}}</span>
                     </div>
                 </div>
-                
+
                 <div class="mb-3 row">
                     <label class="col-md-2 col-form-label" style="font-size: 16px" >Ukuran</label>
                     {{-- <input type="text" class="form-control" id="satuanBahan" name="satuanBahan" placeholder="-" />
@@ -60,10 +60,10 @@
                             @if (count($satuan) < 1)
 
                             <option>Belum ada Satuan</option>
-                             
+
                             @elseif (count($satuan) > 0)
                             <option disabled selected hidden >Pilih Satuan..</option>
-                                
+
                             @endif
                             @for ($i = 0; $i < count($satuan);$i++)
                             @php
@@ -76,7 +76,7 @@
 
                                 }
                             @endphp
-                            
+
                                 <option {{$dis}} value="{{$satuan[$i]->nama_satuan}}">{{$satuan[$i]->nama_satuan}}</option>
 
                             @endfor
@@ -107,10 +107,34 @@
                     <div class="col-md-10">
 
                         <input type="text" class="form-control" id="jumlahBahan" name="jumlahBahan" placeholder="-" value="{{$bahan->jumlah_bahan}}"/>
-                        <span style="color: red;">{{ $errors->first('jumlahBahan')}}</span>
+                        <select name="satuanJumlah" id="" class="form-select theSelect">
+                            @if (count($satuan) < 1)
+
+                            <option>Belum ada Satuan</option>
+
+                            @elseif (count($satuan) > 0)
+                            <option disabled selected hidden >Pilih Satuan..</option>
+
+                            @endif
+                            @for ($i = 0; $i < count($satuan);$i++)
+                            @php
+                                $cek2 = 0;
+                                $dis2 = "";
+                                if ($bahan->satuan_jumlah==$satuan[$i]->nama_satuan) {
+                                    # code...
+                                    $cek2 = 1;
+                                    $dis2 = "selected";
+
+                                }
+                            @endphp
+
+                                <option {{$dis2}} value="{{$satuan[$i]->nama_satuan}}">{{$satuan[$i]->nama_satuan}}</option>
+
+                            @endfor
+                        </select>
                     </div>
                 </div>
-                
+
                 <div class="mb-3 row">
                     <label class="col-md-2 col-form-label"  style="font-size: 16px">harga</label>
                     <div class="col-md-10">

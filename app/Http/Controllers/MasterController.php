@@ -200,10 +200,10 @@ class MasterController extends Controller
         // dd($user);
         $request->validate([
             "namaBahan"=>'required',
-            "satuanBahan"=>'required',
+
             "jumlahBahan"=>'required',
-            
-            
+
+
             "hargaBahan"=>'required',
 
         ],
@@ -236,6 +236,7 @@ class MasterController extends Controller
         $b->ukuran_lebarBahan = $lebar;
         $b->ukuran_tinggiBahan = $tinggi;
         $b->harga_bahan = $request->hargaBahan;
+        $b->satuan_jumlah = $request->satuanJumlah;
         $b->save();
         // dd($satuan);
         toast('Berhasil tambah Bahan', 'success');
@@ -257,24 +258,41 @@ class MasterController extends Controller
     public function editbahan(Request $request, $id){
         $request->validate([
             "namaBahan"=>'required',
-            "ukuranBahan"=>'required',
-            "satuanBahan"=>'required',
+
             "jumlahBahan"=>'required',
-            
+
             "hargaBahan"=>'required',
 
         ],
 
         ["required" => ":attribute harus di isi!"]);
 
+        $panjang = 0;
+        $lebar = 0 ;
+        $tinggi = 0 ;
+        if ($request->ukuranPanjang != null) {
+            # code...
+            $panjang = $request->ukuranPanjang;
+        }
+        if ($request->ukuranLebar != null) {
+            # code...
+            $lebar = $request->ukuranLebar;
+        }
+        if ($request->ukuranTinggi != null) {
+            # code...
+            $tinggi = $request->ukuranTinggi;
+        }
         $b = Bahan::find($id);
 
         $b->nama_bahan = $request->namaBahan;
         $b->ukuran_bahan = $request->ukuranBahan;
         $b->satuan_bahan = $request->satuanBahan;
         $b->jumlah_bahan = $request->jumlahBahan;
-        
+        $b->ukuran_panjangBahan = $panjang;
+        $b->ukuran_lebarBahan = $lebar;
+        $b->ukuran_tinggiBahan = $tinggi;
         $b->harga_bahan = $request->hargaBahan;
+        $b->satuan_jumlah = $request->satuanJumlah;
         $b->save();
         // dd($satuan);
         toast('Berhasil edit Bahan', 'success');

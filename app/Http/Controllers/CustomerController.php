@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Midtrans\Notification;
@@ -237,21 +238,26 @@ class CustomerController extends Controller
     {
 
         $htrans = Htrans::find($request->idHtrans);
+        $toko = toko::find($htrans->id_toko);
+
         if ($request->pilihan == 'awal') {
             # code...
             $htrans->pilihan = 'awal';
             $htrans->status = 4;
+            $toko->saldo_pending = $htrans->harga;
         } else if ($request->pilihan == 'baru') {
             $htrans->pilihan = 'baru';
             $htrans->status = 4;
-        }
-        else if ($request->pilihan == 'jadi') {
+            $toko->saldo_pending = $htrans->harga_redesain;
+        } else if ($request->pilihan == 'jadi') {
             # code...
             $htrans->pilihan = 'jadi';
             $htrans->status = 5;
+            $toko->saldo_pending = $htrans->harga;
         }
         $htrans->status_pembayaran = 1;
         $htrans->save();
+        $toko->save();
 
         return response()->json(['status' => 'success']);
     }
@@ -269,7 +275,7 @@ class CustomerController extends Controller
                 $query = DB::table('h_trans')->where('id_user', $user->id);
 
                 if ($subStatus == 'menunggu_konfirmasi') {
-                    $query->whereIn('status',[1, 2] ); // Misal status 1 adalah Menunggu Konfirmasi
+                    $query->whereIn('status', [1, 2]); // Misal status 1 adalah Menunggu Konfirmasi
                 } elseif ($subStatus == 'siap_dikirim') {
                     $query->where('status', 5); // Misal status 2 adalah Siap Dikirim
                 } elseif ($subStatus == 'sedang_produksi') {
@@ -302,13 +308,13 @@ class CustomerController extends Controller
             default:
                 $pembelian = DB::table('h_trans')
                     ->where('id_user', $user->id)
-                    ->where('status','!=', 0)
+                    ->where('status', '!=', 0)
                     ->orderBy('tgl_transaksi', 'desc')
                     ->get();
                 break;
         }
 
-        return view('customer.shopping.pembelian', ['user' => $user, 'pembelian' => $pembelian, 'status'=>$status, 'sub_status'=> $subStatus]);
+        return view('customer.shopping.pembelian', ['user' => $user, 'pembelian' => $pembelian, 'status' => $status, 'sub_status' => $subStatus]);
     }
 
     public function detailTransaksiCustom($id)
@@ -322,6 +328,31 @@ class CustomerController extends Controller
         $data1 = DB::table('donations')->where('h_trans_id', $id)->where('pilihan', 'awal')->first();
         $data2 = DB::table('donations')->where('h_trans_id', $id)->where('pilihan', 'baru')->first();
 
+        if ($htrans->status_pembayaran == 0 && $htrans->status != 1) {
+            // Set up Midtrans configuration
+            \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+            \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+
+            try {
+                $created_time = strtotime($data1->created_at);
+                $current_time = time();
+                $time_difference = $current_time - $created_time;
+
+                if ($time_difference > 86400) {
+                    # code...
+                    $htrans->status =  8;
+                    $htrans->status_pembayaran = 3;
+                    $htrans->save();
+                    DB::table('donations')->where('h_trans_id', $id)
+                    ->update(['status' => 'expired']);
+                }
+
+            } catch (\Exception $e) {
+                // Log or handle the error as necessary
+                toast('eror gabisa handle' . $e->getMessage(), 'error');
+                return redirect()->back()->withErrors('Unable to verify payment status: ' . $e->getMessage());
+            }
+        }
         return view('customer.shopping.detailPembelianCustom', ['user' => $user, 'htrans' => $htrans, 'dtrans' => $dtrans, 'data1' => $data1, 'data2' => $data2]);
     }
 
@@ -329,14 +360,47 @@ class CustomerController extends Controller
     {
         $user = $this->getLogUser();
 
+        // Find the transaction in h_trans
         $htrans = HTrans::find($id);
         $dtrans = DB::table('d_trans')->where('h_trans_id', $id)->get();
-
         $data1 = DB::table('donations')->where('h_trans_id', $id)->first();
         // dd($data1);
 
-        return view('customer.shopping.nonCustom.detailPembelianNonCustom', ['user' => $user, 'htrans' => $htrans, 'dtrans' => $dtrans, 'data1' => $data1]);
+        // Check if there's a related donation and if payment has expired
+        if ($htrans->status_pembayaran == 0 && $htrans->status != 1) {
+            // Set up Midtrans configuration
+            \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+            \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+
+            try {
+                $created_time = strtotime($data1->created_at);
+                $current_time = time();
+                $time_difference = $current_time - $created_time;
+
+                if ($time_difference > 86400) {
+                    # code...
+                    $htrans->status =  8;
+                    $htrans->status_pembayaran = 3;
+                    $htrans->save();
+                    DB::table('donations')->where('h_trans_id', $id)
+                    ->update(['status' => 'expired']);
+                }
+
+            } catch (\Exception $e) {
+                // Log or handle the error as necessary
+                toast('eror gabisa handle' . $e->getMessage(), 'error');
+                return redirect()->back()->withErrors('Unable to verify payment status: ' . $e->getMessage());
+            }
+        }
+
+        return view('customer.shopping.nonCustom.detailPembelianNonCustom', [
+            'user' => $user,
+            'htrans' => $htrans,
+            'dtrans' => $dtrans,
+            'data1' => $data1
+        ]);
     }
+
 
     public function pageCustom($id)
     {
@@ -404,6 +468,7 @@ class CustomerController extends Controller
                 'tgl_transaksi' => now(),
                 'panjang' => $request->panjang,
                 'tinggi' => $request->tinggi,
+                'lebar' => $request->lebar,
                 'jenis_kayu' => $request->jenis_kayu,
                 'harga_kayu' => $request->harga_kayu
             ]);
@@ -424,6 +489,7 @@ class CustomerController extends Controller
                 'tgl_transaksi' => now(),
                 'panjang' => $request->panjang,
                 'tinggi' => $request->tinggi,
+                'lebar' => $request->lebar,
                 'jenis_kayu' => $request->jenis_kayu,
                 'harga_kayu' => $request->harga_kayu
 

@@ -118,7 +118,13 @@
                                     $customStatus = 'Pembayaran diterima, menunggu';
                                 } else if($htrans->status == 5){
                                     $customStatus = 'Pembelian di Siapkan';
-                                }
+                                } else if($htrans->status == 6){
+                                    $customStatus = 'Dalam Pengiriman';
+                                } else if($htrans->status == 7){
+                                    $customStatus = 'Transaksi Berhasil';
+                                } else if($htrans->status == 8){
+                                    $customStatus = 'Pembelian gagal';
+                                } 
                             @endphp
 
                             <div class="detail-row">
@@ -177,6 +183,8 @@
                             @endif
                             @if ($htrans->status_pembayaran == 1)
                             <span class="badge " style="background-color: #00c9ab"> Pembayaran Berhasil</span>
+                            @elseif ($htrans->status_pembayaran == 3)
+                            <span class="badge " style="background-color: #00c9ab"> Waktu Pembayran Habis</span>
                             @endif
                         </div>
                     </div>
@@ -235,7 +243,10 @@
                         });
                     },
                     onPending: function(result) {},
-                    onError: function(result) {},
+                    onError: function(result) {
+                        console.error('Payment error:', result);
+                        alert('Terjadi kesalahan dalam pembayaran.');
+                    },
                     onClose: function() {
                         alert('Anda menutup popup tanpa menyelesaikan pembayaran');
                     }

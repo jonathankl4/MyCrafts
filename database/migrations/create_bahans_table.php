@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('ukuran_panjangBahan')->nullable();
             $table->integer('ukuran_lebarBahan')->nullable();
             $table->integer('ukuran_tinggiBahan')->nullable();
-
+            $table->string('satuan_jumlah')->nullable();
             $table->timestamps();
         });
     }

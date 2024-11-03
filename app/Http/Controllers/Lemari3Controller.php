@@ -30,8 +30,20 @@ class Lemari3Controller extends Controller
 
         if ($produk != null) {
             # code...
-            toast('Produk Sudah Pernah ditambahkan', 'info');
+            if ($produk->deleted == 1) {
+                # code...
+
+                $pr = ProdukCustomDijual::find($produk->id);
+                $pr->deleted = 0;
+                $pr->save();
+                Alert::success("Sukses", "Berhasil menambahkan produk");
             return redirect()->back();
+            }
+            else{
+
+                toast('Produk Sudah Pernah ditambahkan', 'info');
+                return redirect()->back();
+            }
         } else {
             $p = new ProdukCustomDijual();
             $p->id_toko = $user->id_toko;

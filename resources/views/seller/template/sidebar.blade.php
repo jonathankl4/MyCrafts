@@ -218,7 +218,7 @@
 
         {{-- Gudang --}}
         @if ($user->status == 'owner' || $user->status == 'pegawai-gudang')
-            <li class="menu-item">
+            <li class="menu-item {{ request()->is('seller/gudang*') ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons bx bxl-dropbox"></i>
                     <div data-i18n="Account Settings"
@@ -229,24 +229,16 @@
                         Gudang <span class="badge " style="background-color: #898063">Pro</span></div>
                 </a>
                 <ul class="menu-sub">
-                    <li class="menu-item">
-                        <a href="" class="menu-link">
-                            <div>Master barang jadi</div>
+
+                    <li class="menu-item {{ request()->is('seller/gudang/riwayatMutasi') ? 'active' : '' }}">
+                        <a href="{{ url('/seller/gudang/riwayatMutasi') }}" class="menu-link">
+                            <div>Mutasi Barang</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="" class="menu-link">
-                            <div>Penerimaan Bahan</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="" class="menu-link">
-                            <div>Penerimaan Barang</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="" class="menu-link">
-                            <div>Permintaan Pembeian</div>
+
+                    <li class="menu-item {{ request()->is('seller/gudang/permintaanPembelian') ? 'active' : '' }}">
+                        <a href="{{url('/seller/gudang/permintaanPembelian')}}" class="menu-link">
+                            <div>Permintaan Pembelian</div>
                         </a>
                     </li>
                     <li class="menu-item">

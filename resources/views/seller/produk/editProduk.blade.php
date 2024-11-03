@@ -122,7 +122,7 @@
                     <label class="col-md-2 col-form-label" style="font-size: 16px">Ukuran</label>
 
                     <div class="col-md-10">
-                        <select name="satuanProduk" id="" class="theSelect form-select" style="height: 50px;width: 50%" >
+                        <select name="satuanProduk" id="satuanProduk" class="theSelect form-select" style="height: 50px;width: 50%" >
                             <option value="" disabled selected hidden>Satuan Ukuran</option>
                             @for ($i=0; $i<count($satuan); $i++)
                             @php
@@ -143,18 +143,21 @@
                         <div class="input-group input-group-merge">
                             <span class="input-group-text" id="spanpanjang" style="">Panjang :</span>
                             <input type="text" class="form-control" id="ukuranPanjang" name="ukuranPanjang" aria-describedby="spanpanjang" style="border: 1.3px ridge " value="{{$produk->ukuran_panjangproduk}}" />
+                            <span class="input-group-text " id="labelPanjang">{{$produk->satuanUkuran_produk}}</span>
                         </div>
                         <span style="color: red;">{{ $errors->first('ukuranPanjang')}}</span>
                         <br>
                         <div class="input-group input-group-merge">
                             <span class="input-group-text" id="spanlebar" style="">Lebar :</span>
                             <input type="text" class="form-control" id="ukuranLebar" name="ukuranLebar" aria-describedby="spanlebar" style="border: 1.3px ridge " value="{{$produk->ukuran_lebarproduk}}" />
+                            <span class="input-group-text" id="labelLebar">{{$produk->satuanUkuran_produk}}</span>
                         </div>
                         <span style="color: red;">{{ $errors->first('ukuranLebar')}}</span>
                         <br>
                         <div class="input-group input-group-merge">
                             <span class="input-group-text" id="spantinggi" style="">Tinggi :</span>
                             <input type="text" class="form-control" id="ukuranTinggi" name="ukuranTinggi" aria-describedby="spantinggi" style="border: 1.3px ridge " value="{{$produk->ukuran_tinggiproduk}}" />
+                            <span class="input-group-text " id="labelTinggi">{{$produk->satuanUkuran_produk}}</span>
                         </div>
                         <span style="color: red;">{{ $errors->first('ukuranTinggi')}}</span>
 
@@ -285,6 +288,17 @@
 
   <script>
     $(".theSelect").select2();
+
+
+    $('#satuanProduk').on('change', function() {
+            let selectedValue = $(this).val();
+            document.getElementById('labelPanjang').textContent =
+            selectedValue;
+            document.getElementById('labelLebar').textContent =
+            selectedValue;
+            document.getElementById('labelTinggi').textContent =
+            selectedValue;  // Gunakan nilai yang dipilih dari Select2
+        });
 </script>
 
 

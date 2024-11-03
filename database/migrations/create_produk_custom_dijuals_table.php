@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('tinggi_max')->nullable();
             $table->integer('lebar_max')->nullable();
             $table->integer('lebar_min')->nullable();
+            $table->integer('deleted')->default(0);
             $table->timestamps();
         });
     }

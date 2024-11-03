@@ -29,14 +29,32 @@ class Lemari2Controller extends Controller
 
         if ($produk != null) {
             # code...
-            toast('Produk Sudah Pernah ditambahkan', 'info');
+            if ($produk->deleted == 1) {
+                # code...
+
+                $pr = ProdukCustomDijual::find($produk->id);
+                $pr->deleted = 0;
+                $pr->save();
+                Alert::success("Sukses", "Berhasil menambahkan produk");
             return redirect()->back();
+            }
+            else{
+
+                toast('Produk Sudah Pernah ditambahkan', 'info');
+                return redirect()->back();
+            }
         } else {
             $p = new ProdukCustomDijual();
             $p->id_toko = $user->id_toko;
             $p->nama_template = 'Lemari 2';
             $p->kode = 'lemari2';
             $p->status = 'nonaktif';
+            $p->panjang_max = 60;
+            $p->panjang_min = 60;
+            $p->tinggi_max = 180;
+            $p->tinggi_min = 160;
+            $p->lebar_max = 100;
+            $p->lebar_min = 70;
             $p->save();
 
             Alert::success("Sukses", "Berhasil menambahkan produk");

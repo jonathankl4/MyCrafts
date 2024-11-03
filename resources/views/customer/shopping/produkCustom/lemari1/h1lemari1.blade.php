@@ -9,6 +9,132 @@
 
 @section('style')
     <style>
+        :root {
+    --primary-color: #2d3436;
+    --secondary-color: #636e72;
+    --accent-color: #0984e3;
+    --background-color: #f5f6fa;
+    --border-radius: 12px;
+    --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+body {
+    background-color: var(--background-color);
+}
+
+.customization-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
+}
+
+.card-header {
+    background: white;
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.card-header h5 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(9, 132, 227, 0.1);
+}
+
+.size-input {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.addon-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #0873c4;
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    background: #e74c3c;
+    border: none;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+}
+
+#total-price-container {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin-top: 2rem;
+    box-shadow: var(--box-shadow);
+}
+
+#total-price-container h5 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.price-note {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
         .drawing-area {
             position: absolute;
             top: 23px;
@@ -97,33 +223,18 @@
     </style>
 @endsection
 
-
-
-
 @section('content')
     <div class="content-wrapper">
         <!-- Content -->
         <br><br><br><br><br><br><br>
         <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
             <h2 class="fw-bold py-3 mb-4">Custom Lemari No 1</h2>
-
             <div class="row">
-
                 <div class="col-md-6" style="overflow: auto; z-index: 3;">
                     <div class="card">
                         <h5 class="card-header"><b>Desain</b></h5>
-
                         <div style="padding: 15px">
-
-
-
-
                             <div id="produk-div">
-                                <!--
-                                                                                                                        Initially, the image will have the background tshirt that has transparency
-                                                                                                                        So we can simply update the color with CSS or JavaScript dinamically
-                                                                                                                    -->
-                                {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
                                 <img id="template" src="{{ url('img/lemari1/lemari1.png') }}"
                                     style="width: 100%;height: 100%;" />
 
@@ -145,114 +256,95 @@
                                         </div>
                                         <div id="bottom-text"
                                             style="position: absolute; left: 50%; bottom: -160px; transform: translateX(-50%); font-size: 20px;">
-                                            {{ $produk->panjang_min }}cm</div>
+                                            {{ $produk->lebar_min }}cm</div>
                                     </div>
                                 </div>
                             </div>
-
                             <div style="height: 40px">
-
                             </div>
-
                         </div>
-
-
-
                     </div>
                 </div>
                 <div class="col-md-6" style="z-index: 3">
-                    <div class="card mb-4">
-                        <h5 class="card-header"><b>Kustomisasi</b></h5>
-                        <div style="padding: 15px">
-                            <div class="col-md-8">
-
-                                <div>
-                                    <label for="jeniskayu">Jenis Kayu</label>
-                                    <select name="" id="jeniskayu" class="form-select">
-                                        <option value="" selected disabled>Pilih </option>
-                                        @if (count($detail) < 1)
-                                            <option value="" selected disabled>Tidak Ada Pilihan kayu </option>
-                                        @endif
-                                        @for ($i = 0; $i < count($detail); $i++)
-                                            <option value="{{ $detail[$i]->id }}"> {{ $detail[$i]->jenis_kayu }} (
-                                                Rp.{{ number_format($detail[$i]->harga) }} )</option>
-                                        @endfor
-                                        {{-- <option value="">Mahoni</option>
-                                        <option value="">Pinus</option>
-                                        <option value="">Sungkai</option> --}}
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label for="input-vertical-size">Ubah ukuran Tinggi: {{ $produk->tinggi_min }} s/d
-                                        {{ $produk->tinggi_max }} cm </label>
-                                    <input type="number" id="input-vertical-size" class="form-control"
-                                        value="{{ $produk->tinggi_min }}">
-                                </div>
-
-                                <div>
-                                    <label for="input-horizontal-size">Ubah ukuran panjang: {{ $produk->panjang_min }} s/d
-                                        {{ $produk->panjang_max }} cm</label>
-                                    <input type="number" id="input-horizontal-size" class="form-control"
-                                        value="{{ $produk->panjang_min }}">
-                                </div>
-                                <br>
-
-
-                            </div>
-
-                            <div id="counters">
-                                <div style="display: none">Jumlah Sekat Horizontal: <span
-                                        id="count-sekat-horizontal">0</span></div>
-                                <div style="display:none">Jumlah Sekat Vertical: <span id="count-sekat-vertical">0</span>
-                                </div>
-                                <div style="display: none">Jumlah Gantungan: <span id="count-gantungan">0</span></div>
-                            </div>
-                            <div class="col-md-8">
-                                <label for="tshirt-design"><b> Add On</b></label>
-                                <select id="tshirt-design" class="form-select">
-                                    <option value="">pilih...</option>
-
-                                    @for ($i = 0; $i < count($listAddOnMain); $i++)
-                                        <option value="{{ url($listAddOnMain[$i]->url) }}">
-                                            {{ $listAddOnMain[$i]->nama_addon }}
-                                            (Rp.{{ number_format($listAddOnMain[$i]->harga) }}) </option>
-                                    @endfor
-
-
-
-
-
-                                </select>
-                                <br>
-                                <button id="btntambah" class="btn btn-primary">tambah</button>
-
-                                <button id="remove" class="btn btn-danger">delete</button>
-                                {{-- <button id="saveDiv" class="btn btn-success">Save AddOn</button> --}}
-                            </div>
-                            <br><br>
-                            <div id="total-price-container">
-                                <h5>Perkiraan Harga <span id="total-price">Rp 0</span> </h5>
-                                <span style="color: red; font-size: 12px">*harga final akan diberikan setelah pembelian di
-                                    submit</span>
-                            </div>
-
-
-                            <a href="#" id="next-page" class="btn btn-primary">Next</a>
-
-
-                            <br>
-
-
-
+                    <div class="customization-card">
+                        <div class="card-header">
+                            <h5><i class="fas fa-sliders-h me-2"></i>Customisasi</h5>
                         </div>
+                        <div class="card-content">
+                            <div class="form-group">
+                                <label class="form-label" for="jeniskayu">Jenis Kayu</label>
+                                <select id="jeniskayu" class="form-select">
+                                    <option value="" selected disabled>Pilih Jenis Kayu</option>
+                                    @if (count($detail) < 1)
+                                        <option value="" disabled>tidak tersedia pilihan</option>
+                                    @endif
+                                    @foreach($detail as $wood)
+                                        <option value="{{ $wood->id }}">
+                                            {{ $wood->jenis_kayu }} (Rp.{{ number_format($wood->harga) }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
+                            <div class="size-input">
+                                <div class="form-group">
+                                    <label class="form-label" for="input-vertical-size">
+                                        Tinggi ({{ $produk->tinggi_min }} - {{ $produk->tinggi_max }} cm)
+                                    </label>
+                                    <input type="number" id="input-vertical-size" class="form-control"
+                                           value="{{ $produk->tinggi_min }}">
+                                </div>
 
+                                <div class="form-group">
+                                    <label class="form-label" for="input-horizontal-size">
+                                        Lebar ({{ $produk->lebar_min }} - {{ $produk->lebar_max }} cm)
+                                    </label>
+                                    <input type="number" id="input-horizontal-size" class="form-control"
+                                           value="{{ $produk->lebar_min }}">
+                                </div>
+                            </div>
 
+                            <div class="addon-section">
+                                <label class="form-label" for="tshirt-design">
+                                    <i class="fas fa-plus-circle me-2"></i>Add-ons
+                                </label>
+                                <select id="tshirt-design" class="form-select mb-3">
+                                    <option value="">Select add-on...</option>
+                                    @foreach($listAddOnMain as $addon)
+                                        <option value="{{ url($addon->url) }}">
+                                            {{ $addon->nama_addon }} (Rp.{{ number_format($addon->harga) }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div id="counters">
+                                    <div style="display: none">Jumlah Sekat Horizontal: <span
+                                            id="count-sekat-horizontal">0</span></div>
+                                    <div style="display:none">Jumlah Sekat Vertical: <span id="count-sekat-vertical">0</span>
+                                    </div>
+                                    <div style="display: none">Jumlah Gantungan: <span id="count-gantungan">0</span></div>
+                                </div>
+
+                                <div class="action-buttons">
+                                    <button id="btntambah" class="btn btn-primary">
+                                        <i class="fas fa-plus me-2"></i>Tambah
+                                    </button>
+                                    <button id="remove" class="btn btn-danger">
+                                        <i class="fas fa-trash me-2"></i>hapus
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="total-price-container">
+                                <h5>Perkiraan Harga: <span id="total-price">Rp 0</span></h5>
+                                <p class="price-note">*Harga Fix akan dikirimkan setelah pembelian di submit</p>
+                                <a href="#" id="next-page" class="btn btn-primary w-100">
+                                    <i class="fas fa-arrow-right me-2"></i>Selanjutnya
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
             <div class="modal fade" id="modalBelomLogin" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -264,27 +356,16 @@
                         <div class="modal-body">
                             <h2 class="card-title">Info </h2>
                             <p>Login Terlebih dahulu untuk Melanjutkan</p>
-
-
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <a href="{{ url('/login') }}" class="btn btn-dark">Login</a>
 
-
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-            {{-- <img id="template" src="{{url("img/test.png")}}" style="width: 1000px"/> --}}
-
-
         </div>
-
-
     </div>
     <!-- / Content -->
 
@@ -296,18 +377,8 @@
 
     <div class="content-backdrop fade"></div>
     </div>
-
-
 @endsection
-
-
 @section('script')
-
-
-
-
-
-
     <script>
         let canvas = new fabric.Canvas('tshirt-canvas');
         let currentDoor = null;
@@ -332,8 +403,6 @@
             const canvasHeight = canvas.getHeight();
             widthCm -= 4;
             heightCm -= 13;
-
-
             // Calculate pixel to cm ratio for each axis independently
             const pixelPerCmX = canvasWidth / widthCm;
             const pixelPerCmY = canvasHeight / heightCm;
@@ -373,7 +442,6 @@
 
             canvas.renderAll();
         }
-
         canvas.on('object:moving', function(e) {
             var obj = e.target;
             var canvasWidth = canvas.getWidth();
@@ -414,13 +482,8 @@
             obj.setCoords();
             canvas.renderAll();
         });
-
-
-
         // Inisialisasi kanvas
         canvas.renderAll();
-
-
         // Variabel counter untuk setiap jenis gambar
         let counterSekatHorizontal = 0;
         let counterSekatVertical = 0;
@@ -444,7 +507,7 @@
         }
 
         let currentVerticalSize = produk.tinggi_min;
-        let currentHorizontalSize = produk.panjang_min;
+        let currentHorizontalSize = produk.lebar_min;
 
         let selectedKayuPrice = 0;
 
@@ -465,8 +528,8 @@
             // Define min and max values
             const minVerticalSize = produk.tinggi_min; // Example minimum value for vertical size
             const maxVerticalSize = produk.tinggi_max; // Example maximum value for vertical size
-            const minHorizontalSize = produk.panjang_min; // Example minimum value for horizontal size
-            const maxHorizontalSize = produk.panjang_max; // Example maximum value for horizontal size
+            const minHorizontalSize = produk.lebar_min; // Example minimum value for horizontal size
+            const maxHorizontalSize = produk.lebar_max; // Example maximum value for horizontal size
 
             // Get new values from inputs
             let newVerticalSize = parseInt(document.getElementById('input-vertical-size').value);
@@ -512,41 +575,25 @@
         const initialHeight = parseInt(document.getElementById('input-vertical-size').value);
         updateGrid(canvas, initialWidth, initialHeight);
 
-        // Event listener untuk tombol update ukuran
-        // document.getElementById('update-size').addEventListener('click', function() {
-        //     updateDimensions();
-        // });
-
         document.getElementById('input-vertical-size').addEventListener('change', function() {
             updateDimensions(); // Memperbarui dimensi teks atau elemen lain jika diperlukan
             const heightCm = parseInt(this.value); // Ini adalah input untuk tinggi
             const widthCm = parseInt(document.getElementById('input-horizontal-size')
-            .value); // Ini mengambil nilai panjang
+            .value); // Ini mengambil nilai lebar
             updateGrid(canvas, widthCm, heightCm); // Panggil fungsi updateGrid dengan lebar dan tinggi yang benar
         });
 
         document.getElementById('input-horizontal-size').addEventListener('change', function() {
             updateDimensions(); // Memperbarui dimensi teks atau elemen lain jika diperlukan
-            const widthCm = parseInt(this.value); // Ini adalah input untuk panjang/lebar
+            const widthCm = parseInt(this.value); // Ini adalah input untuk lebar/lebar
             const heightCm = parseInt(document.getElementById('input-vertical-size')
             .value); // Ini mengambil nilai tinggi
             updateGrid(canvas, widthCm, heightCm); // Panggil fungsi updateGrid dengan lebar dan tinggi yang benar
         });
 
-
-
-        // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
-
-        // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
-
-
-
-
         // Variabel untuk menyimpan total harga
         let hargakayu = 0;
         let totalPrice = 0;
-
-
         // Fungsi untuk memperbarui total harga di UI
         function updateTotalPrice(selectedKayuPrice) {
             hargakayu = parseInt(selectedKayuPrice);
@@ -717,17 +764,11 @@
                 canvas.renderAll();
             });
         }
-
-
         // Event listener untuk tombol tambah gambar
         document.getElementById('btntambah').addEventListener('click', function() {
             updateAddOn(document.getElementById('tshirt-design').value);
         }, false);
-
-
-
         // Fungsi untuk menghapus objek ketika tombol DEL ditekan
-
         document.getElementById('remove').addEventListener('click', function() {
             var object = canvas.getActiveObject();
             if (!object) {
@@ -737,11 +778,6 @@
             canvas.remove(object);
             canvas.renderAll();
         });
-
-
-
-
-
 
         document.getElementById('next-page').addEventListener('click', function() {
 
@@ -792,7 +828,7 @@
             // Simpan data ukuran
             const ukuranData = {
                 tinggi: currentVerticalSize,
-                panjang: currentHorizontalSize
+                lebar: currentHorizontalSize
             };
             localStorage.setItem('ukuranData', JSON.stringify(ukuranData));
 
@@ -824,8 +860,9 @@
                             jumlah: 1,
                             tipe_trans: 'custom',
                             status: 0,
-                            panjang: currentHorizontalSize,
+                            lebar: currentHorizontalSize,
                             tinggi: currentVerticalSize,
+                            panjang: 60,
                             jenis_kayu: selectedKayuType,
                             harga_kayu: selectedKayuPrice,
                             id_produk: produk.id
@@ -851,14 +888,8 @@
                             // Sembunyikan loading screen setelah proses selesai
                             document.getElementById('loadingScreen').style.display = 'none';
                         });
-
             });
-
-
             // Redirect ke halaman kedua
-
-
-
         });
     </script>
 

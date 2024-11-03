@@ -489,7 +489,7 @@
                 });
 
                 document.getElementById('right-text').innerHTML = ukuranData.tinggi + 'cm';
-                document.getElementById('bottom-text').innerHTML = ukuranData.panjang + 'cm';
+                document.getElementById('bottom-text').innerHTML = ukuranData.lebar + 'cm';
             } else {
                 console.error('Data tidak tersedia di localStorage');
             }

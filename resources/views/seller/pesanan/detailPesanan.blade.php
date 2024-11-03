@@ -88,7 +88,7 @@
                         <div class="row">
                             <span>Jenis Kayu dan Ukuran</span>
                             <span style="font-size: 20px"><b>{{ $detail->jenis_kayu }}</b> </span>
-                            <span style="font-size: 20px"><b>P: {{ $detail->panjang }}cm, T:{{ $detail->tinggi }}cm</b>
+                            <span style="font-size: 20px"><b>Lebar: {{ $detail->lebar }}cm, Tinggi:{{ $detail->tinggi }}cm</b>
                             </span>
                         </div>
                         <br>
@@ -138,10 +138,24 @@
 
 
                     </div>
+                    <br>
+                    <div class="card" style="padding: 15px">
+                        @if ($detail->status == 4 )
+                        <button class="btn"
+                        style="margin: 5px; background-color: #898063; color: black">
+                            Produksi Selesai
+                        </button>
+                        @elseif ($detail->status == 5)
+                        <button class="btn"
+                        style="margin: 5px; background-color: #898063; color: black">
+                            Kirim Barang
+                        </button>
+                        @endif
+                    </div>
 
                 </div>
 
-                <br><br>
+
                 <div class="col-md-8">
 
                     <div class="card " style="padding: 15px">

@@ -4,7 +4,7 @@
 
 @section('style')
 <style>
-    /* Keep existing styles from before */
+    /* Existing styles */
     .order-card {
         background: #fff;
         border-radius: 8px;
@@ -19,7 +19,6 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
     }
 
-    /* ... (keep other existing styles) ... */
     .product-image {
         width: 120px;
         height: 120px;
@@ -174,76 +173,14 @@
         padding-top: 1rem;
         color: #6B7280;
     }
-
-    /* DataTable specific styling */
-    .dataTables_wrapper .dataTables_filter {
-        margin-bottom: 1.5rem;
-        width: 100%;
-        text-align: left;
-    }
-
-    .dataTables_wrapper .dataTables_filter input {
-        width: 300px;
-        padding: 0.5rem 1rem;
-        border: 1px solid #E5E7EB;
-        border-radius: 6px;
-        margin-left: 0.5rem;
-    }
-
-    .dataTables_wrapper .dataTables_length {
-        margin-bottom: 1.5rem;
-    }
-
-    .dataTables_wrapper .dataTables_length select {
-        padding: 0.5rem;
-        border: 1px solid #E5E7EB;
-        border-radius: 6px;
-        margin: 0 0.5rem;
-    }
-
-    .dataTables_wrapper .dataTables_info {
-        padding-top: 1rem;
-        color: #6B7280;
-    }
-
-    .dataTables_wrapper .dataTables_paginate {
-        padding-top: 1rem;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-        padding: 0.5rem 1rem;
-        margin: 0 0.25rem;
-        border-radius: 6px;
-        border: 1px solid #E5E7EB;
-        background: #fff;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-        background: #898063;
-        color: white !important;
-        border-color: #898063;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-        background: #F3F4F6;
-        color: #111827 !important;
-    }
-
-    /* Search Results Highlight */
-    .highlight {
-        background-color: #FEF3C7;
-        padding: 0.125rem 0.25rem;
-        border-radius: 4px;
-    }
 </style>
 @endsection
 
 @section('content')
-<br><br><br><br>
 <div class="container py-5">
     <div class="row">
         <div class="col-12">
-            <h1 class="mb-4 fw-bold">Pembelian</h1>
+            <h1 class="mb-4 fw-bold">Riwayat Pembelian</h1>
 
             <!-- Main Tabs -->
             <ul class="nav nav-tabs">
@@ -309,114 +246,113 @@
             </ul>
             @endif
 
-            <!-- DataTable Container -->
-            <div class="table-responsive">
-                <table id="orderTable" class="w-100">
-                    <thead style="display: none">
-                        <!-- Hidden header for DataTable structure -->
-                        <tr>
-                            <th>Date</th>
-                            <th>Content</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($pembelian as $order)
-                        <tr>
-                            <td>{{ $order->tgl_transaksi }}</td>
-                            <td>
-                                <div class="order-card">
-                                    <div class="p-4">
-                                        <div class="row align-items-center">
-                                            <!-- Image -->
+            <!-- Orders Table -->
+            <table id="ordersTable" class="table">
+                <thead style="display: none;">
+                    <tr>
+                        <th>Order Content</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($pembelian as $order)
+                    <tr>
+                        <td>
+                            <div class="order-card">
+                                <div class="p-4">
+                                    <div class="row align-items-center">
+                                        <!-- Image -->
+                                        <div class="col-md-2">
+                                            <img src=""
+                                                 class="product-image"
+                                                 alt="{{ $order->nama_produk }}">
+                                        </div>
 
+                                        <!-- Order Details -->
+                                        <div class="col-md-5">
+                                            <h4 class="mb-2">{{ $order->nama_produk }}</h4>
+                                            <p class="mb-1 text-muted">
+                                                {{ \Carbon\Carbon::parse($order->tgl_transaksi)->translatedFormat('j F Y, H:i') }}
+                                            </p>
+                                            <p class="mb-0">
+                                                <span class="badge {{ $order->tipe_trans == 'custom' ? 'bg-warning' : 'bg-info' }}">
+                                                    {{ ucfirst($order->tipe_trans) }}
+                                                </span>
+                                            </p>
+                                        </div>
 
-                                            <!-- Order Details -->
-                                            <div class="col-md-5">
-                                                <h4 class="mb-2">{{ $order->nama_produk }}</h4>
-                                                <p class="mb-1 text-muted">
-                                                    {{ \Carbon\Carbon::parse($order->tgl_transaksi)->translatedFormat('j F Y, H:i') }}
-                                                </p>
-                                                <p class="mb-0">
-                                                    <span class="badge {{ $order->tipe_trans == 'custom' ? 'bg-warning' : 'bg-info' }}">
-                                                        {{ ucfirst($order->tipe_trans) }}
-                                                    </span>
-                                                </p>
+                                        <!-- Pricing -->
+                                        <div class="col-md-3">
+                                            @if ($order->tipe_trans == 'custom')
+                                            <div class="mb-2">
+                                                <div class="price-label">Perkiraan Harga:</div>
+                                                <div class="price-value">
+                                                    Rp. {{ number_format($order->perkiraan_harga, 0, ',', '.') }}
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            <div class="mb-2">
+                                                <div class="price-label">Harga Final:</div>
+                                                <div class="price-value">
+                                                    {{ $order->harga <= 0 ? 'Belum ada' : 'Rp. ' . number_format($order->harga, 0, ',', '.') }}
+                                                </div>
                                             </div>
 
-                                            <!-- Pricing -->
-                                            <div class="col-md-4">
-                                                @if ($order->tipe_trans == 'custom')
-                                                <div class="mb-2">
-                                                    <div class="price-label">Perkiraan Harga:</div>
-                                                    <div class="price-value">
-                                                        Rp. {{ number_format($order->perkiraan_harga, 0, ',', '.') }}
-                                                    </div>
+                                            @if ($order->harga_redesain != null)
+                                            <div>
+                                                <div class="price-label">Harga Redesain:</div>
+                                                <div class="price-value">
+                                                    Rp. {{ number_format($order->harga_redesain, 0, ',', '.') }}
                                                 </div>
-                                                @endif
+                                            </div>
+                                            @endif
+                                        </div>
 
-                                                <div class="mb-2">
-                                                    <div class="price-label">Harga Final:</div>
-                                                    <div class="price-value">
-                                                        {{ $order->harga <= 0 ? 'Belum ada' : 'Rp. ' . number_format($order->harga, 0, ',', '.') }}
-                                                    </div>
-                                                </div>
+                                        <!-- Status and Actions -->
+                                        <div class="col-md-2 text-end">
+                                            @php
+                                                $statusClass = match($order->status) {
+                                                    1, 11 => 'status-menunggu',
+                                                    2 => 'status-menunggu',
+                                                    3 => 'status-menunggu',
+                                                    4 => 'status-produksi',
+                                                    5 => 'status-siap',
+                                                    6 => 'status-dikirim',
+                                                    7 => 'status-selesai',
+                                                    8, 9 => 'status-batal',
+                                                    default => ''
+                                                };
 
-                                                @if ($order->harga_redesain != null)
-                                                <div>
-                                                    <div class="price-label">Harga Redesain:</div>
-                                                    <div class="price-value">
-                                                        Rp. {{ number_format($order->harga_redesain, 0, ',', '.') }}
-                                                    </div>
-                                                </div>
-                                                @endif
+                                                $statusText = match($order->status) {
+                                                    1, 11 => 'Menunggu Konfirmasi',
+                                                    2 => 'Perbaikan Desain',
+                                                    3 => 'Menunggu Pembayaran',
+                                                    4 => 'Sedang Produksi',
+                                                    5 => 'Siap Dikirim',
+                                                    6 => 'Dalam Pengiriman',
+                                                    7 => 'Selesai',
+                                                    8, 9 => 'Dibatalkan',
+                                                    default => 'Unknown'
+                                                };
+                                            @endphp
+
+                                            <div class="status-badge {{ $statusClass }} mb-3">
+                                                {{ $statusText }}
                                             </div>
 
-                                            <!-- Status and Actions -->
-                                            <div class="col-md-3 text-end">
-                                                @php
-                                                    $statusClass = match($order->status) {
-                                                        1, 11 => 'status-menunggu',
-                                                        2 => 'status-menunggu',
-                                                        3 => 'status-menunggu',
-                                                        4 => 'status-produksi',
-                                                        5 => 'status-siap',
-                                                        6 => 'status-dikirim',
-                                                        7 => 'status-selesai',
-                                                        8, 9 => 'status-batal',
-                                                        default => ''
-                                                    };
-
-                                                    $statusText = match($order->status) {
-                                                        1, 11 => 'Menunggu Konfirmasi',
-                                                        2 => 'Perbaikan Desain',
-                                                        3 => 'Menunggu Pembayaran',
-                                                        4 => 'Sedang Produksi',
-                                                        5 => 'Siap Dikirim',
-                                                        6 => 'Dalam Pengiriman',
-                                                        7 => 'Selesai',
-                                                        8, 9 => 'Dibatalkan',
-                                                        default => 'Unknown'
-                                                    };
-                                                @endphp
-
-                                                <div class="status-badge {{ $statusClass }} mb-3">
-                                                    {{ $statusText }}
-                                                </div>
-
-                                                <a href="{{ url($order->tipe_trans == 'custom' ? '/detailTransaksiCustom/' : '/detailTransaksiNonCustom/').'/' . $order->id }}"
-                                                   class="detail-link">
-                                                    Lihat Detail →
-                                                </a>
-                                            </div>
+                                            <a href="{{ url($order->tipe_trans == 'custom' ? '/detailTransaksiCustom/' : '/detailTransaksiNonCustom/') . $order->id }}"
+                                               class="detail-link">
+                                                Lihat Detail →
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -425,14 +361,21 @@
 @section('script')
 <script>
 $(document).ready(function() {
-    // Initialize DataTable with custom configuration
-    var table = $('#orderTable').DataTable({
-        order: [[0, "desc"]],
+    // Initialize DataTable with modified configuration
+    $('#ordersTable').DataTable({
+        ordering: true,
+        searching: true,
+        paging: true,
         pageLength: 10,
+        lengthChange: true,
+        info: true,
+        autoWidth: false,
+        responsive: true,
+        order: [], // Remove default sorting
         columnDefs: [
             {
-                targets: 0,
-                visible: false // Hide the date column used for sorting
+                targets: '_all',
+                orderable: false // Disable sorting for all columns
             }
         ],
         dom: '<"top"lf>rt<"bottom"ip>', // Custom DOM positioning

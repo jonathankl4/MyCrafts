@@ -147,9 +147,10 @@ class PesananController extends Controller
         $pembelian->save();
 
         $harga = $pembelian->harga + $request->ongkir;
+        $order_id = 'DONATION-' . mt_rand(100000, 999999);
 
         $transaction = Donation::create([
-            'code'   => 'DONATION-' . mt_rand(100000, 999999),
+            'code'   => $order_id,
             'name'   => $user->username,
             'email'  => $user->email,
             'amount' => $harga,
@@ -165,7 +166,7 @@ class PesananController extends Controller
 
         $params = array(
             'transaction_details' => array(
-                'order_id' => rand(),
+                'order_id' => $order_id,
                 'gross_amount' => $harga,
             ),
             'customer_details' => array(

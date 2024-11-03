@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\GudangController;
 use App\Http\Controllers\Lemari1Controller;
 use App\Http\Controllers\Lemari2Controller;
 use App\Http\Controllers\Lemari3Controller;
@@ -182,7 +183,7 @@ Route::group([
 
     Route::get('/membership', [MembershipController::class, 'membershipPage']);
     Route::post('/beliMembership', [MembershipController::class, 'checkoutPage']);
-    Route::post('/checkout',[MembershipController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout', [MembershipController::class, 'checkout'])->name('checkout');
 
     Route::get('/pegawai', [SellerController::class, 'pegawaiPage']);
     Route::post('/addPegawai', [SellerController::class, 'addPegawai']);
@@ -209,6 +210,7 @@ Route::group([
     // ini untuk ubah nama, ukuran minimal maksimal dan deskripsi
     Route::post('/produkCustom/editDetailProduk', [ProdukCustomController::class, 'editDetailProduk']);
 
+    Route::get('/produkCustom/delete/{id}', [ProdukCustomController::class, 'deleteProdukCustom']);
     // TAMBAH PRODUK CUSTOM
     Route::get('/produkCustom/tambahLemari1', [Lemari1Controller::class, 'tambahLemari1']);
     Route::post('/produkCustom/ubahDetailLemari1', [Lemari1Controller::class, 'ubahDetailLemari1']);
@@ -246,14 +248,14 @@ Route::group([
     // PESANAN
 
     Route::get('/pesanan', [PesananController::class, 'pagePesanan']);
-        // List Pesanan
-        Route::get('/pesanan/nonCustom', [PesananController::class, 'pagePesananNonCustom']);
-        Route::get('/pesanan/custom', [PesananController::class, 'pagePesananCustom']);
-        Route::get('/pesanan/produksi', [PesananController::class, 'pagePesananProduksi']);
-        Route::get('/pesanan/siapDikirim', [PesananController::class, 'pagePesananSiapDikirim']);
-        Route::get('/pesanan/dalamPengiriman', [PesananController::class, 'pagePesananDalamPengiriman']);
-        Route::get('/pesanan/selesai', [PesananController::class, 'pagePesananSelesai']);
-        Route::get('/pesanan/batal', [PesananController::class, 'pagePesananBatal']);
+    // List Pesanan
+    Route::get('/pesanan/nonCustom', [PesananController::class, 'pagePesananNonCustom']);
+    Route::get('/pesanan/custom', [PesananController::class, 'pagePesananCustom']);
+    Route::get('/pesanan/produksi', [PesananController::class, 'pagePesananProduksi']);
+    Route::get('/pesanan/siapDikirim', [PesananController::class, 'pagePesananSiapDikirim']);
+    Route::get('/pesanan/dalamPengiriman', [PesananController::class, 'pagePesananDalamPengiriman']);
+    Route::get('/pesanan/selesai', [PesananController::class, 'pagePesananSelesai']);
+    Route::get('/pesanan/batal', [PesananController::class, 'pagePesananBatal']);
 
     Route::get('/detailPesanan/{id}', [PesananController::class, 'detailPesanan']);
     Route::get('/custom/redesain/{id}', [PesananController::class, "redesain"]);
@@ -267,27 +269,22 @@ Route::group([
 
     Route::post('/save-image', [TestController::class, 'uploadImage'])->name('save.image');
 
+    // //TEMPLATE
+    // Route::get('/produkCustom/templateProduk', [ProdukCustomController::class, 'pageTemplateProduk']);
+    // Route::get('/produkCustom/tambahTemplate', [ProdukCustomController::class, 'pageTambahTemplate']);
+    // Route::post('/addTemplate', [ProdukCustomController::class, 'addTemplate']);
+    // Route::get('/pEditTemplate/{id}', [ProdukCustomController::class, 'pageEditTemplate']);
+    // Route::post('/editTemplate/{id}', [ProdukCustomController::class, 'editTemplate']);
+    // Route::get('/deleteTemplate/{id}', [ProdukCustomController::class, 'deleteTemplate']);
 
+    // // ADD ON
 
-
-
-    //TEMPLATE
-    Route::get('/produkCustom/templateProduk', [ProdukCustomController::class, 'pageTemplateProduk']);
-    Route::get('/produkCustom/tambahTemplate', [ProdukCustomController::class, 'pageTambahTemplate']);
-    Route::post('/addTemplate', [ProdukCustomController::class, 'addTemplate']);
-    Route::get('/pEditTemplate/{id}', [ProdukCustomController::class, 'pageEditTemplate']);
-    Route::post('/editTemplate/{id}', [ProdukCustomController::class, 'editTemplate']);
-    Route::get('/deleteTemplate/{id}', [ProdukCustomController::class, 'deleteTemplate']);
-
-    // ADD ON
-
-    Route::get("/produkCustom/addOn", [ProdukCustomController::class, 'pageAddOn']);
-    Route::get("/produkCustom/tambahAddOn", [ProdukCustomController::class, 'pageTambahAddOn']);
-    Route::post("/addAddOn", [ProdukCustomController::class, 'tambahAddOn']);
-    Route::get("pEditAddOn/{id}", [ProdukCustomController::class, "pageEditAddOn"]);
-    Route::post("editAddOn/{id}", [ProdukCustomController::class, "editAddOn"]);
-    Route::get("/deleteAddOn/{id}", [ProdukCustomController::class, "deleteAddOn"]);
-
+    // Route::get("/produkCustom/addOn", [ProdukCustomController::class, 'pageAddOn']);
+    // Route::get("/produkCustom/tambahAddOn", [ProdukCustomController::class, 'pageTambahAddOn']);
+    // Route::post("/addAddOn", [ProdukCustomController::class, 'tambahAddOn']);
+    // Route::get("pEditAddOn/{id}", [ProdukCustomController::class, "pageEditAddOn"]);
+    // Route::post("editAddOn/{id}", [ProdukCustomController::class, "editAddOn"]);
+    // Route::get("/deleteAddOn/{id}", [ProdukCustomController::class, "deleteAddOn"]);
 
     //Satuan
     Route::get('/Satuan', [MasterController::class, "pageMasterSatuan"]);
@@ -364,6 +361,23 @@ Route::group([
         Route::get('/tambahDetailBom/getBahan', [BomController::class, "getBahan"]);
 
         // END OF PRODUKSI
+
+
+        // START OF GUDANG
+
+        Route::get('/gudang/riwayatMutasi', [GudangController::class, 'pageMutasi']);
+        Route::get('/api/get-stok-mebel/{id}', [GudangController::class, 'getStokMebel']);
+
+        // Route untuk mendapatkan stok bahan
+        Route::get('/api/get-stok-bahan/{id}', [GudangController::class, 'getStokBahan']);
+        Route::post('/gudang/inputMutasi', [GudangController::class, 'storeMutasiMebel']);
+
+        // PERMINTAAN PEMBELIAN
+        Route::get('/gudang/permintaanPembelian', [GudangController::class, 'riwayatPermintaanPembelian']);
+        Route::get('/gudang/formPermintaanPembelian', [GudangController::class, 'formPermintaanPembelian']);
+        Route::post('/gudang/buatPermintaanPembelian', [GudangController::class, 'buatPermintaanPembelian']);
+
+        // END OF GUDANG
 
     });
 

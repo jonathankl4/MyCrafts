@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('harga_redesain')->nullable();
             $table->integer('panjang')->nullable();
             $table->integer('tinggi')->nullable();
+            $table->integer('lebar')->nullable();
             $table->string('jenis_kayu')->nullable();
             $table->integer('harga_kayu')->nullable();
             $table->integer('ongkir')->nullable();

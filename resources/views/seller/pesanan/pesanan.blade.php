@@ -4,12 +4,7 @@
 
 @section('style')
     <style>
-
-
-
-
-
-
+      
     </style>
 @endsection
 
@@ -92,9 +87,10 @@
                 {{-- ini jika mau table nya responsive --}}
                 {{-- <div class="table-responsive text-nowrap p-3"> --}}
                 <div class="table-responsive">
-                    <table id="tMebel" class="table table-striped">
+                    <table id="orderTable" class="table table-striped">
                         <thead>
                             <tr>
+                                <th style="display: none">date</th>
                                 <th>Nama Produk</th>
                                 <th>Tipe Transaksi</th>
                                 <th>Tanggal Transaksi</th>
@@ -109,15 +105,12 @@
 
                             @for ($i = 0; $i < count($pembelian); $i++)
                                 <tr>
-
+                                    <td style="display: none">{{$pembelian[$i]->tgl_transaksi}}</td>
                                     <td style="font-size: 16px"><b>{{ $pembelian[$i]->nama_produk }}</b></td>
                                     <td style="font-size: 16px"><b>{{ $pembelian[$i]->tipe_trans }}</b></td>
                                     <td style="font-size: 16px">
                                         <b>{{ \Carbon\Carbon::parse($pembelian[$i]->tgl_transaksi)->translatedFormat('j F Y') }}</b>
                                     </td>
-
-
-
 
                                     @php
                                         $s = $pembelian[$i]->status;
@@ -155,7 +148,6 @@
                                             $color = 'bg-warning';
                                         }
 
-
                                     @endphp
                                     <td style="font-size: 16px"><b><span
                                                 class="badge {{ $color }}">{{ $status }}</span></b></td>
@@ -165,20 +157,8 @@
                                         <a href="{{ url('seller/detailPesanan/' . $pembelian[$i]->id) }}"
                                             class="btn btn-info">Detail Pesanan</a>
                                     </td>
-
-
                                 </tr>
                             @endfor
-
-
-
-
-
-
-
-
-
-
                         </tbody>
 
                     </table>
@@ -214,64 +194,51 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            $('#tMebel').DataTable({
-                "order": [
-                    [2, "desc"]
-                ]
-            });
-
-
-        });
-    </script>
-
-    <script>
-        function statuschange(id) {
-
-            var x = document.getElementById("statuscek" + id).checked;
-            var stat = "";
-            var notif = ""
-            if (x == true) {
-                stat = "aktif";
-                notif = "produk diaktifkan !"
-            } else {
-                stat = "nonaktif";
-                notif = "produk di nonaktifkan !"
+    // Initialize DataTable with custom configuration
+    var table = $('#orderTable').DataTable({
+        order: [[0, "desc"]],
+        pageLength: 10,
+        columnDefs: [
+            {
+                targets: 0,
+                visible: false // Hide the date column used for sorting
             }
+        ],
+        dom: '<"top"lf>rt<"bottom"ip>', // Custom DOM positioning
+        language: {
+            search: "Cari pesanan:",
+            lengthMenu: "Tampilkan _MENU_ pesanan per halaman",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ pesanan",
+            paginate: {
+                first: "Pertama",
+                last: "Terakhir",
+                next: "Selanjutnya",
+                previous: "Sebelumnya"
+            }
+        },
+        initComplete: function() {
+            // Enhance search functionality
+            var searchInput = $('.dataTables_filter input');
+            searchInput.attr('placeholder', 'Cari berdasarkan nama produk, tipe, atau status...');
 
-            // $.post("{{ route('ubahStatusProduk') }}", {
-            //     _method: 'POST',
-            //     _token: '{{ csrf_token() }}',
-            //     status : x,
-            //     idProduk : id,
-            // });
-            $.post("{{ route('ubahStatusProdukCustom') }}", {
-                _method: 'POST',
-                _token: '{{ csrf_token() }}',
-                status: stat,
-                idProduk: id,
-            });
-
-
-            const Toast = Swal.mixin({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
+            // Add search highlight
+            searchInput.on('keyup', function() {
+                $('.highlight').contents().unwrap();
+                var searchTerm = this.value;
+                if (searchTerm) {
+                    $('.order-card').find('h4, p, span').each(function() {
+                        var text = $(this).text();
+                        if (text.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                            var regex = new RegExp('(' + searchTerm + ')', 'gi');
+                            $(this).html(text.replace(regex, '<span class="highlight">$1</span>'));
+                        }
+                    });
                 }
             });
-            Toast.fire({
-                icon: "success",
-                title: notif
-            });
-
-
-
-            // window.location.href = '{{ url('document.getElementById("status").value') }}';
-
-        };
+        }
+    });
+});
     </script>
+
+
 @endsection

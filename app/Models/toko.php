@@ -18,6 +18,8 @@ class toko extends Model
         'deskripsi',
         'foto',
         'status',
+        'saldo',
+        'saldo_pending',
         'membership_expires_at',
         'membership_type'
 

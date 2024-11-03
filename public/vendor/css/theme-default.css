@@ -748,19 +748,22 @@ html:not(.layout-menu-collapsed) .bg-menu-theme .menu-inner .menu-item .menu-lin
   color: #696cff;
 }
 .bg-menu-theme .menu-inner > .menu-item.active > .menu-link {
-  color: #696cff;
-  background-color: rgba(105, 108, 255, 0.16) !important;
+  color: #4b4737;
+  background-color: #f0deb4 !important;
+  /* ini tak ganti bro  */
 }
 .bg-menu-theme .menu-inner > .menu-item.active:before {
-  background: #696cff;
+  background: #00c9ab;
+  /* ini tak ubah */
 }
 .bg-menu-theme .menu-sub > .menu-item > .menu-link:before {
   background-color: #b4bdc6 !important;
 }
 .bg-menu-theme .menu-sub > .menu-item.active > .menu-link:not(.menu-toggle):before {
-  background-color: #696cff !important;
+  background-color: #898063 !important;
   border: 3px solid #e7e7ff !important;
 }
+/* ini yang atas tak ganti broo bg color nya */
 
 .app-brand .layout-menu-toggle {
   background-color: #696cff;
