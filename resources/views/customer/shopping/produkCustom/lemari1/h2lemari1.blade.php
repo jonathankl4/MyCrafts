@@ -9,6 +9,66 @@
 
 @section('style')
     <style>
+         :root {
+    --primary-color: #2d3436;
+    --secondary-color: #636e72;
+    --accent-color: #0984e3;
+    --background-color: #f5f6fa;
+    --border-radius: 12px;
+    --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+body {
+    background-color: var(--background-color);
+}
+
+.customization-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
+}
+
+.card-header {
+    background: white;
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.card-header h5 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(9, 132, 227, 0.1);
+}
         .drawing-area {
             position: absolute;
             top: 23px;
@@ -181,6 +241,24 @@
                                     <p style="font-size: 12px; color: red;">*Warna pintu di gambar hanyalah contoh, warna
                                         aslinya nanti akan sama dengan warna lemari</p>
                                     <span class="badge bg-info" style="font-size: 16px;">Perkiraan Harga: <span id="totalHarga">Rp 0</span></span>
+                                    <br><br>
+                                    <div class="alert alert-warning text-dark">
+                                        <ul class="list-unstyled">
+
+                                            <li class="mb-2" id="ukuran-tinggi">
+                                                •
+                                                Tinggi: 160cm -180 cm
+                                            </li>
+                                            <li class="mb-2" id="ukuran-lebar">
+                                                •
+                                                Lebar: 80cm - 100cm
+                                            </li>
+                                            <li class="mb-2" id="ukuran-kedalaman">
+                                                •
+                                                Tebal (Kedalaman): 45cm - 60cm
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
@@ -219,7 +297,37 @@
 
     <!-- Footer -->
     <footer class="content-footer footer bg-footer-theme">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#modalKonfirmasi">Beli</a>
 
+        <div class="modal fade" id="modalKonfirmasi" tabindex="-1" aria-labelledby="modalcek" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modalceklabel">Detail Pintu 1</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h2 class="card-title text-center text-primary mb-3">Pintu 1</h2>
+
+                        <!-- Section Gambar -->
+                        <div class="text-center mb-4">
+                            <h4>Gambar</h4>
+                            <img src="{{ asset('img/lemari1/pintu1.JPEG') }}" alt="Gambar Pintu 1" class="img-fluid " style="max-width: 100%; max-height: auto">
+                        </div>
+
+                        <!-- Section Keterangan -->
+                        <div class="mt-3">
+                            <h4 class="text-secondary">Keterangan</h4>
+                            <p>Digunakan untuk membagi ruang lemari secara vertikal, memberikan lebih banyak kompartemen untuk penyimpanan yang lebih rapi dan terorganisir.</p>
+                            <p><strong>Rekomendasi Tebal Kayu:</strong> 1 - 2 cm tergantung kegunaan dan beban yang akan ditahan.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </footer>
     <!-- / Footer -->
 
@@ -470,6 +578,10 @@
             let hargaPintu = @json($addonPrices);
             console.log(hargaPintu);
             let currentPintuPrice = 0;
+
+            document.getElementById('ukuran-tinggi').textContent = '• Tinggi: '+ ukuranData.tinggi + ' cm';
+            document.getElementById('ukuran-lebar').textContent = '• Lebar: '+ ukuranData.lebar + ' cm';
+            document.getElementById('ukuran-kedalaman').textContent = '• Tebal (kedalaman): '+ ukuranData.kedalaman + ' cm';
 
 
             function updateTotalHarga() {

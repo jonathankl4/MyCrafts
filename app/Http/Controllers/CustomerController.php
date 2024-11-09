@@ -187,6 +187,10 @@ class CustomerController extends Controller
             $foto[] = 'img/lemari3/lemari3.png';
             $foto[] = 'img/lemari3/lemari3samping.png';
         }
+        if ($produk->kode == 'meja1'){
+            $foto[] = 'img/meja1/meja1.png';
+            $foto[] = 'img/meja1/mj.png';
+        }
         return view("customer.shopping.produkCustom.produkCustomDetail", ['user' => $user, 'produk' => $produk, 'foto' => $foto, 'detail' => $detail, 'addonMain' => $addonMain, 'addonSec' => $addonSec]);
     }
 
@@ -428,6 +432,8 @@ class CustomerController extends Controller
             return view('customer.shopping.produkCustom.lemari2.Ch1lemari2', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produk]);
         } else if ($produk->kode == 'lemari3') {
             return view('customer.shopping.produkCustom.lemari3.Ch1lemari3', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produk]);
+        } else if ($produk->kode == 'meja1'){
+            return view('customer.shopping.produkCustom.meja1.Ch1Meja1',['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produk]);
         }
     }
 
@@ -514,6 +520,9 @@ class CustomerController extends Controller
         $gantungan = $request->input('gantungan');
         $laciKecil = $request->input('laciKecil');
         $laciBesar = $request->input('laciBesar');
+        $laci1 = $request->input('laci1');
+        $laci2 = $request->input('laci2');
+        $pijakankaki = $request->input('pijakankaki');
         $pintu = $request->input('pintu'); // Ambil data pintu
         $pintuPrice = $request->input('pintuPrice');
         $addonPrices = $request->input('addonPrices');
@@ -616,6 +625,18 @@ class CustomerController extends Controller
                     'nama_item' => 'Laci Besar',
                     'jumlah' => $laciBesar,
                     'harga' => $addonPrices['laciBesar'], // Gunakan harga dari halaman 1
+                    'jenis' => 'main',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+            if ($laci1) {
+                # code...
+                DB::table('d_trans')->insert([
+                    'h_trans_id' => $trans->id,
+                    'nama_item' => 'Laci 1',
+                    'jumlah' => $laci1,
+                    'harga' => $addonPrices['laci1'], // Gunakan harga dari halaman 1
                     'jenis' => 'main',
                     'created_at' => now(),
                     'updated_at' => now()

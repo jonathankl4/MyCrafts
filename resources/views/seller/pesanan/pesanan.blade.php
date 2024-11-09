@@ -4,7 +4,61 @@
 
 @section('style')
     <style>
-      
+        .nav-tabs {
+            border-bottom: 2px solid #E5E7EB;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #6B7280;
+            font-weight: 500;
+            padding: 0.75rem 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: #111827;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #898063;
+            background: none;
+        }
+
+        .nav-tabs .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #898063;
+        }
+
+        .nav-pills {
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-pills .nav-link {
+            border-radius: 9999px;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            color: #6B7280;
+            transition: all 0.3s ease;
+        }
+
+        .nav-pills .nav-link:hover {
+            background-color: #F3F4F6;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: #898063;
+            color: white;
+        }
     </style>
 @endsection
 
@@ -31,52 +85,76 @@
                 Custom</a> --}}
             <div class="">
 
-                <div class="nav-align-top mb-4">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
 
-                            <a href="{{ url('/seller/pesanan') }}" class="nav-link active">
+
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link {{ $status == 'semua' ? 'active' : '' }}"
+                                href="{{ url('/seller/pesanan?status=semua') }}">
                                 Semua
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/nonCustom') }}" class="nav-link">
-                                Non Custom
+                            <a class="nav-link {{ $status == 'berjalan' ? 'active' : '' }}"
+                                href="{{ url('/seller/pesanan?status=berjalan') }}">
+                                Berjalan
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/custom') }}" class="nav-link">
-                                Custom
+                            <a class="nav-link {{ $status == 'berhasil' ? 'active' : '' }}"
+                                href="{{ url('/seller/pesanan?status=berhasil') }}">
+                                Berhasil
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/produksi') }}" class="nav-link">
-                                Proses Produksi
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/siapDikirim') }}" class="nav-link">
-                                Siap Dikirim
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/dalamPengiriman') }}" class="nav-link">
-                                Dalam Pengiriman
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/selesai') }}" class="nav-link">
-                                Pesanan Selesai
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/seller/pesanan/batal') }}" class="nav-link">
-                                Dibatalkan
+                            <a class="nav-link {{ $status == 'tidak_berhasil' ? 'active' : '' }}"
+                                href="{{ url('/seller/pesanan?status=tidak_berhasil') }}">
+                                Tidak Berhasil
                             </a>
                         </li>
                     </ul>
+                    @if ($status == 'berjalan')
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link {{ $sub_status == null ? 'active' : '' }}"
+                                    href="{{ url('/seller/pesanan?status=berjalan') }}">
+                                    Semua
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ $sub_status == 'menunggu_konfirmasi' ? 'active' : '' }}"
+                                    href="{{ url('/seller/pesanan?status=berjalan&sub_status=menunggu_konfirmasi') }}">
+                                    Menunggu Konfirmasi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ $sub_status == 'menunggu_pembayaran' ? 'active' : '' }}"
+                                    href="{{ url('/seller/pesanan?status=berjalan&sub_status=menunggu_pembayaran') }}">
+                                    Menunggu Pembayaran
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ $sub_status == 'sedang_produksi' ? 'active' : '' }}"
+                                    href="{{ url('/seller/pesanan?status=berjalan&sub_status=sedang_produksi') }}">
+                                    Dalam Produksi
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ $sub_status == 'siap_dikirim' ? 'active' : '' }}"
+                                    href="{{ url('/seller/pesanan?status=berjalan&sub_status=siap_dikirim') }}">
+                                    Siap Dikirim
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ $sub_status == 'dikirim' ? 'active' : '' }}"
+                                    href="{{ url('/seller/pesanan?status=berjalan&sub_status=dikirim') }}">
+                                    Dikirim
+                                </a>
+                            </li>
+                        </ul>
+                    @endif
 
-                </div>
+
             </div>
 
             <div class="card" style="padding: 15px">
@@ -105,7 +183,7 @@
 
                             @for ($i = 0; $i < count($pembelian); $i++)
                                 <tr>
-                                    <td style="display: none">{{$pembelian[$i]->tgl_transaksi}}</td>
+                                    <td style="display: none">{{ $pembelian[$i]->tgl_transaksi }}</td>
                                     <td style="font-size: 16px"><b>{{ $pembelian[$i]->nama_produk }}</b></td>
                                     <td style="font-size: 16px"><b>{{ $pembelian[$i]->tipe_trans }}</b></td>
                                     <td style="font-size: 16px">
@@ -117,10 +195,10 @@
                                         $status = '';
                                         $color = '';
                                         if ($s == 1) {
-                                            $status = 'Belum Di konfirmasi';
+                                            $status = 'Menunggu Konfirmasi';
                                             $color = 'bg-warning';
                                         } elseif ($s == 2) {
-                                            $status = 'Pengajuan Perbaikan desain, Menunggu Pembayaran';
+                                            $status = 'Ada Perbaikan Desain, Menunggu Pembayaran';
                                             $color = 'bg-secondary';
                                         } elseif ($s == 3) {
                                             $status = 'Menunggu Pembayaran Customer';
@@ -129,7 +207,7 @@
                                             $status = 'Dalam Proses Produksi';
                                             $color = 'bg-success';
                                         } elseif ($s == 5) {
-                                            $status = 'Siap Dikirim';
+                                            $status = 'Menunggu Dikirim';
                                             $color = 'bg-dark';
                                         } elseif ($s == 6) {
                                             $status = 'Dalam Pengiriman';
@@ -194,50 +272,54 @@
 @section('script')
     <script>
         $(document).ready(function() {
-    // Initialize DataTable with custom configuration
-    var table = $('#orderTable').DataTable({
-        order: [[0, "desc"]],
-        pageLength: 10,
-        columnDefs: [
-            {
-                targets: 0,
-                visible: false // Hide the date column used for sorting
-            }
-        ],
-        dom: '<"top"lf>rt<"bottom"ip>', // Custom DOM positioning
-        language: {
-            search: "Cari pesanan:",
-            lengthMenu: "Tampilkan _MENU_ pesanan per halaman",
-            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ pesanan",
-            paginate: {
-                first: "Pertama",
-                last: "Terakhir",
-                next: "Selanjutnya",
-                previous: "Sebelumnya"
-            }
-        },
-        initComplete: function() {
-            // Enhance search functionality
-            var searchInput = $('.dataTables_filter input');
-            searchInput.attr('placeholder', 'Cari berdasarkan nama produk, tipe, atau status...');
+            // Initialize DataTable with custom configuration
+            var table = $('#orderTable').DataTable({
+                order: [
+                    [0, "desc"]
+                ],
+                pageLength: 10,
+                columnDefs: [{
+                    targets: 0,
+                    visible: false // Hide the date column used for sorting
+                }],
+                dom: '<"top"lf>rt<"bottom"ip>', // Custom DOM positioning
+                language: {
+                    search: "Cari pesanan:",
+                    lengthMenu: "Tampilkan _MENU_ pesanan per halaman",
+                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ pesanan",
+                    paginate: {
+                        first: "Pertama",
+                        last: "Terakhir",
+                        next: "Selanjutnya",
+                        previous: "Sebelumnya"
+                    }
+                },
+                initComplete: function() {
+                    // Enhance search functionality
+                    var searchInput = $('.dataTables_filter input');
+                    searchInput.attr('placeholder',
+                        'Cari berdasarkan nama produk, tipe, atau status...');
 
-            // Add search highlight
-            searchInput.on('keyup', function() {
-                $('.highlight').contents().unwrap();
-                var searchTerm = this.value;
-                if (searchTerm) {
-                    $('.order-card').find('h4, p, span').each(function() {
-                        var text = $(this).text();
-                        if (text.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
-                            var regex = new RegExp('(' + searchTerm + ')', 'gi');
-                            $(this).html(text.replace(regex, '<span class="highlight">$1</span>'));
+                    // Add search highlight
+                    searchInput.on('keyup', function() {
+                        $('.highlight').contents().unwrap();
+                        var searchTerm = this.value;
+                        if (searchTerm) {
+                            $('.order-card').find('h4, p, span').each(function() {
+                                var text = $(this).text();
+                                if (text.toLowerCase().indexOf(searchTerm
+                                .toLowerCase()) >= 0) {
+                                    var regex = new RegExp('(' + searchTerm + ')',
+                                    'gi');
+                                    $(this).html(text.replace(regex,
+                                        '<span class="highlight">$1</span>'));
+                                }
+                            });
                         }
                     });
                 }
             });
-        }
-    });
-});
+        });
     </script>
 
 

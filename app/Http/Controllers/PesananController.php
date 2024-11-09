@@ -25,16 +25,63 @@ class PesananController extends Controller
     }
 
     // page semua pesanan
-    public function pagePesanan()
+    public function pagePesanan(Request $request)
     {
 
         $user = $this->getLogUser();
+        $status = $request->query('status', 'semua');
+        $subStatus = $request->query('sub_status', null);
 
 
-        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->whereIn('status', [1, 2, 3, 11])->orderBy('tgl_transaksi', 'desc')->get();
+        switch ($status) {
+            case 'berjalan':
+                # code...
+                $query = DB::table('h_trans')->where('id_toko', $user->id_toko);
+
+                if ($subStatus == 'menunggu_konfirmasi') {
+                    # code...
+                    $query->whereIn('status', [1]);
+                } elseif ($subStatus == 'menunggu_pembayaran'){
+                    $query->whereIn('status', [2, 3]);
+                } elseif ($subStatus == 'menunggu pengiriman'){
+                    $query->where('status', 5);
+                } elseif ($subStatus == 'sedang_produksi'){
+                    $query->where('status', 4);
+                } elseif ($subStatus == 'dikirim'){
+                    $query->where('status', 6);
+                }
+                else {
+                    $query->whereIn('status', [1, 2, 3, 4, 5, 6]);
+                }
+
+                $pembelian = $query->orderBy('tgl_transaksi', 'desc')->get();
+                break;
+
+            case 'berhasil':
+                $pembelian = DB::table('h_trans')
+                    ->where('id_toko', $user->id_toko)
+                    ->where('status', 7)
+                    ->orderBy('tgl_transaksi', 'desc')
+                    ->get();
+                break;
+            case 'tidak_berhasil':
+                $pembelian = DB::table('h_trans')
+                    ->where('id_toko', $user->id_toko)
+                    ->where('status', 8)
+                    ->orderBy('tgl_transaksi', 'desc')
+                    ->get();
+                break;
+            default:
+                # code...
+                $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->where('status', '!=', 0)->orderBy('tgl_transaksi', 'desc')->get();
+                break;
+        }
+
+
+
 
         // dd($pembelian);
-        return view('seller.pesanan.pesanan', ['user' => $user, 'pembelian' => $pembelian]);
+        return view('seller.pesanan.pesanan', ['user' => $user, 'pembelian' => $pembelian, 'status'=>$status, 'sub_status'=>$subStatus]);
     }
 
     // page pesanan yang non custom
@@ -263,6 +310,8 @@ class PesananController extends Controller
             return view('seller.pesanan.redesain.redesainh1lemari2', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produkCustom, 'pembelian' => $pembelian, 'detailPembelian' => $detailPembelian]);
         } else if($produkCustom->kode == 'lemari3'){
             return view('seller.pesanan.redesain.redesainh1lemari3', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produkCustom, 'pembelian' => $pembelian, 'detailPembelian' => $detailPembelian]);
+        } else if($produkCustom->kode == 'meja1'){
+            return view('seller.pesanan.redesain.redesainh1meja1', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produkCustom, 'pembelian' => $pembelian, 'detailPembelian' => $detailPembelian]);
         }
     }
 
@@ -276,6 +325,9 @@ class PesananController extends Controller
         $sekatVertical = $request->input('sekatVertical');
         $gantungan = $request->input('gantungan');
         $addonPrices = $request->input('addonPrices');
+        $laci1 = $request->input('laci1');
+        $laci2 = $request->input('laci2');
+        $pijakankaki = $request->input('pijakankaki');
 
 
         //buat nama file unik
@@ -411,6 +463,35 @@ class PesananController extends Controller
                     'created_at' => now(),
                     'updated_at' => now()
                 ]);
+            }
+
+            if ($laci1) {
+                # code...
+                DB::table('d_trans')->insert([
+                    'h_trans_id' => $trans->id,
+                    'nama_item' => 'Laci 1',
+                    'jumlah' => $laci1,
+                    'harga' => $addonPrices['laci1'], // Gunakan harga dari halaman 1
+                    'jenis' => 'main',
+                    'cek_redesain' => 'yes',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+
+            }
+            if ($laci2) {
+                # code...
+                DB::table('d_trans')->insert([
+                    'h_trans_id' => $trans->id,
+                    'nama_item' => 'Laci 2',
+                    'jumlah' => $laci2,
+                    'harga' => $addonPrices['laci2'], // Gunakan harga dari halaman 1
+                    'jenis' => 'main',
+                    'cek_redesain' => 'yes',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+
             }
         }
 

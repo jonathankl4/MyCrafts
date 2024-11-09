@@ -10,130 +10,133 @@
 @section('style')
     <style>
         :root {
-    --primary-color: #2d3436;
-    --secondary-color: #636e72;
-    --accent-color: #0984e3;
-    --background-color: #f5f6fa;
-    --border-radius: 12px;
-    --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
+            --primary-color: #2d3436;
+            --secondary-color: #636e72;
+            --accent-color: #0984e3;
+            --background-color: #f5f6fa;
+            --border-radius: 12px;
+            --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-body {
-    background-color: var(--background-color);
-}
+        body {
+            background-color: var(--background-color);
+        }
 
-.customization-card {
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    margin-bottom: 2rem;
-}
+        .customization-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+        }
 
-.card-header {
-    background: white;
-    padding: 1.5rem;
-    border-bottom: 1px solid #eee;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
-}
+        .card-header {
+            background: white;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
 
-.card-header h5 {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--primary-color);
-}
+        .card-header h5 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
 
-.card-content {
-    padding: 1.5rem;
-}
+        .card-content {
+            padding: 1.5rem;
+        }
 
-.form-group {
-    margin-bottom: 1.5rem;
-}
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
 
-.form-label {
-    font-weight: 500;
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-    display: block;
-}
+        .form-label {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
 
-.form-control, .form-select {
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    padding: 0.75rem;
-    transition: all 0.3s ease;
-}
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
 
-.form-control:focus, .form-select:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(9, 132, 227, 0.1);
-}
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(9, 132, 227, 0.1);
+        }
 
-.size-input {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-}
+        .size-input {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
 
-.addon-section {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 1rem;
-    margin-top: 1.5rem;
-}
+        .addon-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
 
-.btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
 
-.btn-primary {
-    background: var(--accent-color);
-    border: none;
-}
+        .btn-primary {
+            background: var(--accent-color);
+            border: none;
+        }
 
-.btn-primary:hover {
-    background: #0873c4;
-    transform: translateY(-1px);
-}
+        .btn-primary:hover {
+            background: #0873c4;
+            transform: translateY(-1px);
+        }
 
-.btn-danger {
-    background: #e74c3c;
-    border: none;
-}
+        .btn-danger {
+            background: #e74c3c;
+            border: none;
+        }
 
-.btn-danger:hover {
-    background: #c0392b;
-}
+        .btn-danger:hover {
+            background: #c0392b;
+        }
 
-#total-price-container {
-    background: white;
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    margin-top: 2rem;
-    box-shadow: var(--box-shadow);
-}
+        #total-price-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
+            box-shadow: var(--box-shadow);
+        }
 
-#total-price-container h5 {
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-}
+        #total-price-container h5 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
 
-.price-note {
-    color: #e74c3c;
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-}
+        .price-note {
+            color: #e74c3c;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
 
-.action-buttons {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-}
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
         .drawing-area {
             position: absolute;
             top: 10px;
@@ -202,9 +205,9 @@ body {
 
                             <div id="produk-div">
                                 <!--
-                                                                        Initially, the image will have the background tshirt that has transparency
-                                                                        So we can simply update the color with CSS or JavaScript dinamically
-                                                                    -->
+                                                                            Initially, the image will have the background tshirt that has transparency
+                                                                            So we can simply update the color with CSS or JavaScript dinamically
+                                                                        -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
                                 <img id="template" src="{{ url('img/lemari3/lemari3.png') }}"
                                     style="width: 100%;height: 100%;" />
@@ -270,7 +273,7 @@ body {
                                         Tinggi ({{ $produk->tinggi_min }} - {{ $produk->tinggi_max }} cm)
                                     </label>
                                     <input type="number" id="input-vertical-size" class="form-control"
-                                           value="{{ $produk->tinggi_min }}">
+                                        value="{{ $produk->tinggi_min }}">
                                 </div>
 
                                 <div class="form-group">
@@ -278,7 +281,14 @@ body {
                                         Lebar ({{ $produk->lebar_min }} - {{ $produk->lebar_max }} cm)
                                     </label>
                                     <input type="number" id="input-horizontal-size" class="form-control"
-                                           value="{{ $produk->lebar_min }}">
+                                        value="{{ $produk->lebar_min }}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="input-kedalaman-size">
+                                        Tebal (Kedalaman) ({{ $produk->panjang_min }} - {{ $produk->panjang_max }} cm)
+                                    </label>
+                                    <input type="number" id="input-kedalaman-size" class="form-control"
+                                        value="{{ $produk->panjang_min }}">
                                 </div>
                             </div>
                             <div class="addon-section">
@@ -287,7 +297,7 @@ body {
                                 </label>
                                 <select id="tshirt-design" class="form-select mb-3">
                                     <option value="">Select add-on...</option>
-                                    @foreach($listAddOnMain as $addon)
+                                    @foreach ($listAddOnMain as $addon)
                                         <option value="{{ url($addon->url) }}">
                                             {{ $addon->nama_addon }} (Rp.{{ number_format($addon->harga) }})
                                         </option>
@@ -296,7 +306,8 @@ body {
                                 <div id="counters">
                                     <div style="display: none">Jumlah Sekat Horizontal: <span
                                             id="count-sekat-horizontal">0</span></div>
-                                    <div style="display:none">Jumlah Sekat Vertical: <span id="count-sekat-vertical">0</span>
+                                    <div style="display:none">Jumlah Sekat Vertical: <span
+                                            id="count-sekat-vertical">0</span>
 
                                     </div>
                                     <div style="display: none">Jumlah Gantungan: <span id="count-gantungan">0</span></div>
@@ -331,7 +342,8 @@ body {
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <h2 class="card-title">Info </h2>
@@ -393,6 +405,7 @@ body {
 
         let currentVerticalSize = produk.tinggi_min;
         let currentHorizontalSize = produk.lebar_min;
+        let currentKedalamanSize = produk.panjang_min;
 
         function updateGrid(canvas, widthCm, heightCm) {
             // Clear existing grid
@@ -547,13 +560,17 @@ body {
             // Define min and max values
             const minVerticalSize = produk.tinggi_min; // Example minimum value for vertical size
             const maxVerticalSize = produk.tinggi_max; // Example maximum value for vertical size
+
             const minHorizontalSize = produk.lebar_min; // Example minimum value for horizontal size
             const maxHorizontalSize = produk.lebar_max; // Example maximum value for horizontal size
+
+            const minKedalamanSize = produk.panjang_min; // Example minimum value for horizontal size
+            const maxKedalamanSize = produk.panjang_max; // Example maximum value for horizontal size
 
             // Get new values from inputs
             let newVerticalSize = parseInt(document.getElementById('input-vertical-size').value);
             let newHorizontalSize = parseInt(document.getElementById('input-horizontal-size').value);
-
+            let newKedalamanSize = parseInt(document.getElementById('input-kedalaman-size').value);
             // Validate vertical size
             if (newVerticalSize < minVerticalSize || newVerticalSize > maxVerticalSize) {
                 Toast.fire({
@@ -571,6 +588,13 @@ body {
                 });
                 return; // Exit the function if validation fails
             }
+            if (newKedalamanSize < minKedalamanSize || newKedalamanSize > maxKedalamanSize) {
+                Toast.fire({
+                    icon: "error",
+                    title: `Ukuran Tebal (kedalaman) harus antara ${minKedalamanSize}cm dan ${maxKedalamanSize}cm.`
+                });
+                return; // Exit the function if validation fails
+            }
 
             // Update text and size for vertical line (right)
             document.getElementById('right-text').innerHTML = newVerticalSize + 'cm';
@@ -583,6 +607,7 @@ body {
             // Save the new sizes
             currentVerticalSize = newVerticalSize;
             currentHorizontalSize = newHorizontalSize;
+            currentKedalamanSize = newKedalamanSize;
 
             // Show success message
             Toast.fire({
@@ -614,6 +639,9 @@ body {
             const heightCm = parseInt(document.getElementById('input-vertical-size')
                 .value); // Ini mengambil nilai tinggi
             updateGrid(canvas, widthCm, heightCm); // Panggil fungsi updateGrid dengan lebar dan tinggi yang benar
+        });
+        document.getElementById('input-kedalaman-size').addEventListener('change', function(){
+            updateDimensions();
         });
 
 
@@ -926,7 +954,8 @@ body {
             // Simpan data ukuran
             const ukuranData = {
                 tinggi: currentVerticalSize,
-                lebar: currentHorizontalSize
+                lebar: currentHorizontalSize,
+                kedalaman: currentKedalamanSize
             };
             localStorage.setItem('ukuranData', JSON.stringify(ukuranData));
 
@@ -960,7 +989,7 @@ body {
                             status: 0,
                             lebar: currentHorizontalSize,
                             tinggi: currentVerticalSize,
-                            panjang: 60,
+                            panjang: currentKedalamanSize, // kedalaman (tebal)
                             jenis_kayu: selectedKayuType,
                             harga_kayu: selectedKayuPrice,
                             id_produk: produk.id
@@ -972,7 +1001,7 @@ body {
                         if (data.success) {
                             // alert('GAmbar berhasil disimpan');
                             window.location.href = "{{ url('/customh2/h2lemari3') }}" + '/' + produk
-                            .id;
+                                .id;
                         } else {
                             alert("gambar gagal disimpan");
                         }
@@ -982,9 +1011,9 @@ body {
                         alert('Terjadi kesalahan saat mengirim gambar');
                     })
                     .finally(() => {
-                            // Sembunyikan loading screen setelah proses selesai
-                            document.getElementById('loadingScreen').style.display = 'none';
-                        });
+                        // Sembunyikan loading screen setelah proses selesai
+                        document.getElementById('loadingScreen').style.display = 'none';
+                    });
 
             });
 

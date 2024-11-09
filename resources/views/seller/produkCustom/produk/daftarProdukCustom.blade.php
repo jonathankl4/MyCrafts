@@ -101,6 +101,10 @@
                                             Kustomisai</a>
                                         <a href="{{ url('/seller/produkCustom/testing/' . $daftarProduk[$i]->kode) }}"
                                             class="btn btn-dark">Coba Custom</a>
+                                            @php
+                                                $temp = str_replace(' ', '', $daftarProduk[$i]->nama_template);
+                                            @endphp
+                                            <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modal{{$temp}}">info</button>
                                             <a href="{{url('seller/produkCustom/delete/'.$daftarProduk[$i]->id)}}" class="btn btn-icon btn-danger"><span class="bx bxs-trash"></span></a>
                                     </td>
 
@@ -270,6 +274,10 @@
 
     <div class="content-backdrop fade"></div>
     </div>
+
+    @include('seller.produkCustom.produk.modal.lemari1.modalDetailMebel')
+        @include('seller.produkCustom.produk.modal.lemari2.modalDetailMebel')
+        @include('seller.produkCustom.produk.modal.lemari3.modalDetailMebel')
 
 
 @endsection

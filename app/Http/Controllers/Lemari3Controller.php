@@ -89,7 +89,7 @@ class Lemari3Controller extends Controller
 
     public function testing2(){
         $user = $this->getLogUser();
-        $produk = DB::table('produk_custom_dijuals')->where('nama_template','=','Lemari 1')->where('id_toko','=',$user->id_toko)->first();
+        $produk = DB::table('produk_custom_dijuals')->where('nama_template','=','Lemari 3')->where('id_toko','=',$user->id_toko)->first();
         $addonSecond = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->where('jenis','=','second')->get();
 
 

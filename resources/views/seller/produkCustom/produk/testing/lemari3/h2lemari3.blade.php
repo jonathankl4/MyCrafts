@@ -127,7 +127,7 @@
                                                                         So we can simply update the color with CSS or JavaScript dinamically
                                                                     -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
-                                <img id="template" src="{{ url('img/lemari3/lemari3baru.png') }}"
+                                <img id="template" src="{{ url('img/lemari3/lemari3.png') }}"
                                     style="width: 100%;height: 100%;" />
 
                                 <div id="drawingArea" class="drawing-area">

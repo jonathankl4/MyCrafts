@@ -9,6 +9,66 @@
 
 @section('style')
     <style>
+         :root {
+    --primary-color: #2d3436;
+    --secondary-color: #636e72;
+    --accent-color: #0984e3;
+    --background-color: #f5f6fa;
+    --border-radius: 12px;
+    --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+body {
+    background-color: var(--background-color);
+}
+
+.customization-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
+}
+
+.card-header {
+    background: white;
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.card-header h5 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(9, 132, 227, 0.1);
+}
          .drawing-area {
             position: absolute;
             top: 20px;
@@ -130,20 +190,20 @@
                                             <canvas id="tshirt-canvas" width="350px" height="590px"
                                                 style="border-style: solid; border-width: 2px"></canvas>
 
-                                            <div id="right-line"
-                                                style="position: absolute; right: -240px; top: -20px; height:550px; width: 2px; background-color: black;">
+                                                <div id="right-line"
+                                                style="position: absolute; right: -210px; top: -20px; height:630px; width: 2px; background-color: black;">
                                             </div>
                                             <div id="right-text"
-                                                style="position: absolute; right: -320px; top: 50%; transform: translateY(-50%); font-size: 20px;">
-                                                150cm</div>
+                                                style="position: absolute; right: -290px; top: 80%; transform: translateY(-50%); font-size: 20px;">
+                                                cm</div>
 
                                             <!-- Garis horizontal di bawah untuk 70cm -->
                                             <div id="bottom-line"
-                                                style="position: absolute; left: -20px; bottom: -230px; width: 430px; height: 2px; background-color: black;">
+                                                style="position: absolute; left: -40px; bottom: -230px; width: 430px; height: 2px; background-color: black;">
                                             </div>
                                             <div id="bottom-text"
-                                                style="position: absolute; left: 50%; bottom: -260px; transform: translateX(-50%); font-size: 20px;">
-                                                70cm</div>
+                                                style="position: absolute; left: 70%; bottom: -260px; transform: translateX(-50%); font-size: 20px;">
+                                                cm</div>
                                         </div>
                                     </div>
                             </div>
@@ -185,6 +245,24 @@
                                         aslinya nanti akan sama dengan warna lemari</p>
                                     <span class="badge bg-info" style="font-size: 16px">Perkiraan Harga: <span
                                             id="totalHarga"></span></span>
+                                            <br><br>
+                                    <div class="alert alert-warning text-dark">
+                                        <ul class="list-unstyled">
+
+                                            <li class="mb-2" id="ukuran-tinggi">
+                                                •
+                                                Tinggi: 160cm -180 cm
+                                            </li>
+                                            <li class="mb-2" id="ukuran-lebar">
+                                                •
+                                                Lebar: 80cm - 100cm
+                                            </li>
+                                            <li class="mb-2" id="ukuran-kedalaman">
+                                                •
+                                                Tebal (Kedalaman): 45cm - 60cm
+                                            </li>
+                                        </ul>
+                                    </div>
                                     <div>
                                         <br>
                                         <label for="detail">Catatan untuk Penjual</label>
@@ -487,6 +565,10 @@
             let hargaPintu = @json($addonPrices);
             console.log(hargaPintu);
             let currentPintuPrice = 0;
+
+            document.getElementById('ukuran-tinggi').textContent = '• Tinggi: '+ ukuranData.tinggi + ' cm';
+            document.getElementById('ukuran-lebar').textContent = '• Lebar: '+ ukuranData.lebar + ' cm';
+            document.getElementById('ukuran-kedalaman').textContent = '• Tebal (kedalaman): '+ ukuranData.kedalaman + ' cm';
 
 
             function updateTotalHarga() {

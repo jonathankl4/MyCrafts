@@ -166,7 +166,7 @@
                     <div class="card mb-4">
                         <h5 class="card-header"><b>Kustomisasi</b></h5>
                         <div style="padding: 15px">
-                            <div class="col-md-10">
+                            <div class="col-md-11">
 
                                 <div>
                                     <label for="jeniskayu">Jenis Kayu</label>
@@ -193,6 +193,10 @@
                                 <div>
                                     <label for="input-horizontal-size">Ubah ukuran Lebar: {{$produk->lebar_min}} s/d {{$produk->lebar_max}} cm</label>
                                     <input type="number" id="input-horizontal-size" class="form-control" value="{{$produk->lebar_min}}">
+                                </div>
+                                <div>
+                                    <label for="input-kedalaman-size">Ubah ukuran Tebal (Kedalaman): {{$produk->panjang_min}} s/d {{$produk->panjang_max}} cm</label>
+                                    <input type="number" id="input-kedalaman-size" class="form-control" value="{{$produk->panjang_min}}">
                                 </div>
                                 <br>
 
@@ -356,8 +360,9 @@
             gantunganDiv.style.display = (counterGantungan > 0) ? 'block' : 'none';
         }
 
-        let currentVerticalSize = 150;
-        let currentHorizontalSize = 70;
+        let currentVerticalSize = produk.tinggi_min;
+        let currentHorizontalSize = produk.lebar_min;
+        let currentKedalamanSize = produk.panjang_min;
 
         let selectedKayuPrice = 0;
 
@@ -378,13 +383,17 @@
             // Define min and max values
             const minVerticalSize = produk.tinggi_min; // Example minimum value for vertical size
             const maxVerticalSize = produk.tinggi_max; // Example maximum value for vertical size
+
             const minHorizontalSize = produk.lebar_min; // Example minimum value for horizontal size
             const maxHorizontalSize = produk.lebar_max; // Example maximum value for horizontal size
+
+            const minKedalamanSize = produk.panjang_min; // Example minimum value for horizontal size
+            const maxKedalamanSize = produk.panjang_max; // Example maximum value for horizontal size
 
             // Get new values from inputs
             let newVerticalSize = parseInt(document.getElementById('input-vertical-size').value);
             let newHorizontalSize = parseInt(document.getElementById('input-horizontal-size').value);
-
+            let newKedalamanSize = parseInt(document.getElementById('input-kedalaman-size').value);
             // Validate vertical size
             if (newVerticalSize < minVerticalSize || newVerticalSize > maxVerticalSize) {
                 Toast.fire({
@@ -402,6 +411,13 @@
                 });
                 return; // Exit the function if validation fails
             }
+            if (newKedalamanSize < minKedalamanSize || newKedalamanSize > maxKedalamanSize) {
+                Toast.fire({
+                    icon: "error",
+                    title: `Ukuran Tebal (kedalaman) harus antara ${minKedalamanSize}cm dan ${maxKedalamanSize}cm.`
+                });
+                return; // Exit the function if validation fails
+            }
 
             // Update text and size for vertical line (right)
             document.getElementById('right-text').innerHTML = newVerticalSize + 'cm';
@@ -414,6 +430,7 @@
             // Save the new sizes
             currentVerticalSize = newVerticalSize;
             currentHorizontalSize = newHorizontalSize;
+            currentKedalamanSize = newKedalamanSize;
 
             // Show success message
             Toast.fire({
@@ -434,6 +451,10 @@
         document.getElementById('input-horizontal-size').addEventListener('change', function() {
             updateDimensions();
         });
+        document.getElementById('input-kedalaman-size').addEventListener('change', function(){
+            updateDimensions();
+        });
+
 
 
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
@@ -762,7 +783,8 @@
             // Simpan data ukuran
             const ukuranData = {
                 tinggi: currentVerticalSize,
-                lebar: currentHorizontalSize
+                lebar: currentHorizontalSize,
+                kedalaman: currentKedalamanSize
             };
             localStorage.setItem('ukuranData', JSON.stringify(ukuranData));
 

@@ -41,8 +41,28 @@ class ProdukCustomController extends Controller
     {
         $user = $this->getLogUser();
 
-        $daftarproduk = DB::table('produk_customs')->get();
-        return view('seller.produkCustom..produk.tambahProdukCustom', ['user' => $user, 'listProduk' => $daftarproduk]);
+        $daftarProduk = [];
+
+        // Data produk
+        $data = [
+            ['nama' => 'Lemari 1', 'img' => '/img/lemari1/lemari1.png', 'tambahUrl' => '/seller/produkCustom/tambahLemari1', 'modal' => '#modalLemari1'],
+            ['nama' => 'Lemari 2', 'img' => '/img/lemari2/lemari2.png', 'tambahUrl' => '/seller/produkCustom/tambahLemari2', 'modal' => '#modalLemari2'],
+            ['nama' => 'Lemari 3', 'img' => '/img/lemari3/lemari3.png', 'tambahUrl' => '/seller/produkCustom/tambahLemari3', 'modal' => '#modalLemari3'],
+            ['nama' => 'Meja 1', 'img' => '/img/meja1/meja1.png', 'tambahUrl' => '/seller/produkCustom/tambahMeja1', 'modal' => null],
+            ['nama' => 'Meja 2', 'img' => '/img/meja2/meja2.png', 'tambahUrl' => '/seller/produkCustom/tambahMeja2', 'modal' => null],
+        ];
+
+        // Masukkan data ke dalam stdClass dan tambahkan ke array daftarProduk
+        foreach ($data as $item) {
+            $produk = new \stdClass();
+            $produk->nama = $item['nama'];
+            $produk->img = $item['img'];
+            $produk->tambahUrl = $item['tambahUrl'];
+            $produk->modal = $item['modal'];
+            $daftarProduk[] = $produk;
+        }
+
+        return view('seller.produkCustom..produk.tambahProdukCustom', ['user' => $user, 'daftarProduk' => $daftarProduk]);
     }
 
     public function pageDaftarProdukCustom()
@@ -78,8 +98,6 @@ class ProdukCustomController extends Controller
 
         if ($produk->nama_template == "Lemari 1") {
             # code...
-
-
             // Kirim data ke view
             return view('seller.produkCustom.produk.detailLemari1', [
                 'user' => $user,
@@ -96,6 +114,12 @@ class ProdukCustomController extends Controller
         } else if ($produk->nama_template == "Lemari 3") {
 
             return view('seller.produkCustom.produk.detailLemari3', [
+                'user' => $user,
+                'detailKayu' => $detailKayu,
+                'detailAddon' => $detailAddon
+            ]);
+        } else if($produk->nama_template == "Meja 1"){
+            return view('seller.produkCustom.produk.detailMeja1', [
                 'user' => $user,
                 'detailKayu' => $detailKayu,
                 'detailAddon' => $detailAddon

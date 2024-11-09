@@ -12,6 +12,7 @@ use App\Http\Controllers\Lemari3Controller;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\Meja1Controller;
+use App\Http\Controllers\Meja2Controller;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ProdukController;
@@ -163,6 +164,7 @@ Route::group([
     Route::get('/customh2/h2lemari1/{id}', [Lemari1Controller::class, 'page2Custom']);
     Route::get('/customh2/h2lemari2/{id}', [Lemari2Controller::class, 'page2Custom']);
     Route::get('/customh2/h2lemari3/{id}', [Lemari3Controller::class, 'page2Custom']);
+    Route::get('/customh2/h2meja1/{id}', [Meja1Controller::class, 'page2Custom']);
 
     Route::post('/save', [CustomerController::class, 'Htrans']);
     Route::post('/save2', [CustomerController::class, 'finalHTrans']);
@@ -223,6 +225,11 @@ Route::group([
 
 
     Route::get('/produkCustom/tambahMeja1', [Meja1Controller::class, 'tambahMeja1']);
+    Route::post('/produkCustom/ubahDetailMeja1', [Meja1Controller::class, 'ubahDetailMeja1']);
+
+    Route::get('/produkCustom/tambahMeja2', [Meja2Controller::class,'tambahMeja2']);
+    Route::post('/produkCustom/ubahDetailMeja2', [Meja2Controller::class,'ubahDetailMeja2']);
+
     // END OF TAMBAH PRODUK CUSTOM
 
 
@@ -241,7 +248,14 @@ Route::group([
     Route::get('/produkCustom/testing/lemari3', [Lemari3Controller::class, 'testing']);
     Route::get('/produkCustom/testing/h2lemari3', [Lemari3Controller::class, 'testing2']);
 
+    // Meja 1
     Route::get('/produkCustom/testing/meja1', [Meja1Controller::class, 'testing']);
+    Route::get('/produkCustom/testing/h2meja1', [Meja1Controller::class, 'testing2']);
+
+    // Meja 2
+    Route::get('/produkCustom/testing/meja2', [Meja2Controller::class, 'testing']);
+
+
     // END TESTING PRODUK CUSTOM
 
 

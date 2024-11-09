@@ -388,7 +388,7 @@
 
                                                     $statusText = match($order->status) {
                                                         1, 11 => 'Menunggu Konfirmasi',
-                                                        2 => 'Perbaikan Desain',
+                                                        2 => 'Perbaikan Desain, Bayar',
                                                         3 => 'Menunggu Pembayaran',
                                                         4 => 'Sedang Produksi',
                                                         5 => 'Siap Dikirim',

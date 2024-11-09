@@ -21,6 +21,7 @@
         <!-- Content -->
         <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
             <h2 class="fw-bold py-3 mb-4">Detail Lemari 1</h2>
+            <span style="color: red">tuliskan harga jual berdasarkan ukuran minimal atau maksimal yang sudah di atur di detail produk</span>
 
             {{-- <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">Tambah Produk Custom</a> --}}
             <form action="{{ url('/seller/produkCustom/ubahDetailLemari1') }}" method="post">
@@ -29,7 +30,7 @@
                     <h4>Jenis Kayu dan Harga</h4>
 
 
-                   
+
                     <!-- Kayu Jati -->
                     <div class="mb-3 row align-items-center">
                         <div class="col-md-2 d-flex align-items-center">
@@ -45,9 +46,11 @@
                                     placeholder="Harga Kayu Jati"
                                     value="{{ $detailKayu->where('jenis_kayu', 'Kayu Jati')->first()->harga ?? '' }}"
                                     {{ $detailKayu->where('jenis_kayu', 'Kayu Jati')->isEmpty() ? 'readonly' : '' }} />
+
                             </div>
                             <span style="color: red;">{{ $errors->first('hargaJati') }}</span>
                         </div>
+
                     </div>
 
                     <!-- Kayu Mahoni -->
@@ -136,6 +139,9 @@
                             </div>
                             <span style="color: red;">{{ $errors->first('sekatVertical') }}</span>
                         </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalSekatVertical">Detail</button>
+                        </div>
                     </div>
 
                     <!-- Sekat Horizontal -->
@@ -156,6 +162,9 @@
                                     {{ $detailAddon->where('nama_addon', 'Sekat Horizontal')->isEmpty() ? 'readonly' : '' }} />
                             </div>
                             <span style="color: red;">{{ $errors->first('sekatHorizontal') }}</span>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalSekatHorizontal">Detail</button>
                         </div>
                     </div>
 
@@ -178,7 +187,11 @@
                             </div>
                             <span style="color: red;">{{ $errors->first('gantungan') }}</span>
                         </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalGantungan">Detail</button>
+                        </div>
                     </div>
+
 
 
                 </div>
@@ -204,6 +217,9 @@
                             </div>
                             <span style="color: red;">{{ $errors->first('pintu1') }}</span>
                         </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalPintu1">Detail</button>
+                        </div>
                     </div>
 
                     <!-- Pintu 2 -->
@@ -223,6 +239,9 @@
                                     {{ $detailAddon->where('nama_addon', 'Pintu 2')->isEmpty() ? 'readonly' : '' }} />
                             </div>
                             <span style="color: red;">{{ $errors->first('pintu2') }}</span>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalPintu2">Detail</button>
                         </div>
                     </div>
 
@@ -244,6 +263,9 @@
                             </div>
                             <span style="color: red;">{{ $errors->first('pintu3') }}</span>
                         </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalPintu3">Detail</button>
+                        </div>
                     </div>
 
 
@@ -259,6 +281,11 @@
             </form>
         </div>
     </div>
+
+    @include('seller.produkCustom.produk.modal.modalAddOnLemari')
+
+    @include('seller.produkCustom.produk.modal.modalPintuLemari1')
+
 
     <!-- Footer -->
     <footer class="content-footer footer bg-footer-theme">

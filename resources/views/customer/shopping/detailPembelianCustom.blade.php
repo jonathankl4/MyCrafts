@@ -52,7 +52,7 @@
                                     $customStatus = 'Transaksi Berhasil';
                                 } else if($htrans->status == 8){
                                     $customStatus = 'Pembelian gagal';
-                                } 
+                                }
                             @endphp
                             <div class="row">
                                 <span style="font-size: 16px"><b>Status Transaksi</b></span>
@@ -175,12 +175,21 @@
                         <div style="padding: 15px">
 
                             <div class="row">
+                                @if (str_contains($htrans->nama_produk, 'lemari'))
 
                                 <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoh1) }}"
                                     style="width: 300px;height:450px">
 
                                 <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoh2) }}"
                                     style="width: 300px;height:450px">
+                                    @else
+                                    <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoh1) }}"
+                                        style="">
+
+                                    <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoh2) }}"
+                                        style="">
+
+                                @endif
 
                             </div>
 

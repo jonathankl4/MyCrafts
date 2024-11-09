@@ -21,6 +21,29 @@ class Meja1Controller extends Controller
         return $user;
     }
 
+
+    public function page2Custom($id){
+
+        // dd("kebukak coi");
+        $user = $this->getLogUser();
+        $produk = ProdukCustomDijual::find($id);
+        $addonSecond = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->where('jenis','=','second')->get();
+
+
+        $addonPrices = [];
+
+        foreach($addonSecond as $item){
+
+            $addonPrices[$item->kode] = $item->harga;
+
+        }
+
+        // dd($addonPrices);
+
+
+        return view('customer.shopping.produkCustom.meja1.Ch2meja1', ['user'=>$user, 'listPintu'=>$addonSecond, 'addonPrices'=>$addonPrices,]);
+    }
+
     public function tambahMeja1()
     {
         $user = $this->getLogUser();
@@ -44,11 +67,11 @@ class Meja1Controller extends Controller
         }
     }
 
-    public function ubahDetailLemari3(Request $request)
+    public function ubahDetailMeja1(Request $request)
     {
 
         $user = $this->getLogUser();
-        $produk = DB::table('produk_custom_dijuals')->where('nama_template', '=', 'Lemari 3')->where('id_toko', '=', $user->id_toko)->first();
+        $produk = DB::table('produk_custom_dijuals')->where('nama_template', '=', 'Meja 1')->where('id_toko', '=', $user->id_toko)->first();
 
         $idProdukCustomDijual = $produk->id;
         $detail = DB::table('detail_produk_custom_dijuals')->where('id_produk_custom_dijual', '=', $produk->id)->get();
@@ -136,110 +159,88 @@ class Meja1Controller extends Controller
 
         // Proses input untuk Add-ons
 
-        if ($request->has('sekatVertical')) {
-            if (!empty($request->sekatVertical)) {
-                DetailAddonDijual::updateOrCreate(
-                    [
-                        'id_produk_custom_dijual' => $idProdukCustomDijual,
-                        'nama_addon' => 'Sekat Vertical',
-                    ],
-                    [
-                        'harga' => $request->sekatVertical,
-                        'jenis' => 'main',
-                        'tipe' => 'lemari',
-                        'kode'=> 'sekatVertical',
-                        'url' => 'img/sekatvertical.jpeg'
-                    ]
-                );
-            } else {
-                DetailAddonDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
-                    ->where('nama_addon', 'Sekat Vertical')
-                    ->delete();
-            }
-        }
 
-        if ($request->has('sekatHorizontal')) {
-            if (!empty($request->sekatHorizontal)) {
+        if ($request->has('laci1')) {
+            if (!empty($request->laci1)) {
                 DetailAddonDijual::updateOrCreate(
                     [
                         'id_produk_custom_dijual' => $idProdukCustomDijual,
-                        'nama_addon' => 'Sekat Horizontal',
+                        'nama_addon' => 'Laci 1',
                     ],
                     [
-                        'harga' => $request->sekatHorizontal,
+                        'harga' => $request->laci1,
                         'jenis' => 'main',
                         'tipe' => 'lemari',
-                        'kode'=> 'sekatHorizontal',
-                        'url' => 'img/sekatHorizontal.jpeg'
-                    ]
-                );
-            } else {
-                DetailAddonDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
-                    ->where('nama_addon', 'Sekat Horizontal')
-                    ->delete();
-            }
-        }
-
-        if ($request->has('gantungan')) {
-            if (!empty($request->gantungan)) {
-                DetailAddonDijual::updateOrCreate(
-                    [
-                        'id_produk_custom_dijual' => $idProdukCustomDijual,
-                        'nama_addon' => 'Gantungan',
-                    ],
-                    [
-                        'harga' => $request->gantungan,
-                        'jenis' => 'main',
-                        'tipe' => 'lemari',
-                        'kode'=> 'gantungan',
-                        'url' => 'img/gantungan.jpeg'
-                    ]
-                );
-            } else {
-                DetailAddonDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
-                    ->where('nama_addon', 'Gantungan')
-                    ->delete();
-            }
-        }
-        if ($request->has('lacikecil')) {
-            if (!empty($request->lacikecil)) {
-                DetailAddonDijual::updateOrCreate(
-                    [
-                        'id_produk_custom_dijual' => $idProdukCustomDijual,
-                        'nama_addon' => 'lacikecil',
-                    ],
-                    [
-                        'harga' => $request->lacikecil,
-                        'jenis' => 'main',
-                        'tipe' => 'lemari',
-                        'kode'=> 'laciKecil',
+                        'kode'=> 'laci1',
                         'url' => 'img/lemari2/lacikecil.png'
                     ]
                 );
             } else {
                 DetailAddonDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
-                    ->where('nama_addon', 'lacikecil')
+                    ->where('nama_addon', 'Laci 1')
                     ->delete();
             }
         }
-        if ($request->has('lacibesar')) {
-            if (!empty($request->lacibesar)) {
+        if ($request->has('laci2')) {
+            if (!empty($request->laci2)) {
                 DetailAddonDijual::updateOrCreate(
                     [
                         'id_produk_custom_dijual' => $idProdukCustomDijual,
-                        'nama_addon' => 'lacibesar',
+                        'nama_addon' => 'Laci 2',
                     ],
                     [
-                        'harga' => $request->lacibesar,
+                        'harga' => $request->laci2,
                         'jenis' => 'main',
-                        'tipe' => 'lemari',
-                        'kode'=> 'laciBesar',
-                        'url' => 'img/lemari2/lacibesar.png'
+                        'tipe' => 'meja',
+                        'kode'=> 'laci2',
+                        'url' => 'img/meja1/laciKecil2.png'
                     ]
                 );
             } else {
                 DetailAddonDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
-                    ->where('nama_addon', 'lacibesar')
+                    ->where('nama_addon', 'Laci 2')
+                    ->delete();
+            }
+        }
+        if ($request->has('pijakankaki')) {
+            if (!empty($request->pijakankaki)) {
+                DetailAddonDijual::updateOrCreate(
+                    [
+                        'id_produk_custom_dijual' => $idProdukCustomDijual,
+                        'nama_addon' => 'Pijakan Kaki',
+                    ],
+                    [
+                        'harga' => $request->pijakankaki,
+                        'jenis' => 'main',
+                        'tipe' => 'meja',
+                        'kode'=> 'pijakankaki',
+                        'url' => 'img/meja1/pijakanKaki.png'
+                    ]
+                );
+            } else {
+                DetailAddonDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
+                    ->where('nama_addon', 'Pijakan Kaki')
+                    ->delete();
+            }
+        }
+        if ($request->has('penutupbelakang')) {
+            if (!empty($request->penutupbelakang)) {
+                DetailAddonDijual::updateOrCreate(
+                    [
+                        'id_produk_custom_dijual' => $idProdukCustomDijual,
+                        'nama_addon' => 'Penutup Belakang',
+                    ],
+                    [
+                        'harga' => $request->penutupbelakang,
+                        'jenis' => 'second',
+                        'tipe' => 'meja',
+                        'kode'=> 'penutupbelakang',
+                        'url' => 'img/meja1/penutup.png'
+                    ]
+                );
+            } else {
+                DetailAddonDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
+                    ->where('nama_addon', 'Penutup Belakang')
                     ->delete();
             }
         }
@@ -333,6 +334,7 @@ class Meja1Controller extends Controller
         $addonMain = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=', $produk->id)->where('jenis', '=', 'main')->get();
 
 
+
         $addonPrices = [];
 
         foreach ($addonMain as $item) {
@@ -350,6 +352,27 @@ class Meja1Controller extends Controller
         // }
 
         // dd($addonPrices);
-        return view('seller.produkCustom.produk.testing.meja1.h1meja1', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain]);
+        return view('seller.produkCustom.produk.testing.meja1.h1meja1', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk'=>$produk]);
     }
+
+    public function testing2(){
+        $user = $this->getLogUser();
+        $produk = DB::table('produk_custom_dijuals')->where('nama_template','=','Meja 1')->where('id_toko','=',$user->id_toko)->first();
+        $addonSecond = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->where('jenis','=','second')->get();
+
+
+        $addonPrices = [];
+
+        foreach($addonSecond as $item){
+
+            $addonPrices[$item->kode] = $item->harga;
+
+        }
+
+        // dd($addonPrices);
+
+
+        return view('seller.produkCustom.produk.testing.meja1.h2meja1', ['user'=>$user, 'listpenutup'=>$addonSecond, 'addonPrices'=>$addonPrices]);
+    }
+
 }

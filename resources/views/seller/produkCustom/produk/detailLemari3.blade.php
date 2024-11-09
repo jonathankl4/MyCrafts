@@ -116,6 +116,9 @@
                                 {{ $detailAddon->where('nama_addon', 'Sekat Vertical')->isEmpty() ? 'readonly' : '' }} />
                             <span style="color: red;">{{ $errors->first('sekatVertical') }}</span>
                         </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalSekatVertical">Detail</button>
+                        </div>
                     </div>
 
                     <!-- Sekat Horizontal -->
@@ -132,6 +135,9 @@
                                 value="{{ $detailAddon->where('nama_addon', 'Sekat Horizontal')->first()->harga ?? '' }}"
                                 {{ $detailAddon->where('nama_addon', 'Sekat Horizontal')->isEmpty() ? 'readonly' : '' }} />
                             <span style="color: red;">{{ $errors->first('sekatHorizontal') }}</span>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalSekatHorizontal">Detail</button>
                         </div>
                     </div>
 
@@ -150,6 +156,9 @@
                                 {{ $detailAddon->where('nama_addon', 'Gantungan')->isEmpty() ? 'readonly' : '' }} />
                             <span style="color: red;">{{ $errors->first('gantungan') }}</span>
                         </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalGantungan">Detail</button>
+                        </div>
                     </div>
                     {{-- Laci kecil --}}
                     <div class="mb-3 row align-items-center">
@@ -166,6 +175,9 @@
                                 {{ $detailAddon->where('nama_addon', 'lacikecil')->isEmpty() ? 'readonly' : '' }} />
                             <span style="color: red;">{{ $errors->first('lacikecil') }}</span>
                         </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalLaciKecil">Detail</button>
+                        </div>
                     </div>
                     <div class="mb-3 row align-items-center">
                         <div class="col-md-2 d-flex align-items-center">
@@ -180,6 +192,9 @@
                                 value="{{ $detailAddon->where('nama_addon', 'lacibesar')->first()->harga ?? '' }}"
                                 {{ $detailAddon->where('nama_addon', 'lacibesar')->isEmpty() ? 'readonly' : '' }} />
                             <span style="color: red;">{{ $errors->first('lacibesar') }}</span>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalLaciBesar">Detail</button>
                         </div>
                     </div>
 
@@ -203,6 +218,9 @@
                                 {{ $detailAddon->where('nama_addon', 'Pintu 1')->isEmpty() ? 'readonly' : '' }} />
                             <span style="color: red;">{{ $errors->first('pintu1') }}</span>
                         </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalPintu1">Detail</button>
+                        </div>
                     </div>
 
                     <!-- Pintu 2 -->
@@ -219,6 +237,9 @@
                                 value="{{ $detailAddon->where('nama_addon', 'Pintu 2')->first()->harga ?? '' }}"
                                 {{ $detailAddon->where('nama_addon', 'Pintu 2')->isEmpty() ? 'readonly' : '' }} />
                             <span style="color: red;">{{ $errors->first('pintu2') }}</span>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalPintu2">Detail</button>
                         </div>
                     </div>
 
@@ -237,6 +258,9 @@
                                 {{ $detailAddon->where('nama_addon', 'Pintu 3')->isEmpty() ? 'readonly' : '' }} />
                             <span style="color: red;">{{ $errors->first('pintu3') }}</span>
                         </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalPintu3">Detail</button>
+                        </div>
                     </div>
 
 
@@ -251,6 +275,10 @@
             </form>
         </div>
     </div>
+
+    @include('seller.produkCustom.produk.modal.modalAddOnLemari')
+
+    @include('seller.produkCustom.produk.modal.modalPintuLemari3')
 
     <!-- Footer -->
     <footer class="content-footer footer bg-footer-theme">
