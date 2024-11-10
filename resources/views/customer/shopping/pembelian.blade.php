@@ -289,6 +289,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ $sub_status == 'menunggu_pembayaran' ? 'active' : '' }}"
+                       href="{{ url('/customer/pembelian?status=berjalan&sub_status=menunggu_pembayaran') }}">
+                        Menunggu Pembayaran
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ $sub_status == 'sedang_produksi' ? 'active' : '' }}"
                        href="{{ url('/customer/pembelian?status=berjalan&sub_status=sedang_produksi') }}">
                         Sedang Produksi
@@ -357,7 +363,7 @@
                                                 <div class="mb-2">
                                                     <div class="price-label">Harga Final:</div>
                                                     <div class="price-value">
-                                                        {{ $order->harga <= 0 ? 'Belum ada' : 'Rp. ' . number_format($order->harga, 0, ',', '.') }}
+                                                        {{ $order->harga <= 0 ? 'Belum ada' : 'Rp. ' . number_format($order->harga + $order->ongkir, 0, ',', '.') }}
                                                     </div>
                                                 </div>
 
@@ -365,7 +371,7 @@
                                                 <div>
                                                     <div class="price-label">Harga Redesain:</div>
                                                     <div class="price-value">
-                                                        Rp. {{ number_format($order->harga_redesain, 0, ',', '.') }}
+                                                        Rp. {{ number_format($order->harga_redesain + $order->ongkir, 0, ',', '.') }}
                                                     </div>
                                                 </div>
                                                 @endif

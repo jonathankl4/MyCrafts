@@ -128,9 +128,9 @@
 
                             <div id="produk-div">
                                 <!--
-                                                                                                                    Initially, the image will have the background tshirt that has transparency
-                                                                                                                    So we can simply update the color with CSS or JavaScript dinamically
-                                                                                                                -->
+                                                                                                                        Initially, the image will have the background tshirt that has transparency
+                                                                                                                        So we can simply update the color with CSS or JavaScript dinamically
+                                                                                                                    -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
                                 <img id="template" src="{{ url('img/lemari1/lemari1.png') }}"
                                     style="width: 100%;height: 100%;" />
@@ -340,6 +340,30 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="modalConfirmPesanan" tabindex="-1" aria-labelledby="modalConfirmPesananLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #bfb596; color: white;">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="padding: 20px;">
+                            <h3 class="text-dark" style="font-weight: bold;">Konfirmasi</h3>
+                            <p>Total yang harus dibayar Untuk desain Lama adalah: <span id="totalAmount1"
+                                    style="font-weight: bold; color: #3c7e63;"></span></p>
+                            <p>Total yang harus dibayar Untuk desain Baru adalah: <span id="totalAmount2"
+                                    style="font-weight: bold; color: #3c7e63;"></span></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="button" id="confirmOrder" class="btn btn-success">Konfirmasi</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
 
 
@@ -754,15 +778,58 @@
             canvas.renderAll();
         });
 
+        document.getElementById('terimaPesanan').addEventListener('click', function() {
+            // Get harga and ongkir values
+            var hargaLamaInput = document.getElementById('harga-fix');
+            var hargaRedesainInput = document.getElementById('harga-redesain');
+
+            var ongkirInput = document.getElementById('ongkir');
+            var ongkir = parseInt(ongkirInput.value);
+            var lama = parseInt(hargaLamaInput.value);
+            var redesain = parseInt(hargaRedesainInput.value);
+
+            // Check if ongkir is filled and valid
+            if (!hargaLamaInput.value || isNaN(lama) || lama <= 0) {
+                alert("Masukkan Harga Desain Lama yang valid sebelum melanjutkan.");
+                hargaLamaInput.focus();
+                return;
+            }
+            if (!hargaRedesainInput.value || isNaN(redesain) || redesain <= 0) {
+                alert("Masukkan Harga Redesain yang valid sebelum melanjutkan.");
+                hargaRedesainInput.focus();
+                return;
+            }
+            if (!ongkirInput.value || isNaN(ongkir) || ongkir <= 0) {
+                alert("Masukkan ongkir yang valid sebelum melanjutkan.");
+                ongkirInput.focus();
+                return;
+            }
+
+
+
+            // Calculate total and display in the confirmation modal
+            var total1 = lama + ongkir;
+            var total2 = redesain + ongkir;
+            document.getElementById('totalAmount1').textContent = 'Rp ' + total1.toLocaleString();
+            document.getElementById('totalAmount2').textContent = 'Rp ' + total2.toLocaleString();
+
+            // Show the confirmation modal
+            var confirmModal = new bootstrap.Modal(document.getElementById('modalConfirmPesanan'));
+            confirmModal.show();
+        });
 
 
 
 
-        document.getElementById('redesain-form').addEventListener('submit', function(event) {
+
+        document.getElementById('confirmOrder').addEventListener('click', function(event) {
             // Ambil elemen produk-div
-            event.preventDefault();
+            const form = document.getElementById('redesain-form');
 
-            if (this.checkValidity()) {
+
+            if (form.checkValidity()) {
+                event.preventDefault();
+
                 var element = document.getElementById('produk-div');
 
                 let fixHarga = document.getElementById('harga-fix').value;
@@ -801,7 +868,8 @@
                         .then(data => {
                             if (data.success) {
                                 // alert('Perbaikan Desain Berhasil dikirim');
-                                window.location.href = '{{ url('/seller/detailPesanan') }}' + '/' + pembelian.id;
+                                window.location.href = '{{ url('/seller/detailPesanan') }}' + '/' +
+                                    pembelian.id;
                             } else {
                                 alert("gambar gagal disimpan");
                             }

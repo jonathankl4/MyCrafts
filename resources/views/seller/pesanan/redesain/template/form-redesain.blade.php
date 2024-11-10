@@ -18,6 +18,9 @@
 
 
     {{-- <a href="#" id="redesain" class="btn btn-primary">Kirim Desain Baru</a> --}}
-    <button class="btn btn-primary">Kirim Desain Baru</button>
+    <button type="button" id="terimaPesanan" class="btn btn-primary">Terima, Kirim Desain Baru</button>
 
 </form>
+
+
+

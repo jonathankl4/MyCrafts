@@ -47,44 +47,45 @@
                             <span style="font-size: 20px"><b>
                                     {{ \Carbon\Carbon::parse($detail->tgl_transaksi)->translatedFormat('j F Y') }}
                                 </b></span>
-                                @php
+                            @php
                                 $s = $detail->status;
                                 $status = '';
-                                        $color = '';
-                                        if ($s == 1) {
-                                            $status = 'Belum Di konfirmasi';
-                                            $color = 'bg-warning';
-                                        } elseif ($s == 2) {
-                                            $status = 'Pengajuan Perbaikan desain, Menunggu Pembayaran';
-                                            $color = 'bg-secondary';
-                                        } elseif ($s == 3) {
-                                            $status = 'Menunggu Pembayaran Customer';
-                                            $color = 'bg-info';
-                                        } elseif ($s == 4) {
-                                            $status = 'Dalam Proses Produksi';
-                                            $color = 'bg-success';
-                                        } elseif ($s == 5) {
-                                            $status = 'Siap Dikirim';
-                                            $color = 'bg-dark';
-                                        } elseif ($s == 6) {
-                                            $status = 'Dalam Pengiriman';
-                                            $color = 'bg-dark';
-                                        } elseif ($s == 7) {
-                                            $status = 'Pesanan Selesai';
-                                            $color = 'bg-dark';
-                                        } elseif ($s == 8) {
-                                            $status = 'Pesanan Batal';
-                                            $color = 'bg-dark';
-                                        } elseif ($s == 9) {
-                                            $status = 'Pesanan Batal';
-                                            $color = 'bg-dark';
-                                        } elseif ($s == 11) {
-                                            $status = 'Sudah Dibayar, Belum di Konfirmasi';
-                                            $color = 'bg-dark';
-                                        }
+                                $color = '';
+                                if ($s == 1) {
+                                    $status = 'Belum Di konfirmasi';
+                                    $color = 'bg-warning';
+                                } elseif ($s == 2) {
+                                    $status = 'Pengajuan Perbaikan desain, Menunggu Pembayaran';
+                                    $color = 'bg-secondary';
+                                } elseif ($s == 3) {
+                                    $status = 'Menunggu Pembayaran Customer';
+                                    $color = 'bg-info';
+                                } elseif ($s == 4) {
+                                    $status = 'Dalam Proses Produksi';
+                                    $color = 'bg-success';
+                                } elseif ($s == 5) {
+                                    $status = 'Siap Dikirim';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 6) {
+                                    $status = 'Dalam Pengiriman';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 7) {
+                                    $status = 'Pesanan Selesai';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 8) {
+                                    $status = 'Pesanan Batal';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 9) {
+                                    $status = 'Pesanan Batal';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 11) {
+                                    $status = 'Sudah Dibayar, Belum di Konfirmasi';
+                                    $color = 'bg-dark';
+                                }
 
                             @endphp
-                            <td style="font-size: 16px"><b><span class="badge {{$color}}">{{$status}}</span></b></td>
+                            <td style="font-size: 16px"><b><span
+                                        class="badge {{ $color }}">{{ $status }}</span></b></td>
                         </div>
                         <br>
                         <div class="row">
@@ -97,7 +98,7 @@
                             <span>Detail Produk</span>
                             <div class="col">
                                 <img src="{{ url('/storage/imgProduk/' . $produk->foto_produk1) }}"
-                                style="width: 100px;height:100px">
+                                    style="width: 100px;height:100px">
 
 
                             </div>
@@ -130,29 +131,32 @@
                 <br><br>
                 <div class="col-md-8">
 
-                    <div class="card " style="padding: 15px">
-                        <h3 class="card-header"><b>Konfirmasi</b></h3>
+                    @if ($detail->status == 1)
+                        <div class="card " style="padding: 15px">
+                            <h3 class="card-header"><b>Konfirmasi</b></h3>
 
-                        <button class="btn"   data-bs-toggle="modal" data-bs-target="#modalTerimaPesanan"
-                        style="margin: 5px; background-color: #898063; color: black">
-                            Terima Pesanan
-                        </button>
-                        {{-- Tolak Pesanan --}}
-                        <a href="{{ url('/seller/custom/redesain/' . $detail->id) }}" class="btn btn-danger"
-                            style="margin: 5px;background-color: #fb8d76; color: black ">Batalkan Pesanan</a>
+                            <button class="btn" data-bs-toggle="modal" data-bs-target="#modalTerimaPesanan"
+                                style="margin: 5px; background-color: #898063; color: black">
+                                Terima Pesanan
+                            </button>
+                            {{-- Tolak Pesanan --}}
+                            <a href="{{ url('/seller/custom/redesain/' . $detail->id) }}" class="btn btn-danger"
+                                style="margin: 5px;background-color: #fb8d76; color: black ">Batalkan Pesanan</a>
 
-                    </div>
-                    <br>
+                        </div>
+                        <br>
+                    @endif
+
                     <div class="card" style="padding: 15px">
                         <div class="row">
 
                             <label for="" style="font-size: 20px"><b>Alamat Pengiriman</b></label>
-                            <label for="">{{$detail->alamat}}</label>
+                            <label for="">{{ $detail->alamat }}</label>
                         </div>
                         <br>
                         <div class="row">
                             <label for="" style="font-size: 20px"><b>Nomor Telepon</b></label>
-                            <label for="">{{$detail->nomorTelepon}}</label>
+                            <label for="">{{ $detail->nomorTelepon }}</label>
                         </div>
                     </div>
                 </div>
@@ -166,7 +170,8 @@
 
         </div>
 
-        <div class="modal fade" id="modalTerimaPesanan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalTerimaPesanan" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #bfb596; color: white;">
@@ -177,18 +182,44 @@
                         <h2 class="card-title text-dark" style="font-weight: bold;"> Terima Pesanan </h2>
                         <form id="myForm">
                             <div class="mb-3">
-                                <label for="" style="font-size: 18px; font-weight: bold;"> Harga: <span style="color: #3c7e63;">Rp {{number_format($detail->harga, 0, ',', '.')}}</span></label>
+                                <label for="" style="font-size: 18px; font-weight: bold;"> Harga: <span
+                                        style="color: #3c7e63;">Rp
+                                        {{ number_format($detail->harga, 0, ',', '.') }}</span></label>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" style="font-size: 16px; font-weight: 500;">Ongkir</label>
-                                <input type="number" class="form-control" id="ongkir" name="ongkir" required placeholder="Masukkan ongkir" />
+                                <input type="number" class="form-control" id="ongkir" name="ongkir" required
+                                    placeholder="Masukkan ongkir" />
                                 <small style="color: red;">*Total yang harus dibayarkan customer (harga + ongkir)</small>
                             </div>
-                            <button type="submit" class="btn" id="terimaPesanan" style="background-color: #bfb596; color: black; width: 100%; padding: 10px; font-size: 16px;">Terima</button>
+                            <button type="button" id="terimaPesanan" class="btn"
+                                style="background-color: #bfb596; color: black; width: 100%; padding: 10px; font-size: 16px;">Terima</button>
                         </form>
                     </div>
                     <div class="modal-footer" style="border-top: none;">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 8px 16px;">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            style="padding: 8px 16px;">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div class="modal fade" id="modalConfirmPesanan" tabindex="-1" aria-labelledby="modalConfirmPesananLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #bfb596; color: white;">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <h3 class="text-dark" style="font-weight: bold;">Konfirmasi</h3>
+                        <p>Total yang harus dibayar adalah: <span id="totalAmount"
+                                style="font-weight: bold; color: #3c7e63;"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" id="confirmOrder" class="btn btn-success">Konfirmasi</button>
                     </div>
                 </div>
             </div>
@@ -225,47 +256,69 @@
     </script>
 
     <script>
-
         let htrans = @json($detail);
 
+        document.getElementById('terimaPesanan').addEventListener('click', function() {
+            // Get harga and ongkir values
+            var harga = {{ $detail->harga }};
+            var ongkirInput = document.getElementById('ongkir');
+            var ongkir = parseInt(ongkirInput.value);
 
-document.getElementById('terimaPesanan').addEventListener('click', function(event) {
-        // Ambil form element
-        const form = document.getElementById('myForm');
+            // Check if ongkir is filled and valid
+            if (!ongkirInput.value || isNaN(ongkir) || ongkir <= 0) {
+                alert("Masukkan ongkir yang valid sebelum melanjutkan.");
+                ongkirInput.focus();
+                return;
+            }
 
-        // Cek validasi form
-        if (form.checkValidity()) {
-            event.preventDefault(); // Mencegah submit default jika valid
+            // Calculate total and display in the confirmation modal
+            var total = harga + ongkir;
+            document.getElementById('totalAmount').textContent = 'Rp ' + total.toLocaleString();
 
-            const ongkir = document.getElementById('ongkir').value;
+            // Show the confirmation modal
+            var confirmModal = new bootstrap.Modal(document.getElementById('modalConfirmPesanan'));
+            confirmModal.show();
+        });
 
-            fetch('/seller/nonCustom/terimaPesanan', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        ongkir: ongkir,
-                        id_htrans: htrans.id
+
+        document.getElementById('confirmOrder').addEventListener('click', function(event) {
+            // Ambil form element
+            const form = document.getElementById('myForm');
+
+            // Cek validasi form
+            if (form.checkValidity()) {
+                event.preventDefault(); // Mencegah submit default jika valid
+
+                const ongkir = document.getElementById('ongkir').value;
+
+                fetch('/seller/nonCustom/terimaPesanan', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        },
+                        body: JSON.stringify({
+                            ongkir: ongkir,
+                            id_htrans: htrans.id
+                        })
                     })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.href = "{{ url('/seller/pesanan') }}" ;
-                    } else {
-                        alert("Gagal mengirim data");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat mengirim data');
-                });
-        } else {
-            // Jika form tidak valid, browser akan menampilkan pesan kesalahan
-            form.reportValidity(); // Menampilkan pesan error bawaan browser
-        }
-    });
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = "{{ url('/seller/pesanan') }}";
+                        } else {
+                            alert("Gagal mengirim data");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat mengirim data');
+                    });
+            } else {
+                // Jika form tidak valid, browser akan menampilkan pesan kesalahan
+                form.reportValidity(); // Menampilkan pesan error bawaan browser
+            }
+        });
     </script>
 @endsection

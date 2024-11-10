@@ -99,6 +99,8 @@
                                         <br>
                                         <span id="hargalama">Rp. {{ number_format($htrans->harga, 0, ',', '.') }}
                                         </span>
+                                        <br>
+                                        <span>Total: Rp {{ number_format($htrans->harga + $htrans->ongkir, 0, ',', '.') }}</span>
                                         @if ($htrans->status_pembayaran == 0)
 
                                         <button class="btn btn-dark" id="pay-button">Bayar</button>
@@ -111,6 +113,8 @@
                                         <br>
                                         <span id="hargabaru">Rp.
                                             {{ number_format($htrans->harga_redesain, 0, ',', '.') }} </span>
+                                            <br>
+                                            <span >Total: Rp {{ number_format($htrans->harga_redesain + $htrans->ongkir, 0, ',', '.') }} </span>
                                             @if ($htrans->status_pembayaran == 0)
                                         <button class="btn btn-dark" id="pay-button2">Bayar</button>
                                         @endif

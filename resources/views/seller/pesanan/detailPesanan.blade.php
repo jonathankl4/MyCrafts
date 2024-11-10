@@ -251,13 +251,32 @@
                                     placeholder="Masukkan ongkir" />
                                 <small style="color: red;">*Total yang harus dibayarkan customer (harga + ongkir)</small>
                             </div>
-                            <button type="submit" class="btn" id="terimaPesanan"
+                            <button type="button" class="btn" id="terimaPesanan"
                                 style="background-color: #bfb596; color: black; width: 100%; padding: 10px; font-size: 16px;">Terima</button>
                         </form>
                     </div>
                     <div class="modal-footer" style="border-top: none;">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                             style="padding: 8px 16px;">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modalConfirmPesanan" tabindex="-1" aria-labelledby="modalConfirmPesananLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #bfb596; color: white;">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <h3 class="text-dark" style="font-weight: bold;">Konfirmasi</h3>
+                        <p>Total yang harus dibayar adalah: <span id="totalAmount"
+                                style="font-weight: bold; color: #3c7e63;"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" id="confirmOrder" class="btn btn-success">Konfirmasi</button>
                     </div>
                 </div>
             </div>
@@ -331,8 +350,37 @@
     <script>
         let htrans = @json($detail);
 
+        document.getElementById('terimaPesanan').addEventListener('click', function() {
+            // Get harga and ongkir values
+            var hargaInput = document.getElementById('hargafix');
+            var ongkirInput = document.getElementById('ongkir');
+            var harga = parseInt(hargaInput.value);
+            var ongkir = parseInt(ongkirInput.value);
 
-        document.getElementById('terimaPesanan').addEventListener('click', function(event) {
+
+            // Check if ongkir and harga fix is filled and valid
+            if (!hargaInput.value || isNaN(harga) || harga <= 0) {
+                alert("Masukkan harga Fix yang valid sebelum melanjutkan.");
+                hargaInput.focus();
+                return;
+            }
+            if (!ongkirInput.value || isNaN(ongkir) || ongkir <= 0) {
+                alert("Masukkan ongkir yang valid sebelum melanjutkan.");
+                ongkirInput.focus();
+                return;
+            }
+
+            // Calculate total and display in the confirmation modal
+            var total = harga + ongkir;
+            document.getElementById('totalAmount').textContent = 'Rp ' + total.toLocaleString();
+
+            // Show the confirmation modal
+            var confirmModal = new bootstrap.Modal(document.getElementById('modalConfirmPesanan'));
+            confirmModal.show();
+        });
+
+
+        document.getElementById('confirmOrder').addEventListener('click', function(event) {
             // Ambil form element
             const form = document.getElementById('myForm');
 

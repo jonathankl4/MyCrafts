@@ -279,8 +279,11 @@ class CustomerController extends Controller
                 $query = DB::table('h_trans')->where('id_user', $user->id);
 
                 if ($subStatus == 'menunggu_konfirmasi') {
-                    $query->whereIn('status', [1, 2]); // Misal status 1 adalah Menunggu Konfirmasi
-                } elseif ($subStatus == 'siap_dikirim') {
+                    $query->whereIn('status', [1]); // Misal status 1 adalah Menunggu Konfirmasi
+                } elseif ($subStatus == 'menunggu_pembayaran') {
+                    $query->whereIn('status', [2, 3]);
+                }
+                elseif ($subStatus == 'siap_dikirim') {
                     $query->where('status', 5); // Misal status 2 adalah Siap Dikirim
                 } elseif ($subStatus == 'sedang_produksi') {
                     $query->where('status', 4); // Misal status 3 adalah Sedang di Produksi
