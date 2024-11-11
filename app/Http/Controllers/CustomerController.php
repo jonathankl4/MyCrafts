@@ -248,22 +248,84 @@ class CustomerController extends Controller
             # code...
             $htrans->pilihan = 'awal';
             $htrans->status = 4;
-            $toko->saldo_pending = $htrans->harga;
+            $toko->saldo_pending += $htrans->harga;
         } else if ($request->pilihan == 'baru') {
             $htrans->pilihan = 'baru';
             $htrans->status = 4;
-            $toko->saldo_pending = $htrans->harga_redesain;
+            $toko->saldo_pending += $htrans->harga_redesain;
         } else if ($request->pilihan == 'jadi') {
             # code...
             $htrans->pilihan = 'jadi';
-            $htrans->status = 5;
-            $toko->saldo_pending = $htrans->harga;
+            $htrans->status = 11;
+            $toko->saldo_pending += $htrans->harga;
         }
         $htrans->status_pembayaran = 1;
         $htrans->save();
         $toko->save();
 
         return response()->json(['status' => 'success']);
+    }
+
+    public function pesananSampai(Request $request){
+
+        $pembelian = Htrans::find($request->id);
+        $pembelian->status = 12;
+        $pembelian->save();
+
+
+        toast("Konfirmasi Pesanan Sampai diterima", 'success');
+        return redirect()->back();
+    }
+
+    public function pesananSelesai(Request $request){
+
+        $pembelian = Htrans::find($request->id);
+        $pembelian->status = 7;
+        $pembelian->save();
+
+        $toko = toko::find($pembelian->id_toko);
+        if ($pembelian->pilihan == 'jadi' || $pembelian->pilihan == 'awal') {
+            # code...
+            $total = $pembelian->harga + $pembelian->ongkir;
+            $toko->saldo += $total;
+            $toko->saldo_pending -= $total;
+            $toko->save();
+
+        }else if ($pembelian->pilihan == 'baru') {
+            # code...
+            $total = $pembelian->harga_redesain + $pembelian->ongkir;
+            $toko->saldo += $total;
+            $toko->saldo_pending -= $total;
+            $toko->save();
+        }
+
+
+
+        toast("Pesanan Selesai", 'success');
+        return redirect()->back();
+    }
+
+    public function pengajuanRetur(Request $request){
+        $pembelian = Htrans::find($request->id);
+        $pembelian->status = 13;
+        $pembelian->alasan_retur = $request->alasanretur;
+        $pembelian->save();
+
+
+        toast("Retur Berhasil diajukan", 'success');
+        return redirect()->back();
+    }
+
+    public function kirimBalik(Request $request){
+        $pembelian = Htrans::find($request->id);
+        $pembelian->status = 15;
+        $pembelian->nomor_resi = $request->ResiBalik;
+        $pembelian->save();
+
+
+        toast("Retur Berhasil diajukan", 'success');
+        return redirect()->back();
+
     }
 
     public function listPembelian(Request $request)
@@ -284,9 +346,9 @@ class CustomerController extends Controller
                     $query->whereIn('status', [2, 3]);
                 }
                 elseif ($subStatus == 'siap_dikirim') {
-                    $query->where('status', 5); // Misal status 2 adalah Siap Dikirim
+                    $query->where('status', 11); // Misal status 2 adalah Siap Dikirim
                 } elseif ($subStatus == 'sedang_produksi') {
-                    $query->where('status', 4); // Misal status 3 adalah Sedang di Produksi
+                    $query->whereIn('status', [4, 5]); // Misal status 3 adalah Sedang di Produksi
                 } elseif ($subStatus == 'dikirim') {
                     $query->where('status', 6); // Misal status 4 adalah Dikirim
                 } else {
@@ -307,7 +369,7 @@ class CustomerController extends Controller
             case 'tidak_berhasil':
                 $pembelian = DB::table('h_trans')
                     ->where('id_user', $user->id)
-                    ->where('status', 8) // Misal status 6 adalah tidak berhasil
+                    ->whereIn('status', [8, 9 , 10]) // Misal status 6 adalah tidak berhasil
                     ->orderBy('tgl_transaksi', 'desc')
                     ->get();
                 break;
@@ -335,7 +397,7 @@ class CustomerController extends Controller
         $data1 = DB::table('donations')->where('h_trans_id', $id)->where('pilihan', 'awal')->first();
         $data2 = DB::table('donations')->where('h_trans_id', $id)->where('pilihan', 'baru')->first();
 
-        if ($htrans->status_pembayaran == 0 && $htrans->status != 1) {
+        if ($htrans->status_pembayaran == 0 && ($htrans->status == 2 || $htrans->status == 3)) {
             // Set up Midtrans configuration
             \Midtrans\Config::$serverKey = config('midtrans.serverKey');
             \Midtrans\Config::$isProduction = config('midtrans.isProduction');
@@ -347,7 +409,7 @@ class CustomerController extends Controller
 
                 if ($time_difference > 86400) {
                     # code...
-                    $htrans->status =  8;
+                    $htrans->status =  10;
                     $htrans->status_pembayaran = 3;
                     $htrans->save();
                     DB::table('donations')->where('h_trans_id', $id)
@@ -374,7 +436,7 @@ class CustomerController extends Controller
         // dd($data1);
 
         // Check if there's a related donation and if payment has expired
-        if ($htrans->status_pembayaran == 0 && $htrans->status != 1) {
+        if ($htrans->status_pembayaran == 0 && ($htrans->status == 2 || $htrans->status == 3) ) {
             // Set up Midtrans configuration
             \Midtrans\Config::$serverKey = config('midtrans.serverKey');
             \Midtrans\Config::$isProduction = config('midtrans.isProduction');
@@ -386,7 +448,7 @@ class CustomerController extends Controller
 
                 if ($time_difference > 86400) {
                     # code...
-                    $htrans->status =  8;
+                    $htrans->status =  10;
                     $htrans->status_pembayaran = 3;
                     $htrans->save();
                     DB::table('donations')->where('h_trans_id', $id)

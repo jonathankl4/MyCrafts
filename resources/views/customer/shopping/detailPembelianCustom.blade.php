@@ -52,6 +52,10 @@
                                     $customStatus = 'Transaksi Berhasil';
                                 } else if($htrans->status == 8){
                                     $customStatus = 'Pembelian gagal';
+                                } else if($htrans->status == 9){
+                                    $customStatus = 'Pembelian gagal';
+                                } else if($htrans->status == 10){
+                                    $customStatus = 'Pembelian gagal';
                                 }
                             @endphp
                             <div class="row">
@@ -63,6 +67,14 @@
                                         Desain</button>
                                 @endif
                             </div>
+                            @if (in_array($htrans->status, [8, 9, 10]))
+                            <div class="detail-row">
+                                <span class="detail-label">Keterangan batal: </span>
+                                <span class="detail-value">
+                                    {{$htrans->alasan_batal}}
+                                </span>
+                            </div>
+                            @endif
                             <br>
                             <div class="row">
                                 <span style="font-size: 16px"><b>Tanggal Transaksi</b></span>

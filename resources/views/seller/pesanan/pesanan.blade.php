@@ -207,7 +207,7 @@
                                             $status = 'Dalam Proses Produksi';
                                             $color = 'bg-success';
                                         } elseif ($s == 5) {
-                                            $status = 'Menunggu Dikirim';
+                                            $status = 'Produksi Selesai';
                                             $color = 'bg-dark';
                                         } elseif ($s == 6) {
                                             $status = 'Dalam Pengiriman';
@@ -222,7 +222,22 @@
                                             $status = 'Pesanan Batal';
                                             $color = 'bg-dark';
                                         } elseif ($s == 11) {
-                                            $status = 'Belum di Konfirmasi';
+                                            $status = 'Siap Dikirim';
+                                            $color = 'bg-warning';
+                                        } elseif ($s == 12) {
+                                            $status = 'Barang Sampai';
+                                            $color = 'bg-warning';
+                                        } elseif ($s == 13) {
+                                            $status = 'Customer Mengajukan Retur';
+                                            $color = 'bg-warning';
+                                        } elseif ($s == 14) {
+                                            $status = 'Retur Diterima, Menunggu Pengiriman';
+                                            $color = 'bg-warning';
+                                        } elseif ($s == 15) {
+                                            $status = 'Dalam Pengiriman (Retur)';
+                                            $color = 'bg-warning';
+                                        } elseif ($s == 16) {
+                                            $status = 'Retur Ditolak, Transaksi Selesai';
                                             $color = 'bg-warning';
                                         }
 

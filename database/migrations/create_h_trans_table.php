@@ -40,6 +40,11 @@ return new class extends Migration
             $table->longText('alamat')->nullable();
             $table->string('nomorTelepon')->nullable();
             $table->string('pilihan')->nullable();
+            $table->longText('alasan_batal')->nullable();
+            $table->string('nomor_resi')->nullable();
+            $table->dateTime('tgl_sampai')->nullable();
+            $table->longText('alasan_retur')->nullable();
+            $table->longText('alasan_tolak_retur')->nullable();
             $table->timestamps();
         });
     }
@@ -47,16 +52,24 @@ return new class extends Migration
     // keterangan atribute status
     // status 0 = inisiate transaksi custom
     // status 1 = transkasi custom sudah submit (dalam review seller)
-    // status 2 = seller mengajukan perbaikan desain
+    // status 2 = seller mengajukan perbaikan desain, menunggu pembayaran
     // status 3 = pembelian sudah fix tinggal pembayaran
     // status 4 = sudah melakukan pembayaran, dalam proses produksi
-    // status 5 = sudah melakukan pembayaran, siap dikirim, sudah selesai produksi(jika custom)
+    // status 5 = sudah melakukan pembayaran, Selesai Produksi
+    // status 11 = sudah melakukan pembayaran, SIap dikirim atau menunggu pengiriman
+
     // status 6 = dalam pengiriman
     // stasus 7 = Pesanan selesai
     // stasus 8 = Pesanan dibatalkan seller
     // stasus 9 = Pesanan dibatalkan buyer
     // stasus 10 = pembayaran dibatalkan
-    // status 11 = belum di konfirmasi penjual (non custom)
+
+    // status 12 = pesanan sampai
+    // status 13 = pengajuan Retur
+    // stasus 14 = retur diterima
+    // stasus 15 = Pengiriman Kembali ke seller
+    // status 16 = Retur ditolak, pesanan Selesai
+
 
     // keterangan atribute status pembayaran
     // status 0 = belom bayar

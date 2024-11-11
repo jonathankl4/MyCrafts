@@ -38,6 +38,20 @@
                 Custom</a> --}}
             <div class="row" style="padding: 10px">
                 <div class="col-md-4">
+
+
+                    <div class="card" style="padding: 15px">
+                        @if ($detail->status == 4)
+                            <button class="btn" style="margin: 5px; background-color: #898063; color: black">
+                                Produksi Selesai
+                            </button>
+                        @elseif ($detail->status == 11)
+                            <button class="btn" style="margin: 5px; background-color: #898063; color: black">
+                                Kirim Barang
+                            </button>
+                        @endif
+                    </div>
+                    <br>
                     <div class="card " style="padding: 15px">
 
 
@@ -47,7 +61,7 @@
                             <span style="font-size: 20px"><b>
                                     {{ \Carbon\Carbon::parse($detail->tgl_transaksi)->translatedFormat('j F Y') }}
                                 </b></span>
-                            @php
+                                @php
                                 $s = $detail->status;
                                 $status = '';
                                 $color = '';
@@ -55,20 +69,31 @@
                                     $status = 'Belum Di konfirmasi';
                                     $color = 'bg-warning';
                                 } elseif ($s == 2) {
-                                    $status = 'Pengajuan Perbaikan desain';
-                                    $color = 'bg-warning';
-                                    if ($detail->status_redesain == 1) {
-                                        # code...
-                                        $status = 'Menunggu Konfirmasi Pembeli';
-                                    }
+                                    $status = 'Pengajuan Perbaikan desain, Menunggu Pembayaran';
+                                    $color = 'bg-secondary';
                                 } elseif ($s == 3) {
                                     $status = 'Menunggu Pembayaran Customer';
                                     $color = 'bg-info';
                                 } elseif ($s == 4) {
-                                    $status = 'Pembayaran Diterima';
+                                    $status = 'Dalam Proses Produksi';
                                     $color = 'bg-success';
                                 } elseif ($s == 5) {
+                                    $status = 'Siap Dikirim';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 6) {
                                     $status = 'Dalam Pengiriman';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 7) {
+                                    $status = 'Pesanan Selesai';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 8) {
+                                    $status = 'Pesanan Batal';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 9) {
+                                    $status = 'Pesanan Batal';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 10) {
+                                    $status = 'Pembayaran Batal';
                                     $color = 'bg-dark';
                                 }
 
@@ -135,18 +160,7 @@
 
 
                     </div>
-                    <br>
-                    <div class="card" style="padding: 15px">
-                        @if ($detail->status == 4)
-                            <button class="btn" style="margin: 5px; background-color: #898063; color: black">
-                                Produksi Selesai
-                            </button>
-                        @elseif ($detail->status == 5)
-                            <button class="btn" style="margin: 5px; background-color: #898063; color: black">
-                                Kirim Barang
-                            </button>
-                        @endif
-                    </div>
+
 
                 </div>
 
@@ -187,8 +201,9 @@
                                 Desain</a>
 
                             {{-- Tolak Pesanan --}}
-                            <a href="{{ url('/seller/custom/redesain/' . $detail->id) }}" class="btn btn-danger"
-                                style="margin: 5px;background-color: #fb8d76; color: black ">Batalkan Pesanan</a>
+                            <a href="" class="btn btn-danger"
+                                style="margin: 5px;background-color: #fb8d76; color: black " data-bs-toggle="modal"
+                                data-bs-target="#modalTolakPesanan">Batalkan Pesanan</a>
                         @elseif ($detail->status == 2)
                             <button class="btn" style="background-color: #bfb596; color: black" data-bs-toggle="modal"
                                 data-bs-target="#modalDesainBaru">Lihat Perbaikan Desain</button>
@@ -221,6 +236,38 @@
 
 
 
+        </div>
+
+        <div class="modal fade" id="modalTolakPesanan" tabindex="-1" aria-labelledby="modalTolakPesananLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <form action="{{ url('/seller/pesanan/batalkan/' . $detail->id) }}" method="post">
+                    @csrf
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #bfb596; color: white;">
+                            <h5 class="modal-title" id="modalTolakPesananLabel">Batalkan Pesanan</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="padding: 25px;">
+
+                            <div class="mb-3">
+                                <label for="alasan" class="form-label"
+                                    style="font-weight: 500; color: #6c757d;">Keterangan Pembatalan Pesanan</label>
+                                <textarea name="alasan" id="alasan" class="form-control"
+                                    style="padding: 10px; border: 1px solid #ced4da; border-radius: 5px; width: 100%;" cols="30" rows="5"
+                                    placeholder="Masukkan alasan pembatalan..." required></textarea>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                style="background-color: #6c757d; border-color: #6c757d;">Tutup</button>
+                            <button type="submit" id="confirmOrder" class="btn btn-success"
+                                style="background-color: #28a745; border-color: #28a745;">Konfirmasi</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
 
 
@@ -390,6 +437,7 @@
 
                 const fixHarga = document.getElementById('hargafix').value;
                 const ongkir = document.getElementById('ongkir').value;
+                document.getElementById('loadingScreen').style.display = 'block';
                 fetch('/seller/custom/terimaPesanan', {
                         method: 'POST',
                         headers: {
@@ -414,6 +462,10 @@
                     .catch(error => {
                         console.error('Error:', error);
                         alert('Terjadi kesalahan saat mengirim data');
+                    })
+                    .finally(() => {
+                        // Sembunyikan loading screen setelah proses selesai
+                        document.getElementById('loadingScreen').style.display = 'none';
                     });
             } else {
                 // Jika form tidak valid, browser akan menampilkan pesan kesalahan

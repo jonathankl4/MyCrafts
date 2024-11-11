@@ -103,7 +103,7 @@ class PerencanaanProduksiController extends Controller
         $produksi = RencanaProduksi::find($id);
         $bom = Bom::find($produksi->id_bom);
         $detail = DB::table('bom_details')->join('bahans','bahans.id','=','bom_details.id_bahan')->where('id_bom','=',$bom->id)->get();
-        
+
 
         $s = $produksi->status;
         $status = "";
@@ -124,7 +124,7 @@ class PerencanaanProduksiController extends Controller
             $status = "Selesai";
             $color = "bg-success";
         }
-        
+
         // dd($produksi);
 
 
@@ -143,16 +143,16 @@ class PerencanaanProduksiController extends Controller
     public function editProduksi(Request $request, $id){
         $user = $this->getLogUser();
 
-        
 
-        dd($request);
+
+        // dd($request);
 
 
 
         $p = RencanaProduksi::find($id);
         $p->id_toko = $user->id_toko;
         $p->tgl_produksi_mulai = $request->tglProduksi;
-        
+
         $p->jumlahdiproduksi = $request->jumlahProduksi;
 
         $p->save();
@@ -168,7 +168,7 @@ class PerencanaanProduksiController extends Controller
         toast('Berhasil Simpan Perubahan', 'success');
         // Alert::success('','berhasil tambah satuan');
         return redirect()->back();
-        
+
     }
 
     public function batalkanProduksi($id){
@@ -180,7 +180,7 @@ class PerencanaanProduksiController extends Controller
         toast('Produksi '.$produksi->nama_produk .' berhasil dibatalkan');
         return redirect()->back();
     }
-    
+
 
 
     public function getBom(Request $request){
@@ -209,7 +209,7 @@ class PerencanaanProduksiController extends Controller
 
         return view('seller.produksi.perencanaanProduksi.riwayatProduksi',['user'=>$user,'listRiwayat'=>$riwayat]);
 
-        
+
 
     }
 
@@ -227,26 +227,26 @@ class PerencanaanProduksiController extends Controller
     }
 
     public function simpanHasilProduksi(Request $request){
-         
+
          $user = $this->getLogUser();
 
-        
+
         // dd($request->namabahan[0]);
 
 
          $rp = RencanaProduksi::find($request->id_produksi);
          $rp->status = 2;
          $rp->tgl_produksi_selesai = now();
- 
+
          $time1 = new DateTime($rp->tgl_produksi_mulai);
          $time2 = new DateTime('now');
- 
+
          $selisih = $time1->diff($time2);
          $rp->waktu_produksi = $selisih->days;
          $rp->save();
- 
-         
- 
+
+
+
          $h = new HasilProduksi();
          $h->id_toko = $user->id_toko;
          $h->id_produksi = $request->id_produksi;
@@ -257,7 +257,7 @@ class PerencanaanProduksiController extends Controller
          $h->save();
 
 
-         for ($i=0; $i < count($request->id_bahan) ; $i++) { 
+         for ($i=0; $i < count($request->id_bahan) ; $i++) {
             # code...
             $bahan = new PenggunaanBahan();
             $bahan->id_produksi = $request->id_produksi;
@@ -268,8 +268,8 @@ class PerencanaanProduksiController extends Controller
          }
 
              // storeAs akan menyimpan default ke local
- 
- 
+
+
          toast('Berhasil Input Hasil Produksi', 'success');
          // Alert::success('','berhasil tambah satuan');
          return redirect()->back();
@@ -284,7 +284,7 @@ class PerencanaanProduksiController extends Controller
         $produksi = DB::table('rencana_produksis')->where('kode_produksi','=',$id)->first();
         $bom = Bom::find($produksi->id_bom);
         $detail = DB::table('bom_details')->join('bahans','bahans.id','=','bom_details.id_bahan')->where('id_bom','=',$bom->id)->get();
-        
+
         $listbahan = DB::table('penggunaan_bahans')->where('id_produksi','=',$produksi->id)->get();
 
         $s = $produksi->status;
@@ -306,7 +306,7 @@ class PerencanaanProduksiController extends Controller
             $status = "Selesai";
             $color = "bg-success";
         }
-        
+
         // dd($produksi);
 
 
@@ -314,9 +314,9 @@ class PerencanaanProduksiController extends Controller
 
     }
 
-    
 
-    
 
-    
+
+
+
 }

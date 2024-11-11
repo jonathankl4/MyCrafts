@@ -7,6 +7,7 @@ use App\Models\DTrans;
 use App\Models\HTrans;
 use App\Models\ProdukCustomDijual;
 use App\Models\ProdukDijual;
+use App\Models\toko;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -43,15 +44,17 @@ class PesananController extends Controller
                     $query->whereIn('status', [1]);
                 } elseif ($subStatus == 'menunggu_pembayaran'){
                     $query->whereIn('status', [2, 3]);
-                } elseif ($subStatus == 'menunggu pengiriman'){
-                    $query->where('status', 5);
+
                 } elseif ($subStatus == 'sedang_produksi'){
-                    $query->where('status', 4);
-                } elseif ($subStatus == 'dikirim'){
+                    $query->whereIn('status', [4, 5]);
+                } elseif($subStatus == 'siap_dikirim'){
+                    $query->where('status', 11);
+                }
+                elseif ($subStatus == 'dikirim'){
                     $query->where('status', 6);
                 }
                 else {
-                    $query->whereIn('status', [1, 2, 3, 4, 5, 6]);
+                    $query->whereIn('status', [1, 2, 3, 4, 5, 6, 11]);
                 }
 
                 $pembelian = $query->orderBy('tgl_transaksi', 'desc')->get();
@@ -67,7 +70,7 @@ class PesananController extends Controller
             case 'tidak_berhasil':
                 $pembelian = DB::table('h_trans')
                     ->where('id_toko', $user->id_toko)
-                    ->where('status', 8)
+                    ->whereIn('status', [8, 9 , 10])
                     ->orderBy('tgl_transaksi', 'desc')
                     ->get();
                 break;
@@ -185,6 +188,81 @@ class PesananController extends Controller
 
 
     }
+
+    public function tolakPesanan(Request $request){
+
+        $pembelian = HTrans::find($request->id);
+
+        $pembelian->status = 8;
+        $pembelian->alasan_batal = $request->alasan;
+        $pembelian->save();
+
+        toast('Pesanan Berhasil Dibatalkan', 'success');
+        return redirect()->back();
+    }
+
+    public function kirimPesanan(Request $request){
+        $pembelian = Htrans::find($request->id);
+
+        $pembelian->nomor_resi = $request->resi;
+        $pembelian->status = 6;
+        $pembelian->save();
+
+        toast('Status Diubah ke Sedang Dikirim', 'success');
+        return redirect()->back();
+    }
+
+    public function ubahResi(Request $request){
+        $pembelian = Htrans::find($request->id);
+
+        $pembelian->nomor_resi = $request->editresi;
+
+        $pembelian->save();
+
+        toast('Berhasil Ubah Nomor Resi', 'success');
+        return redirect()->back();
+    }
+
+    public function terimaRetur(Request $request){
+        $pembelian = Htrans::find($request->id);
+
+
+        $pembelian->status = 14;
+        $pembelian->save();
+
+        toast('Retur Diterima, tunggu customer mengirim kembali', 'success');
+        return redirect()->back();
+    }
+
+    public function tolakRetur(Request $request){
+        $pembelian = Htrans::find($request->id);
+
+
+        $pembelian->status = 16;
+        $pembelian->alasan_tolak_retur = $request->alasanTolak;
+        $pembelian->save();
+
+        $toko = toko::find($pembelian->id_toko);
+        if ($pembelian->pilihan == 'jadi' || $pembelian->pilihan == 'awal') {
+            # code...
+            $total = $pembelian->harga + $pembelian->ongkir;
+            $toko->saldo += $total;
+            $toko->saldo_pending -= $total;
+            $toko->save();
+
+        }else if ($pembelian->pilihan == 'baru') {
+            # code...
+            $total = $pembelian->harga_redesain + $pembelian->ongkir;
+            $toko->saldo += $total;
+            $toko->saldo_pending -= $total;
+            $toko->save();
+        }
+
+
+        toast('Retur Ditolak, Pesanan Selesai', 'success');
+        return redirect()->back();
+    }
+
     public function terimaPesananNonCustom(Request $request){
         $user = $this->getLogUser();
 

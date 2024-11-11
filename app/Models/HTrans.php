@@ -34,7 +34,13 @@ class HTrans extends Model
         'catatan',
         'alamat',
         'nomorTelepon',
-        'pilihan'
+        'pilihan',
+        'alasan_batal',
+        'nomor_resi',
+        'tgl_sampai',
+        'alasan_retur',
+        'alasan_tolak_retur'
+
 
     ];
 }

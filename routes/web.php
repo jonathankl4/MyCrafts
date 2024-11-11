@@ -173,6 +173,12 @@ Route::group([
     Route::post('/checkOutNonCustom', [CustomerController::class, 'checkOutNonCustom']);
 
     Route::post('/pembayaran', [CustomerController::class, 'pembayaran'])->name('pembayaran');
+
+    Route::post('customer/pembelianSampai/{id}', [CustomerController::class, 'pesananSampai']);
+    Route::post('customer/pembelianSelesai/{id}', [CustomerController::class, 'pesananSelesai']);
+    Route::post('customer/pengajuanRetur/{id}', [CustomerController::class, 'pengajuanRetur']);
+
+    Route::post('customer/KirimBalik/{id}', [CustomerController::class, 'kirimBalik']);
 });
 
 
@@ -276,6 +282,17 @@ Route::group([
     Route::post('/kirimRedesain', [PesananController::class, 'kirimRedesain']);
     Route::post('/custom/terimaPesanan', [PesananController::class, 'terimaPesananCustom']);
     Route::post('/nonCustom/terimaPesanan', [PesananController::class, 'terimaPesananNonCustom']);
+
+    // TOLAK PESANAN
+    Route::post('/pesanan/batalkan/{id}', [PesananController::class, 'tolakPesanan']);
+
+    // Kirim Pesanan
+    Route::post('/pesanan/kirim/{id}', [PesananController::class, 'kirimPesanan']);
+    Route::post('/pesanan/ubahResi/{id}', [PesananController::class, 'ubahResi']);
+
+    //RETUR
+    Route::post('/pesanan/terimaRetur/{id}', [PesananController::class, 'terimaRetur']);
+    Route::post('/pesanan/tolakRetur/{id}', [PesananController::class, 'tolakRetur']);
 
     // TESTING APA AJAH
     Route::get('/produkCustom/testing', [TestController::class, 'testingfabric']);

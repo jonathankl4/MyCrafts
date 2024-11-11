@@ -38,6 +38,201 @@
                 Custom</a> --}}
             <div class="row" style="padding: 10px">
                 <div class="col-md-4">
+
+                    <div class="card" style="padding: 15px">
+                        @if ($detail->status == 4)
+                            <button class="btn" style="margin: 5px; background-color: #898063; color: black">
+                                Produksi Selesai
+                            </button>
+                        @elseif ($detail->status == 11)
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalKirim"
+                                style="margin: 5px; background-color: #898063; color: black">
+                                Kirim Barang
+                            </button>
+                            <div class="modal fade" id="modalKirim" tabindex="-1" aria-labelledby="modalTolakPesananLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form action="{{ url('/seller/pesanan/kirim/' . $detail->id) }}" method="post">
+                                        @csrf
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color: #bfb596; color: white;">
+                                                <h5 class="modal-title" id="modalTolakPesananLabel">Kirim Pesanan</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" style="padding: 25px;">
+
+                                                <div class="mb-3">
+                                                    <label for="resi" class="form-label"
+                                                        style="font-weight: 500; color: #6c757d;">Nomor Resi</label>
+                                                    <input type="text" name="resi" id="resi"
+                                                        class="form-control">
+                                                    <span style="color: red;">kosongkan jika tidak ada nomor resi</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                    style="background-color: #6c757d; border-color: #6c757d;">Tutup</button>
+                                                <button type="submit" id="confirmOrder" class="btn btn-success"
+                                                    style="background-color: #28a745; border-color: #28a745;">Konfirmasi</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        @elseif($detail->status == 6)
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalUbahResi"
+                                style="margin: 5px; background-color: #898063; color: black">
+                                Ubah Nomor Resi
+                            </button>
+                            <div class="modal fade" id="modalUbahResi" tabindex="-1"
+                                aria-labelledby="modalTolakPesananLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form action="{{ url('/seller/pesanan/ubahResi/' . $detail->id) }}" method="post">
+                                        @csrf
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color: #bfb596; color: white;">
+                                                <h5 class="modal-title" id="modalTolakPesananLabel">Kirim Pesanan</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" style="padding: 25px;">
+
+                                                <div class="mb-3">
+                                                    <label for="resi" class="form-label"
+                                                        style="font-weight: 500; color: #6c757d;">Nomor Resi</label>
+                                                    <input type="text" name="editresi" id="editresi"
+                                                        class="form-control" value="{{ $detail->nomor_resi }}">
+                                                    <span style="color: red;">kosongkan jika tidak ada nomor resi</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                    style="background-color: #6c757d; border-color: #6c757d;">Tutup</button>
+                                                <button type="submit" id="confirmOrder" class="btn btn-success"
+                                                    style="background-color: #28a745; border-color: #28a745;">Konfirmasi</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        @elseif ($detail->status == 13)
+                            <p>Alasan Retur: {{ $detail->alasan_retur }}</p>
+                            <button type="button" class="btn" data-bs-toggle="modal"
+                                data-bs-target="#modalTerimaRetur"
+                                style="margin: 5px; background-color: #35da66; color: black">
+                                Terima Pengajuan Retur
+                            </button>
+                            <button type="button" class="btn" data-bs-toggle="modal"
+                                data-bs-target="#modalTolakRetur"
+                                style="margin: 5px; background-color: #db6e6e; color: black">
+                                Tolak
+                            </button>
+                            <div class="modal fade" id="modalTerimaRetur" tabindex="-1"
+                                aria-labelledby="modalTolakPesananLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form action="{{ url('/seller/pesanan/terimaRetur/' . $detail->id) }}" method="post">
+                                        @csrf
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color: #bfb596; color: white;">
+                                                <h5 class="modal-title" id="modalTolakPesananLabel">Konfirmasi Penerimaan
+                                                    Retur</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" style="padding: 25px;">
+                                                Yakin Menerima Pengajuan Retur dari Customer?
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                    style="background-color: #6c757d; border-color: #6c757d;">Tutup</button>
+                                                <button type="submit" id="konfirmRetur" class="btn btn-success"
+                                                    style="background-color: #28a745; border-color: #28a745;">Yakin</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="modalTolakRetur" tabindex="-1"
+                                aria-labelledby="modalTolakPesananLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form action="{{ url('/seller/pesanan/tolakRetur/' . $detail->id) }}" method="post">
+                                        @csrf
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color: #bfb596; color: white;">
+                                                <h5 class="modal-title" id="modalTolakPesananLabel">Penolakan Retur</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" style="padding: 25px;">
+
+                                                <div class="mb-3 row">
+                                                    <label for="resi" class="form-label"
+                                                        style="font-weight: 500; color: #6c757d;">Alasan Tolak
+                                                        Retur</label>
+                                                    <textarea name="alasanTolak" id="alasanTolak" cols="30" rows="5"></textarea>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                    style="background-color: #6c757d; border-color: #6c757d;">Tutup</button>
+                                                <button type="submit" id="tolakretur" class="btn btn-success"
+                                                    style="background-color: #28a745; border-color: #28a745;">Konfirmasi
+                                                    Tolak</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        @elseif ($detail->status == 15)
+                            <button type="button" class="btn" data-bs-toggle="modal"
+                                data-bs-target="#modalKirimKembaliBarang"
+                                style="margin: 5px; background-color: #35da66; color: black">
+                                Barang Retur Diterima, Kirim Kembali
+                            </button>
+
+                            <div class="modal fade" id="modalKirimKembaliBarang" tabindex="-1" aria-labelledby="modalTolakPesananLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form action="{{ url('/seller/pesanan/kirim/' . $detail->id) }}" method="post">
+                                        @csrf
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color: #bfb596; color: white;">
+                                                <h5 class="modal-title" id="modalTolakPesananLabel">Kirim Pesanan</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" style="padding: 25px;">
+
+                                                <div class="mb-3">
+                                                    <label for="resi" class="form-label"
+                                                        style="font-weight: 500; color: #6c757d;">Nomor Resi</label>
+                                                    <input type="text" name="resi" id="resi"
+                                                        class="form-control">
+                                                    <span style="color: red;">kosongkan jika tidak ada nomor resi</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                    style="background-color: #6c757d; border-color: #6c757d;">Tutup</button>
+                                                <button type="submit" id="confirmOrder" class="btn btn-success"
+                                                    style="background-color: #28a745; border-color: #28a745;">Konfirmasi</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+
+                    <br>
+
                     <div class="card " style="padding: 15px">
 
 
@@ -64,7 +259,7 @@
                                     $status = 'Dalam Proses Produksi';
                                     $color = 'bg-success';
                                 } elseif ($s == 5) {
-                                    $status = 'Siap Dikirim';
+                                    $status = 'Selesai Produksi';
                                     $color = 'bg-dark';
                                 } elseif ($s == 6) {
                                     $status = 'Dalam Pengiriman';
@@ -78,9 +273,27 @@
                                 } elseif ($s == 9) {
                                     $status = 'Pesanan Batal';
                                     $color = 'bg-dark';
-                                } elseif ($s == 11) {
-                                    $status = 'Sudah Dibayar, Belum di Konfirmasi';
+                                } elseif ($s == 10) {
+                                    $status = 'Pembayaran Batal';
                                     $color = 'bg-dark';
+                                } elseif ($s == 11) {
+                                    $status = 'Siap Dikirim';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 12) {
+                                    $status = 'Pesanan Sampai';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 13) {
+                                    $status = 'Customer Mengajukan Retur';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 14) {
+                                    $status = 'Pengajuan Retur Diterima, menunggu';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 15) {
+                                    $status = 'Dalam Pengiriman (Retur)';
+                                    $color = 'bg-warning';
+                                } elseif ($s == 16) {
+                                    $status = 'Retur Ditolak, Transaksi Selesai';
+                                    $color = 'bg-warning';
                                 }
 
                             @endphp
@@ -140,8 +353,9 @@
                                 Terima Pesanan
                             </button>
                             {{-- Tolak Pesanan --}}
-                            <a href="{{ url('/seller/custom/redesain/' . $detail->id) }}" class="btn btn-danger"
-                                style="margin: 5px;background-color: #fb8d76; color: black ">Batalkan Pesanan</a>
+                            <a href="" class="btn btn-danger"
+                                style="margin: 5px;background-color: #fb8d76; color: black " data-bs-toggle="modal"
+                                data-bs-target="#modalTolakPesanan">Batalkan Pesanan</a>
 
                         </div>
                         <br>
@@ -168,6 +382,39 @@
 
 
 
+        </div>
+
+        <div class="modal fade" id="modalTolakPesanan" tabindex="-1" aria-labelledby="modalTolakPesananLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <form action="{{ url('/seller/pesanan/batalkan/' . $detail->id) }}" method="post">
+                    @csrf
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #bfb596; color: white;">
+                            <h5 class="modal-title" id="modalTolakPesananLabel">Batalkan Pesanan</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="padding: 25px;">
+
+                            <div class="mb-3">
+                                <label for="alasan" class="form-label"
+                                    style="font-weight: 500; color: #6c757d;">Keterangan Pembatalan Pesanan</label>
+                                <textarea name="alasan" id="alasan" class="form-control"
+                                    style="padding: 10px; border: 1px solid #ced4da; border-radius: 5px; width: 100%;" cols="30" rows="5"
+                                    placeholder="Masukkan alasan pembatalan..." required></textarea>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                style="background-color: #6c757d; border-color: #6c757d;">Tutup</button>
+                            <button type="submit" id="confirmOrder" class="btn btn-success"
+                                style="background-color: #28a745; border-color: #28a745;">Konfirmasi</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <div class="modal fade" id="modalTerimaPesanan" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -219,7 +466,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="button" id="confirmOrder" class="btn btn-success">Konfirmasi</button>
+                        <button type="button" id="confirmOrderNon" class="btn btn-success">Konfirmasi</button>
                     </div>
                 </div>
             </div>
@@ -281,16 +528,18 @@
         });
 
 
-        document.getElementById('confirmOrder').addEventListener('click', function(event) {
+        document.getElementById('confirmOrderNon').addEventListener('click', function(event) {
             // Ambil form element
+
+            // console.log("anjay")
             const form = document.getElementById('myForm');
 
             // Cek validasi form
             if (form.checkValidity()) {
-                event.preventDefault(); // Mencegah submit default jika valid
+                // Mencegah submit default jika valid
 
                 const ongkir = document.getElementById('ongkir').value;
-
+                document.getElementById('loadingScreen').style.display = 'block';
                 fetch('/seller/nonCustom/terimaPesanan', {
                         method: 'POST',
                         headers: {
