@@ -28,14 +28,14 @@
 <div class="content-wrapper">
     <!-- Content -->
 
-    <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 1cm ">
+    <div class="flex-grow-1 container-p-y" style="width: 100% ; ">
         <div class="container">
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h3>Riwayat Permintaan Pembelian</h3>
-                        <a href="{{url('/seller/gudang/formPermintaanPembelian') }}" class="btn btn-primary">
-                            + Buat Permintaan Baru
+                        <h3>Riwayat Pencatatan Pembelian</h3>
+                        <a href="{{url('/seller/formPermintaanPembelian') }}" class="btn btn-primary">
+                            + Buat Pencatatan Baru
                         </a>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Tanggal</th>
-                                    <th>Status</th>
+                                    {{-- <th>Status</th> --}}
                                     <th>Jumlah Item</th>
                                     <th>Total Pembelian</th>
                                     <th>Aksi</th>
@@ -57,17 +57,8 @@
                                     <tr>
                                         <td>{{ $index +1 }}</td>
                                         <td>{{ $permintaan->tanggal }}</td>
-                                        <td>
-                                            <span class="badge {{ match($permintaan->status) {
-                                                0 => 'bg-warning',
-                                                1 => 'bg-success',
-                                                2 => 'bg-danger',
-                                                default => 'bg-secondary'
-                                            } }}">
-                                                {{ $permintaan->status_text }}
-                                            </span>
-                                        </td>
-                                        <td>{{ $permintaan->detailPermintaanPembelian->count() }} item</td>
+
+                                        <td>{{ $permintaan->detailPencatatanPembelian->count() }} item</td>
                                         <td>Rp {{ number_format($permintaan->total_pembelian, 0, ',', '.') }}</td>
                                         <td>
                                             <button type="button" class="btn btn-sm btn-info"
@@ -79,7 +70,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="text-center">Tidak ada data permintaan pembelian</td>
+                                        <td colspan="6" class="text-center">Tidak ada data pembelian</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -102,7 +93,7 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <strong>Tanggal:</strong> {{ $permintaan->tanggal }}<br>
-                    <strong>Status:</strong> {{ $permintaan->status_text }}
+
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -117,7 +108,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($permintaan->detailPermintaanPembelian as $index => $detail)
+                            @foreach($permintaan->detailPencatatanPembelian as $index => $detail)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $detail->nama_barang }}</td>
@@ -139,16 +130,16 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                @if($permintaan->status == 0)
+
                     {{-- <form action="{{ route('permintaan-pembelian.destroy', $permintaan->id) }}" --}}
-                    <form action=""
+                    <form action="{{url('/seller/pencatatanPembelian/hapus/'. $permintaan->id)}}"
                           method="POST"
                           onsubmit="return confirm('Apakah Anda yakin ingin menghapus permintaan ini?')">
                         @csrf
-                        @method('DELETE')
+
                         <button type="submit" class="btn btn-danger">Hapus</button>
                     </form>
-                @endif
+
             </div>
         </div>
     </div>

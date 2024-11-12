@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bahan;
+use App\Models\DetailPencatatanPembelian;
 use App\Models\DetailPermintaanPembelian;
 use App\Models\Mebel;
 use App\Models\MutasiBarang;
+use App\Models\PencatatanPembelian;
 use App\Models\PermintaanPembelian;
 use App\Models\toko;
 use App\Models\User;
@@ -123,15 +125,15 @@ class GudangController extends Controller
         $user = $this->getLogUser();
         DB::beginTransaction();
         try {
-            $permintaan = new PermintaanPembelian();
+            $permintaan = new PencatatanPembelian();
             $permintaan->id_toko = $user->id_toko;
             $permintaan->tanggal = now();
-            $permintaan->status = 0; // 0: Draft, 1: Disetujui, 2: Ditolak
+            $permintaan->status = 1; // 0: Draft, 1: Disetujui, 2: Ditolak
             $permintaan->save();
 
             foreach($request->items as $item) {
-                $detail = new DetailPermintaanPembelian();
-                $detail->id_permintaan = $permintaan->id;
+                $detail = new DetailPencatatanPembelian();
+                $detail->id_pencatatan = $permintaan->id;
                 $detail->nama_barang = $item['nama_barang'];
                 $detail->jumlah = $item['jumlah'];
                 $detail->satuan = $item['satuan'];
@@ -141,8 +143,8 @@ class GudangController extends Controller
             }
 
             DB::commit();
-            toast('berhasil tambah permintaan', 'success');
-            return redirect()->back();
+            toast('berhasil tambah Pembelian', 'success');
+            return redirect(url('/seller/permintaanPembelian'));
         } catch (\Exception $e) {
             DB::rollback();
             toast('gagal tambah', 'error');
@@ -152,11 +154,30 @@ class GudangController extends Controller
 
     public function riwayatPermintaanPembelian(){
         $user = $this->getLogUser();
-        $permintaans = PermintaanPembelian::where('id_toko', $user->id_toko)
+        $permintaans = PencatatanPembelian::where('id_toko', $user->id_toko)
         ->orderBy('created_at', 'desc')
-        ->with('detailPermintaanPembelian')
+        ->with('detailPencatatanPembelian')
         ->get();
 
     return view('seller.gudang.permintaanPembelian.riwayatPermintaanPembelian', compact('permintaans', 'user'));
+    }
+
+    public function hapusPembelian(Request $request){
+
+        $permintaans = PencatatanPembelian::where('id', $request->id)
+    ->orderBy('created_at', 'desc')
+    ->with('detailPencatatanPembelian')
+    ->get();
+
+        foreach ($permintaans as $permintaan) {
+            $permintaan->detailPencatatanPembelian()->delete();
+        }
+
+        PencatatanPembelian::where('id', $request->id)->delete();
+
+        toast('Berhasil Hapus', 'success');
+        return redirect()->back();
+
+
     }
 }

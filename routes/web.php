@@ -323,6 +323,12 @@ Route::group([
     Route::get('/deleteSatuan/{id}', [MasterController::class, "deleteSatuan"]);
     Route::post('/editSatuan/{id}', [MasterController::class, "editSatuan"]);
 
+    // PERMINTAAN PEMBELIAN
+    Route::get('/permintaanPembelian', [GudangController::class, 'riwayatPermintaanPembelian']);
+    Route::get('/formPermintaanPembelian', [GudangController::class, 'formPermintaanPembelian']);
+    Route::post('/buatPermintaanPembelian', [GudangController::class, 'buatPermintaanPembelian']);
+    Route::post('/pencatatanPembelian/hapus/{id}', [GudangController::class, 'hapusPembelian']);
+
     //==================================================================================================================================
     // FITUR PRO ONLY
     Route::group([
@@ -403,10 +409,7 @@ Route::group([
         Route::get('/api/get-stok-bahan/{id}', [GudangController::class, 'getStokBahan']);
         Route::post('/gudang/inputMutasi', [GudangController::class, 'storeMutasiMebel']);
 
-        // PERMINTAAN PEMBELIAN
-        Route::get('/gudang/permintaanPembelian', [GudangController::class, 'riwayatPermintaanPembelian']);
-        Route::get('/gudang/formPermintaanPembelian', [GudangController::class, 'formPermintaanPembelian']);
-        Route::post('/gudang/buatPermintaanPembelian', [GudangController::class, 'buatPermintaanPembelian']);
+
 
         // END OF GUDANG
 

@@ -236,11 +236,7 @@
                         </a>
                     </li>
 
-                    <li class="menu-item {{ request()->is('seller/gudang/permintaanPembelian') ? 'active' : '' }}">
-                        <a href="{{url('/seller/gudang/permintaanPembelian')}}" class="menu-link">
-                            <div>Permintaan Pembelian</div>
-                        </a>
-                    </li>
+
                     <li class="menu-item">
                         <a href="" class="menu-link">
                             <div>Pengiriman</div>
@@ -272,6 +268,12 @@
             <a href="{{ url('/seller/Satuan') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-ruler"></i>
                 <div>Master Satuan</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->is('seller/permintaanPembelian') ? 'active' : '' }}">
+            <a href="{{url('/seller/permintaanPembelian')}}" class="menu-link">
+                <i class='menu-icon tf-icons bx bxs-book'></i>
+                <div>Pencatatan Pembelian</div>
             </a>
         </li>
 

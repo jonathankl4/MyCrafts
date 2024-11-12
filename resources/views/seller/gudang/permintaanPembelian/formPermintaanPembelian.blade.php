@@ -28,14 +28,15 @@
 <div class="content-wrapper">
     <!-- Content -->
 
-    <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 1cm ">
+    <div class="flex-grow-1 container-p-y" style="width: 100% ; ">
         <div class="container">
+            <a href="{{url('/seller/permintaanPembelian')}}" class="btn btn-warning">Kembali</a>
             <div class="card">
                 <div class="card-header">
-                    <h3>Buat Permintaan Pembelian</h3>
+                    <h3>Pencatatan Pembelian</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{url('/seller/gudang/buatPermintaanPembelian')}}" method="POST" id="formPermintaan">
+                    <form action="{{url('/seller/buatPermintaanPembelian')}}" method="POST" id="formPermintaan">
                         @csrf
 
                         <div class="row mb-3">
@@ -52,7 +53,7 @@
 
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-success">Simpan Permintaan</button>
+                                <button type="submit" class="btn btn-success">Simpan Pembelian</button>
                             </div>
                         </div>
                     </form>
