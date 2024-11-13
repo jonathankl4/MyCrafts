@@ -115,11 +115,11 @@
 
             <div class="row">
 
-                <div class="col-md-8" style="z-index: 3">
+                <div class="col-md-8" style="overflow: auto; z-index: 3">
                     <div class="card mb-4">
                         <h5 class="card-header">Desain</h5>
 
-                        <div class="card" style="padding: 15px">
+                        <div class="card" style="padding: 10px">
 
                             <div id="produk-div">
                                 <!--
@@ -185,6 +185,8 @@
                                     @endfor
 
                                 </select>
+                                <input type="range" id="opacitySlider" min="0.5" max="1" step="0.01" value="0.7" onchange="updateOpacity(this.value)">
+
                                 <br>
                                 <div>
 
@@ -357,6 +359,12 @@
             });
         }
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
+        function updateOpacity(value) {
+    if (currentDoor) { // pastikan `currentDoor` ada
+        currentDoor.set({ opacity: parseFloat(value) });
+        canvas.renderAll();
+    }
+}
 
 
 

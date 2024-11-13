@@ -186,16 +186,34 @@
                         @endforeach
                     </div>
 
-                    <div class="detail-section">
+                    <div class="detail-section accordion" id="addonAccordion">
                         <h5><i class="fas fa-plus-circle me-2"></i>Available Add-ons</h5>
+                        Klik untuk melihat detail add on masing masing
                         @foreach($addonMain as $addon)
-                            <div class="addon-item">
+                            <div class="addon-item cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapse{{$addon->kode}}">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <strong>{{ $addon->nama_addon }}</strong>
                                     <span class="price-tag">Rp. {{ number_format($addon->harga, 0, ',', '.') }}</span>
                                 </div>
+
                             </div>
+                            <div id="collapse{{$addon->kode}}" class="accordion-collapse collapse" aria-labelledby="headingL" data-bs-parent="#addonAccordion">
+                                <div class="accordion-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-4 text-center">
+                                            <img src="{{ asset($addon->url) }}" alt="Sekat Vertical" class="img-fluid  shadow-sm" style="max-height: 200px;">
+                                        </div>
+                                        <div class="col-md-8">
+                                            {{-- @include('seller.produkCustom.penjelasanAddOn.' . $addon->kode) --}}
+                                            @include('seller.produkCustom.penjelasanAddOn.' . $addon->kode)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         @endforeach
+
+
                     </div>
                 </div>
             </div>

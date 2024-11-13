@@ -140,7 +140,7 @@
                                         </div>
                                         <div id="right-text"
                                             style="position: absolute; right: -390px; top: 20%; transform: translateY(-50%); font-size: 20px;">
-                                            Tinggi <br><span id="right-text2">{{ $produk->tinggi_min }}cm</span> </div>
+                                            Tinggi: <br><span id="right-text2">{{ $produk->tinggi_min }}cm</span> </div>
 
                                         <!-- Garis horizontal di bawah untuk 70cm -->
                                         <div id="bottom-line"
@@ -148,10 +148,12 @@
                                         </div>
                                         <div id="bottom-text"
                                             style="position: absolute; left: 230px; bottom: 105px; transform: translateX(-50%); font-size: 20px;">
-                                            {{ $produk->panjang_min }}cm</div>
+                                            Panjang:<span id="bottom-text2">{{ $produk->panjang_min }}cm</span></div>
+                                            <br> <br>
                                     </div>
                                 </div>
                             </div>
+                            <br>
                             <br>
 
 
@@ -364,7 +366,7 @@
 
         let currentVerticalSize = produk.tinggi_min;
         let currentHorizontalSize = produk.panjang_min;
-        let currentLebarSize = produk.lebar.min;
+        let currentLebarSize = produk.lebar_min;
         let selectedKayuPrice = 0;
 
         const Toast = Swal.mixin({
@@ -392,6 +394,7 @@
             // Get new values from inputs
             let newVerticalSize = parseInt(document.getElementById('input-vertical-size').value);
             let newHorizontalSize = parseInt(document.getElementById('input-horizontal-size').value);
+            let newLebarSize = parseInt(document.getElementById('input-lebar-size').value);
 
 
             // Validate vertical size
@@ -411,18 +414,26 @@
                 });
                 return; // Exit the function if validation fails
             }
+            if (newLebarSize < minLebarSize || newLebarSize > maxLebarSize) {
+                Toast.fire({
+                    icon: "error",
+                    title: `Ukuran horizontal harus antara ${minLebarSize}cm dan ${maxLebarSize}cm.`
+                });
+                return; // Exit the function if validation fails
+            }
 
             // Update text and size for vertical line (right)
-            document.getElementById('right-text').innerHTML = newVerticalSize + 'cm';
+            document.getElementById('right-text2').innerHTML = newVerticalSize + 'cm';
             // document.getElementById('right-line').style.height = (newVerticalSize * 3.67) + 'px';  // Adjust scale if needed
 
             // Update text and size for horizontal line (bottom)
-            document.getElementById('bottom-text').innerHTML = newHorizontalSize + 'cm';
+            document.getElementById('bottom-text2').innerHTML = ''+newHorizontalSize + 'cm';
             // document.getElementById('bottom-line').style.width = (newHorizontalSize * 4.3) + 'px';  // Adjust scale if needed
 
             // Save the new sizes
             currentVerticalSize = newVerticalSize;
             currentHorizontalSize = newHorizontalSize;
+            currentLebarSize = newLebarSize;
 
             // Show success message
             Toast.fire({
@@ -436,6 +447,9 @@
             updateDimensions();
         });
         document.getElementById('input-horizontal-size').addEventListener('change', function() {
+            updateDimensions();
+        });
+        document.getElementById('input-lebar-size').addEventListener('change', function() {
             updateDimensions();
         });
 
@@ -692,7 +706,8 @@
             // Simpan data ukuran
             const ukuranData = {
                 tinggi: currentVerticalSize,
-                panjang: currentHorizontalSize
+                panjang: currentHorizontalSize,
+                lebar: currentLebarSize
             };
             localStorage.setItem('ukuranData', JSON.stringify(ukuranData));
 

@@ -71,8 +71,8 @@ body {
 }
         .drawing-area {
             position: absolute;
-            top: 23px;
-            left: 33px;
+            top: 20px;
+            left: 31px;
             z-index: 10;
             width: 200px;
             height: 30px;
@@ -238,8 +238,7 @@ body {
                                             </option>
                                         @endfor
                                     </select>
-                                    <p style="font-size: 12px; color: red;">*Warna pintu di gambar hanyalah contoh, warna
-                                        aslinya nanti akan sama dengan warna lemari</p>
+                                    
                                     <span class="badge bg-info" style="font-size: 16px;">Perkiraan Harga: <span id="totalHarga">Rp 0</span></span>
                                     <br><br>
                                     <div class="alert alert-warning text-dark">
@@ -262,8 +261,8 @@ body {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="detail" class="form-label">Catatan untuk Penjual</label>
-                                    <textarea name="detail" id="detail" cols="30" rows="5" placeholder="Tuliskan catatan..." class="form-control"></textarea>
+                                    <label for="detail" class="form-label">Penjelasan Kustomisasi</label>
+                                    <textarea name="detail" id="detail" cols="30" rows="5" placeholder="Tolong berikan detail kustomisasi anda" class="form-control"></textarea>
                                 </div>
 
                                 <div class="mb-3">

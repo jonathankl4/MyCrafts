@@ -191,6 +191,10 @@ class CustomerController extends Controller
             $foto[] = 'img/meja1/meja1.png';
             $foto[] = 'img/meja1/mj.png';
         }
+        if ($produk->kode == 'meja2'){
+            $foto[] = 'img/meja2/meja2.png';
+            $foto[] = 'img/meja1/mj.png';
+        }
         return view("customer.shopping.produkCustom.produkCustomDetail", ['user' => $user, 'produk' => $produk, 'foto' => $foto, 'detail' => $detail, 'addonMain' => $addonMain, 'addonSec' => $addonSec]);
     }
 
@@ -499,6 +503,8 @@ class CustomerController extends Controller
             return view('customer.shopping.produkCustom.lemari3.Ch1lemari3', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produk]);
         } else if ($produk->kode == 'meja1'){
             return view('customer.shopping.produkCustom.meja1.Ch1Meja1',['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produk]);
+        } else if ($produk->kode == 'meja2'){
+            return view('customer.shopping.produkCustom.meja2.Ch1Meja2',['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produk]);
         }
     }
 

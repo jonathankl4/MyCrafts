@@ -257,6 +257,9 @@
                                                                     @elseif($listCustom[$i]->kode == 'meja1')
                                                                     <img src="{{ url('img/meja1/meja1.png') }}"
                                                                     class="img-fluid " alt="">
+                                                                    @elseif($listCustom[$i]->kode == 'meja2')
+                                                                    <img src="{{ url('img/meja2/meja2.png') }}"
+                                                                    class="img-fluid " alt="">
                                                         @endif
                                                     </div>
                                                     <div class="p-4 border  border-top-0 rounded-bottom">

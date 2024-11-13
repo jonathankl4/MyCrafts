@@ -187,7 +187,7 @@ body {
 
                                     <div id="drawingArea" class="drawing-area">
                                         <div class="canvas-container" style="position: relative">
-                                            <canvas id="tshirt-canvas" width="350px" height="590px"
+                                            <canvas id="tshirt-canvas" width="355px" height="590px"
                                                 style="border-style: solid; border-width: 2px"></canvas>
 
                                                 <div id="right-line"
@@ -241,8 +241,7 @@ body {
 
 
                                     </select>
-                                    <p style="font-size: 12px; color: red">*warna pintu di gambar hanyalah contoh, warna
-                                        aslinya nanti akan sama dengan warna lemari</p>
+
                                     <span class="badge bg-info" style="font-size: 16px">Perkiraan Harga: <span
                                             id="totalHarga"></span></span>
                                             <br><br>
@@ -265,9 +264,9 @@ body {
                                     </div>
                                     <div>
                                         <br>
-                                        <label for="detail">Catatan untuk Penjual</label>
+                                        <label for="detail">Penjelasan Customisasi</label>
                                         <br>
-                                        <textarea name="detail" id="detail" cols="30" rows="5" placeholder="" class="form-control"></textarea>
+                                        <textarea name="detail" id="detail" cols="30" rows="5" placeholder="Tolong berikan detail kustomisasi anda" class="form-control"></textarea>
                                         <br>
 
                                     </div>
@@ -275,7 +274,7 @@ body {
                                     <div>
                                         <label for="alamat">Alamat Pengiriman</label>
                                         <br>
-                                        <textarea name="alamat" id="alamat" cols="30" rows="5" class="form-control" required></textarea>
+                                        <textarea name="alamat" id="alamat" cols="30" rows="5" class="form-control" placeholder="Masukkan alamat lengkap..." required></textarea>
                                     </div>
                                     <div>
                                         <br>

@@ -64,11 +64,11 @@ class Lemari1Controller extends Controller
             $p->status = 'nonaktif';
             $p->nama_produk = 'lemari 1';
             $p->panjang_max = 60;
-            $p->panjang_min = 60;
-            $p->tinggi_max = 180;
-            $p->tinggi_min = 160;
-            $p->lebar_max = 100;
-            $p->lebar_min = 70;
+            $p->panjang_min = 45;
+            $p->tinggi_max = 200;
+            $p->tinggi_min = 170;
+            $p->lebar_max = 120;
+            $p->lebar_min = 80;
             $p->save();
 
             Alert::success("Sukses", "Berhasil menambahkan produk");

@@ -139,8 +139,8 @@
 
         .drawing-area {
             position: absolute;
-            top: 23px;
-            left: 33px;
+            top: 20px;
+            left: 31px;
             z-index: 10;
             width: 200px;
             height: 30px;
@@ -290,6 +290,7 @@
                             </div>
 
                             <div class="size-input">
+                                <span style="color: red">ukuran garis bantu(grid) adalah 10x10 cm per kotak</span>
                                 <div class="form-group">
                                     <label class="form-label" for="input-vertical-size">
                                         Tinggi ({{ $produk->tinggi_min }} - {{ $produk->tinggi_max }} cm)
@@ -318,6 +319,7 @@
                                 <label class="form-label" for="tshirt-design">
                                     <i class="fas fa-plus-circle me-2"></i>Add-ons
                                 </label>
+                                <span></span>
                                 <select id="tshirt-design" class="form-select mb-3">
                                     <option value="">Select add-on...</option>
                                     @foreach ($listAddOnMain as $addon)
@@ -414,7 +416,7 @@
             const canvasWidth = canvas.getWidth();
             const canvasHeight = canvas.getHeight();
             widthCm -= 4;
-            heightCm -= 13;
+            heightCm -= 15;
             // Calculate pixel to cm ratio for each axis independently
             const pixelPerCmX = canvasWidth / widthCm;
             const pixelPerCmY = canvasHeight / heightCm;
@@ -893,7 +895,7 @@
                             lebar: currentHorizontalSize,
                             tinggi: currentVerticalSize,
                             panjang: currentKedalamanSize, // kedalaman (tebal)
-                            panjang: 60,
+                
                             jenis_kayu: selectedKayuType,
                             harga_kayu: selectedKayuPrice,
                             id_produk: produk.id

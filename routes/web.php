@@ -165,6 +165,7 @@ Route::group([
     Route::get('/customh2/h2lemari2/{id}', [Lemari2Controller::class, 'page2Custom']);
     Route::get('/customh2/h2lemari3/{id}', [Lemari3Controller::class, 'page2Custom']);
     Route::get('/customh2/h2meja1/{id}', [Meja1Controller::class, 'page2Custom']);
+    Route::get('/customh2/h2meja2/{id}', [Meja2Controller::class, 'page2Custom']);
 
     Route::post('/save', [CustomerController::class, 'Htrans']);
     Route::post('/save2', [CustomerController::class, 'finalHTrans']);
@@ -260,6 +261,7 @@ Route::group([
 
     // Meja 2
     Route::get('/produkCustom/testing/meja2', [Meja2Controller::class, 'testing']);
+    Route::get('/produkCustom/testing/h2meja2', [Meja2Controller::class, 'testing2']);
 
 
     // END TESTING PRODUK CUSTOM

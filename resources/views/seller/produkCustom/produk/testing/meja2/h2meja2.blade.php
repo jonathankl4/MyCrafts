@@ -11,8 +11,8 @@
     <style>
         .drawing-area {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 75px;
+            left: 28px;
             z-index: 10;
             width: 200px;
             height: 300px;
@@ -27,8 +27,8 @@
         }
 
         #produk-div {
-            width: 452px;
-            height: 630px;
+            width: 552px;
+            height: 330px;
             position: relative;
             background-color: #fff;
         }
@@ -36,7 +36,7 @@
         #canvas {
             position: absolute;
             width: 200px;
-            height: 370px;
+            height: 330px;
             left: 0px;
             top: 0px;
             user-select: none;
@@ -115,42 +115,42 @@
 
             <div class="row">
 
-                <div class="col-md-7" style="z-index: 3">
+                <div class="col-md-8" style="overflow: auto; z-index: 3">
                     <div class="card mb-4">
                         <h5 class="card-header">Desain</h5>
 
-                        <div class="card" style="padding: 15px">
+                        <div class="card" style="padding: 10px">
 
                             <div id="produk-div">
                                 <!--
-                                                                        Initially, the image will have the background tshirt that has transparency
-                                                                        So we can simply update the color with CSS or JavaScript dinamically
-                                                                    -->
+                                                            Initially, the image will have the background tshirt that has transparency
+                                                            So we can simply update the color with CSS or JavaScript dinamically
+                                                        -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
-                                <img id="template" src="{{ url('img/lemari3/lemari3.png') }}"
-                                    style="width: 100%;height: 100%;" />
-
+                                <img id="template" src="{{ url('img/meja1/meja1.png') }}"
+                                    style="width: 100%;height: 100%; z-index: 2;" />
                                 <div id="drawingArea" class="drawing-area">
                                     <div class="canvas-container" style="position: relative">
-                                        <canvas id="tshirt-canvas" width="433px" height="595px"
-                                            style="border-style: solid; border-width: 2px"></canvas>
+                                        <canvas id="tshirt-canvas" width="494px" height="236px"
+                                            style="border-style: solid; border-width: 2px; z-index: 1;"></canvas>
 
                                         <div id="right-line"
-                                            style="position: absolute; right: -250px; top: -8px; height:625px; width: 2px; background-color: black;">
+                                            style="position: absolute; right: -320px; top: -49px; height:300px; width: 2px; background-color: black;">
                                         </div>
                                         <div id="right-text"
-                                            style="position: absolute; right: -330px; top: 70%; transform: translateY(-50%); font-size: 20px;">
-                                            150cm</div>
+                                            style="position: absolute; right: -390px; top: 20%; transform: translateY(-50%); font-size: 20px;">
+                                            cm</div>
 
                                         <!-- Garis horizontal di bawah untuk 70cm -->
                                         <div id="bottom-line"
-                                            style="position: absolute; left: -8px; bottom: -230px; width: 450px; height: 2px; background-color: black;">
+                                            style="position: absolute; left: -10px; bottom: 140px; width: 515px; height: 2px; background-color: black;">
                                         </div>
                                         <div id="bottom-text"
-                                            style="position: absolute; left: 80%; bottom: -260px; transform: translateX(-50%); font-size: 20px;">
-                                            70cm</div>
+                                            style="position: absolute; left: 230px; bottom: 105px; transform: translateX(-50%); font-size: 20px;">
+                                            cm</div>
                                     </div>
                                 </div>
+
                             </div>
 
                             <div style="height: 40px">
@@ -161,7 +161,7 @@
 
                     </div>
                 </div>
-                <div class="col-md-5" style="z-index: 3">
+                <div class="col-md-4" style="z-index: 3">
                     <div class="card mb-6">
                         <h5 class="card-header"><b>Kustomisasi</b></h5>
                         <div style="padding: 15px">
@@ -173,31 +173,32 @@
 
 
 
-                                <label for="pintu-design">Pilih Pintu lemari</label>
-                                <select id="pintu-design" class="form-select">
-                                    <option value="" selected disabled>pilih.</option>
-                                    <option value="" data-price="0">tanpa pintu</option>
+                            <label for="pintu-design">Penutup Bagian Belakang Meja</label>
+                            <select id="pintu-design" class="form-select">
 
-                                    @for ($i = 0; $i < count($listPintu); $i++)
-                                        <option value="{{ url($listPintu[$i]->url) }}"
-                                            data-price="{{ $listPintu[$i]->harga }}"> {{ $listPintu[$i]->nama_addon }} - (Rp.{{ number_format($listPintu[$i]->harga) }})
-                                        </option>
-                                    @endfor
+                                <option value="" data-price="0">tanpa penutup</option>
 
-                                </select>
-                                <br>
-                                <div>
+                                @for ($i = 0; $i < count($listpenutup); $i++)
+                                    <option value="{{ url($listpenutup[$i]->url) }}"
+                                        data-price="{{ $listpenutup[$i]->harga }}"> {{ $listpenutup[$i]->nama_addon }} -
+                                        (Rp.{{ number_format($listpenutup[$i]->harga) }})
+                                    </option>
+                                @endfor
 
-                                    <label for="detail">Catatan untuk Penjual</label>
-                                    <br>
-                                    <textarea name="detail" id="" cols="30" rows="5" placeholder=""></textarea>
-                                    <br>
-                                    <span class="badge bg-info" style="font-size: 16px">Perkiraan Harga: <span
-                                            id="totalHarga"></span></span>
-                                </div>
-                                <br>
+                            </select>
+                            <input type="range" id="opacitySlider" min="0.5" max="1" step="0.01"
+                                value="0.7" onchange="updateOpacity(this.value)">
 
-                                <button id="btn-beli" class="btn btn-success">Beli</button>
+                            <br>
+                            <div>
+
+
+                                <span class="badge bg-info" style="font-size: 16px">Perkiraan Harga: <span
+                                        id="totalHarga"></span></span>
+                            </div>
+                            <br>
+
+                            <button id="btn-beli" class="btn btn-success">Beli</button>
 
                             <br>
 
@@ -314,20 +315,20 @@
 
 
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
-        function updatePintu(imageURL){
+        function updatePintu(imageURL) {
 
 
-            if(currentDoor !== null){
+            if (currentDoor !== null) {
                 canvas.remove(currentDoor);
                 currentDoor = null;
             }
 
             // jika memilih tanpa pintu maka akan menjalankan perintah dibawah ini sehingga tidak ada pintu baru yang ditambah
-            if(!imageURL || imageURL ===""){
+            if (!imageURL || imageURL === "") {
                 return;
             }
 
-            fabric.Image.fromURL(imageURL, function(img){
+            fabric.Image.fromURL(imageURL, function(img) {
                 var canvasWidth = canvas.getWidth();
                 var canvasHeight = canvas.getHeight();
 
@@ -335,29 +336,24 @@
                 var imgHeight = img.height;
 
 
-                if (imageURL.includes('pintu1')) {
+                if (imageURL.includes('penutup')) {
                     scaleX = canvasWidth / imgWidth;
-                    scaleY = canvasHeight / imgHeight;
-                } else if (imageURL.includes('pintu2')) {
-                    scaleX = canvasWidth / imgWidth;
-                    scaleY = canvasHeight / imgHeight;
-                } else if(imageURL.includes('pintugeser')){
-                    scaleX = canvasWidth / imgWidth;
-                    scaleY = canvasHeight /  imgHeight;
+                    scaleY = 0.2;
                 }
 
                 img.scaleX = scaleX;
                 img.scaleY = scaleY;
+                img.opacity = 0.7
                 img.setControlsVisibility({
-                        mt: false,
-                        mb: false,
-                        ml: false,
-                        mr: false,
-                        tl: false,
-                        tr: false,
-                        bl: false,
-                        br: false
-                    });
+                    mt: true,
+                    mb: true,
+                    ml: false,
+                    mr: false,
+                    tl: false,
+                    tr: false,
+                    bl: false,
+                    br: false
+                });
 
                 canvas.add(img);
                 currentDoor = img;
@@ -365,64 +361,30 @@
             });
         }
         // Fungsi untuk menambahkan gambar ke kanvas dengan skala yang sesuai
+        function updateOpacity(value) {
+            if (currentDoor) { // pastikan `currentDoor` ada
+                currentDoor.set({
+                    opacity: parseFloat(value)
+                });
+                canvas.renderAll();
+            }
+        }
 
 
 
         // Event listener untuk tombol tambah gambar
 
 
-        document.getElementById('pintu-design').addEventListener('change',function(){
+        document.getElementById('pintu-design').addEventListener('change', function() {
             updatePintu(document.getElementById('pintu-design').value);
-        },false);
+        }, false);
 
         // Fungsi untuk menghapus objek ketika tombol DEL ditekan
 
 
         document.getElementById('btn-beli').addEventListener('click', function() {
             // Ambil elemen produk-div
-            var element = document.getElementById('produk-div');
 
-            // Gunakan html2canvas untuk membuat screenshot dari elemen
-            html2canvas(element).then(function(canvas) {
-                // Ubah canvas menjadi URL gambar base64
-                var dataURL = canvas.toDataURL('image/png');
-
-                fetch('/seller/save-image', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                .getAttribute('content')
-                        },
-                        body: JSON.stringify({
-                            image: dataURL
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('GAmbar berhasil disimpan');
-                        } else {
-                            alert("gambar gagal disimpan");
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Terjadi kesalahan saat mengirim gambar');
-                    });
-
-
-                // ini untuk save foto ke download
-                // Buat elemen link sementara
-                // var link = document.createElement('a');
-                // link.href = dataURL;
-
-                // Set nama file untuk download
-                // link.download = 'produk-div-image.png';
-
-                // Trigger klik untuk download gambar
-                // link.click();
-            });
         });
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -483,7 +445,7 @@
                 });
 
                 document.getElementById('right-text').innerHTML = ukuranData.tinggi + 'cm';
-                document.getElementById('bottom-text').innerHTML = ukuranData.lebar + 'cm';
+                document.getElementById('bottom-text').innerHTML = ukuranData.panjang + 'cm';
             } else {
                 console.error('Data tidak tersedia di localStorage');
             }
@@ -508,9 +470,6 @@
                 });
             }
         });
-
-
-
     </script>
 
 @endsection

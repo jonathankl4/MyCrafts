@@ -50,6 +50,12 @@ class Lemari3Controller extends Controller
             $p->nama_template = 'Lemari 3';
             $p->kode = 'lemari3';
             $p->status = 'nonaktif';
+            $p->panjang_max = 60;
+            $p->panjang_min = 45;
+            $p->tinggi_max = 200;
+            $p->tinggi_min = 170;
+            $p->lebar_max = 120;
+            $p->lebar_min = 80;
             $p->save();
 
             Alert::success("Sukses", "Berhasil menambahkan produk");

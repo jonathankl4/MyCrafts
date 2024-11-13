@@ -9,70 +9,113 @@
 
 @section('style')
     <style>
-         :root {
-    --primary-color: #2d3436;
-    --secondary-color: #636e72;
-    --accent-color: #0984e3;
-    --background-color: #f5f6fa;
-    --border-radius: 12px;
-    --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
+        :root {
+            --primary-color: #2d3436;
+            --secondary-color: #636e72;
+            --accent-color: #0984e3;
+            --background-color: #f5f6fa;
+            --border-radius: 12px;
+            --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-body {
-    background-color: var(--background-color);
-}
+        body {
+            background-color: var(--background-color);
+        }
 
-.customization-card {
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    margin-bottom: 2rem;
-}
+        .customization-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+        }
 
-.card-header {
-    background: white;
-    padding: 1.5rem;
-    border-bottom: 1px solid #eee;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
-}
+        .card-header {
+            background: white;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
 
-.card-header h5 {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--primary-color);
-}
+        .card-header h5 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
 
-.card-content {
-    padding: 1.5rem;
-}
+        .card-content {
+            padding: 1.5rem;
+        }
 
-.form-group {
-    margin-bottom: 1.5rem;
-}
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
 
-.form-label {
-    font-weight: 500;
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-    display: block;
-}
+        .form-label {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
 
-.form-control, .form-select {
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    padding: 0.75rem;
-    transition: all 0.3s ease;
-}
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
 
-.form-control:focus, .form-select:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(9, 132, 227, 0.1);
-}
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(9, 132, 227, 0.1);
+        }
+
+        .size-input {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .addon-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #0873c4;
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
         .drawing-area {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 30px;
+            left: 25px;
             z-index: 10;
             width: 200px;
             height: 300px;
@@ -87,8 +130,8 @@ body {
         }
 
         #produk-div {
-            width: 452px;
-            height: 630px;
+            width: 552px;
+            height: 330px;
             position: relative;
             background-color: #fff;
         }
@@ -167,7 +210,7 @@ body {
 
             <div class="row">
 
-                <div class="col-md-6" style="overflow: auto; z-index: 3;">
+                <div class="col-md-7" style="overflow: auto; z-index: 3;">
                     <div class="card">
                         <h5 class="card-header">Desain</h5>
 
@@ -178,32 +221,32 @@ body {
 
                             <div id="produk-div">
                                 <!--
-                                                                                                                Initially, the image will have the background tshirt that has transparency
-                                                                                                                So we can simply update the color with CSS or JavaScript dinamically
-                                                                                                            -->
+                                                                Initially, the image will have the background tshirt that has transparency
+                                                                So we can simply update the color with CSS or JavaScript dinamically
+                                                            -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
-                                <img id="template" src="{{ url('img/lemari3/lemari3.png') }}"
+                                <img id="template" src="{{ url('img/meja2/meja2.png') }}"
                                     style="width: 100%;height: 100%;" />
 
                                 <div id="drawingArea" class="drawing-area">
                                     <div class="canvas-container" style="position: relative">
-                                        <canvas id="tshirt-canvas" width="433px" height="595px"
+                                        <canvas id="tshirt-canvas" width="505px" height="296px"
                                             style="border-style: solid; border-width: 2px"></canvas>
 
-                                            <div id="right-line"
-                                            style="position: absolute; right: -255px; top: -8px; height:625px; width: 2px; background-color: black;">
+                                        <div id="right-line"
+                                            style="position: absolute; right: -340px; top: -28px; height:320px; width: 2px; background-color: black;">
                                         </div>
                                         <div id="right-text"
-                                            style="position: absolute; right: -330px; top: 70%; transform: translateY(-50%); font-size: 20px;">
-                                            150cm</div>
+                                            style="position: absolute; right: -410px; top: 30%;  font-size: 20px;">
+                                            cm</span></div>
 
                                         <!-- Garis horizontal di bawah untuk 70cm -->
                                         <div id="bottom-line"
-                                            style="position: absolute; left: -8px; bottom: -230px; width: 450px; height: 2px; background-color: black;">
+                                            style="position: absolute; left: -18px; bottom: 90px; width: 539px; height: 2px; background-color: black;">
                                         </div>
                                         <div id="bottom-text"
-                                            style="position: absolute; left: 80%; bottom: -260px; transform: translateX(-50%); font-size: 20px;">
-                                            70cm</div>
+                                            style="position: absolute; left: 230px; bottom: 60px; transform: translateX(-50%); font-size: 20px;">
+                                            cm</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -217,17 +260,18 @@ body {
 
                     </div>
                 </div>
-                <div class="col-md-6" style="z-index: 3">
+                <div class="col-md-5" style="z-index: 3">
                     <form id="customForm">
                         <div class="card mb-4">
                             <h5 class="card-header"><b>Kustomisasi</b></h5>
                             <div style="padding: 15px; color: black">
 
                                 <div>
-                                    <label for="pintu-design">Pilih Pintu lemari</label>
+                                    <label for="pintu-design">Penutup belakang meja</label>
                                     <select id="pintu-design" class="form-select" required>
-                                        <option value="" selected disabled>pilih.</option>
-                                        <option value="" data-price="0" data-nama="Tanpa Pintu">tanpa pintu</option>
+
+                                        <option value="" data-price="0" data-nama="Tanpa Penutup">tanpa penutup
+                                        </option>
 
                                         @for ($i = 0; $i < count($listPintu); $i++)
                                             <option value="{{ url($listPintu[$i]->url) }}"
@@ -241,32 +285,20 @@ body {
 
 
                                     </select>
+                                    <p style="font-size: 12px; color: red">*warna pintu di gambar hanyalah contoh, warna
+                                        aslinya nanti akan sama dengan warna lemari</p>
+
+                                    {{-- untuk opacity penutup --}}
+                                    <input type="range" id="opacitySlider" min="0.5" max="1" step="0.01"
+                                        value="0.7" onchange="updateOpacity(this.value)" style="display: none">
 
                                     <span class="badge bg-info" style="font-size: 16px">Perkiraan Harga: <span
                                             id="totalHarga"></span></span>
-                                            <br><br>
-                                    <div class="alert alert-warning text-dark">
-                                        <ul class="list-unstyled">
-
-                                            <li class="mb-2" id="ukuran-tinggi">
-                                                •
-                                                Tinggi: 160cm -180 cm
-                                            </li>
-                                            <li class="mb-2" id="ukuran-lebar">
-                                                •
-                                                Lebar: 80cm - 100cm
-                                            </li>
-                                            <li class="mb-2" id="ukuran-kedalaman">
-                                                •
-                                                Tebal (Kedalaman): 45cm - 60cm
-                                            </li>
-                                        </ul>
-                                    </div>
                                     <div>
                                         <br>
-                                        <label for="detail">Penjelasan Customisasi</label>
+                                        <label for="detail">Catatan untuk Penjual</label>
                                         <br>
-                                        <textarea name="detail" id="detail" cols="30" rows="5" placeholder="Tolong berikan detail kustomisasi anda" class="form-control"></textarea>
+                                        <textarea name="detail" id="detail" cols="30" rows="5" placeholder="" class="form-control"></textarea>
                                         <br>
 
                                     </div>
@@ -274,7 +306,7 @@ body {
                                     <div>
                                         <label for="alamat">Alamat Pengiriman</label>
                                         <br>
-                                        <textarea name="alamat" id="alamat" cols="30" rows="5" class="form-control" placeholder="Masukkan alamat lengkap..." required></textarea>
+                                        <textarea name="alamat" id="alamat" cols="30" rows="5" class="form-control" required></textarea>
                                     </div>
                                     <div>
                                         <br>
@@ -388,6 +420,27 @@ body {
 
         let totalHarga = 0;
 
+        function updateOpacity(value) {
+            if (currentDoor) { // pastikan `currentDoor` ada
+                currentDoor.set({
+                    opacity: parseFloat(value)
+                });
+                canvas.renderAll();
+            }
+        }
+
+
+
+        function checkCurrentDoor() {
+            const opacitySlider = document.getElementById("opacitySlider");
+
+            if (currentDoor) {
+                opacitySlider.style.display = "block"; // Tampilkan slider jika currentDoor terisi
+            } else {
+                opacitySlider.style.display = "none"; // Sembunyikan slider jika currentDoor kosong
+            }
+        }
+
 
 
         // Fungsi untuk memperbarui counter di UI
@@ -420,8 +473,10 @@ body {
 
             // jika memilih tanpa pintu maka akan menjalankan perintah dibawah ini sehingga tidak ada pintu baru yang ditambah
             if (!imageURL || imageURL === "") {
+                checkCurrentDoor();
                 return;
             }
+
 
             fabric.Image.fromURL(imageURL, function(img) {
                 var canvasWidth = canvas.getWidth();
@@ -431,22 +486,17 @@ body {
                 var imgHeight = img.height;
 
 
-                if (imageURL.includes('pintu')) {
+                if (imageURL.includes('penutup')) {
                     scaleX = canvasWidth / imgWidth;
-                    scaleY = canvasHeight / imgHeight;
-                } else if (imageURL.includes('pintu2')) {
-                    scaleX = canvasWidth / imgWidth;
-                    scaleY = canvasHeight / imgHeight;
-                } else if (imageURL.includes('pintugeser')) {
-                    scaleX = canvasWidth / imgWidth;
-                    scaleY = canvasHeight / imgHeight;
+                    scaleY = 0.2;
                 }
 
                 img.scaleX = scaleX;
                 img.scaleY = scaleY;
+                img.opacity = 0.7
                 img.setControlsVisibility({
-                    mt: false,
-                    mb: false,
+                    mt: true,
+                    mb: true,
                     ml: false,
                     mr: false,
                     tl: false,
@@ -458,7 +508,10 @@ body {
                 canvas.add(img);
                 currentDoor = img;
                 canvas.renderAll();
+                checkCurrentDoor();
             });
+
+
         }
 
 
@@ -470,6 +523,7 @@ body {
         // }, false);
 
         document.getElementById('pintu-design').addEventListener('change', function() {
+
             updatePintu(document.getElementById('pintu-design').value);
         }, false);
 
@@ -496,6 +550,7 @@ body {
                 let catatan = document.getElementById('detail').value;
                 let alamat = document.getElementById('alamat').value;
                 let notelp = document.getElementById('notelp').value;
+                updateOpacity(1);
 
                 // Gunakan html2canvas untuk membuat screenshot dari elemen
                 html2canvas(element).then(function(canvas) {
@@ -515,13 +570,10 @@ body {
                                 status: 1,
                                 pintu: selectedPintuName,
                                 pintuPrice: selectedPintuPrice,
-                                sekatHorizontal: addonData.sekatHorizontal ||
-                                    0, // Kirim add-on sekat horizontal
-                                sekatVertical: addonData.sekatVertical ||
-                                    0, // Kirim add-on sekat vertical
-                                gantungan: addonData.gantungan || 0, // Kirim add-on gantungan
-                                laciKecil: addonData.laciKecil || 0, // Kirim add-on gantungan
-                                laciBesar: addonData.laciBesar || 0, // Kirim add-on gantungan
+                                // Kirim add-on gantungan
+                                laci1: addonData.laci1 || 0,
+                                laci2: addonData.laci2 || 0,
+                                pijakankaki: addonData.pijakankaki || 0,
                                 addonPrices: addonPrices,
                                 catatan: catatan,
                                 alamat: alamat, // Kirim alamat ke server
@@ -562,11 +614,9 @@ body {
             totalHarga = parseInt(totalPrice);
 
             let hargaPintu = @json($addonPrices);
-            console.log(hargaPintu);
+            console.log('harga pint', hargaPintu);
             let currentPintuPrice = 0;
-            document.getElementById('ukuran-tinggi').textContent = '• Tinggi: '+ ukuranData.tinggi + ' cm';
-            document.getElementById('ukuran-lebar').textContent = '• Lebar: '+ ukuranData.lebar + ' cm';
-            document.getElementById('ukuran-kedalaman').textContent = '• Tebal (kedalaman): '+ ukuranData.kedalaman + ' cm';
+
 
 
 
@@ -611,7 +661,7 @@ body {
                 });
 
                 document.getElementById('right-text').innerHTML = ukuranData.tinggi + 'cm';
-                document.getElementById('bottom-text').innerHTML = ukuranData.lebar + 'cm';
+                document.getElementById('bottom-text').innerHTML = ukuranData.panjang + 'cm';
             } else {
                 console.error('Data tidak tersedia di localStorage');
             }

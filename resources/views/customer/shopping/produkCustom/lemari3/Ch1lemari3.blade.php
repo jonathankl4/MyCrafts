@@ -268,6 +268,7 @@
                                 </select>
                             </div>
                             <div class="size-input">
+                                <span style="color: red">ukuran garis bantu(grid) adalah 10x10 cm per kotak</span>
                                 <div class="form-group">
                                     <label class="form-label" for="input-vertical-size">
                                         Tinggi ({{ $produk->tinggi_min }} - {{ $produk->tinggi_max }} cm)
@@ -782,6 +783,10 @@
                         bl: false,
                         br: false
                     });
+                    img.set({
+                        stroke: 'black', // Warna border
+                        strokeWidth: 6 // Ketebalan border dalam pixel
+                    });
                 } else if (imageURL.includes('lacibesar')) {
                     // Skala khusus untuk gantungan
                     scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
@@ -797,6 +802,10 @@
                         tr: false,
                         bl: false,
                         br: false
+                    });
+                    img.set({
+                        stroke: 'black', // Warna border
+                        strokeWidth: 6 // Ketebalan border dalam pixel
                     });
                 }
 

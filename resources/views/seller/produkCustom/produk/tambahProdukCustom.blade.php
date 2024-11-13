@@ -29,9 +29,7 @@
             transition: all 0.3s ease;
         }
 
-        .card:hover {
-            transform: translateY(-2px);
-        }
+
 
         .modal-header {
             border-radius: 0;
@@ -144,7 +142,13 @@
                             <tr>
                                 <td>{{ $i+ 1 }}</td>
                                 <td style="font-size: 16px">
+                                    @if ($daftarProduk[$i]->tipe == "lemari")
+
                                     <img src="{{ url($daftarProduk[$i]->img) }}" alt="" style="width:50px; height:80px">
+                                    @else
+                                    <img src="{{ url($daftarProduk[$i]->img) }}" alt="" style="width:80px; height:50px">
+
+                                    @endif
                                     <b>{{ $daftarProduk[$i]->nama }}</b>
                                 </td>
                                 <td>
@@ -152,14 +156,14 @@
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalKonfirmasi{{$i + 1}}">Tambah</button>
                                     @if ($daftarProduk[$i]->modal)
                                         <button type="button" class="btn btn-dark" data-bs-toggle="modal"
-                                            data-bs-target="{{ $daftarProduk[$i]->modal }}">Info</button>
+                                            data-bs-target="{{ $daftarProduk[$i]->modal }}">Info Detail</button>
                                     @endif
                                 </td>
                             </tr>
 
                             <div class="modal fade" id="modalKonfirmasi{{$i + 1}}" tabindex="-1"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
+                                aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                                <div class="modal-dialog " style="max-width: 50%">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title"></h5>
@@ -168,14 +172,15 @@
                                         </div>
                                         <div class="modal-body">
                                             <h2 class="card-title "> Tambah Template </h2>
+                                            <p>Saya Sudah membaca info detail dari Template dan Yakin menambah Template ini</p>
 
-                                            <a href="{{ url($daftarProduk[$i]->tambahUrl) }}">Yakin</a>
 
 
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Close</button>
+                                                <a href="{{ url($daftarProduk[$i]->tambahUrl) }}" class="btn btn-success">Yakin</a>
 
                                         </div>
                                     </div>

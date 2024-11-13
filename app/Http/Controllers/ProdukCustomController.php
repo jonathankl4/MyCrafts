@@ -45,11 +45,11 @@ class ProdukCustomController extends Controller
 
         // Data produk
         $data = [
-            ['nama' => 'Lemari 1', 'img' => '/img/lemari1/lemari1.png', 'tambahUrl' => '/seller/produkCustom/tambahLemari1', 'modal' => '#modalLemari1'],
-            ['nama' => 'Lemari 2', 'img' => '/img/lemari2/lemari2.png', 'tambahUrl' => '/seller/produkCustom/tambahLemari2', 'modal' => '#modalLemari2'],
-            ['nama' => 'Lemari 3', 'img' => '/img/lemari3/lemari3.png', 'tambahUrl' => '/seller/produkCustom/tambahLemari3', 'modal' => '#modalLemari3'],
-            ['nama' => 'Meja 1', 'img' => '/img/meja1/meja1.png', 'tambahUrl' => '/seller/produkCustom/tambahMeja1', 'modal' => null],
-            ['nama' => 'Meja 2', 'img' => '/img/meja2/meja2.png', 'tambahUrl' => '/seller/produkCustom/tambahMeja2', 'modal' => null],
+            ['nama' => 'Lemari 1', 'img' => '/img/lemari1/lemari1.png', 'tambahUrl' => '/seller/produkCustom/tambahLemari1', 'modal' => '#modalLemari1', 'tipe'=>'lemari'],
+            ['nama' => 'Lemari 2', 'img' => '/img/lemari2/lemari2.png', 'tambahUrl' => '/seller/produkCustom/tambahLemari2', 'modal' => '#modalLemari2' , 'tipe'=>'lemari'],
+            ['nama' => 'Lemari 3', 'img' => '/img/lemari3/lemari3.png', 'tambahUrl' => '/seller/produkCustom/tambahLemari3', 'modal' => '#modalLemari3' , 'tipe'=>'lemari'],
+            ['nama' => 'Meja 1', 'img' => '/img/meja1/meja1.png', 'tambahUrl' => '/seller/produkCustom/tambahMeja1', 'modal' => null , 'tipe'=>'meja'],
+            ['nama' => 'Meja 2', 'img' => '/img/meja2/meja2.png', 'tambahUrl' => '/seller/produkCustom/tambahMeja2', 'modal' => null , 'tipe'=>'meja'],
         ];
 
         // Masukkan data ke dalam stdClass dan tambahkan ke array daftarProduk
@@ -59,6 +59,7 @@ class ProdukCustomController extends Controller
             $produk->img = $item['img'];
             $produk->tambahUrl = $item['tambahUrl'];
             $produk->modal = $item['modal'];
+            $produk->tipe = $item['tipe'];
             $daftarProduk[] = $produk;
         }
 
@@ -120,6 +121,12 @@ class ProdukCustomController extends Controller
             ]);
         } else if($produk->nama_template == "Meja 1"){
             return view('seller.produkCustom.produk.detailMeja1', [
+                'user' => $user,
+                'detailKayu' => $detailKayu,
+                'detailAddon' => $detailAddon
+            ]);
+        } else if($produk->nama_template =='Meja 2'){
+            return view('seller.produkCustom.produk.detailMeja2', [
                 'user' => $user,
                 'detailKayu' => $detailKayu,
                 'detailAddon' => $detailAddon

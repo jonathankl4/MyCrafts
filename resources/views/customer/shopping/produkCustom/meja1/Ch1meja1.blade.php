@@ -283,6 +283,13 @@
                                     <input type="number" id="input-horizontal-size" class="form-control"
                                         value="{{ $produk->panjang_min }}">
                                 </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="input-lebar-size">
+                                        Lebar ({{ $produk->lebar_min }} - {{ $produk->lebar_max }} cm)
+                                    </label>
+                                    <input type="number" id="input-lebar-size" class="form-control"
+                                        value="{{ $produk->lebar_min }}">
+                                </div>
                             </div>
                             <div class="addon-section">
                                 <label class="form-label" for="tshirt-design">
@@ -392,6 +399,7 @@
 
         let currentVerticalSize = produk.tinggi_min;
         let currentHorizontalSize = produk.panjang_min;
+        let currentLebarSize = produk.lebar_min;
 
         function updateGrid(canvas, widthCm, heightCm) {
             // Clear existing grid
@@ -543,9 +551,13 @@
             const minHorizontalSize = produk.panjang_min; // Example minimum value for horizontal size
             const maxHorizontalSize = produk.panjang_max; // Example maximum value for horizontal size
 
+            const minLebarSize = produk.lebar_min;
+            const maxLebarSize = produk.lebar_max;
+
             // Get new values from inputs
             let newVerticalSize = parseInt(document.getElementById('input-vertical-size').value);
             let newHorizontalSize = parseInt(document.getElementById('input-horizontal-size').value);
+            let newLebarSize = parseInt(document.getElementById('input-lebar-size').value);
 
             // Validate vertical size
             if (newVerticalSize < minVerticalSize || newVerticalSize > maxVerticalSize) {
@@ -564,6 +576,13 @@
                 });
                 return; // Exit the function if validation fails
             }
+            if (newLebarSize < minLebarSize || newLebarSize > maxLebarSize) {
+                Toast.fire({
+                    icon: "error",
+                    title: `Ukuran horizontal harus antara ${minLebarSize}cm dan ${maxLebarSize}cm.`
+                });
+                return; // Exit the function if validation fails
+            }
 
             // Update text and size for vertical line (right)
             document.getElementById('right-text2').innerHTML = newVerticalSize + 'cm';
@@ -576,6 +595,7 @@
             // Save the new sizes
             currentVerticalSize = newVerticalSize;
             currentHorizontalSize = newHorizontalSize;
+            currentLebarSize = newLebarSize;
 
             // Show success message
             Toast.fire({
@@ -607,6 +627,11 @@
             const heightCm = parseInt(document.getElementById('input-vertical-size')
                 .value); // Ini mengambil nilai tinggi
             updateGrid(canvas, widthCm, heightCm); // Panggil fungsi updateGrid dengan lebar dan tinggi yang benar
+        });
+
+        document.getElementById('input-lebar-size').addEventListener('change', function() {
+            updateDimensions(); // Memperbarui dimensi teks atau elemen lain jika diperlukan
+             // Panggil fungsi updateGrid dengan lebar dan tinggi yang benar
         });
 
 
@@ -700,6 +725,10 @@
                         bl: false,
                         br: false
                     });
+                    img.set({
+                        stroke: 'black', // Warna border
+                        strokeWidth: 6 // Ketebalan border dalam pixel
+                    });
                 } else if (imageURL.includes('lacikecil')) {
                     // Skala khusus untuk gantungan
                     scaleX = (canvasWidth / imgWidth) /3; // Buat sedikit lebih kecil
@@ -715,6 +744,10 @@
                         tr: false,
                         bl: false,
                         br: false
+                    });
+                    img.set({
+                        stroke: 'black', // Warna border
+                        strokeWidth: 6 // Ketebalan border dalam pixel
                     });
                 } else if (imageURL.includes('pijakanKaki')) {
                     // Skala khusus untuk gantungan
@@ -732,6 +765,7 @@
                         bl: false,
                         br: false
                     });
+                    
                 }
 
                 // Terapkan skala yang ditentukan pada gambar
@@ -894,7 +928,8 @@
             // Simpan data ukuran
             const ukuranData = {
                 tinggi: currentVerticalSize,
-                panjang: currentHorizontalSize
+                panjang: currentHorizontalSize,
+                lebar: currentLebarSize
             };
             localStorage.setItem('ukuranData', JSON.stringify(ukuranData));
 
@@ -928,7 +963,7 @@
                             status: 0,
                             panjang: currentHorizontalSize,
                             tinggi: currentVerticalSize,
-                            lebar: 60,
+                            lebar: currentLebarSize,
                             jenis_kayu: selectedKayuType,
                             harga_kayu: selectedKayuPrice,
                             id_produk: produk.id

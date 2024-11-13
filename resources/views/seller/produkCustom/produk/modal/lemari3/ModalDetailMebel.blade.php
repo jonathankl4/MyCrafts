@@ -30,15 +30,15 @@
                                     <ul class="list-unstyled">
                                         <li class="mb-2">
                                             <i class="bi bi-arrows-angle-expand me-2"></i>
-                                            Lebar: 80 cm - 100 cm
+                                            Lebar: 80cm - 120cm
                                         </li>
                                         <li class="mb-2">
                                             <i class="bi bi-arrows-angle-expand me-2"></i>
-                                            Tinggi: 160 cm - 180 cm
+                                            Tinggi: 170cm -200 cm
                                         </li>
                                         <li class="mb-2">
                                             <i class="bi bi-arrows-angle-expand me-2"></i>
-                                            Kedalaman: 45 cm - 60 cm
+                                            Kedalaman: 45cm - 60cm
                                         </li>
                                     </ul>
                                     <div class="alert alert-info">
@@ -53,19 +53,22 @@
                         <div class="col-md-8">
                             <div class="card h-100 shadow-sm">
                                 <div class="card-header bg-light">
-                                    <h4 class="mb-0">Template Lemari</h4>
+                                    <h4 class="mb-0">Foto</h4>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body product-gallery">
                                     <div id="image-lemari3" class="carousel slide" data-bs-ride="carousel">
                                         <div class="carousel-inner">
-                                            <div class="carousel-item active">
+                                            <div class="carousel-item active image-container">
                                                 <img src="{{ asset('img/lemari3/lemari3.png') }}" class="d-block mx-auto" style="height: 400px; object-fit: contain;" alt="Template 1">
                                             </div>
-                                            <div class="carousel-item">
+                                            <div class="carousel-item image-container">
                                                 <img src="{{ asset('img/lemari3/lemari3samping.png') }}" class="d-block mx-auto" style="height: 400px; object-fit: contain;" alt="Template 2">
                                             </div>
-                                            <div class="carousel-item">
-                                                <img src="{{ asset('img/lemari2/lemari2.png') }}" class="d-block mx-auto" style="height: 400px; object-fit: contain;" alt="Template 3">
+                                            <div class="carousel-item image-container">
+                                                <img src="{{ asset('img/lemari3/lemari3belakang.png') }}" class="d-block mx-auto" style="height: 400px; object-fit: contain;" alt="Template 3">
+                                            </div>
+                                            <div class="carousel-item image-container">
+                                                <img src="{{ asset('img/lemari3/lemari3bawah.png') }}" class="d-block mx-auto" style="height: 400px; object-fit: contain;" alt="Template 3">
                                             </div>
                                         </div>
                                         <button class="carousel-control-prev" type="button" data-bs-target="#image-lemari3" data-bs-slide="prev">

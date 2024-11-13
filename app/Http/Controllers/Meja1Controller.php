@@ -52,14 +52,32 @@ class Meja1Controller extends Controller
 
         if ($produk != null) {
             # code...
-            toast('Produk Sudah Pernah ditambahkan', 'info');
+            if ($produk->deleted == 1) {
+                # code...
+
+                $pr = ProdukCustomDijual::find($produk->id);
+                $pr->deleted = 0;
+                $pr->save();
+                Alert::success("Sukses", "Berhasil menambahkan produk");
             return redirect()->back();
+            }
+            else{
+
+                toast('Produk Sudah Pernah ditambahkan', 'info');
+                return redirect()->back();
+            }
         } else {
             $p = new ProdukCustomDijual();
             $p->id_toko = $user->id_toko;
             $p->nama_template = 'Meja 1';
             $p->kode = 'meja1';
             $p->status = 'nonaktif';
+            $p->panjang_max = 60;
+            $p->panjang_min = 45;
+            $p->tinggi_max = 180;
+            $p->tinggi_min = 160;
+            $p->lebar_max = 100;
+            $p->lebar_min = 70;
             $p->save();
 
             Alert::success("Sukses", "Berhasil menambahkan produk");
@@ -244,81 +262,6 @@ class Meja1Controller extends Controller
                     ->delete();
             }
         }
-
-
-
-        // Proses input untuk Pintu
-
-        if ($request->has('pintu1')) {
-            if (!empty($request->pintu1)) {
-                DetailAddonDijual::updateOrCreate(
-                    [
-                        'id_produk_custom_dijual' => $idProdukCustomDijual,
-                        'nama_addon' => 'Pintu 1',
-                    ],
-                    [
-                        'harga' => $request->pintu1,
-                        'jenis' => 'second',
-                        'tipe' => 'lemari',
-                        'kode'=> 'pintu1',
-                         'url' => 'img/lemari3/pintu.png'
-
-                    ]
-                );
-            } else {
-                DetailAddonDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
-                    ->where('nama_addon', 'Pintu 1')
-                    ->delete();
-            }
-        }
-
-        if ($request->has('pintu2')) {
-            if (!empty($request->pintu2)) {
-                DetailAddonDijual::updateOrCreate(
-                    [
-                        'id_produk_custom_dijual' => $idProdukCustomDijual,
-                        'nama_addon' => 'Pintu 2',
-                    ],
-                    [
-                        'harga' => $request->pintu2,
-                        'jenis' => 'second',
-                        'tipe' => 'lemari',
-                        'kode'=> 'pintu2',
-                        'url' => 'img/lemari2/pintu2.jpeg'
-
-                    ]
-                );
-            } else {
-                DetailAddonDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
-                    ->where('nama_addon', 'Pintu 2')
-                    ->delete();
-            }
-        }
-
-
-        if ($request->has('pintu3')) {
-            if (!empty($request->pintu3)) {
-                DetailAddonDijual::updateOrCreate(
-                    [
-                        'id_produk_custom_dijual' => $idProdukCustomDijual,
-                        'nama_addon' => 'Pintu 3',
-                    ],
-                    [
-                        'harga' => $request->pintu3,
-                        'jenis' => 'second',
-                        'tipe' => 'lemari',
-                        'kode'=> 'pintu3',
-                        'url' => 'img/lemari1/pintugeser.jpg'
-
-                    ]
-                );
-            } else {
-                DetailAddonDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
-                    ->where('nama_addon', 'Pintu 3')
-                    ->delete();
-            }
-        }
-
         Alert::success('success', 'berhasil save detail');
 
         return redirect()->back();
