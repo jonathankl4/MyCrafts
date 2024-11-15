@@ -191,6 +191,52 @@
                             <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalGantungan">Detail</button>
                         </div>
                     </div>
+                    <div class="mb-3 row align-items-center">
+                        <div class="col-md-2 d-flex align-items-center">
+                            <input class="form-check-input me-2" type="checkbox" id="toggle-lacikecil"
+                                onclick="toggleInput(this, 'lacikecil')"
+                                {{ $detailAddon->where('nama_addon', 'lacikecil')->isNotEmpty() ? 'checked' : '' }}>
+                            <label class="form-label mb-0" for="toggle-lacikecil" style="font-size: 16px;">Laci
+                                Kecil</label>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number" class="form-control" id="lacikecil" name="lacikecil"
+                                    placeholder="Harga Laci Kecil"
+                                    value="{{ $detailAddon->where('nama_addon', 'lacikecil')->first()->harga ?? '' }}"
+                                    {{ $detailAddon->where('nama_addon', 'lacikecil')->isEmpty() ? 'readonly' : '' }} />
+                            </div>
+                            <span style="color: red;">{{ $errors->first('lacikecil') }}</span>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalLaciKecil">Detail</button>
+                        </div>
+                    </div>
+
+                    {{-- Laci Besar --}}
+                    <div class="mb-3 row align-items-center">
+                        <div class="col-md-2 d-flex align-items-center">
+                            <input class="form-check-input me-2" type="checkbox" id="toggle-lacibesar"
+                                onclick="toggleInput(this, 'lacibesar')"
+                                {{ $detailAddon->where('nama_addon', 'lacibesar')->isNotEmpty() ? 'checked' : '' }}>
+                            <label class="form-label mb-0" for="toggle-lacibesar" style="font-size: 16px;">Laci
+                                Besar</label>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number" class="form-control" id="lacibesar" name="lacibesar"
+                                    placeholder="Harga Laci Besar"
+                                    value="{{ $detailAddon->where('nama_addon', 'lacibesar')->first()->harga ?? '' }}"
+                                    {{ $detailAddon->where('nama_addon', 'lacibesar')->isEmpty() ? 'readonly' : '' }} />
+                            </div>
+                            <span style="color: red;">{{ $errors->first('lacibesar') }}</span>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalLaciBesar">Detail</button>
+                        </div>
+                    </div>
 
 
 

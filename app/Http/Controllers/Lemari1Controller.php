@@ -313,6 +313,48 @@ class Lemari1Controller extends Controller
                     ->delete();
             }
         }
+        if ($request->has('lacikecil')) {
+            if (!empty($request->lacikecil)) {
+                DetailAddonDijual::updateOrCreate(
+                    [
+                        'id_produk_custom_dijual' => $idProdukCustomDijual,
+                        'nama_addon' => 'lacikecil',
+                    ],
+                    [
+                        'harga' => $request->lacikecil,
+                        'jenis' => 'main',
+                        'tipe' => 'lemari',
+                        'kode'=> 'laciKecil',
+                        'url' => 'img/lemari2/lacikecil.png'
+                    ]
+                );
+            } else {
+                DetailAddonDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
+                    ->where('nama_addon', 'lacikecil')
+                    ->delete();
+            }
+        }
+        if ($request->has('lacibesar')) {
+            if (!empty($request->lacibesar)) {
+                DetailAddonDijual::updateOrCreate(
+                    [
+                        'id_produk_custom_dijual' => $idProdukCustomDijual,
+                        'nama_addon' => 'lacibesar',
+                    ],
+                    [
+                        'harga' => $request->lacibesar,
+                        'jenis' => 'main',
+                        'tipe' => 'lemari',
+                        'kode'=> 'laciBesar',
+                        'url' => 'img/lemari2/lacibesar.png'
+                    ]
+                );
+            } else {
+                DetailAddonDijual::where('id_produk_custom_dijual', $idProdukCustomDijual)
+                    ->where('nama_addon', 'lacibesar')
+                    ->delete();
+            }
+        }
 
 
         // Proses input untuk Pintu

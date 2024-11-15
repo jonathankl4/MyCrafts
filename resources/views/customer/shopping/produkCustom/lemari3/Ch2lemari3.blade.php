@@ -241,6 +241,9 @@ body {
 
 
                                     </select>
+                                    <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
+                                        value="1" onchange="updateOpacity(this.value)" style="display: none">
+
 
                                     <span class="badge bg-info" style="font-size: 16px">Perkiraan Harga: <span
                                             id="totalHarga"></span></span>
@@ -388,6 +391,25 @@ body {
 
         let totalHarga = 0;
 
+        function updateOpacity(value) {
+            if (currentDoor) { // pastikan `currentDoor` ada
+                currentDoor.set({
+                    opacity: parseFloat(value)
+                });
+                canvas.renderAll();
+            }
+        }
+
+        function checkCurrentDoor() {
+            const opacitySlider = document.getElementById("opacitySlider");
+
+            if (currentDoor) {
+                opacitySlider.style.display = "block"; // Tampilkan slider jika currentDoor terisi
+            } else {
+                opacitySlider.style.display = "none"; // Sembunyikan slider jika currentDoor kosong
+            }
+        }
+
 
 
         // Fungsi untuk memperbarui counter di UI
@@ -420,6 +442,7 @@ body {
 
             // jika memilih tanpa pintu maka akan menjalankan perintah dibawah ini sehingga tidak ada pintu baru yang ditambah
             if (!imageURL || imageURL === "") {
+                checkCurrentDoor();
                 return;
             }
 
@@ -458,6 +481,7 @@ body {
                 canvas.add(img);
                 currentDoor = img;
                 canvas.renderAll();
+                checkCurrentDoor();
             });
         }
 
@@ -496,7 +520,7 @@ body {
                 let catatan = document.getElementById('detail').value;
                 let alamat = document.getElementById('alamat').value;
                 let notelp = document.getElementById('notelp').value;
-
+                updateOpacity(1);
                 // Gunakan html2canvas untuk membuat screenshot dari elemen
                 html2canvas(element).then(function(canvas) {
                     // Ubah canvas menjadi URL gambar base64

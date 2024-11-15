@@ -30,15 +30,15 @@
                                     <ul class="list-unstyled">
                                         <li class="mb-2">
                                             <i class="bi bi-arrows-angle-expand me-2"></i>
-                                            Lebar: 80 cm - 100 cm
+                                            Lebar: 50 cm - 80 cm
                                         </li>
                                         <li class="mb-2">
                                             <i class="bi bi-arrows-angle-expand me-2"></i>
-                                            Tinggi: 160 cm - 180 cm
+                                            Tinggi: 70 cm - 80 cm
                                         </li>
                                         <li class="mb-2">
                                             <i class="bi bi-arrows-angle-expand me-2"></i>
-                                            Kedalaman: 45 cm - 60 cm
+                                            Panjang: 100 cm - 130 cm
                                         </li>
                                     </ul>
                                     <div class="alert alert-info">

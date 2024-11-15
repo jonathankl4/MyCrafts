@@ -180,7 +180,7 @@
 
                 </div>
                 <br>
-                
+
                 <br>
                 <div style="float: right">
                     <a href="{{url('/seller/produkCustom/daftarProdukCustom')}}" class="btn btn-warning">Kembali</a>
@@ -191,9 +191,9 @@
         </div>
     </div>
 
-    {{-- @include('seller.produkCustom.produk.modal.modalAddOnLemari')
+    @include('seller.produkCustom.produk.modal.modalAddOnMeja')
 
-    @include('seller.produkCustom.produk.modal.modalPintuLemari3') --}}
+    {{-- @include('seller.produkCustom.produk.modal.modalPintuLemari3') --}}
 
     <!-- Footer -->
     <footer class="content-footer footer bg-footer-theme">

@@ -158,6 +158,44 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingL1Seven">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseL1Seven" aria-expanded="false" aria-controls="collapseL1Seven">
+                                                    Laci Kecil
+                                                </button>
+                                            </h2>
+                                            <div id="collapseL1Seven" class="accordion-collapse collapse" aria-labelledby="headingL1Seven" data-bs-parent="#addonAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-4">
+                                                            <img src="{{ asset('img/lemari2/lacikecil.png') }}" alt="Gantungan" class="img-fluid  shadow-sm" style="max-height: 200px;">
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @include('seller.produkCustom.penjelasanAddOn.laciKecil')
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingL1Eight">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseL1Eight" aria-expanded="false" aria-controls="collapseL1Eight">
+                                                    Laci Besar
+                                                </button>
+                                            </h2>
+                                            <div id="collapseL1Eight" class="accordion-collapse collapse" aria-labelledby="headingL1Eight" data-bs-parent="#addonAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-4">
+                                                            <img src="{{ asset('img/lemari2/lacibesar.png') }}" alt="Gantungan" class="img-fluid  shadow-sm" style="max-height: 200px;">
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @include('seller.produkCustom.penjelasanAddOn.laciBesar')
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <!-- Pintu -->
                                         <div class="accordion-item">

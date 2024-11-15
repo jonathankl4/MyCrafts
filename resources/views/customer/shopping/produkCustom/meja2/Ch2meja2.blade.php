@@ -285,8 +285,7 @@
 
 
                                     </select>
-                                    <p style="font-size: 12px; color: red">*warna pintu di gambar hanyalah contoh, warna
-                                        aslinya nanti akan sama dengan warna lemari</p>
+                                    
 
                                     {{-- untuk opacity penutup --}}
                                     <input type="range" id="opacitySlider" min="0.5" max="1" step="0.01"

@@ -268,6 +268,7 @@
                                 </select>
                             </div>
                             <div class="size-input">
+                                <span style="color: red">ukuran garis bantu(grid) adalah 10x10 cm per kotak</span>
                                 <div class="form-group">
                                     <label class="form-label" for="input-vertical-size">
                                         Tinggi ({{ $produk->tinggi_min }} - {{ $produk->tinggi_max }} cm)
@@ -303,6 +304,9 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                <span>Opacity</span>
+                                <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
+                                        value="1" onchange="updateOpacity(this.value)" >
                                 <div id="counters">
                                     <div style="display: none">Jumlah laci 1: <span id="count-laci1">0</span></div>
                                     <div style="display: none">Jumlah laci 2: <span id="count-laci2">0</span></div>
@@ -507,6 +511,18 @@
         let counterpijakankaki = 0;
     let counterlaci1 = 0;
     let counterlaci2 = 0;
+
+    function updateOpacity(value) {
+            canvas.getObjects().forEach(function(obj){
+                if (!obj.gridLine) {
+                    obj.set({
+                    opacity: value
+                });
+                }
+
+            })
+            canvas.renderAll();
+        }
 
         // Fungsi untuk memperbarui counter di UI
         function updateCounters() {
@@ -942,6 +958,14 @@
 
             // Ambil elemen produk-div
             var element = document.getElementById('produk-div');
+
+            var element = document.getElementById('produk-div');
+            canvas.getObjects().forEach(function(obj){
+                obj.set({
+                    opacity: 0.75
+                })
+            })
+            canvas.renderAll();
 
             // Gunakan html2canvas untuk membuat screenshot dari elemen
             html2canvas(element).then(function(canvas) {

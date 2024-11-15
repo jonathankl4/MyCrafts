@@ -11,7 +11,7 @@
                 <!-- Section Gambar -->
                 <div class="text-center mb-4">
                     <h4>Gambar</h4>
-                    <img src="{{ asset('img/lemari2/pintu1.jpg') }}" alt="Gambar Pintu 1" class="img-fluid " style="max-width: 100%; max-height: auto">
+                    <img src="{{ asset('img/lemari2/pintu1.png') }}" alt="Gambar Pintu 1" class="img-fluid " style="max-width: 100%; max-height: auto">
                 </div>
 
                 <!-- Section Keterangan -->

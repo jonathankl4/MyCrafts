@@ -71,12 +71,12 @@ class Meja2Controller extends Controller
             $p->nama_template = 'Meja 2';
             $p->kode = 'meja2';
             $p->status = 'nonaktif';
-            $p->panjang_max = 60;
-            $p->panjang_min = 45;
-            $p->tinggi_max = 180;
-            $p->tinggi_min = 160;
-            $p->lebar_max = 100;
-            $p->lebar_min = 70;
+            $p->panjang_max = 130;
+            $p->panjang_min = 100;
+            $p->tinggi_max = 80;
+            $p->tinggi_min = 70;
+            $p->lebar_max = 80;
+            $p->lebar_min = 50;
             $p->save();
 
             Alert::success("Sukses", "Berhasil menambahkan produk");

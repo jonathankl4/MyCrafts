@@ -304,6 +304,9 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                <span>Opacity</span>
+                                <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
+                                        value="1" onchange="updateOpacity(this.value)" >
                                 <div id="counters">
                                     <div style="display: none">Jumlah Sekat Horizontal: <span
                                             id="count-sekat-horizontal">0</span></div>
@@ -516,6 +519,18 @@
         let counterGantungan = 0;
         let counterlaciKecil = 0;
         let counterlaciBesar = 0;
+
+        function updateOpacity(value) {
+            canvas.getObjects().forEach(function(obj){
+                if (!obj.gridLine) {
+                    obj.set({
+                    opacity: value
+                });
+                }
+
+            })
+            canvas.renderAll();
+        }
 
         // Fungsi untuk memperbarui counter di UI
         function updateCounters() {
@@ -972,6 +987,12 @@
             localStorage.setItem('totalPrice', totalPrice + hargakayu);
 
             localStorage.setItem('addonPrices', JSON.stringify(addonPrices));
+            canvas.getObjects().forEach(function(obj){
+                obj.set({
+                    opacity: 0.75
+                })
+            })
+            canvas.renderAll();
 
             // Ambil elemen produk-div
             var element = document.getElementById('produk-div');

@@ -328,13 +328,19 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                <span>Opacity</span>
+                                <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
+                                        value="1" onchange="updateOpacity(this.value)" >
                                 <div id="counters">
                                     <div style="display: none">Jumlah Sekat Horizontal: <span
                                             id="count-sekat-horizontal">0</span></div>
                                     <div style="display:none">Jumlah Sekat Vertical: <span
                                             id="count-sekat-vertical">0</span>
+
                                     </div>
                                     <div style="display: none">Jumlah Gantungan: <span id="count-gantungan">0</span></div>
+                                    <div style="display: none">Jumlah laci kecil: <span id="count-laci-kecil">0</span></div>
+                                    <div style="display: none">Jumlah laci besar: <span id="count-laci-besar">0</span></div>
                                 </div>
 
                                 <div class="action-buttons">
@@ -396,6 +402,7 @@
     <script>
         let canvas = new fabric.Canvas('tshirt-canvas');
         let currentDoor = null;
+        let listadd =[];
 
         let kayuData = @json($detail);
         let addonPrices = @json($addonPrices);
@@ -421,7 +428,7 @@
             const pixelPerCmX = canvasWidth / widthCm;
             const pixelPerCmY = canvasHeight / heightCm;
             let gridColor = '#231d00';
-            let gridOpacity = 0.5;
+            let gridOpacity = 0.8;
             let gridLines = [];
             // Draw vertical lines every 5cm based on width
             for (let i = 0; i <= widthCm; i += 10) {
@@ -502,22 +509,42 @@
         let counterSekatHorizontal = 0;
         let counterSekatVertical = 0;
         let counterGantungan = 0;
+        let counterlaciKecil = 0;
+        let counterlaciBesar = 0;
+
+        function updateOpacity(value) {
+            canvas.getObjects().forEach(function(obj){
+                if (!obj.gridLine) {
+                    obj.set({
+                    opacity: value
+                });
+                }
+
+            })
+            canvas.renderAll();
+        }
 
         // Fungsi untuk memperbarui counter di UI
         function updateCounters() {
             const sekatHorizontalDiv = document.getElementById('count-sekat-horizontal').parentElement;
             const sekatVerticalDiv = document.getElementById('count-sekat-vertical').parentElement;
             const gantunganDiv = document.getElementById('count-gantungan').parentElement;
+            const laciKecilDiv = document.getElementById('count-laci-kecil').parentElement;
+            const laciBesarDiv = document.getElementById('count-laci-besar').parentElement;
 
             // Perbarui teks counter
             document.getElementById('count-sekat-horizontal').textContent = counterSekatHorizontal;
             document.getElementById('count-sekat-vertical').textContent = counterSekatVertical;
             document.getElementById('count-gantungan').textContent = counterGantungan;
+            document.getElementById('count-laci-kecil').textContent = counterlaciKecil;
+            document.getElementById('count-laci-besar').textContent = counterlaciBesar;
 
             // Tampilkan atau sembunyikan seluruh div berdasarkan jumlah add-on
             sekatHorizontalDiv.style.display = (counterSekatHorizontal > 0) ? 'block' : 'none';
             sekatVerticalDiv.style.display = (counterSekatVertical > 0) ? 'block' : 'none';
             gantunganDiv.style.display = (counterGantungan > 0) ? 'block' : 'none';
+            laciKecilDiv.style.display = (counterlaciKecil > 0) ? 'block' : 'none';
+            laciBesarDiv.style.display = (counterlaciBesar > 0) ? 'block' : 'none';
         }
 
         let currentVerticalSize = produk.tinggi_min;
@@ -686,42 +713,11 @@
                 var scaleY = 1;
 
                 if (imageURL.includes('sekatHorizontal')) {
-                    scaleX = canvasWidth / imgWidth;
-                    scaleY = 0.3;
-                    counterSekatHorizontal++;
-                    totalPrice += addonPrices.sekatHorizontal; // Tambahkan harga sekatHorizontal
-                } else if (imageURL.includes('sekatvertical')) {
-                    scaleX = 0.3;
-                    scaleY = canvasHeight / imgHeight;
-                    counterSekatVertical++;
-                    totalPrice += addonPrices.sekatVertical; // Tambahkan harga sekatVertical
-                } else if (imageURL.includes('gantungan')) {
-                    scaleX = canvasWidth / imgWidth;
-                    scaleY = 0.5;
-                    counterGantungan++;
-                    totalPrice += addonPrices.gantungan; // Tambahkan harga gantungan
-                }
-
-                img.scaleX = scaleX;
-                img.scaleY = scaleY;
-
-                updateCounters();
-                updateTotalPrice2(); // Perbarui total harga di UI
-
-                img.lockRotation = true;
-
-                if (imgHeight > imgWidth) {
-                    img.setControlsVisibility({
-                        mt: true,
-                        mb: true,
-                        ml: false,
-                        mr: false,
-                        tl: false,
-                        tr: false,
-                        bl: false,
-                        br: false
-                    });
-                } else {
+                    // Skala khusus untuk sekat horizontal
+                    scaleX = canvasWidth / imgWidth; // Sesuaikan lebar dengan kanvas
+                    scaleY = 0.3; // Lebih tipis pada sumbu Y untuk sekat horizontal
+                    counterSekatHorizontal++; // Tambah counter sekat horizontal
+                    totalPrice += addonPrices.sekatHorizontal;
                     img.setControlsVisibility({
                         mt: false,
                         mb: false,
@@ -732,7 +728,90 @@
                         bl: false,
                         br: false
                     });
+
+                } else if (imageURL.includes('sekatvertical')) {
+                    // Skala khusus untuk sekat vertical
+                    scaleX = 0.3; // Lebih tipis pada sumbu X untuk sekat vertical
+                    scaleY = canvasHeight / imgHeight; // Sesuaikan tinggi dengan kanvas
+                    counterSekatVertical++; // Tambah counter sekat vertical
+                    totalPrice += addonPrices.sekatVertical;
+                    img.setControlsVisibility({
+                        mt: true,
+                        mb: true,
+                        ml: false,
+                        mr: false,
+                        tl: false,
+                        tr: false,
+                        bl: false,
+                        br: false
+                    });
+
+                } else if (imageURL.includes('gantungan')) {
+                    // Skala khusus untuk gantungan
+                    scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
+                    scaleY = 0.5; // Lebih tipis pada sumbu Y untuk gantungan
+                    counterGantungan++; // Tambah counter gantungan
+                    totalPrice += addonPrices.gantungan;
+                    img.setControlsVisibility({
+                        mt: false,
+                        mb: false,
+                        ml: true,
+                        mr: true,
+                        tl: false,
+                        tr: false,
+                        bl: false,
+                        br: false
+                    });
+                } else if (imageURL.includes('lacikecil')) {
+                    // Skala khusus untuk gantungan
+                    scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
+                    scaleY = 0.13; // Lebih tipis pada sumbu Y untuk gantungan
+                    counterlaciKecil++; // Tambah counter gantungan
+                    totalPrice += addonPrices.laciKecil;
+                    img.setControlsVisibility({
+                        mt: false,
+                        mb: false,
+                        ml: true,
+                        mr: true,
+                        tl: false,
+                        tr: false,
+                        bl: false,
+                        br: false
+                    });
+                    img.set({
+                        stroke: 'black', // Warna border
+                        strokeWidth: 6 // Ketebalan border dalam pixel
+                    });
+                } else if (imageURL.includes('lacibesar')) {
+                    // Skala khusus untuk gantungan
+                    scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
+                    scaleY = 0.2; // Lebih tipis pada sumbu Y untuk gantungan
+                    counterlaciBesar++; // Tambah counter gantungan
+                    totalPrice += addonPrices.laciBesar;
+                    img.setControlsVisibility({
+                        mt: false,
+                        mb: false,
+                        ml: false,
+                        mr: false,
+                        tl: false,
+                        tr: false,
+                        bl: false,
+                        br: false
+                    });
+                    img.set({
+                        stroke: 'black', // Warna border
+                        strokeWidth: 6 // Ketebalan border dalam pixel
+                    });
                 }
+                img.scaleX = scaleX;
+                img.scaleY = scaleY;
+
+                updateCounters();
+                updateTotalPrice2(); // Perbarui total harga di UI
+
+                img.lockRotation = true;
+
+
 
                 img.on('scaling', function(e) {
                     var obj = e.target;
@@ -775,6 +854,7 @@
 
                 // Tambahkan gambar ke kanvas
                 canvas.add(img);
+                listadd.push(img);
 
                 // Event listener untuk mengurangi counter dan total harga saat gambar dihapus
                 img.on('removed', function() {
@@ -787,6 +867,12 @@
                     } else if (imageURL.includes('gantungan')) {
                         counterGantungan--;
                         totalPrice -= addonPrices.gantungan; // Kurangi harga gantungan
+                    } else if (imageURL.includes('lacikecil')) {
+                        counterlaciKecil--; // Kurangi counter gantungan
+                        totalPrice -= addonPrices.laciKecil;
+                    } else if (imageURL.includes('lacibesar')) {
+                        counterlaciBesar--; // Kurangi counter gantungan
+                        totalPrice -= addonPrices.laciBesar;
                     }
                     updateCounters();
                     updateTotalPrice2(); // Perbarui total harga di UI
@@ -852,7 +938,9 @@
             const addonData = {
                 sekatHorizontal: counterSekatHorizontal,
                 sekatVertical: counterSekatVertical,
-                gantungan: counterGantungan
+                gantungan: counterGantungan,
+                laciKecil: counterlaciKecil,
+                laciBesar: counterlaciBesar
             };
             localStorage.setItem('addonData', JSON.stringify(addonData));
 
@@ -868,6 +956,13 @@
             localStorage.setItem('totalPrice', totalPrice + hargakayu);
 
             localStorage.setItem('addonPrices', JSON.stringify(addonPrices));
+
+            canvas.getObjects().forEach(function(obj){
+                obj.set({
+                    opacity: 0.75
+                })
+            })
+            canvas.renderAll();
 
             // Ambil elemen produk-div
             var element = document.getElementById('produk-div');
@@ -895,7 +990,7 @@
                             lebar: currentHorizontalSize,
                             tinggi: currentVerticalSize,
                             panjang: currentKedalamanSize, // kedalaman (tebal)
-                
+
                             jenis_kayu: selectedKayuType,
                             harga_kayu: selectedKayuPrice,
                             id_produk: produk.id
