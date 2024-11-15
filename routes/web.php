@@ -24,6 +24,7 @@ use App\Http\Controllers\Produksi\PerencanaanProduksiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\TestController;
+use App\Models\ProdukCustom;
 use App\Models\ProdukCustomDijual;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -239,6 +240,18 @@ Route::group([
 
     // END OF TAMBAH PRODUK CUSTOM
 
+    // Master Finishing
+
+    Route::get('/produkCustom/daftarFinishing', [ProdukCustomController::class, 'daftarFinishing']);
+    Route::post('/produkCustom/addFinishing', [ProdukCustomController::class, 'addFinishing']);
+    Route::post('/produkCustom/editFinishing/{id}', [ProdukCustomController::class, 'editFinishing']);
+    Route::get('/produkCustom/deleteFinishing/{id}', [ProdukCustomController::class, 'deleteFinishing']);
+
+    // Finishig Produk
+    Route::get('produkCustom/daftarFinishingDijual/{id}',[ProdukCustomController::class, 'daftarFinishingDijual']);
+    Route::post('/produkCustom/addFinishingDijual/{id}', [ProdukCustomController::class, 'addFinishingDijual']);
+    Route::post('/produkCustom/editFinishingDijual/{id}', [ProdukCustomController::class, 'editFinishingDijual']);
+    Route::get('/produkCustom/deleteFinishingDijual/{id}', [ProdukCustomController::class, 'deleteFinishingDijual']);
 
     // END OF PRODUK CUSTOM
 

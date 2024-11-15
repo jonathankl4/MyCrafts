@@ -87,6 +87,12 @@
                             <div>Daftar Produk Custom</div>
                         </a>
                     </li>
+                    <li
+                        class="menu-item {{ request()->is('seller/produkCustom/daftarFinishing') ? 'active' : '' }}">
+                        <a href="{{ url('/seller/produkCustom/daftarFinishing') }}" class="menu-link">
+                            <div>Master Finishing</div>
+                        </a>
+                    </li>
 
                     <li class="menu-item {{ request()->is('seller/produkCustom/testing') ? 'active' : '' }}">
                         <a href="{{ url('/seller/produkCustom/testing') }}" class="menu-link">
