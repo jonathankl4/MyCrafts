@@ -422,7 +422,7 @@
             const pixelPerCmX = canvasWidth / widthCm;
             const pixelPerCmY = canvasHeight / heightCm;
             let gridColor = '#231d00';
-            let gridOpacity = 0.5;
+            let gridOpacity = 1;
             let gridLines = [];
             // Draw vertical lines every 5cm based on width
             for (let i = 0; i <= widthCm; i += 10) {
@@ -928,6 +928,12 @@
                 harga: selectedKayuPrice
             }
             localStorage.setItem('pilihanKayu', JSON.stringify(pilihankayu));
+            canvas.getObjects().forEach(function(obj){
+                obj.set({
+                    opacity: 0.7
+                })
+            })
+            canvas.renderAll();
 
             // Ambil data dari canvas dalam format JSON
             const canvasDesign = canvas.toJSON();
@@ -960,12 +966,7 @@
             var element = document.getElementById('produk-div');
 
             var element = document.getElementById('produk-div');
-            canvas.getObjects().forEach(function(obj){
-                obj.set({
-                    opacity: 0.75
-                })
-            })
-            canvas.renderAll();
+
 
             // Gunakan html2canvas untuk membuat screenshot dari elemen
             html2canvas(element).then(function(canvas) {
@@ -983,7 +984,7 @@
                             image: dataURL,
                             id_toko: produk.id_toko,
                             id_user: user.id,
-                            nama_produk: 'meja1',
+                            nama_produk: produk.nama_produk,
                             jumlah: 1,
                             tipe_trans: 'custom',
                             status: 0,

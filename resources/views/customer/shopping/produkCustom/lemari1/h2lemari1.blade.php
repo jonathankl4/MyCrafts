@@ -241,7 +241,25 @@ body {
                                     <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
                                         value="1" onchange="updateOpacity(this.value)" style="display: none">
 
+                                </div>
+                                <div class="mb-3">
+                                    <label for="finishing" class="form-label">Pilih Finishing</label>
+                                    <select id="finishing" class="form-select" required>
+                                        <option value="" selected disabled>pilih.</option>
 
+
+                                        @for ($i = 0; $i < count($listFinishing); $i++)
+                                            <option value="{{ url($listFinishing[$i]->fdId) }}"
+                                                data-price="{{ $listFinishing[$i]->harga }}"
+                                                data-nama="{{ $listFinishing[$i]->nama_finishing }}">
+                                                {{ $listFinishing[$i]->nama_finishing }} -
+                                                (Rp.{{ number_format($listFinishing[$i]->harga) }})
+                                            </option>
+                                        @endfor
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
                                     <span class="badge bg-info" style="font-size: 16px;">Perkiraan Harga: <span id="totalHarga">Rp 0</span></span>
                                     <br><br>
                                     <div class="alert alert-warning text-dark">
@@ -529,6 +547,14 @@ body {
                 var selectedPintuPrice = parseInt(document.getElementById('pintu-design').options[document
                     .getElementById('pintu-design').selectedIndex].getAttribute('data-price'));
 
+                    // UNTUK FINISHING
+                var selectedFinishingName = document.getElementById('finishing').options[document
+                    .getElementById('finishing').selectedIndex].getAttribute('data-nama');
+                var selectedFinishingPrice = parseInt(document.getElementById('finishing').options[document
+                    .getElementById('finishing').selectedIndex].getAttribute('data-price'));
+
+
+
                 const addonData = JSON.parse(localStorage.getItem('addonData'));
                 const addonPrices = JSON.parse(localStorage.getItem('addonPrices'));
 
@@ -551,7 +577,7 @@ body {
                             },
                             body: JSON.stringify({
                                 image: dataURL,
-                                total_harga: totalHarga + selectedPintuPrice,
+                                total_harga: totalHarga + selectedPintuPrice + selectedFinishingPrice,
                                 status: 1,
                                 pintu: selectedPintuName,
                                 pintuPrice: selectedPintuPrice,
@@ -563,7 +589,9 @@ body {
                                 addonPrices: addonPrices,
                                 catatan: catatan,
                                 alamat: alamat, // Kirim alamat ke server
-                                notelp: notelp // Kirim nomor telepon ke server
+                                notelp: notelp, // Kirim nomor telepon ke server,
+                                finishing: selectedFinishingName,
+
                             })
                         })
                         .then(response => response.json())
@@ -602,6 +630,7 @@ body {
             let hargaPintu = @json($addonPrices);
             console.log(hargaPintu);
             let currentPintuPrice = 0;
+            let currentFinishingPrice = 0;
 
             document.getElementById('ukuran-tinggi').textContent = '• Tinggi: '+ ukuranData.tinggi + ' cm';
             document.getElementById('ukuran-lebar').textContent = '• Lebar: '+ ukuranData.lebar + ' cm';
@@ -609,7 +638,7 @@ body {
 
 
             function updateTotalHarga() {
-                let finalTotal = totalHarga + currentPintuPrice;
+                let finalTotal = totalHarga + currentPintuPrice + currentFinishingPrice;
                 document.getElementById('totalHarga').textContent = finalTotal.toLocaleString('id-ID', {
                     style: 'currency',
                     currency: 'IDR',
@@ -626,6 +655,20 @@ body {
                     currentPintuPrice = selectedPintuPrice;
                 } else {
                     currentPintuPrice = 0; // default jika tidak ada pintu
+                }
+
+                // Update total harga di UI
+                updateTotalHarga();
+            }, false);
+            document.getElementById('finishing').addEventListener('change', function() {
+                let selectedOption = this.options[this.selectedIndex];
+                let selectedFinishingPrice = parseInt(selectedOption.getAttribute('data-price'));
+
+                // Periksa apakah harga ada
+                if (!isNaN(selectedFinishingPrice)) {
+                    currentFinishingPrice = selectedFinishingPrice;
+                } else {
+                    currentFinishingPrice = 0; // default jika tidak ada pintu
                 }
 
                 // Update total harga di UI

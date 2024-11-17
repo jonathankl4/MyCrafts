@@ -9,67 +9,70 @@
 
 @section('style')
     <style>
-         :root {
-    --primary-color: #2d3436;
-    --secondary-color: #636e72;
-    --accent-color: #0984e3;
-    --background-color: #f5f6fa;
-    --border-radius: 12px;
-    --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
+        :root {
+            --primary-color: #2d3436;
+            --secondary-color: #636e72;
+            --accent-color: #0984e3;
+            --background-color: #f5f6fa;
+            --border-radius: 12px;
+            --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-body {
-    background-color: var(--background-color);
-}
+        body {
+            background-color: var(--background-color);
+        }
 
-.customization-card {
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    margin-bottom: 2rem;
-}
+        .customization-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+        }
 
-.card-header {
-    background: white;
-    padding: 1.5rem;
-    border-bottom: 1px solid #eee;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
-}
+        .card-header {
+            background: white;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
 
-.card-header h5 {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--primary-color);
-}
+        .card-header h5 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
 
-.card-content {
-    padding: 1.5rem;
-}
+        .card-content {
+            padding: 1.5rem;
+        }
 
-.form-group {
-    margin-bottom: 1.5rem;
-}
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
 
-.form-label {
-    font-weight: 500;
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-    display: block;
-}
+        .form-label {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
 
-.form-control, .form-select {
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    padding: 0.75rem;
-    transition: all 0.3s ease;
-}
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
 
-.form-control:focus, .form-select:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(9, 132, 227, 0.1);
-}
-         .drawing-area {
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(9, 132, 227, 0.1);
+        }
+
+        .drawing-area {
             position: absolute;
             top: 20px;
             left: 50px;
@@ -178,34 +181,34 @@ body {
 
                             <div id="produk-div">
                                 <!--
-                                                                                                            Initially, the image will have the background tshirt that has transparency
-                                                                                                            So we can simply update the color with CSS or JavaScript dinamically
-                                                                                                        -->
+                                                                                                                    Initially, the image will have the background tshirt that has transparency
+                                                                                                                    So we can simply update the color with CSS or JavaScript dinamically
+                                                                                                                -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
                                 <img id="template" src="{{ url('img/lemari2/lemari2.png') }}"
                                     style="width: 100%;height: 100%;" />
 
-                                    <div id="drawingArea" class="drawing-area">
-                                        <div class="canvas-container" style="position: relative">
-                                            <canvas id="tshirt-canvas" width="355px" height="590px"
-                                                style="border-style: solid; border-width: 2px"></canvas>
+                                <div id="drawingArea" class="drawing-area">
+                                    <div class="canvas-container" style="position: relative">
+                                        <canvas id="tshirt-canvas" width="355px" height="590px"
+                                            style="border-style: solid; border-width: 2px"></canvas>
 
-                                                <div id="right-line"
-                                                style="position: absolute; right: -210px; top: -20px; height:630px; width: 2px; background-color: black;">
-                                            </div>
-                                            <div id="right-text"
-                                                style="position: absolute; right: -290px; top: 80%; transform: translateY(-50%); font-size: 20px;">
-                                                cm</div>
-
-                                            <!-- Garis horizontal di bawah untuk 70cm -->
-                                            <div id="bottom-line"
-                                                style="position: absolute; left: -40px; bottom: -230px; width: 430px; height: 2px; background-color: black;">
-                                            </div>
-                                            <div id="bottom-text"
-                                                style="position: absolute; left: 70%; bottom: -260px; transform: translateX(-50%); font-size: 20px;">
-                                                cm</div>
+                                        <div id="right-line"
+                                            style="position: absolute; right: -210px; top: -20px; height:630px; width: 2px; background-color: black;">
                                         </div>
+                                        <div id="right-text"
+                                            style="position: absolute; right: -290px; top: 80%; transform: translateY(-50%); font-size: 20px;">
+                                            cm</div>
+
+                                        <!-- Garis horizontal di bawah untuk 70cm -->
+                                        <div id="bottom-line"
+                                            style="position: absolute; left: -40px; bottom: -230px; width: 430px; height: 2px; background-color: black;">
+                                        </div>
+                                        <div id="bottom-text"
+                                            style="position: absolute; left: 70%; bottom: -260px; transform: translateX(-50%); font-size: 20px;">
+                                            cm</div>
                                     </div>
+                                </div>
                             </div>
 
                             <div style="height: 40px">
@@ -223,11 +226,11 @@ body {
                             <h5 class="card-header"><b>Kustomisasi</b></h5>
                             <div style="padding: 15px; color: black">
 
-                                <div>
-                                    <label for="pintu-design">Pilih Pintu lemari</label>
+                                <div class="mb-3">
+                                    <label for="pintu-design" class="form-label">Pilih Pintu Lemari</label>
                                     <select id="pintu-design" class="form-select" required>
                                         <option value="" selected disabled>pilih.</option>
-                                        <option value="" data-price="0" data-nama="Tanpa Pintu">tanpa pintu</option>
+                                        <option value="" data-price="0" data-nama="Tanpa Pintu">Tanpa Pintu</option>
 
                                         @for ($i = 0; $i < count($listPintu); $i++)
                                             <option value="{{ url($listPintu[$i]->url) }}"
@@ -238,13 +241,36 @@ body {
                                             </option>
                                         @endfor
                                     </select>
-                                    <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
-                                    value="1" onchange="updateOpacity(this.value)" style="display: none">
+                                    <div id="divslider" style="display: none">
+
+                                        <label for="opacitySlider" class="form-label">Opacity</label>
+                                        <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
+                                            value="1" onchange="updateOpacity(this.value)" >
+                                    </div>
 
 
-                                    <span class="badge bg-info" style="font-size: 16px">Perkiraan Harga: <span
-                                            id="totalHarga"></span></span>
-                                            <br><br>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="finishing" class="form-label">Pilih Finishing</label>
+                                    <select id="finishing" class="form-select" required>
+                                        <option value="" selected disabled>pilih.</option>
+
+
+                                        @for ($i = 0; $i < count($listFinishing); $i++)
+                                            <option value="{{ url($listFinishing[$i]->fdId) }}"
+                                                data-price="{{ $listFinishing[$i]->harga }}"
+                                                data-nama="{{ $listFinishing[$i]->nama_finishing }}">
+                                                {{ $listFinishing[$i]->nama_finishing }} -
+                                                (Rp.{{ number_format($listFinishing[$i]->harga) }})
+                                            </option>
+                                        @endfor
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <span class="badge bg-info" style="font-size: 16px;">Perkiraan Harga: <span
+                                            id="totalHarga">Rp 0</span></span>
+                                    <br><br>
                                     <div class="alert alert-warning text-dark">
                                         <ul class="list-unstyled">
 
@@ -262,48 +288,51 @@ body {
                                             </li>
                                         </ul>
                                     </div>
-                                    <div>
-                                        <br>
-                                        <label for="detail">Penjelasan Customisasi</label>
-                                        <br>
-                                        <textarea name="detail" id="detail" cols="30" rows="5" placeholder="Tolong berikan detail kustomisasi anda" class="form-control"></textarea>
-                                        <br>
-
-                                    </div>
-
-                                    <div>
-                                        <label for="alamat">Alamat Pengiriman</label>
-                                        <br>
-                                        <textarea name="alamat" id="alamat" cols="30" rows="5" class="form-control" placeholder="Masukkan alamat lengkap..." required></textarea>
-                                    </div>
-                                    <div>
-                                        <br>
-                                        <label for="notelp">Nomor Telepon</label>
-                                        <input type="text" name="notelp" id="notelp" class="form-control" required>
-                                    </div>
+                                </div>
+                                <div>
                                     <br>
-                                    <button id="btn-beli" class="btn btn-success">Beli</button>
+                                    <label for="detail">Penjelasan Customisasi</label>
+                                    <br>
+                                    <textarea name="detail" id="detail" cols="30" rows="5"
+                                        placeholder="Tolong berikan detail kustomisasi anda" class="form-control"></textarea>
+                                    <br>
 
                                 </div>
+
+                                <div>
+                                    <label for="alamat">Alamat Pengiriman</label>
+                                    <br>
+                                    <textarea name="alamat" id="alamat" cols="30" rows="5" class="form-control"
+                                        placeholder="Masukkan alamat lengkap..." required></textarea>
+                                </div>
+                                <div>
+                                    <br>
+                                    <label for="notelp">Nomor Telepon</label>
+                                    <input type="text" name="notelp" id="notelp" class="form-control" required>
+                                </div>
                                 <br>
-
-
+                                <button id="btn-beli" class="btn btn-success">Beli</button>
 
                             </div>
+                            <br>
 
 
 
                         </div>
-                    </form>
+
+
+
                 </div>
+                </form>
             </div>
-
-
-
-            {{-- <img id="template" src="{{url("img/test.png")}}" style="width: 1000px"/> --}}
-
-
         </div>
+
+
+
+        {{-- <img id="template" src="{{url("img/test.png")}}" style="width: 1000px"/> --}}
+
+
+    </div>
 
 
     </div>
@@ -332,6 +361,7 @@ body {
     <script>
         let canvas = new fabric.Canvas('tshirt-canvas');
         let currentDoor = null;
+        let tempgrid = null;
 
 
         canvas.on('object:moving', function(e) {
@@ -395,10 +425,15 @@ body {
                 });
                 canvas.renderAll();
             }
+
         }
 
+
+
+
+
         function checkCurrentDoor() {
-            const opacitySlider = document.getElementById("opacitySlider");
+            const opacitySlider = document.getElementById("divslider");
 
             if (currentDoor) {
                 opacitySlider.style.display = "block"; // Tampilkan slider jika currentDoor terisi
@@ -511,6 +546,10 @@ body {
                 var selectedPintuPrice = parseInt(document.getElementById('pintu-design').options[document
                     .getElementById('pintu-design').selectedIndex].getAttribute('data-price'));
 
+                var selectedFinishingName = document.getElementById('finishing').options[document
+                    .getElementById('finishing').selectedIndex].getAttribute('data-nama');
+                var selectedFinishingPrice = parseInt(document.getElementById('finishing').options[document
+                    .getElementById('finishing').selectedIndex].getAttribute('data-price'));
                 const addonData = JSON.parse(localStorage.getItem('addonData'));
                 const addonPrices = JSON.parse(localStorage.getItem('addonPrices'));
 
@@ -532,27 +571,29 @@ body {
                             },
                             body: JSON.stringify({
                                 image: dataURL,
-                                total_harga: totalHarga + selectedPintuPrice,
+                                total_harga: totalHarga + selectedPintuPrice +
+                                    selectedFinishingPrice,
                                 status: 1,
                                 pintu: selectedPintuName,
                                 pintuPrice: selectedPintuPrice,
                                 sekatHorizontal: addonData.sekatHorizontal ||
-                                0, // Kirim add-on sekat horizontal
+                                    0, // Kirim add-on sekat horizontal
                                 sekatVertical: addonData.sekatVertical ||
-                                0, // Kirim add-on sekat vertical
+                                    0, // Kirim add-on sekat vertical
                                 gantungan: addonData.gantungan || 0, // Kirim add-on gantungan
                                 laciKecil: addonData.laciKecil || 0, // Kirim add-on gantungan
                                 laciBesar: addonData.laciBesar || 0, // Kirim add-on gantungan
                                 addonPrices: addonPrices,
                                 catatan: catatan,
                                 alamat: alamat, // Kirim alamat ke server
-                                notelp: notelp // Kirim nomor telepon ke server
+                                notelp: notelp, // Kirim nomor telepon ke server
+                                finishing: selectedFinishingName
                             })
                         })
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                window.location.href = "{{ url('/customer/pembelian') }}" ;
+                                window.location.href = "{{ url('/customer/pembelian') }}";
 
                             } else {
                                 alert("Gambar gagal disimpan");
@@ -581,18 +622,21 @@ body {
             const ukuranData = JSON.parse(localStorage.getItem('ukuranData'));
             const totalPrice = localStorage.getItem('totalPrice');
             totalHarga = parseInt(totalPrice);
-
+            tempgrid = JSON.parse(localStorage.getItem('tempgrid'));
             let hargaPintu = @json($addonPrices);
             console.log(hargaPintu);
             let currentPintuPrice = 0;
+            let currentFinishingPrice = 0;
 
-            document.getElementById('ukuran-tinggi').textContent = '• Tinggi: '+ ukuranData.tinggi + ' cm';
-            document.getElementById('ukuran-lebar').textContent = '• Lebar: '+ ukuranData.lebar + ' cm';
-            document.getElementById('ukuran-kedalaman').textContent = '• Tebal (kedalaman): '+ ukuranData.kedalaman + ' cm';
+            document.getElementById('ukuran-tinggi').textContent = '• Tinggi: ' + ukuranData.tinggi + ' cm';
+            document.getElementById('ukuran-lebar').textContent = '• Lebar: ' + ukuranData.lebar + ' cm';
+            document.getElementById('ukuran-kedalaman').textContent = '• Tebal (kedalaman): ' + ukuranData
+                .kedalaman + ' cm';
+
 
 
             function updateTotalHarga() {
-                let finalTotal = totalHarga + currentPintuPrice;
+                let finalTotal = totalHarga + currentPintuPrice + currentFinishingPrice;
                 document.getElementById('totalHarga').textContent = finalTotal.toLocaleString('id-ID', {
                     style: 'currency',
                     currency: 'IDR',
@@ -609,6 +653,20 @@ body {
                     currentPintuPrice = selectedPintuPrice;
                 } else {
                     currentPintuPrice = 0; // default jika tidak ada pintu
+                }
+
+                // Update total harga di UI
+                updateTotalHarga();
+            }, false);
+            document.getElementById('finishing').addEventListener('change', function() {
+                let selectedOption = this.options[this.selectedIndex];
+                let selectedFinishingPrice = parseInt(selectedOption.getAttribute('data-price'));
+
+                // Periksa apakah harga ada
+                if (!isNaN(selectedFinishingPrice)) {
+                    currentFinishingPrice = selectedFinishingPrice;
+                } else {
+                    currentFinishingPrice = 0; // default jika tidak ada pintu
                 }
 
                 // Update total harga di UI
@@ -649,11 +707,13 @@ body {
                             lockScalingX: true, // Cegah pengubahan ukuran pada sumbu X
                             lockScalingY: true, // Cegah pengubahan ukuran pada sumbu Y
                             lockRotation: true, // Cegah rotasi objek
-                            
+
                         });
                     });
                     // Render ulang setelah load
                     canvas.renderAll();
+
+
                 });
             }
         });

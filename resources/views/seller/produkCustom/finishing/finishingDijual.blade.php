@@ -31,7 +31,7 @@
     <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
         <h2 class="fw-bold py-3 mb-4">Finishing {{$produk->nama_template}}</h2>
 
-
+        <a href="{{url('/seller/produkCustom/daftarProdukCustom')}}" class="btn btn-dark"><i class='bx bx-left-arrow-alt'></i> Kembali</a>
         <div class="card" style="padding: 15px">
             <h5 class="card-header">List Finishing</h5>
             <button class="btn btn-primary" id="add" data-bs-toggle="modal" data-bs-target="#modalAddFinishing" style="width: fit-content; margin-left: 10px"> Tambah Finishing</button>

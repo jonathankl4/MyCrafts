@@ -170,6 +170,11 @@
                                     @endif
                                 @endfor
                             </div>
+                            <br>
+                            <div>
+                                <span style="font-size: 16px"><b>Finishing: </b></span>
+                                {{$htrans->finishing}}
+                            </div>
 
 
 

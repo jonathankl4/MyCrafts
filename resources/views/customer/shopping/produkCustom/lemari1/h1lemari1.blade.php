@@ -428,7 +428,7 @@
             const pixelPerCmX = canvasWidth / widthCm;
             const pixelPerCmY = canvasHeight / heightCm;
             let gridColor = '#231d00';
-            let gridOpacity = 0.8;
+            let gridOpacity = 1;
             let gridLines = [];
             // Draw vertical lines every 5cm based on width
             for (let i = 0; i <= widthCm; i += 10) {
@@ -929,6 +929,13 @@
             }
             localStorage.setItem('pilihanKayu', JSON.stringify(pilihankayu));
 
+            canvas.getObjects().forEach(function(obj){
+                obj.set({
+                    opacity: 0.6
+                })
+            })
+            canvas.renderAll();
+
             // Ambil data dari canvas dalam format JSON
             const canvasDesign = canvas.toJSON();
 
@@ -957,12 +964,7 @@
 
             localStorage.setItem('addonPrices', JSON.stringify(addonPrices));
 
-            canvas.getObjects().forEach(function(obj){
-                obj.set({
-                    opacity: 0.75
-                })
-            })
-            canvas.renderAll();
+
 
             // Ambil elemen produk-div
             var element = document.getElementById('produk-div');
@@ -983,7 +985,7 @@
                             image: dataURL,
                             id_toko: produk.id_toko,
                             id_user: user.id,
-                            nama_produk: 'lemari1',
+                            nama_produk: produk.nama_produk,
                             jumlah: 1,
                             tipe_trans: 'custom',
                             status: 0,

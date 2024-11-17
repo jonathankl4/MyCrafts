@@ -39,7 +39,8 @@ class HTrans extends Model
         'nomor_resi',
         'tgl_sampai',
         'alasan_retur',
-        'alasan_tolak_retur'
+        'alasan_tolak_retur',
+        'finishing'
 
 
     ];

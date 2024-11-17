@@ -433,7 +433,7 @@
             } else {
                 stat = "aktif";
                 notif = "produk diaktifkan!";
-                confirmationMessage = "Cek kembali detail produk dan detail customisasi sebelum mengaktifkan produk.";
+                confirmationMessage = "Cek kembali Kelengkapan Kustomisai (Detail Produk, Detail Kustomisasi, Finishing), Yakin sudah di isi semua?";
             }
 
             // Tampilkan pesan konfirmasi

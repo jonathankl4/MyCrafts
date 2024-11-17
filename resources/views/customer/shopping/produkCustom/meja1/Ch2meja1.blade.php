@@ -265,11 +265,12 @@
                             <h5 class="card-header"><b>Kustomisasi</b></h5>
                             <div style="padding: 15px; color: black">
 
-                                <div>
+                                <div class="mb-3">
                                     <label for="pintu-design">Penutup belakang meja</label>
                                     <select id="pintu-design" class="form-select" required>
-
-                                        <option value="" data-price="0" data-nama="Tanpa Penutup">tanpa penutup</option>
+                                        <option value="" selected disabled>pilih.</option>
+                                        <option value="" data-price="0" data-nama="Tanpa Penutup">tanpa penutup
+                                        </option>
 
                                         @for ($i = 0; $i < count($listPintu); $i++)
                                             <option value="{{ url($listPintu[$i]->url) }}"
@@ -283,33 +284,53 @@
 
 
                                     </select>
-                                    <p style="font-size: 12px; color: red">*warna pintu di gambar hanyalah contoh, warna
-                                        aslinya nanti akan sama dengan warna lemari</p>
-                                    <span class="badge bg-info" style="font-size: 16px">Perkiraan Harga: <span
-                                            id="totalHarga"></span></span>
-                                    <div>
-                                        <br>
-                                        <label for="detail">Catatan untuk Penjual</label>
-                                        <br>
-                                        <textarea name="detail" id="detail" cols="30" rows="5" placeholder="" class="form-control"></textarea>
-                                        <br>
 
-                                    </div>
 
-                                    <div>
-                                        <label for="alamat">Alamat Pengiriman</label>
-                                        <br>
-                                        <textarea name="alamat" id="alamat" cols="30" rows="5" class="form-control" required></textarea>
-                                    </div>
-                                    <div>
-                                        <br>
-                                        <label for="notelp">Nomor Telepon</label>
-                                        <input type="text" name="notelp" id="notelp" class="form-control" required>
-                                    </div>
+                                    {{-- untuk opacity penutup --}}
+                                    <input type="range" id="opacitySlider" min="0.5" max="1" step="0.01"
+                                        value="0.7" onchange="updateOpacity(this.value)" style="display: none">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="finishing" class="form-label">Pilih Finishing</label>
+                                    <select id="finishing" class="form-select" required>
+                                        <option value="" selected disabled>pilih.</option>
+
+
+                                        @for ($i = 0; $i < count($listFinishing); $i++)
+                                            <option value="{{ url($listFinishing[$i]->fdId) }}"
+                                                data-price="{{ $listFinishing[$i]->harga }}"
+                                                data-nama="{{ $listFinishing[$i]->nama_finishing }}">
+                                                {{ $listFinishing[$i]->nama_finishing }} -
+                                                (Rp.{{ number_format($listFinishing[$i]->harga) }})
+                                            </option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <span class="badge bg-info" style="font-size: 16px">Perkiraan Harga: <span
+                                        id="totalHarga"></span></span>
+                                <div>
                                     <br>
-                                    <button id="btn-beli" class="btn btn-success">Beli</button>
+                                    <label for="detail">Catatan untuk Penjual</label>
+                                    <br>
+                                    <textarea name="detail" id="detail" cols="30" rows="5" placeholder="" class="form-control"></textarea>
+                                    <br>
 
                                 </div>
+
+                                <div>
+                                    <label for="alamat">Alamat Pengiriman</label>
+                                    <br>
+                                    <textarea name="alamat" id="alamat" cols="30" rows="5" class="form-control" required></textarea>
+                                </div>
+                                <div>
+                                    <br>
+                                    <label for="notelp">Nomor Telepon</label>
+                                    <input type="text" name="notelp" id="notelp" class="form-control" required>
+                                </div>
+                                <br>
+                                <button id="btn-beli" class="btn btn-success">Beli</button>
+
+
                                 <br>
 
 
@@ -412,7 +433,24 @@
         let counterGantungan = 0;
 
         let totalHarga = 0;
+        function updateOpacity(value) {
+            if (currentDoor) { // pastikan `currentDoor` ada
+                currentDoor.set({
+                    opacity: parseFloat(value)
+                });
+                canvas.renderAll();
+            }
+        }
 
+        function checkCurrentDoor() {
+            const opacitySlider = document.getElementById("opacitySlider");
+
+            if (currentDoor) {
+                opacitySlider.style.display = "block"; // Tampilkan slider jika currentDoor terisi
+            } else {
+                opacitySlider.style.display = "none"; // Sembunyikan slider jika currentDoor kosong
+            }
+        }
 
 
         // Fungsi untuk memperbarui counter di UI
@@ -445,6 +483,7 @@
 
             // jika memilih tanpa pintu maka akan menjalankan perintah dibawah ini sehingga tidak ada pintu baru yang ditambah
             if (!imageURL || imageURL === "") {
+                checkCurrentDoor();
                 return;
             }
 
@@ -479,6 +518,7 @@
                 canvas.add(img);
                 currentDoor = img;
                 canvas.renderAll();
+                checkCurrentDoor();
             });
         }
 
@@ -511,6 +551,12 @@
                 var selectedPintuPrice = parseInt(document.getElementById('pintu-design').options[document
                     .getElementById('pintu-design').selectedIndex].getAttribute('data-price'));
 
+
+                    var selectedFinishingName = document.getElementById('finishing').options[document
+                    .getElementById('finishing').selectedIndex].getAttribute('data-nama');
+                var selectedFinishingPrice = parseInt(document.getElementById('finishing').options[document
+                    .getElementById('finishing').selectedIndex].getAttribute('data-price'));
+
                 const addonData = JSON.parse(localStorage.getItem('addonData'));
                 const addonPrices = JSON.parse(localStorage.getItem('addonPrices'));
 
@@ -532,7 +578,7 @@
                             },
                             body: JSON.stringify({
                                 image: dataURL,
-                                total_harga: totalHarga + selectedPintuPrice,
+                                total_harga: totalHarga + selectedPintuPrice + selectedFinishingPrice,
                                 status: 1,
                                 pintu: selectedPintuName,
                                 pintuPrice: selectedPintuPrice,
@@ -543,7 +589,8 @@
                                 addonPrices: addonPrices,
                                 catatan: catatan,
                                 alamat: alamat, // Kirim alamat ke server
-                                notelp: notelp // Kirim nomor telepon ke server
+                                notelp: notelp, // Kirim nomor telepon ke server
+                                finishing: selectedFinishingName
                             })
                         })
                         .then(response => response.json())
@@ -582,13 +629,14 @@
             let hargaPintu = @json($addonPrices);
             console.log('harga pint', hargaPintu);
             let currentPintuPrice = 0;
+            let currentFinishingPrice = 0;
 
 
 
 
 
             function updateTotalHarga() {
-                let finalTotal = totalHarga + currentPintuPrice;
+                let finalTotal = totalHarga + currentPintuPrice + currentFinishingPrice;
                 document.getElementById('totalHarga').textContent = finalTotal.toLocaleString('id-ID', {
                     style: 'currency',
                     currency: 'IDR',
@@ -605,6 +653,20 @@
                     currentPintuPrice = selectedPintuPrice;
                 } else {
                     currentPintuPrice = 0; // default jika tidak ada pintu
+                }
+
+                // Update total harga di UI
+                updateTotalHarga();
+            }, false);
+            document.getElementById('finishing').addEventListener('change', function() {
+                let selectedOption = this.options[this.selectedIndex];
+                let selectedFinishingPrice = parseInt(selectedOption.getAttribute('data-price'));
+
+                // Periksa apakah harga ada
+                if (!isNaN(selectedFinishingPrice)) {
+                    currentFinishingPrice = selectedFinishingPrice;
+                } else {
+                    currentFinishingPrice = 0; // default jika tidak ada pintu
                 }
 
                 // Update total harga di UI

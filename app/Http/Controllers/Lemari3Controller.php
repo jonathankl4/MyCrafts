@@ -120,7 +120,11 @@ class Lemari3Controller extends Controller
         $user = $this->getLogUser();
         $produk = ProdukCustomDijual::find($id);
         $addonSecond = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=',$produk->id)->where('jenis','=','second')->get();
-
+        $listFinishing = DB::table('finishing_dijuals')
+        ->join('finishings', 'finishing_dijuals.id_finishing', '=', 'finishings.id')
+        ->where('finishing_dijuals.id_produk', $id)
+        ->select('finishings.*', 'finishing_dijuals.harga', 'finishing_dijuals.id as fdId')
+        ->get();
 
         $addonPrices = [];
 
@@ -133,7 +137,7 @@ class Lemari3Controller extends Controller
         // dd($addonPrices);
 
 
-        return view('customer.shopping.produkCustom.lemari3.Ch2lemari3', ['user'=>$user, 'listPintu'=>$addonSecond, 'addonPrices'=>$addonPrices,]);
+        return view('customer.shopping.produkCustom.lemari3.Ch2lemari3', ['user'=>$user, 'listPintu'=>$addonSecond, 'addonPrices'=>$addonPrices,'listFinishing'=>$listFinishing]);
     }
 
     public function ubahDetailLemari3(Request $request)

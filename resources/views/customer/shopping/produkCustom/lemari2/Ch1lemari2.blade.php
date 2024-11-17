@@ -205,9 +205,9 @@
 
                             <div id="produk-div">
                                 <!--
-                                                                            Initially, the image will have the background tshirt that has transparency
-                                                                            So we can simply update the color with CSS or JavaScript dinamically
-                                                                        -->
+                                                                                Initially, the image will have the background tshirt that has transparency
+                                                                                So we can simply update the color with CSS or JavaScript dinamically
+                                                                            -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
                                 <img id="template" src="{{ url('img/lemari2/lemari2.png') }}"
                                     style="width: 100%;height: 100%;" />
@@ -306,7 +306,7 @@
                                 </select>
                                 <span>Opacity</span>
                                 <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
-                                        value="1" onchange="updateOpacity(this.value)" >
+                                    value="1" onchange="updateOpacity(this.value)">
                                 <div id="counters">
                                     <div style="display: none">Jumlah Sekat Horizontal: <span
                                             id="count-sekat-horizontal">0</span></div>
@@ -407,6 +407,7 @@
         let produk = @json($produk);
         console.log(produk);
         let user = @json($user);
+        let tempgrid = null;
 
         function updateGrid(canvas, widthCm, heightCm) {
             // Clear existing grid
@@ -425,9 +426,10 @@
             const pixelPerCmX = canvasWidth / widthCm;
             const pixelPerCmY = canvasHeight / heightCm;
             let gridColor = '#231d00';
-            let gridOpacity = 0.8;
-
+            let gridOpacity = 1;
             let gridLines = [];
+
+
             // Draw vertical lines every 5cm based on width
             for (let i = 0; i <= widthCm; i += 10) {
                 const x = i * pixelPerCmX;
@@ -461,6 +463,7 @@
             });
 
             canvas.renderAll();
+
         }
 
 
@@ -522,11 +525,11 @@
         let counterlaciBesar = 0;
 
         function updateOpacity(value) {
-            canvas.getObjects().forEach(function(obj){
+            canvas.getObjects().forEach(function(obj) {
                 if (!obj.gridLine) {
                     obj.set({
-                    opacity: value
-                });
+                        opacity: value
+                    });
                 }
 
             })
@@ -661,7 +664,7 @@
                 .value); // Ini mengambil nilai tinggi
             updateGrid(canvas, widthCm, heightCm); // Panggil fungsi updateGrid dengan lebar dan tinggi yang benar
         });
-        document.getElementById('input-kedalaman-size').addEventListener('change', function(){
+        document.getElementById('input-kedalaman-size').addEventListener('change', function() {
             updateDimensions();
         });
 
@@ -966,6 +969,18 @@
             }
             localStorage.setItem('pilihanKayu', JSON.stringify(pilihankayu));
 
+
+            canvas.getObjects().forEach(function(obj) {
+                if (!obj.gridLine) {
+                    obj.set({
+                        opacity: 0.6
+                    });
+                }
+
+            });
+            canvas.renderAll();
+
+
             // Ambil data dari canvas dalam format JSON
             const canvasDesign = canvas.toJSON();
 
@@ -993,13 +1008,9 @@
             localStorage.setItem('totalPrice', totalPrice + hargakayu);
 
             localStorage.setItem('addonPrices', JSON.stringify(addonPrices));
+            localStorage.setItem('tempgrid', JSON.stringify(tempgrid));
 
-            canvas.getObjects().forEach(function(obj){
-                obj.set({
-                    opacity: 0.75
-                })
-            })
-            canvas.renderAll();
+
 
             // Ambil elemen produk-div
             var element = document.getElementById('produk-div');
@@ -1020,7 +1031,7 @@
                             image: dataURL,
                             id_toko: produk.id_toko,
                             id_user: user.id,
-                            nama_produk: 'lemari2',
+                            nama_produk: produk.nama_produk,
                             jumlah: 1,
                             tipe_trans: 'custom',
                             status: 0,

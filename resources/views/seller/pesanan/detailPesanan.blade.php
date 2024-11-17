@@ -116,6 +116,12 @@
                         </div>
                         <br>
                         <div class="row">
+                            <span>Finishing</span>
+                            <span style="font-size: 20px"><b>{{ $detail->finishing }}</b> </span>
+
+                        </div>
+                        <br>
+                        <div class="row">
                             <span>Perkiraan Harga</span>
                             <span style="font-size: 20px"><b>Rp.
                                     {{ number_format($detail->perkiraan_harga, 0, ',', '.') }}</b> </span>

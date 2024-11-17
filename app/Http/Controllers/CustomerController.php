@@ -179,21 +179,32 @@ class CustomerController extends Controller
 
         if ($produk->kode == "lemari1") {
             $foto[] = 'img/lemari1/lemari1.png';
+            $foto[] = 'img/lemari1/lemari1samping.png';
+            $foto[] = 'img/lemari1/lemari1bawah.png';
         }
         if ($produk->kode == 'lemari2') {
             $foto[] = 'img/lemari2/lemari2.png';
+            $foto[] = 'img/lemari2/lemari2samping.png';
+            $foto[] = 'img/lemari2/lemari2belakang.png';
+            $foto[] = 'img/lemari2/lemari2bawah.png';
         }
         if ($produk->kode == 'lemari3') {
             $foto[] = 'img/lemari3/lemari3.png';
             $foto[] = 'img/lemari3/lemari3samping.png';
+            $foto[] = 'img/lemari3/lemari3belakang.png';
+            $foto[] = 'img/lemari3/lemari3bawah.png';
         }
         if ($produk->kode == 'meja1'){
             $foto[] = 'img/meja1/meja1.png';
             $foto[] = 'img/meja1/mj.png';
+            $foto[] = 'img/meja1/meja1ViewAtas.png';
+            $foto[] = 'img/meja1/meja1belakang.png';
         }
         if ($produk->kode == 'meja2'){
             $foto[] = 'img/meja2/meja2.png';
-            $foto[] = 'img/meja1/mj.png';
+            $foto[] = 'img/meja2/meja2samping.png';
+            $foto[] = 'img/meja2/meja2atas.png';
+
         }
         return view("customer.shopping.produkCustom.produkCustomDetail", ['user' => $user, 'produk' => $produk, 'foto' => $foto, 'detail' => $detail, 'addonMain' => $addonMain, 'addonSec' => $addonSec]);
     }
@@ -598,7 +609,7 @@ class CustomerController extends Controller
         $pintuPrice = $request->input('pintuPrice');
         $addonPrices = $request->input('addonPrices');
         $catatan = $request->input('catatan');
-
+        $finishing = $request->input('finishing');
 
 
         //buat nama file unik
@@ -626,7 +637,8 @@ class CustomerController extends Controller
                 'status' => $request->status,
                 'catatan' => $catatan,
                 'alamat' => $request->alamat,
-                'nomorTelepon' => $request->notelp
+                'nomorTelepon' => $request->notelp,
+                'finishing' => $finishing
             ]);
 
             if ($pintu) {

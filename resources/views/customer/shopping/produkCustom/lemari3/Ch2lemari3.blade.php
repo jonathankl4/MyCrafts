@@ -224,46 +224,62 @@ body {
                             <div style="padding: 15px; color: black">
 
                                 <div>
-                                    <label for="pintu-design">Pilih Pintu lemari</label>
-                                    <select id="pintu-design" class="form-select" required>
-                                        <option value="" selected disabled>pilih.</option>
-                                        <option value="" data-price="0" data-nama="Tanpa Pintu">tanpa pintu</option>
+                                    <div class="mb-3">
+                                        <label for="pintu-design" class="form-label">Pilih Pintu Lemari</label>
+                                        <select id="pintu-design" class="form-select" required>
+                                            <option value="" selected disabled>pilih.</option>
+                                            <option value="" data-price="0" data-nama="Tanpa Pintu">Tanpa Pintu</option>
 
-                                        @for ($i = 0; $i < count($listPintu); $i++)
-                                            <option value="{{ url($listPintu[$i]->url) }}"
-                                                data-price="{{ $listPintu[$i]->harga }}"
-                                                data-nama="{{ $listPintu[$i]->nama_addon }}">
-                                                {{ $listPintu[$i]->nama_addon }} -
-                                                (Rp.{{ number_format($listPintu[$i]->harga) }})
-                                            </option>
-                                        @endfor
+                                            @for ($i = 0; $i < count($listPintu); $i++)
+                                                <option value="{{ url($listPintu[$i]->url) }}"
+                                                    data-price="{{ $listPintu[$i]->harga }}"
+                                                    data-nama="{{ $listPintu[$i]->nama_addon }}">
+                                                    {{ $listPintu[$i]->nama_addon }} -
+                                                    (Rp.{{ number_format($listPintu[$i]->harga) }})
+                                                </option>
+                                            @endfor
+                                        </select>
+                                        <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
+                                            value="1" onchange="updateOpacity(this.value)" style="display: none">
+
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="finishing" class="form-label">Pilih Finishing</label>
+                                        <select id="finishing" class="form-select" required>
+                                            <option value="" selected disabled>pilih.</option>
 
 
+                                            @for ($i = 0; $i < count($listFinishing); $i++)
+                                                <option value="{{ url($listFinishing[$i]->fdId) }}"
+                                                    data-price="{{ $listFinishing[$i]->harga }}"
+                                                    data-nama="{{ $listFinishing[$i]->nama_finishing }}">
+                                                    {{ $listFinishing[$i]->nama_finishing }} -
+                                                    (Rp.{{ number_format($listFinishing[$i]->harga) }})
+                                                </option>
+                                            @endfor
+                                        </select>
+                                    </div>
 
-                                    </select>
-                                    <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
-                                        value="1" onchange="updateOpacity(this.value)" style="display: none">
+                                    <div class="mb-3">
+                                        <span class="badge bg-info" style="font-size: 16px;">Perkiraan Harga: <span id="totalHarga">Rp 0</span></span>
+                                        <br><br>
+                                        <div class="alert alert-warning text-dark">
+                                            <ul class="list-unstyled">
 
-
-                                    <span class="badge bg-info" style="font-size: 16px">Perkiraan Harga: <span
-                                            id="totalHarga"></span></span>
-                                            <br><br>
-                                    <div class="alert alert-warning text-dark">
-                                        <ul class="list-unstyled">
-
-                                            <li class="mb-2" id="ukuran-tinggi">
-                                                •
-                                                Tinggi: 160cm -180 cm
-                                            </li>
-                                            <li class="mb-2" id="ukuran-lebar">
-                                                •
-                                                Lebar: 80cm - 100cm
-                                            </li>
-                                            <li class="mb-2" id="ukuran-kedalaman">
-                                                •
-                                                Tebal (Kedalaman): 45cm - 60cm
-                                            </li>
-                                        </ul>
+                                                <li class="mb-2" id="ukuran-tinggi">
+                                                    •
+                                                    Tinggi: 160cm -180 cm
+                                                </li>
+                                                <li class="mb-2" id="ukuran-lebar">
+                                                    •
+                                                    Lebar: 80cm - 100cm
+                                                </li>
+                                                <li class="mb-2" id="ukuran-kedalaman">
+                                                    •
+                                                    Tebal (Kedalaman): 45cm - 60cm
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                     <div>
                                         <br>
@@ -514,6 +530,12 @@ body {
                 var selectedPintuPrice = parseInt(document.getElementById('pintu-design').options[document
                     .getElementById('pintu-design').selectedIndex].getAttribute('data-price'));
 
+                      // UNTUK FINISHING
+                var selectedFinishingName = document.getElementById('finishing').options[document
+                    .getElementById('finishing').selectedIndex].getAttribute('data-nama');
+                var selectedFinishingPrice = parseInt(document.getElementById('finishing').options[document
+                    .getElementById('finishing').selectedIndex].getAttribute('data-price'));
+
                 const addonData = JSON.parse(localStorage.getItem('addonData'));
                 const addonPrices = JSON.parse(localStorage.getItem('addonPrices'));
 
@@ -535,7 +557,7 @@ body {
                             },
                             body: JSON.stringify({
                                 image: dataURL,
-                                total_harga: totalHarga + selectedPintuPrice,
+                                total_harga: totalHarga + selectedPintuPrice + selectedFinishingPrice,
                                 status: 1,
                                 pintu: selectedPintuName,
                                 pintuPrice: selectedPintuPrice,
@@ -549,7 +571,8 @@ body {
                                 addonPrices: addonPrices,
                                 catatan: catatan,
                                 alamat: alamat, // Kirim alamat ke server
-                                notelp: notelp // Kirim nomor telepon ke server
+                                notelp: notelp, // Kirim nomor telepon ke server
+                                finishing: selectedFinishingName,
                             })
                         })
                         .then(response => response.json())
@@ -588,6 +611,7 @@ body {
             let hargaPintu = @json($addonPrices);
             console.log(hargaPintu);
             let currentPintuPrice = 0;
+            let currentFinishingPrice = 0;
             document.getElementById('ukuran-tinggi').textContent = '• Tinggi: '+ ukuranData.tinggi + ' cm';
             document.getElementById('ukuran-lebar').textContent = '• Lebar: '+ ukuranData.lebar + ' cm';
             document.getElementById('ukuran-kedalaman').textContent = '• Tebal (kedalaman): '+ ukuranData.kedalaman + ' cm';
@@ -596,7 +620,7 @@ body {
 
 
             function updateTotalHarga() {
-                let finalTotal = totalHarga + currentPintuPrice;
+                let finalTotal = totalHarga + currentPintuPrice + currentFinishingPrice;
                 document.getElementById('totalHarga').textContent = finalTotal.toLocaleString('id-ID', {
                     style: 'currency',
                     currency: 'IDR',
@@ -613,6 +637,20 @@ body {
                     currentPintuPrice = selectedPintuPrice;
                 } else {
                     currentPintuPrice = 0; // default jika tidak ada pintu
+                }
+
+                // Update total harga di UI
+                updateTotalHarga();
+            }, false);
+            document.getElementById('finishing').addEventListener('change', function() {
+                let selectedOption = this.options[this.selectedIndex];
+                let selectedFinishingPrice = parseInt(selectedOption.getAttribute('data-price'));
+
+                // Periksa apakah harga ada
+                if (!isNaN(selectedFinishingPrice)) {
+                    currentFinishingPrice = selectedFinishingPrice;
+                } else {
+                    currentFinishingPrice = 0; // default jika tidak ada pintu
                 }
 
                 // Update total harga di UI

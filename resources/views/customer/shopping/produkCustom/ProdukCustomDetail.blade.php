@@ -156,13 +156,13 @@
                     <input type="text" name="idProduk" id="idProduk" hidden value="{{ $produk->id }}">
                     <p class="mb-4">{{ $produk->deskripsi }}</p>
                     <a href="{{ url('/custom/' . $produk->id) }}" class="custom-button">
-                        <i class="fas fa-palette me-2"></i>Start Customization
+                        <i class="fas fa-palette me-2"></i>Mulai Kustomisasi
                     </a>
                 </div>
 
                 <div class="product-details">
                     <div class="detail-section">
-                        <h5><i class="fas fa-ruler-combined me-2"></i>Size Specifications</h5>
+                        <h5><i class="fas fa-ruler-combined me-2"></i>Spesifikasi Ukuran</h5>
                         @if (in_array($produk->kode, ['meja1', 'meja2', 'meja3']))
                             <p>Length: {{ $produk->panjang_min }}cm - {{ $produk->panjang_max }}cm</p>
                             <p>Height: {{ $produk->tinggi_min }}cm - {{ $produk->tinggi_max }}cm</p>
@@ -175,7 +175,7 @@
                     </div>
 
                     <div class="detail-section">
-                        <h5><i class="fas fa-tree me-2"></i>Wood Types Available</h5>
+                        <h5><i class="fas fa-tree me-2"></i>Pilihan Kayu yang tersedia</h5>
                         @foreach($detail as $wood)
                             <div class="wood-type">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -187,7 +187,7 @@
                     </div>
 
                     <div class="detail-section accordion" id="addonAccordion">
-                        <h5><i class="fas fa-plus-circle me-2"></i>Available Add-ons</h5>
+                        <h5><i class="fas fa-plus-circle me-2"></i>Pilihan Add-On yang Tersedia</h5>
                         Klik untuk melihat detail add on masing masing
                         @foreach($addonMain as $addon)
                             <div class="addon-item cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapse{{$addon->kode}}">
