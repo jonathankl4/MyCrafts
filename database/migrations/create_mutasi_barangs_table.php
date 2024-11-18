@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('stok_keluar')->nullable();
             $table->string('jenis_mutasi');
             $table->string('jenis_barang');
+            $table->dateTime('tanggal');
             $table->timestamps();
         });
     }

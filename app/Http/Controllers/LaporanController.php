@@ -1,0 +1,158 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Bahan;
+use App\Models\MutasiBarang;
+use App\Models\toko;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+
+class LaporanController extends Controller
+{
+    //
+
+    public function getLogUser(){
+        $s = Session::get("user");
+        $user = User::find($s->id);
+        return $user;
+    }
+
+    public function getToko()
+    {
+        $user = $this->getLogUser();
+
+        $toko = toko::find($user->id_toko);
+        return $toko;
+    }
+
+    // Laporan Pembelian
+
+
+    public function indexLaporanPembelian (Request $request)
+    {
+        $user = $this->getLogUser();
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+
+        $query = DB::table('detail_pencatatan_pembelians as dpp')
+            ->select('dpp.nama_barang', 'dpp.jumlah', 'dpp.satuan', 'dpp.harga', 'dpp.total_harga', 'pp.tanggal')
+            ->join('pencatatan_pembelians as pp', 'dpp.id_pencatatan', '=', 'pp.id')
+            ->where('pp.status', 1);
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('pp.tanggal', [$startDate, $endDate]);
+        }
+
+        $laporanPembelian = $query->orderBy('pp.tanggal', 'asc')->get();
+
+        return view('seller.laporan.laporanPembelianBahan', [
+            'user' =>$user,
+            'laporanPembelian' => $laporanPembelian,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+        ]);
+    }
+
+    public function indexLaporanMutasi( Request $request){
+        $user = $this->getLogUser();
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $laporanMutasi = DB::table('mutasi_barangs as mb')
+            ->select(
+                'mb.nama_barang',
+                'mb.stok_masuk',
+                'mb.stok_keluar',
+                'mb.jenis_mutasi',
+                'mb.jenis_barang',
+                'b.nama_bahan',
+                'm.nama_mebel',
+                'mb.tanggal'
+            )
+            ->leftJoin('bahans as b', 'mb.id_bahan', '=', 'b.id')
+            ->leftJoin('mebels as m', 'mb.id_mebel', '=', 'm.id');
+
+        if ($startDate && $endDate) {
+            $laporanMutasi->whereBetween('mb.tanggal', [$startDate, $endDate]);
+        }
+
+        $laporanMutasi = $laporanMutasi->orderBy('mb.tanggal')
+            ->get();
+
+        return view('seller.laporan.laporanMutasi', [
+            'user' => $user,
+            'laporanMutasi' => $laporanMutasi,
+            'startDate' => $startDate,
+            'endDate' => $endDate
+        ]);
+
+    }
+
+    public function indexLaporanStokBahan(){
+
+        $user = $this->getLogUser();
+        $stokBahan = Bahan::all(); // Mengambil semua data dari tabel bahans
+
+        return view('seller.laporan.laporanStokBahan', [
+            'user' => $user,
+            'stokBahan' => $stokBahan,
+        ]);
+    }
+
+    public function indexLaporanPenjualan( Request $request){
+        $user = $this->getLogUser();
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $tipeTrans = $request->input('tipe_trans');
+
+        $laporanPenjualan = DB::table('h_trans as ht')
+            ->select(
+                'ht.tgl_transaksi',
+                'ht.nama_produk',
+                'ht.tipe_trans',
+                'ht.jumlah',
+                'ht.harga',
+                'ht.harga_redesain',
+                'ht.ongkir',
+                'ht.status'
+            )
+
+            ->whereIn('ht.status', [7, 8, 9, 10, 16]);
+
+        if ($startDate && $endDate) {
+            $laporanPenjualan->whereBetween('ht.tgl_transaksi', [$startDate, $endDate]);
+        }
+
+        if ($tipeTrans) {
+            $laporanPenjualan->where('ht.tipe_trans', $tipeTrans);
+        }
+
+        $laporanPenjualan = $laporanPenjualan->orderBy('ht.tgl_transaksi')
+            ->get();
+
+        return view('seller.laporan.laporanPenjualan', [
+            'user'=> $user,
+            'laporanPenjualan' => $laporanPenjualan,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'tipeTrans' => $tipeTrans
+        ]);
+    }
+
+    public function indexLaporanProduksi(Request $request){
+
+
+        $user = $this->getLogUser();
+
+
+        return view('seller.produksi.laporanProduksi',[
+            'user'=>$user
+        ]);
+
+        
+    }
+}

@@ -23,7 +23,6 @@ return new class extends Migration
             $table->integer('ukuran_tinggiMebel')->nullable();
             $table->string('satuanUkuran_mebel')->nullable();
             $table->string('keterangan_mebel')->nullable();
-            
             $table->timestamps();
         });
     }

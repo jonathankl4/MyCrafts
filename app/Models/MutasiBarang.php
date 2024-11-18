@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MutasiBarang extends Model
 {
     use HasFactory;
+
+
+    
 }

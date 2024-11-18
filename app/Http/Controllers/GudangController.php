@@ -104,6 +104,7 @@ class GudangController extends Controller
         $mutasi->stok_keluar = $request->jenis_mutasi == 'keluar' ? $request->jumlah : null;
         $mutasi->jenis_mutasi = $request->jenis_mutasi;
         $mutasi->jenis_barang = $jenisBarang;
+        $mutasi->tanggal = now();
         $mutasi->save();
 
         toast('Berhasil tambah Mutasi', 'success');

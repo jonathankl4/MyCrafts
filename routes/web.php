@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\GudangController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\Lemari1Controller;
 use App\Http\Controllers\Lemari2Controller;
 use App\Http\Controllers\Lemari3Controller;
@@ -344,6 +345,19 @@ Route::group([
     Route::post('/buatPermintaanPembelian', [GudangController::class, 'buatPermintaanPembelian']);
     Route::post('/pencatatanPembelian/hapus/{id}', [GudangController::class, 'hapusPembelian']);
 
+
+    // START OF LAPORAN NON PRO
+    Route::get('/HLaporan-pembelian', [LaporanController::class, 'halamanLaporanPembelian']);
+    Route::get('/laporan-pembelian', [LaporanController::class, 'indexLaporanPembelian'])->name('laporan-pembelian.index');
+
+    Route::get('/laporan-mutasi', [LaporanController::class, 'indexLaporanMutasi'])->name('laporan-mutasi.index');
+
+    Route::get('/laporan-stok-bahan', [LaporanController::class, 'indexLaporanStokBahan']);
+
+    Route::get('/laporan-penjualan', [LaporanController::class,'indexLaporanPenjualan'])->name('laporan-penjualan.index');
+
+
+
     //==================================================================================================================================
     // FITUR PRO ONLY
     Route::group([
@@ -426,7 +440,12 @@ Route::group([
 
 
 
+
         // END OF GUDANG
+
+        // START OF LAPORAN
+
+
 
     });
 

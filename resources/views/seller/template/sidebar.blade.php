@@ -116,6 +116,13 @@
                 </a>
 
             </li>
+            <li class="menu-item {{ request()->is('seller/laporan-penjualan') ? 'active open' : '' }}">
+                <a href="{{ url('/seller/laporan-penjualan') }}" class="menu-link ">
+                    <i class="menu-icon tf-icons bx bxs-report"></i>
+                    <div>Laporan Penjualan</div>
+                </a>
+
+            </li>
         @endif
         @if ($user->status == 'owner')
             <li class="menu-item {{ request()->is('seller/pegawai') ? 'active open' : '' }}">
@@ -201,8 +208,8 @@
                             <div>Pengembalian Bahan</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->is('seller/produksi/') ? 'active' : '' }}">
-                        <a href="" class="menu-link">
+                    <li class="menu-item {{ request()->is('seller/produksi/laporan-produksi') ? 'active' : '' }}">
+                        <a href="{{url('/seller/produksi/laporan-produksi')}}" class="menu-link">
                             <div>Laporan Produksi</div>
                         </a>
                     </li>
@@ -282,6 +289,19 @@
                 <div>Pencatatan Pembelian</div>
             </a>
         </li>
+        <li class="menu-item {{ request()->is('seller/laporan-pembelian') ? 'active' : '' }}">
+            <a href="{{url('/seller/laporan-pembelian')}}" class="menu-link">
+                <i class='menu-icon tf-icons bx bxs-report'></i>
+                <div>Laporan Pembelian Bahan</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->is('seller/laporan-mutasi') ? 'active' : '' }}">
+            <a href="{{url('/seller/laporan-mutasi')}}" class="menu-link">
+                <i class='menu-icon tf-icons bx bxs-report'></i>
+                <div>Laporan Mutasi</div>
+            </a>
+        </li>
+
 
 
 
