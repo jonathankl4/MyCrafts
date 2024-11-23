@@ -198,7 +198,9 @@
 
                                 <span>{{ $datapilihan[0]->nama_item }} - Rp.
                                     {{ number_format($datapilihan[0]->harga, 0, ',', '.') }} </span>
-
+                                    <br>
+                                <span>{{ $pembelian->finishing }} - Rp.
+                                    {{ number_format($pembelian->harga_finishing, 0, ',', '.') }} </span>
                             </div>
 
                             <div id="counters">
@@ -222,6 +224,9 @@
 
 
                                 </select>
+                                <span>Opacity</span>
+                                <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
+                                    value="1" onchange="updateOpacity(this.value)">
                                 <br>
                                 <button id="btntambah" class="btn btn-primary">tambah</button>
 
@@ -294,6 +299,28 @@
 
                         </div>
 
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="modalConfirmPesanan" tabindex="-1" aria-labelledby="modalConfirmPesananLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #bfb596; color: white;">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="padding: 20px;">
+                            <h3 class="text-dark" style="font-weight: bold;">Konfirmasi</h3>
+                            <p>Total yang harus dibayar Untuk desain Lama adalah: <span id="totalAmount1"
+                                    style="font-weight: bold; color: #3c7e63;"></span></p>
+                            <p>Total yang harus dibayar Untuk desain Baru adalah: <span id="totalAmount2"
+                                    style="font-weight: bold; color: #3c7e63;"></span></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="button" id="confirmOrder" class="btn btn-success">Konfirmasi</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -448,6 +475,18 @@
     let counterlaci1 = 0;
     let counterlaci2 = 0;
 
+    function updateOpacity(value) {
+            canvas.getObjects().forEach(function(obj) {
+                if (!obj.gridLine) {
+                    obj.set({
+                        opacity: value
+                    });
+                }
+
+            })
+            canvas.renderAll();
+        }
+
         // Fungsi untuk memperbarui counter di UI
         function updateCounters() {
             const laci1Div= document.getElementById('count-laci1').parentElement;
@@ -515,7 +554,7 @@
 
         // Variabel untuk menyimpan total harga
         let hargakayu = 0;
-        let totalPrice = pembelian.harga_kayu + datapilihan[0].harga;
+        let totalPrice = pembelian.harga_kayu + datapilihan[0].harga + pembelian.harga_finishing;
         updateTotalPrice2();
 
 
@@ -732,15 +771,67 @@
 
 
 
-        document.getElementById('redesain-form').addEventListener('submit', function(event) {
-            // Ambil elemen produk-div
-            event.preventDefault();
+        document.getElementById('terimaPesanan').addEventListener('click', function() {
+            // Get harga and ongkir values
+            var hargaLamaInput = document.getElementById('harga-fix');
+            var hargaRedesainInput = document.getElementById('harga-redesain');
 
-            if (this.checkValidity()) {
+            var ongkirInput = document.getElementById('ongkir');
+            var ongkir = parseInt(ongkirInput.value);
+            var lama = parseInt(hargaLamaInput.value);
+            var redesain = parseInt(hargaRedesainInput.value);
+
+            // Check if ongkir is filled and valid
+            if (!hargaLamaInput.value || isNaN(lama) || lama <= 0) {
+                alert("Masukkan Harga Desain Lama yang valid sebelum melanjutkan.");
+                hargaLamaInput.focus();
+                return;
+            }
+            if (!hargaRedesainInput.value || isNaN(redesain) || redesain <= 0) {
+                alert("Masukkan Harga Redesain yang valid sebelum melanjutkan.");
+                hargaRedesainInput.focus();
+                return;
+            }
+            if (!ongkirInput.value || isNaN(ongkir) || ongkir <= 0) {
+                alert("Masukkan ongkir yang valid sebelum melanjutkan.");
+                ongkirInput.focus();
+                return;
+            }
+
+
+
+            // Calculate total and display in the confirmation modal
+            var total1 = lama + ongkir;
+            var total2 = redesain + ongkir;
+            document.getElementById('totalAmount1').textContent = 'Rp ' + total1.toLocaleString();
+            document.getElementById('totalAmount2').textContent = 'Rp ' + total2.toLocaleString();
+
+            // Show the confirmation modal
+            var confirmModal = new bootstrap.Modal(document.getElementById('modalConfirmPesanan'));
+            confirmModal.show();
+        });
+
+        document.getElementById('confirmOrder').addEventListener('click', function(event) {
+            // Ambil elemen produk-div
+            const form = document.getElementById('redesain-form');
+
+            if (form.checkValidity()) {
+                event.preventDefault();
                 var element = document.getElementById('produk-div');
 
                 let fixHarga = document.getElementById('harga-fix').value;
                 let hargaRedesain = document.getElementById('harga-redesain').value;
+                let ongkir = document.getElementById('ongkir').value;
+
+                canvas.getObjects().forEach(function(obj) {
+                    if (!obj.gridLine) {
+                        obj.set({
+                            opacity: 0.6
+                        });
+                    }
+
+                });
+                canvas.renderAll();
 
 
                 // Gunakan html2canvas untuk membuat screenshot dari elemen
@@ -764,7 +855,9 @@
                                 addonPrices: addonPrices,
                                 total_harga: totalPrice,
                                 hargaFix: fixHarga,
-                                hargaRedesain: hargaRedesain
+                                hargaRedesain: hargaRedesain,
+                                ongkir: ongkir
+
 
 
 

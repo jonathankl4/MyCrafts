@@ -76,7 +76,7 @@
 
                                     <td style="font-size: 16px"><b>{{ $listProduk[$i]->jumlah_produk }}</b></td>
 
-                                    <td style="font-size: 16px"><b>Rp {{ $listProduk[$i]->harga_produk }}</b></td>
+                                    <td style="font-size: 16px"><b>Rp {{ number_format($listProduk[$i]->harga_produk, 0, ',', '.') }}</b></td>
                                     <td style="font-size: 16px">
                                         @if ($listProduk[$i]->status == 'nonaktif')
                                             <div class="col-3 text-end">

@@ -198,7 +198,7 @@
                                             $status = 'Menunggu Konfirmasi';
                                             $color = 'bg-warning';
                                         } elseif ($s == 2) {
-                                            $status = 'Ada Perbaikan Desain, Menunggu Pembayaran';
+                                            $status = 'Perbaikan Add-On, Menunggu Pembayaran';
                                             $color = 'bg-secondary';
                                         } elseif ($s == 3) {
                                             $status = 'Menunggu Pembayaran Customer';

@@ -41,7 +41,8 @@ class LaporanController extends Controller
         $query = DB::table('detail_pencatatan_pembelians as dpp')
             ->select('dpp.nama_barang', 'dpp.jumlah', 'dpp.satuan', 'dpp.harga', 'dpp.total_harga', 'pp.tanggal')
             ->join('pencatatan_pembelians as pp', 'dpp.id_pencatatan', '=', 'pp.id')
-            ->where('pp.status', 1);
+            ->where('pp.status', 1)
+            ->where('pp.id_toko', $user->id_toko);
 
         if ($startDate && $endDate) {
             $query->whereBetween('pp.tanggal', [$startDate, $endDate]);
@@ -74,7 +75,8 @@ class LaporanController extends Controller
                 'mb.tanggal'
             )
             ->leftJoin('bahans as b', 'mb.id_bahan', '=', 'b.id')
-            ->leftJoin('mebels as m', 'mb.id_mebel', '=', 'm.id');
+            ->leftJoin('mebels as m', 'mb.id_mebel', '=', 'm.id')
+            ->where('mb.id_toko', $user->id_toko);
 
         if ($startDate && $endDate) {
             $laporanMutasi->whereBetween('mb.tanggal', [$startDate, $endDate]);
@@ -121,7 +123,8 @@ class LaporanController extends Controller
                 'ht.status'
             )
 
-            ->whereIn('ht.status', [7, 8, 9, 10, 16]);
+            ->whereIn('ht.status', [7, 8, 9, 10, 16])
+            ->where('ht.id_toko', $user->id_toko);
 
         if ($startDate && $endDate) {
             $laporanPenjualan->whereBetween('ht.tgl_transaksi', [$startDate, $endDate]);
@@ -147,12 +150,75 @@ class LaporanController extends Controller
 
 
         $user = $this->getLogUser();
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
 
 
-        return view('seller.produksi.laporanProduksi',[
-            'user'=>$user
+        $laporanProduksi = DB::table('rencana_produksis as rp')
+            ->select(
+                'rp.tgl_produksi_mulai',
+                'rp.tgl_produksi_selesai',
+                'rp.nama_produk',
+                'rp.jumlahdiproduksi',
+                'hp.jumlah_berhasil',
+                'hp.jumlah_gagal',
+                'hp.durasi',
+
+            )
+            ->leftJoin('hasil_produksis as hp', 'rp.id', '=', 'hp.id_produksi')
+            ->where('rp.status', 2)
+            ->where('rp.id_toko', $user->id_toko);
+
+        if ($startDate && $endDate) {
+            $laporanProduksi->whereBetween('rp.tgl_produksi_mulai', [$startDate, $endDate]);
+        }
+
+        $laporanProduksi = $laporanProduksi->orderBy('rp.tgl_produksi_mulai')
+            ->get();
+
+        return view('seller.laporan.laporanProduksi', [
+            'user'=>$user,
+            'laporanProduksi' => $laporanProduksi,
+            'startDate' => $startDate,
+            'endDate' => $endDate
         ]);
 
-        
+    }
+
+    public function indexLaporanGagalProduksi (Request $request){
+        $user = $this->getLogUser();
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $laporanGagalProduksi = DB::table('rencana_produksis as rp')
+            ->select(
+                'rp.tgl_produksi_mulai',
+                'rp.tgl_produksi_selesai',
+                'rp.nama_produk',
+                'rp.jumlahdiproduksi',
+                'hp.jumlah_berhasil',
+                'hp.jumlah_gagal',
+                'hp.durasi',
+              
+            )
+            ->leftJoin('hasil_produksis as hp', 'rp.id', '=', 'hp.id_produksi')
+
+            ->where('rp.status', 2)
+            ->where('rp.id_toko', $user->id_toko);
+
+
+        if ($startDate && $endDate) {
+            $laporanGagalProduksi->whereBetween('rp.tgl_produksi_mulai', [$startDate, $endDate]);
+        }
+
+        $laporanGagalProduksi = $laporanGagalProduksi->orderBy('rp.tgl_produksi_mulai')
+            ->get();
+
+        return view('seller.laporan.laporanGagalProduksi', [
+            'user' => $user,
+            'laporanGagalProduksi' => $laporanGagalProduksi,
+            'startDate' => $startDate,
+            'endDate' => $endDate
+        ]);
     }
 }

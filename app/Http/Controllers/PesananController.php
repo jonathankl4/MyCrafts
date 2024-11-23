@@ -179,9 +179,11 @@ class PesananController extends Controller
         }elseif ($pembelian->tipe_trans == 'custom') {
             # code...
             $addon = DB::table('d_trans')->where('h_trans_id', $id)->get();
+
+            $produk = ProdukCustomDijual::find($pembelian->id_produk);
             // dd($addon);
 
-            return view('seller.pesanan.detailPesanan', ['user' => $user, 'detail' => $pembelian, 'addon' => $addon]);
+            return view('seller.pesanan.detailPesanan', ['user' => $user, 'detail' => $pembelian, 'addon' => $addon, 'produk'=>$produk]);
         }
 
 
@@ -390,6 +392,8 @@ class PesananController extends Controller
             return view('seller.pesanan.redesain.redesainh1lemari3', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produkCustom, 'pembelian' => $pembelian, 'detailPembelian' => $detailPembelian]);
         } else if($produkCustom->kode == 'meja1'){
             return view('seller.pesanan.redesain.redesainh1meja1', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produkCustom, 'pembelian' => $pembelian, 'detailPembelian' => $detailPembelian]);
+        } else if($produkCustom->kode == 'meja2'){
+            return view('seller.pesanan.redesain.redesainh1meja2', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produkCustom, 'pembelian' => $pembelian, 'detailPembelian' => $detailPembelian]);
         }
     }
 

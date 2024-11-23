@@ -164,7 +164,7 @@ body {
         <br><br><br><br><br><br><br>
         <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
             <h2 class="fw-bold py-3 mb-4">Custom Mebel Halaman 2</h2>
-
+            <button onclick="history.back()" class="btn btn-secondary">Kembali Ke halaman 1</button>
             <div class="row">
 
                 <div class="col-md-6" style="overflow: auto; z-index: 3;">
@@ -286,15 +286,7 @@ body {
                                     <textarea name="detail" id="detail" cols="30" rows="5" placeholder="Tolong berikan detail kustomisasi anda" class="form-control"></textarea>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="alamat" class="form-label">Alamat Pengiriman</label>
-                                    <textarea name="alamat" id="alamat" cols="30" rows="5" placeholder="Masukkan alamat lengkap..." class="form-control" required></textarea>
-                                </div>
 
-                                <div class="mb-3">
-                                    <label for="notelp" class="form-label">Nomor Telepon</label>
-                                    <input type="text" name="notelp" id="notelp" class="form-control" placeholder="Masukkan nomor telepon" required>
-                                </div>
 
                                 <button id="btn-beli" class="btn btn-success w-100">Beli</button>
                             </div>
@@ -559,8 +551,7 @@ body {
                 const addonPrices = JSON.parse(localStorage.getItem('addonPrices'));
 
                 let catatan = document.getElementById('detail').value;
-                let alamat = document.getElementById('alamat').value;
-                let notelp = document.getElementById('notelp').value;
+
                 updateOpacity(1);
 
                 // Gunakan html2canvas untuk membuat screenshot dari elemen
@@ -578,7 +569,7 @@ body {
                             body: JSON.stringify({
                                 image: dataURL,
                                 total_harga: totalHarga + selectedPintuPrice + selectedFinishingPrice,
-                                status: 1,
+                                status: 0,
                                 pintu: selectedPintuName,
                                 pintuPrice: selectedPintuPrice,
                                 sekatHorizontal: addonData.sekatHorizontal ||
@@ -586,18 +577,20 @@ body {
                                 sekatVertical: addonData.sekatVertical ||
                                 0, // Kirim add-on sekat vertical
                                 gantungan: addonData.gantungan || 0, // Kirim add-on gantungan
+                                laciKecil: addonData.laciKecil || 0, // Kirim add-on gantungan
+                                laciBesar: addonData.laciBesar || 0,
                                 addonPrices: addonPrices,
                                 catatan: catatan,
-                                alamat: alamat, // Kirim alamat ke server
-                                notelp: notelp, // Kirim nomor telepon ke server,
+                               // Kirim nomor telepon ke server,
                                 finishing: selectedFinishingName,
+                                harga_finishing: selectedFinishingPrice
 
                             })
                         })
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                window.location.href = "{{ url('/customer/pembelian') }}" ;
+                                window.location.href = "{{ url('/customer/checkoutCustom') }}" ;
 
                             } else {
                                 alert("Gambar gagal disimpan");

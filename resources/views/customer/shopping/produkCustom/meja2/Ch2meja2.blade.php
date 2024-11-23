@@ -207,7 +207,7 @@
         <br><br><br><br><br><br><br>
         <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
             <h2 class="fw-bold py-3 mb-4">Custom Mebel Halaman 2</h2>
-
+            <button onclick="history.back()" class="btn btn-secondary">Kembali ke halaman 1</button>
             <div class="row">
 
                 <div class="col-md-7" style="overflow: auto; z-index: 3;">
@@ -311,23 +311,14 @@
                                         id="totalHarga"></span></span>
                                 <div>
                                     <br>
-                                    <label for="detail">Catatan untuk Penjual</label>
+                                    <label for="detail">Penjelasan Custom</label>
                                     <br>
                                     <textarea name="detail" id="detail" cols="30" rows="5" placeholder="" class="form-control"></textarea>
                                     <br>
 
                                 </div>
 
-                                <div>
-                                    <label for="alamat">Alamat Pengiriman</label>
-                                    <br>
-                                    <textarea name="alamat" id="alamat" cols="30" rows="5" class="form-control" required></textarea>
-                                </div>
-                                <div>
-                                    <br>
-                                    <label for="notelp">Nomor Telepon</label>
-                                    <input type="text" name="notelp" id="notelp" class="form-control" required>
-                                </div>
+
                                 <br>
                                 <button id="btn-beli" class="btn btn-success">Beli</button>
 
@@ -569,8 +560,7 @@
                 const addonPrices = JSON.parse(localStorage.getItem('addonPrices'));
 
                 let catatan = document.getElementById('detail').value;
-                let alamat = document.getElementById('alamat').value;
-                let notelp = document.getElementById('notelp').value;
+
                 updateOpacity(1);
 
                 // Gunakan html2canvas untuk membuat screenshot dari elemen
@@ -588,7 +578,7 @@
                             body: JSON.stringify({
                                 image: dataURL,
                                 total_harga: totalHarga + selectedPintuPrice + selectedFinishingPrice,
-                                status: 1,
+                                status: 0,
                                 pintu: selectedPintuName,
                                 pintuPrice: selectedPintuPrice,
                                 // Kirim add-on gantungan
@@ -597,15 +587,15 @@
                                 pijakankaki: addonData.pijakankaki || 0,
                                 addonPrices: addonPrices,
                                 catatan: catatan,
-                                alamat: alamat, // Kirim alamat ke server
-                                notelp: notelp, // Kirim nomor telepon ke server
-                                finishing: selectedFinishingName
+
+                                finishing: selectedFinishingName,
+                                harga_finishing: selectedFinishingPrice
                             })
                         })
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                window.location.href = "{{ url('/customer/pembelian') }}";
+                                window.location.href = "{{ url('/customer/checkoutCustom') }}";
 
                             } else {
                                 alert("Gambar gagal disimpan");

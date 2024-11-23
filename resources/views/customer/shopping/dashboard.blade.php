@@ -58,6 +58,33 @@
             max-height: 2.4em;
             /* Line height * number of lines */
         }
+
+        .product-item {
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .product-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .filter-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+
+    .size-badge {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+        border-radius: 4px;
+        background: #f8f9fa;
+        margin-right: 5px;
+    }
     </style>
 @endsection
 
@@ -112,43 +139,21 @@
     <!-- Featurs Section End -->
 
     <!--  Shop Start-->
-    <div class="container-fluid fruite" style="z-index:1">
+
+
+    <!--  Shop 2 Start-->
+    <div class="container-fluid fruite">
         <div class="container py-5">
             <div class="tab-class text-center">
                 <div class="row g-4">
                     <div class="col-lg-4 text-start">
-                        <h1>Produk </h1>
+                        <h1>Produk Custom</h1>
                     </div>
                     <div class="col-lg-8 text-end">
                         <ul class="nav nav-pills d-inline-flex text-center mb-5">
-                            {{-- <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill"
-                                    href="#tab-1">
-                                    <span class="text-dark" style="width: 130px;">All Products</span>
-                                </a>
-                            </li>
+
                             <li class="nav-item">
-                                <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
-                                    <span class="text-dark" style="width: 130px;">Vegetables</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
-                                    <span class="text-dark" style="width: 130px;">Fruits</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4">
-                                    <span class="text-dark" style="width: 130px;">Bread</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
-                                    <span class="text-dark" style="width: 130px;">Meat</span>
-                                </a>
-                            </li> --}}
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" href="{{ url('/exploreProduk') }}"
+                                <a class="d-flex m-2 py-2 bg-light rounded-pill" href="{{ url('/explore-custom-produk') }}"
                                     id="btnLebihBanyak1">
                                     <span class="text-dark" style="width: 200px;">Tampilkan Lebih Banyak</span>
                                 </a>
@@ -161,26 +166,83 @@
                         <div class="row g-4">
                             <div class="col-lg-12">
                                 <div class="row g-4">
-                                    @for ($i = 0; $i < count($random); $i++)
+                                    @foreach ($random2 as $produk)
                                         <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <a href="{{ url('/d/' . $random[$i]->id) }}">
-                                                <div class="rounded position-relative fruite-item">
+                                            {{-- <a href="{{ url('/custom/' . $random2[$i]->id) }}"> --}}
+                                            <a href="{{ url('/dc/' . $produk->id) }}">
+                                                <div class="product-item">
                                                     <div class="image-container" style="padding: 5px">
-                                                        <img src="{{ asset('storage/imgProduk/' . $random[$i]->foto_produk1) }}"
-                                                            class="img-fluid " alt="">
+                                                        @if ($produk->kode == 'lemari1')
+                                                            <img src="{{ url('img/lemari1/lemari1.png') }}"
+                                                                class="img-fluid" alt="">
+                                                        @elseif ($produk->kode == 'lemari2')
+                                                            <img src="{{ url('img/lemari2/lemari2.png') }}"
+                                                                class="img-fluid" alt="">
+                                                        @elseif($produk->kode == 'lemari3')
+                                                            <img src="{{ url('img/lemari3/lemari3.png') }}"
+                                                                class="img-fluid" alt="">
+                                                        @elseif($produk->kode == 'meja1')
+                                                            <img src="{{ url('img/meja1/mj.png') }}" class="img-fluid"
+                                                                alt="">
+                                                        @elseif($produk->kode == 'meja2')
+                                                            <img src="{{ url('img/meja2/meja2samping.png') }}"
+                                                                class="img-fluid" alt="">
+                                                        @endif
                                                     </div>
-                                                    <div class="p-4 border  border-top-0 rounded-bottom">
-                                                        <h4>{{ $random[$i]->nama_produk }}</h4>
-                                                        <div class="d-flex justify-content-between flex-lg-wrap">
-                                                            <p class="text-dark fs-5 fw-bold mb-0">Rp
-                                                                {{ number_format($random[$i]->harga_produk, 0, ',', '.') }}
-                                                            </p>
+                                                    <div class="p-4">
+                                                        <h4>{{ $produk->nama_produk }}</h4>
+                                                        <div class="d-flex mb-3 flex-wrap">
+                                                            @if (str_contains(strtolower($produk->kode), 'lemari'))
+                                                                <span class="size-badge mb-1">
+                                                                    {{ $produk->panjang_min }}-{{ $produk->panjang_max }}cm
+                                                                    (Kedalaman)
+                                                                </span>
+                                                                <span class="size-badge mb-1">
+                                                                    {{ $produk->lebar_min }}-{{ $produk->lebar_max }}cm
+                                                                    (Lebar)
+                                                                </span>
+                                                                <span class="size-badge mb-1">
+                                                                    {{ $produk->tinggi_min }}-{{ $produk->tinggi_max }}cm
+                                                                    (Tinggi)
+                                                                </span>
+                                                            @else
+                                                                <span class="size-badge mb-1">
+                                                                    {{ $produk->panjang_min }}-{{ $produk->panjang_max }}cm
+                                                                    (Panjang)
+                                                                </span>
+                                                                <span class="size-badge mb-1">
+                                                                    {{ $produk->lebar_min }}-{{ $produk->lebar_max }}cm
+                                                                    (Lebar)
+                                                                </span>
+                                                                <span class="size-badge mb-1">
+                                                                    {{ $produk->tinggi_min }}-{{ $produk->tinggi_max }}cm
+                                                                    (Tinggi)
+                                                                </span>
+                                                            @endif
+                                                        </div>
+                                                        <div class="">
+                                                            <span class="text-primary fw-bold"> Harga</span>
+                                                            <br>
+                                                            <span class="fs-5 fw-bold">
+                                                                @if ($produk->min_harga == $produk->max_harga)
+                                                                    Rp {{ number_format($produk->min_harga) }}
+                                                                @else
+                                                                    Rp {{ number_format($produk->min_harga) }} -
+                                                                    {{ number_format($produk->max_harga) }}
+                                                                @endif
+                                                            </span>
+                                                        </div>
+                                                        <div class="mt-2">
+                                                            <span class="text-dark">Pilihan Kayu:</span>
+                                                            <br>
+                                                            <small
+                                                                class="text-muted">{{ str_replace(',', ', ', $produk->jenis_kayu_list) }}</small>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </a>
                                         </div>
-                                    @endfor
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -195,43 +257,23 @@
     </div>
     <!--  Shop End-->
 
-    <!--  Shop 2 Start-->
-    <div class="container-fluid fruite">
+    <div class="container-fluid fruite" style="z-index:1">
         <div class="container py-5">
             <div class="tab-class text-center">
                 <div class="row g-4">
-                    <div class="col-lg-4 text-start">
-                        <h1>Produk Custom</h1>
+                    <div class="col-lg-6 text-start">
+                        <h1>Produk Non-Custom </h1>
                     </div>
-                    <div class="col-lg-8 text-end">
-                        {{-- <ul class="nav nav-pills d-inline-flex text-center mb-5">
+                    <div class="col-lg-6 text-end">
+                        <ul class="nav nav-pills d-inline-flex text-center mb-5">
+
                             <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill"
-                                    href="#tab-1">
-                                    <span class="text-dark" style="width: 130px;">All Products</span>
+                                <a class="d-flex m-2 py-2 bg-light rounded-pill" href="{{ url('/exploreProduk') }}"
+                                    id="btnLebihBanyak2">
+                                    <span class="text-dark" style="width: 200px;">Tampilkan Lebih Banyak</span>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
-                                    <span class="text-dark" style="width: 130px;">Vegetables</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
-                                    <span class="text-dark" style="width: 130px;">Fruits</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4">
-                                    <span class="text-dark" style="width: 130px;">Bread</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
-                                    <span class="text-dark" style="width: 130px;">Meat</span>
-                                </a>
-                            </li>
-                        </ul> --}}
+                        </ul>
                     </div>
                 </div>
                 <div class="tab-content">
@@ -239,34 +281,20 @@
                         <div class="row g-4">
                             <div class="col-lg-12">
                                 <div class="row g-4">
-                                    @for ($i = 0; $i < count($listCustom); $i++)
+                                    @for ($i = 0; $i < count($random1); $i++)
                                         <div class="col-md-6 col-lg-4 col-xl-3">
-                                            {{-- <a href="{{ url('/custom/' . $listCustom[$i]->id) }}"> --}}
-                                            <a href="{{ url('/dc/' . $listCustom[$i]->id) }}">
+                                            <a href="{{ url('/d/' . $random1[$i]->id) }}">
                                                 <div class="rounded position-relative fruite-item">
                                                     <div class="image-container" style="padding: 5px">
-                                                        @if ($listCustom[$i]->kode == 'lemari1')
-                                                            <img src="{{ url('img/lemari1/lemari1.png') }}"
-                                                                class="img-fluid " alt="">
-                                                        @elseif ($listCustom[$i]->kode == 'lemari2')
-                                                            <img src="{{ url('img/lemari2/lemari2.png') }}"
-                                                                class="img-fluid " alt="">
-                                                                @elseif($listCustom[$i]->kode == 'lemari3')
-                                                                <img src="{{ url('img/lemari3/lemari3.png') }}"
-                                                                    class="img-fluid " alt="">
-                                                                    @elseif($listCustom[$i]->kode == 'meja1')
-                                                                    <img src="{{ url('img/meja1/meja1.png') }}"
-                                                                    class="img-fluid " alt="">
-                                                                    @elseif($listCustom[$i]->kode == 'meja2')
-                                                                    <img src="{{ url('img/meja2/meja2.png') }}"
-                                                                    class="img-fluid " alt="">
-                                                        @endif
+                                                        <img src="{{ asset('storage/imgProduk/' . $random1[$i]->foto_produk1) }}"
+                                                            class="img-fluid " alt="">
                                                     </div>
                                                     <div class="p-4 border  border-top-0 rounded-bottom">
-                                                        <p class="product-title" style="color: black">
-                                                            {{ $listCustom[$i]->nama_produk }}</p>
+                                                        <h4>{{ $random1[$i]->nama_produk }}</h4>
                                                         <div class="d-flex justify-content-between flex-lg-wrap">
-                                                            <p class="text-dark fs-5 fw-bold mb-0">.</p>
+                                                            <p class="text-dark fs-5 fw-bold mb-0">Rp
+                                                                {{ number_format($random1[$i]->harga_produk, 0, ',', '.') }}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>

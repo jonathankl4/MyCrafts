@@ -137,6 +137,8 @@ Route::group([
     Route::get('/daftarseller', [CustomerController::class, "daftarSeller"])->name('daftarseller');
     Route::get('/becomeSeller', [CustomerController::class, "becomeSeller"])->name('becomeSeller');
     Route::get('/exploreProduk', [CustomerController::class, 'exploreProduk']);
+    Route::get('/exploreProdukCustom', [CustomerController::class, 'exploreProdukCustom']);
+    Route::get('/explore-custom-produk', [CustomerController::class, 'exploreCustomProduk']);
 
     // detail produk non custom
     Route::get('/d/{id}', [CustomerController::class, "detailProduk"]);
@@ -171,6 +173,8 @@ Route::group([
 
     Route::post('/save', [CustomerController::class, 'Htrans']);
     Route::post('/save2', [CustomerController::class, 'finalHTrans']);
+    Route::get('/customer/checkoutCustom', [CustomerController::class, 'checkoutCustom']);
+    Route::post('/doneCheckout/{id}', [CustomerController::class, 'doneCheckOut']);
 
     Route::post('/halamanCheckout', [CustomerController::class, 'halamanCheckout']);
     Route::post('/checkOutNonCustom', [CustomerController::class, 'checkOutNonCustom']);
@@ -356,6 +360,9 @@ Route::group([
 
     Route::get('/laporan-penjualan', [LaporanController::class,'indexLaporanPenjualan'])->name('laporan-penjualan.index');
 
+    Route::get('/produksi/laporan-produksi', [LaporanController::class, 'indexLaporanProduksi'])->name('laporan-produksi.index');
+
+    Route::get('/produksi/laporan-gagal-produksi', [LaporanController::class, 'indexLaporanGagalProduksi'])->name('laporan-gagal-produksi.index');
 
 
     //==================================================================================================================================

@@ -40,7 +40,8 @@ class HTrans extends Model
         'tgl_sampai',
         'alasan_retur',
         'alasan_tolak_retur',
-        'finishing'
+        'finishing',
+        'harga_finishing'
 
 
     ];

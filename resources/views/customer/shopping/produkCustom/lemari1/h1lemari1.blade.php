@@ -931,7 +931,7 @@
 
             canvas.getObjects().forEach(function(obj){
                 obj.set({
-                    opacity: 0.6
+                    opacity: 0.65
                 })
             })
             canvas.renderAll();

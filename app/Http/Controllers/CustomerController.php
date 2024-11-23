@@ -67,23 +67,247 @@ class CustomerController extends Controller
         $listproduk = DB::table('produk_dijuals')->where('status', '=', 'aktif')->get();
 
 
-        $random = $listproduk->shuffle()->take(4);
+        $random1 = $listproduk->shuffle()->take(4);
 
-        $listCustom = DB::table('produk_custom_dijuals')->where('status', 'aktif')->get();
+        $query = DB::table('produk_custom_dijuals as pcd')
+        ->join('detail_produk_custom_dijuals as dpcd', 'pcd.id', '=', 'dpcd.id_produk_custom_dijual')
+        ->where('pcd.status', '=', 'aktif')
+        ->where('pcd.deleted', '=', 0)
+        ->select([
+            'pcd.id',
+            'pcd.nama_template',
+            'pcd.nama_produk',
+            'pcd.deskripsi',
+            'pcd.panjang_min',
+            'pcd.panjang_max',
+            'pcd.tinggi_min',
+            'pcd.tinggi_max',
+            'pcd.lebar_min',
+            'pcd.lebar_max',
+            'pcd.kode',
+            DB::raw('MIN(dpcd.harga) as min_harga'),
+            DB::raw('MAX(dpcd.harga) as max_harga'),
+            DB::raw('GROUP_CONCAT(DISTINCT dpcd.jenis_kayu) as jenis_kayu_list')
+        ])
+        ->groupBy([
+            'pcd.id',
+            'pcd.nama_template',
+            'pcd.nama_produk',
+            'pcd.deskripsi',
+            'pcd.panjang_min',
+            'pcd.panjang_max',
+            'pcd.tinggi_min',
+            'pcd.tinggi_max',
+            'pcd.lebar_min',
+            'pcd.lebar_max',
+            'pcd.kode'
+        ])->get();
+        $random2 = $query->shuffle()->take(4);
 
-        return view("customer.shopping.dashboard", ['user' => $user, 'listProduk' => $listproduk, 'random' => $random, 'listCustom' => $listCustom]);
+
+        return view("customer.shopping.dashboard", ['user' => $user, 'listProduk' => $listproduk, 'random1' => $random1, 'random2' => $random2, ]);
         // return view("customer.dashboard", ['user'=>$user]);
 
         // dd($user);
     }
 
-    public function exploreProduk()
+    public function exploreProduk(Request $request)
     {
         $user = $this->getLogUser();
 
-        $listProduk = DB::table('produk_dijuals')->where('status', '=', 'aktif')->paginate(8);
-        return view('customer.shopping.exploreProduk', ['user' => $user, 'listProduk' => $listProduk]);
+        $query = DB::table('produk_dijuals')->where('status', '=', 'aktif');
+
+        // Handle Search
+        if ($request->has('search')) {
+            $query->where('nama_produk', 'like', '%' . $request->search . '%');
+        }
+
+        // Handle Price Filter
+        if ($request->has('price_range')) {
+            switch ($request->price_range) {
+                case '0-100000':
+                    $query->whereBetween('harga_produk', [0, 100000]);
+                    break;
+                case '100000-500000':
+                    $query->whereBetween('harga_produk', [100000, 500000]);
+                    break;
+                case '500000-1000000':
+                    $query->whereBetween('harga_produk', [500000, 1000000]);
+                    break;
+                case '1000000+':
+                    $query->where('harga_produk', '>', 1000000);
+                    break;
+            }
+        }
+
+        // Handle Type Filter
+        if ($request->has('tipe_produk') && $request->tipe_produk != 'all') {
+            $query->where('tipe_produk', $request->tipe_produk);
+        }
+
+        // Handle Sort
+        if ($request->has('sort')) {
+            switch ($request->sort) {
+                case 'price_asc':
+                    $query->orderBy('harga_produk', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('harga_produk', 'desc');
+                    break;
+                case 'newest':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+            }
+        }
+
+        $listProduk = $query->paginate(8)->appends(request()->query());
+
+        // Get unique product types for filter
+        $productTypes = DB::table('produk_dijuals')
+            ->select('tipe_produk')
+            ->where('status', '=', 'aktif')
+            ->whereNotNull('tipe_produk')
+            ->distinct()
+            ->pluck('tipe_produk');
+
+        return view('customer.shopping.exploreProduk', [
+            'user' => $user,
+            'listProduk' => $listProduk,
+            'productTypes' => $productTypes,
+            'filters' => $request->all()
+        ]);
     }
+
+
+    public function exploreCustomProduk(Request $request)
+    {
+        $user = $this->getLogUser();
+
+        // Base query untuk produk custom
+        $query = DB::table('produk_custom_dijuals as pcd')
+            ->join('detail_produk_custom_dijuals as dpcd', 'pcd.id', '=', 'dpcd.id_produk_custom_dijual')
+            ->where('pcd.status', '=', 'aktif')
+            ->where('pcd.deleted', '=', 0)
+            ->select([
+                'pcd.id',
+                'pcd.nama_template',
+                'pcd.nama_produk',
+                'pcd.deskripsi',
+                'pcd.panjang_min',
+                'pcd.panjang_max',
+                'pcd.tinggi_min',
+                'pcd.tinggi_max',
+                'pcd.lebar_min',
+                'pcd.lebar_max',
+                'pcd.kode',
+                DB::raw('MIN(dpcd.harga) as min_harga'),
+                DB::raw('MAX(dpcd.harga) as max_harga'),
+                DB::raw('GROUP_CONCAT(DISTINCT dpcd.jenis_kayu) as jenis_kayu_list')
+            ])
+            ->groupBy([
+                'pcd.id',
+                'pcd.nama_template',
+                'pcd.nama_produk',
+                'pcd.deskripsi',
+                'pcd.panjang_min',
+                'pcd.panjang_max',
+                'pcd.tinggi_min',
+                'pcd.tinggi_max',
+                'pcd.lebar_min',
+                'pcd.lebar_max',
+                'pcd.kode'
+            ]);
+
+        // Handle Search
+        if ($request->has('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('pcd.nama_template', 'like', '%' . $request->search . '%')
+                    ->orWhere('pcd.nama_produk', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Handle Wood Type Filter
+        if ($request->has('jenis_kayu') && $request->jenis_kayu != 'all') {
+            $query->where('dpcd.jenis_kayu', $request->jenis_kayu);
+        }
+
+        // Handle Price Range Filter
+        if ($request->has('price_range')) {
+            switch ($request->price_range) {
+                case '0-1000000':
+                    $query->having('min_harga', '<=', 1000000);
+                    break;
+                case '1000000-2000000':
+                    $query->having('min_harga', '>=', 1000000)
+                          ->having('max_harga', '<=', 2000000);
+                    break;
+                case '2000000-3000000':
+                    $query->having('min_harga', '>=', 2000000)
+                          ->having('max_harga', '<=', 3000000);
+                    break;
+                case '3000000+':
+                    $query->having('max_harga', '>', 3000000);
+                    break;
+            }
+        }
+
+        // Handle Size Filter
+        if ($request->has('size_range')) {
+            switch ($request->size_range) {
+                case 'small':
+                    $query->where('pcd.panjang_max', '<=', 100)
+                        ->where('pcd.lebar_max', '<=', 100);
+                    break;
+                case 'medium':
+                    $query->whereBetween('pcd.panjang_max', [101, 200])
+                        ->whereBetween('pcd.lebar_max', [101, 200]);
+                    break;
+                case 'large':
+                    $query->where('pcd.panjang_max', '>', 200)
+                        ->orWhere('pcd.lebar_max', '>', 200);
+                    break;
+            }
+        }
+
+        // Handle Sorting
+        if ($request->has('sort')) {
+            switch ($request->sort) {
+                case 'price_asc':
+                    $query->orderBy('min_harga', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('max_harga', 'desc');
+                    break;
+                case 'newest':
+                    $query->orderBy('pcd.created_at', 'desc');
+                    break;
+            }
+        } else {
+            // Default sorting
+            $query->orderBy('pcd.created_at', 'desc');
+        }
+
+        // Get unique wood types for filter
+        $woodTypes = DB::table('detail_produk_custom_dijuals')
+            ->select('jenis_kayu')
+            ->distinct()
+            ->pluck('jenis_kayu');
+
+        // Get addons
+
+
+        $listProduk = $query->paginate(8)->appends(request()->query());
+
+        return view('customer.shopping.exploreProdukCustom', [
+            'user' => $user,
+            'listProduk' => $listProduk,
+            'woodTypes' => $woodTypes,
+
+            'filters' => $request->all()
+        ]);
+    }
+
+
 
 
 
@@ -194,17 +418,16 @@ class CustomerController extends Controller
             $foto[] = 'img/lemari3/lemari3belakang.png';
             $foto[] = 'img/lemari3/lemari3bawah.png';
         }
-        if ($produk->kode == 'meja1'){
+        if ($produk->kode == 'meja1') {
             $foto[] = 'img/meja1/meja1.png';
             $foto[] = 'img/meja1/mj.png';
             $foto[] = 'img/meja1/meja1ViewAtas.png';
             $foto[] = 'img/meja1/meja1belakang.png';
         }
-        if ($produk->kode == 'meja2'){
+        if ($produk->kode == 'meja2') {
             $foto[] = 'img/meja2/meja2.png';
             $foto[] = 'img/meja2/meja2samping.png';
             $foto[] = 'img/meja2/meja2atas.png';
-
         }
         return view("customer.shopping.produkCustom.produkCustomDetail", ['user' => $user, 'produk' => $produk, 'foto' => $foto, 'detail' => $detail, 'addonMain' => $addonMain, 'addonSec' => $addonSec]);
     }
@@ -281,7 +504,8 @@ class CustomerController extends Controller
         return response()->json(['status' => 'success']);
     }
 
-    public function pesananSampai(Request $request){
+    public function pesananSampai(Request $request)
+    {
 
         $pembelian = Htrans::find($request->id);
         $pembelian->status = 12;
@@ -292,7 +516,8 @@ class CustomerController extends Controller
         return redirect()->back();
     }
 
-    public function pesananSelesai(Request $request){
+    public function pesananSelesai(Request $request)
+    {
 
         $pembelian = Htrans::find($request->id);
         $pembelian->status = 7;
@@ -305,8 +530,7 @@ class CustomerController extends Controller
             $toko->saldo += $total;
             $toko->saldo_pending -= $total;
             $toko->save();
-
-        }else if ($pembelian->pilihan == 'baru') {
+        } else if ($pembelian->pilihan == 'baru') {
             # code...
             $total = $pembelian->harga_redesain + $pembelian->ongkir;
             $toko->saldo += $total;
@@ -320,7 +544,8 @@ class CustomerController extends Controller
         return redirect()->back();
     }
 
-    public function pengajuanRetur(Request $request){
+    public function pengajuanRetur(Request $request)
+    {
         $pembelian = Htrans::find($request->id);
         $pembelian->status = 13;
         $pembelian->alasan_retur = $request->alasanretur;
@@ -331,7 +556,8 @@ class CustomerController extends Controller
         return redirect()->back();
     }
 
-    public function kirimBalik(Request $request){
+    public function kirimBalik(Request $request)
+    {
         $pembelian = Htrans::find($request->id);
         $pembelian->status = 15;
         $pembelian->nomor_resi = $request->ResiBalik;
@@ -340,7 +566,6 @@ class CustomerController extends Controller
 
         toast("Retur Berhasil diajukan", 'success');
         return redirect()->back();
-
     }
 
     public function listPembelian(Request $request)
@@ -359,8 +584,7 @@ class CustomerController extends Controller
                     $query->whereIn('status', [1]); // Misal status 1 adalah Menunggu Konfirmasi
                 } elseif ($subStatus == 'menunggu_pembayaran') {
                     $query->whereIn('status', [2, 3]);
-                }
-                elseif ($subStatus == 'siap_dikirim') {
+                } elseif ($subStatus == 'siap_dikirim') {
                     $query->where('status', 11); // Misal status 2 adalah Siap Dikirim
                 } elseif ($subStatus == 'sedang_produksi') {
                     $query->whereIn('status', [4, 5]); // Misal status 3 adalah Sedang di Produksi
@@ -384,7 +608,7 @@ class CustomerController extends Controller
             case 'tidak_berhasil':
                 $pembelian = DB::table('h_trans')
                     ->where('id_user', $user->id)
-                    ->whereIn('status', [8, 9 , 10]) // Misal status 6 adalah tidak berhasil
+                    ->whereIn('status', [8, 9, 10]) // Misal status 6 adalah tidak berhasil
                     ->orderBy('tgl_transaksi', 'desc')
                     ->get();
                 break;
@@ -428,9 +652,8 @@ class CustomerController extends Controller
                     $htrans->status_pembayaran = 3;
                     $htrans->save();
                     DB::table('donations')->where('h_trans_id', $id)
-                    ->update(['status' => 'expired']);
+                        ->update(['status' => 'expired']);
                 }
-
             } catch (\Exception $e) {
                 // Log or handle the error as necessary
                 toast('eror gabisa handle' . $e->getMessage(), 'error');
@@ -451,7 +674,7 @@ class CustomerController extends Controller
         // dd($data1);
 
         // Check if there's a related donation and if payment has expired
-        if ($htrans->status_pembayaran == 0 && ($htrans->status == 2 || $htrans->status == 3) ) {
+        if ($htrans->status_pembayaran == 0 && ($htrans->status == 2 || $htrans->status == 3)) {
             // Set up Midtrans configuration
             \Midtrans\Config::$serverKey = config('midtrans.serverKey');
             \Midtrans\Config::$isProduction = config('midtrans.isProduction');
@@ -467,9 +690,8 @@ class CustomerController extends Controller
                     $htrans->status_pembayaran = 3;
                     $htrans->save();
                     DB::table('donations')->where('h_trans_id', $id)
-                    ->update(['status' => 'expired']);
+                        ->update(['status' => 'expired']);
                 }
-
             } catch (\Exception $e) {
                 // Log or handle the error as necessary
                 toast('eror gabisa handle' . $e->getMessage(), 'error');
@@ -512,10 +734,10 @@ class CustomerController extends Controller
             return view('customer.shopping.produkCustom.lemari2.Ch1lemari2', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produk]);
         } else if ($produk->kode == 'lemari3') {
             return view('customer.shopping.produkCustom.lemari3.Ch1lemari3', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produk]);
-        } else if ($produk->kode == 'meja1'){
-            return view('customer.shopping.produkCustom.meja1.Ch1Meja1',['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produk]);
-        } else if ($produk->kode == 'meja2'){
-            return view('customer.shopping.produkCustom.meja2.Ch1Meja2',['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produk]);
+        } else if ($produk->kode == 'meja1') {
+            return view('customer.shopping.produkCustom.meja1.Ch1Meja1', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produk]);
+        } else if ($produk->kode == 'meja2') {
+            return view('customer.shopping.produkCustom.meja2.Ch1Meja2', ['user' => $user, 'detail' => $detail, 'addonPrices' => $addonPrices, 'listAddOnMain' => $addonMain, 'produk' => $produk]);
         }
     }
 
@@ -610,6 +832,7 @@ class CustomerController extends Controller
         $addonPrices = $request->input('addonPrices');
         $catatan = $request->input('catatan');
         $finishing = $request->input('finishing');
+        $harga_finishing = $request->input('harga_finishing');
 
 
         //buat nama file unik
@@ -638,7 +861,8 @@ class CustomerController extends Controller
                 'catatan' => $catatan,
                 'alamat' => $request->alamat,
                 'nomorTelepon' => $request->notelp,
-                'finishing' => $finishing
+                'finishing' => $finishing,
+                'harga_finishing' =>$harga_finishing
             ]);
 
             if ($pintu) {
@@ -730,7 +954,42 @@ class CustomerController extends Controller
 
 
 
-        toast('Pembelian Berhasil', 'success');
+        // toast('Pembelian Berhasil', 'success');
         return response()->json(['success' => true, 'file_path' => $filePath]);
+    }
+
+    public function checkoutCustom()
+    {
+
+        $user = $this->getLogUser();
+
+
+        $trans = HTrans::where('id_user', $user->id)
+            ->where('status', 0)
+            ->first();
+
+        $produk = ProdukCustomDijual::find($trans->id_produk);
+
+
+
+        return view('customer.shopping.produkCustom.checkout', ['user' => $user, 'trans' => $trans, 'produk' => $produk]);
+    }
+
+    public function doneCheckOut(Request $request)
+    {
+
+
+        $user = $this->getLogUser();
+
+        $trans = Htrans::find($request->id);
+
+        $trans->alamat = $request->alamat;
+        $trans->nomorTelepon = $request->nomorTelp;
+        $trans->status = 1;
+
+        $trans->save();
+
+        toast('Pembelian Berhasil', 'success');
+        return redirect(url('/customer/pembelian'));
     }
 }

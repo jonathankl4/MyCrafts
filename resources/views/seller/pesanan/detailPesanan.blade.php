@@ -61,7 +61,7 @@
                             <span style="font-size: 20px"><b>
                                     {{ \Carbon\Carbon::parse($detail->tgl_transaksi)->translatedFormat('j F Y') }}
                                 </b></span>
-                                @php
+                            @php
                                 $s = $detail->status;
                                 $status = '';
                                 $color = '';
@@ -69,7 +69,7 @@
                                     $status = 'Belum Di konfirmasi';
                                     $color = 'bg-warning';
                                 } elseif ($s == 2) {
-                                    $status = 'Pengajuan Perbaikan desain, Menunggu Pembayaran';
+                                    $status = 'Perbaikan, menunggu Pembayarab';
                                     $color = 'bg-secondary';
                                 } elseif ($s == 3) {
                                     $status = 'Menunggu Pembayaran Customer';
@@ -98,7 +98,7 @@
                                 }
 
                             @endphp
-                            <td style="font-size: 16px"><b><span
+                            <td style="font-size: 14px"><b><span
                                         class="badge {{ $color }}">{{ $status }}</span></b></td>
                         </div>
                         <br>
@@ -110,9 +110,27 @@
                         <div class="row">
                             <span>Jenis Kayu dan Ukuran</span>
                             <span style="font-size: 20px"><b>{{ $detail->jenis_kayu }}</b> </span>
-                            <span style="font-size: 20px"><b>Lebar: {{ $detail->lebar }}cm,
-                                    Tinggi:{{ $detail->tinggi }}cm</b>
-                            </span>
+                            @if (str_contains(strtolower($produk->kode), 'lemari'))
+                                <span style="font-size: 20px"><b>
+                                        Lebar: {{ $detail->lebar }}cm,
+                                    </b>
+                                </span>
+                                <span style="font-size: 20px"><b>
+                                Tinggi: {{ $detail->tinggi }}cm,
+                                    </b>
+                                </span>
+                                <span style="font-size: 20px"><b>
+                                Tebal (kedalaman): {{ $detail->panjang }}cm
+                                    </b>
+                                </span>
+
+
+                            @else
+                                <span style="font-size: 20px"><b>Lebar: {{ $detail->lebar }}cm,
+                                        Tinggi:{{ $detail->tinggi }}cm,
+                                        Panjang: {{ $detail->panjang }}cm </b>
+                                </span>
+                            @endif
                         </div>
                         <br>
                         <div class="row">
@@ -128,7 +146,7 @@
                         </div>
                         <br>
                         <div class="row">
-                            <span style="font-size: 20px"><b>Catatan User</b></span>
+                            <span style="font-size: 20px"><b>Penjelasan Pembelian</b></span>
                             <span> {{ $detail->catatan }} </span>
                         </div>
 
@@ -229,7 +247,7 @@
                         </div>
                         <br>
                         <div class="row">
-                            <label for="" style="font-size: 20px"><b>Nomor Telepon</b></label>
+                            <label for="" style="font-size: 20px"><b>Nomor WhatsApp</b></label>
                             <label for="">{{ $detail->nomorTelepon }}</label>
                         </div>
                     </div>
@@ -329,7 +347,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="button" id="confirmOrder" class="btn btn-success">Konfirmasi</button>
+                        <button type="button" id="konfirmasi" class="btn btn-success">Konfirmasi</button>
                     </div>
                 </div>
             </div>
@@ -351,8 +369,8 @@
                                 <img src="{{ url('/storage/hasilcustom/' . $detail->fotoredesain) }}"
                                     style="width: 300px;height:450px">
                             @else
-                                <img src="{{ url('/storage/hasilcustom/' . $detail->fotoredesain) }}"
-                                    style="" class="modal-content">
+                                <img src="{{ url('/storage/hasilcustom/' . $detail->fotoredesain) }}" style=""
+                                    class="modal-content">
                             @endif
                         @endif
 
@@ -433,7 +451,7 @@
         });
 
 
-        document.getElementById('confirmOrder').addEventListener('click', function(event) {
+        document.getElementById('konfirmasi').addEventListener('click', function(event) {
             // Ambil form element
             const form = document.getElementById('myForm');
 

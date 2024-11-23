@@ -218,8 +218,8 @@
                             <div>Laporan Penggunaan Bahan</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->is('seller/produksi/') ? 'active' : '' }}">
-                        <a href="" class="menu-link">
+                    <li class="menu-item {{ request()->is('seller/produksi/laporan-gagal-produksi') ? 'active' : '' }}">
+                        <a href="{{url('seller/produksi/laporan-gagal-produksi')}}" class="menu-link">
                             <div>Laporan Gagal Produksi</div>
                         </a>
                     </li>

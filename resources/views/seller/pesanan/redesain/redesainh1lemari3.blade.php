@@ -111,7 +111,7 @@
                                             </div>
                                             <div id="bottom-text"
                                                 style="position: absolute; left: 80%; bottom: -260px; transform: translateX(-50%); font-size: 20px;">
-                                                {{ $pembelian->panjang }}cm</div>
+                                                {{ $pembelian->lebar }}cm</div>
                                         </div>
                                     </div>
                             </div>
@@ -197,7 +197,9 @@
 
                                 <span>{{ $datapilihan[0]->nama_item }} - Rp.
                                     {{ number_format($datapilihan[0]->harga, 0, ',', '.') }} </span>
-
+                                    <br>
+                                <span>{{ $pembelian->finishing }} - Rp.
+                                    {{ number_format($pembelian->harga_finishing, 0, ',', '.') }} </span>
                             </div>
 
                             <div id="counters">
@@ -225,6 +227,9 @@
 
 
                                 </select>
+                                <span>Opacity</span>
+                                <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
+                                    value="1" onchange="updateOpacity(this.value)">
                                 <br>
                                 <button id="btntambah" class="btn btn-primary">tambah</button>
 
@@ -476,6 +481,18 @@
         let counterlaciKecil = 0;
         let counterlaciBesar = 0;
 
+        function updateOpacity(value) {
+            canvas.getObjects().forEach(function(obj) {
+                if (!obj.gridLine) {
+                    obj.set({
+                        opacity: value
+                    });
+                }
+
+            })
+            canvas.renderAll();
+        }
+
         // Fungsi untuk memperbarui counter di UI
         function updateCounters() {
             const sekatHorizontalDiv = document.getElementById('count-sekat-horizontal').parentElement;
@@ -500,7 +517,7 @@
         }
 
         let currentVerticalSize = pembelian.tinggi;
-        let currentHorizontalSize = pembelian.panjang;
+        let currentHorizontalSize = pembelian.lebar;
         updateGrid(canvas, currentHorizontalSize, currentVerticalSize);
         let selectedKayuPrice = 0;
 
@@ -549,7 +566,7 @@
 
         // Variabel untuk menyimpan total harga
         let hargakayu = 0;
-        let totalPrice = pembelian.harga_kayu + datapilihan[0].harga;
+        let totalPrice = pembelian.harga_kayu + datapilihan[0].harga + pembelian.harga_finishing;
         updateTotalPrice2();
 
 
@@ -575,27 +592,7 @@
             });
         }
 
-        // Event listener untuk dropdown jenis kayu
-        // tidak dipakai karena ini halaman redesain
-        // document.getElementById('jeniskayu').addEventListener('change', function() {
-        //     let selectedKayuId = this.value;
-
-        //     // Cari data kayu berdasarkan id di array kayuData
-        //     let selectedKayu = kayuData.find(kayu => kayu.id == selectedKayuId);
-
-        //     // Jika data kayu ditemukan, ambil jenis kayu dan harga
-        //     if (selectedKayu) {
-        //         let selectedKayuType = selectedKayu.jenis_kayu;
-        //         let selectedKayuPrice = selectedKayu.harga;
-
-        //         // Perbarui total harga
-        //         updateTotalPrice(selectedKayuPrice);
-
-        //         // Contoh log jenis kayu dan harga yang dipilih
-        //         console.log("Jenis kayu yang dipilih:", selectedKayuType);
-        //         console.log("Harga kayu yang dipilih:", selectedKayuPrice);
-        //     }
-        // });
+        
 
         // Fungsi untuk menambahkan add-on
         function updateAddOn(imageURL) {
@@ -850,6 +847,16 @@
                 let fixHarga = document.getElementById('harga-fix').value;
                 let hargaRedesain = document.getElementById('harga-redesain').value;
                 let ongkir = document.getElementById('ongkir').value;
+
+                canvas.getObjects().forEach(function(obj) {
+                    if (!obj.gridLine) {
+                        obj.set({
+                            opacity: 0.6
+                        });
+                    }
+
+                });
+                canvas.renderAll();
 
 
                 // Gunakan html2canvas untuk membuat screenshot dari elemen

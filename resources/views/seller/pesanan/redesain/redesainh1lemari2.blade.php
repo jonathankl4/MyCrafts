@@ -86,9 +86,9 @@
 
                             <div id="produk-div">
                                 <!--
-                                                                    Initially, the image will have the background tshirt that has transparency
-                                                                    So we can simply update the color with CSS or JavaScript dinamically
-                                                                -->
+                                                                        Initially, the image will have the background tshirt that has transparency
+                                                                        So we can simply update the color with CSS or JavaScript dinamically
+                                                                    -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
                                 <img id="template" src="{{ url('img/lemari2/lemari2.png') }}"
                                     style="width: 100%;height: 100%;" />
@@ -103,7 +103,7 @@
                                         </div>
                                         <div id="right-text"
                                             style="position: absolute; right: -290px; top: 80%; transform: translateY(-50%); font-size: 20px;">
-                                            {{$pembelian->tinggi}}cm</div>
+                                            {{ $pembelian->tinggi }}cm</div>
 
                                         <!-- Garis horizontal di bawah untuk 70cm -->
                                         <div id="bottom-line"
@@ -111,7 +111,7 @@
                                         </div>
                                         <div id="bottom-text"
                                             style="position: absolute; left: 70%; bottom: -260px; transform: translateX(-50%); font-size: 20px;">
-                                            {{$pembelian->panjang}}cm</div>
+                                            {{ $pembelian->panjang }}cm</div>
                                     </div>
                                 </div>
                             </div>
@@ -190,14 +190,16 @@
                                 });
                             @endphp
                             <div>
-                                <h5>Pilihan kayu dan pintu </h5>
+                                <h5>Pilihan kayu, pintu dan finishing </h5>
                                 <span>{{ $pembelian->jenis_kayu }} - Rp.
                                     {{ number_format($pembelian->harga_kayu, 0, ',', '.') }} </span>
                                 <br>
 
                                 <span>{{ $datapilihan[0]->nama_item }} - Rp.
                                     {{ number_format($datapilihan[0]->harga, 0, ',', '.') }} </span>
-
+                                <br>
+                                <span>{{ $pembelian->finishing }} - Rp.
+                                    {{ number_format($pembelian->harga_finishing, 0, ',', '.') }} </span>
                             </div>
 
                             <div id="counters">
@@ -225,6 +227,9 @@
 
 
                                 </select>
+                                <span>Opacity</span>
+                                <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
+                                    value="1" onchange="updateOpacity(this.value)">
                                 <br>
                                 <button id="btntambah" class="btn btn-primary">tambah</button>
 
@@ -379,14 +384,14 @@
 
             const canvasWidth = canvas.getWidth();
             const canvasHeight = canvas.getHeight();
-            widthCm -= 4;
-            heightCm -= 10;
+            widthCm -= 10;
+            heightCm -= 5;
 
             // Calculate pixel to cm ratio for each axis independently
             const pixelPerCmX = canvasWidth / widthCm;
             const pixelPerCmY = canvasHeight / heightCm;
             let gridColor = '#231d00';
-            let gridOpacity = 0.5;
+            let gridOpacity = 1;
             let gridLines = [];
             // Draw vertical lines every 5cm based on width
             for (let i = 0; i <= widthCm; i += 10) {
@@ -477,6 +482,18 @@
         let counterlaciKecil = 0;
         let counterlaciBesar = 0;
 
+        function updateOpacity(value) {
+            canvas.getObjects().forEach(function(obj) {
+                if (!obj.gridLine) {
+                    obj.set({
+                        opacity: value
+                    });
+                }
+
+            })
+            canvas.renderAll();
+        }
+
         // Fungsi untuk memperbarui counter di UI
         function updateCounters() {
             const sekatHorizontalDiv = document.getElementById('count-sekat-horizontal').parentElement;
@@ -501,7 +518,7 @@
         }
 
         let currentVerticalSize = pembelian.tinggi;
-        let currentHorizontalSize = pembelian.panjang;
+        let currentHorizontalSize = pembelian.lebar;
         updateGrid(canvas, currentHorizontalSize, currentVerticalSize);
 
         let selectedKayuPrice = 0;
@@ -549,7 +566,7 @@
 
         // Variabel untuk menyimpan total harga
         let hargakayu = 0;
-        let totalPrice = pembelian.harga_kayu + datapilihan[0].harga;
+        let totalPrice = pembelian.harga_kayu + datapilihan[0].harga + pembelian.harga_finishing;
         updateTotalPrice2();
 
 
@@ -679,6 +696,10 @@
                         bl: false,
                         br: false
                     });
+                    img.set({
+                        stroke: 'black', // Warna border
+                        strokeWidth: 6 // Ketebalan border dalam pixel
+                    });
                 } else if (imageURL.includes('lacibesar')) {
                     // Skala khusus untuk gantungan
                     scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
@@ -694,6 +715,10 @@
                         tr: false,
                         bl: false,
                         br: false
+                    });
+                    img.set({
+                        stroke: 'black', // Warna border
+                        strokeWidth: 6 // Ketebalan border dalam pixel
                     });
                 }
 
@@ -847,7 +872,17 @@
 
                 let fixHarga = document.getElementById('harga-fix').value;
                 let hargaRedesain = document.getElementById('harga-redesain').value;
-                let ongkir = document.getElementById('ongkir').value
+                let ongkir = document.getElementById('ongkir').value;
+
+                canvas.getObjects().forEach(function(obj) {
+                    if (!obj.gridLine) {
+                        obj.set({
+                            opacity: 0.6
+                        });
+                    }
+
+                });
+                canvas.renderAll();
 
                 // Gunakan html2canvas untuk membuat screenshot dari elemen
                 html2canvas(element).then(function(canvas) {
@@ -881,7 +916,8 @@
                         .then(data => {
                             if (data.success) {
                                 // alert('Perbaikan Desain Berhasil dikirim');
-                                window.location.href = '{{ url('/seller/detailPesanan') }}' + '/' + pembelian.id;
+                                window.location.href = '{{ url('/seller/detailPesanan') }}' + '/' +
+                                    pembelian.id;
                             } else {
                                 alert("gambar gagal disimpan");
                             }

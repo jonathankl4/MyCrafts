@@ -1,6 +1,6 @@
 @extends('template.LaporanTemplate')
 
-@section('title', 'Laporan Produksi')
+@section('title', 'Laporan Gagal Produksi')
 
 @section('style')
 <style>
@@ -16,13 +16,6 @@
         margin-bottom: 1.5rem;
     }
 
-    .status-badge {
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-weight: 500;
-        font-size: 0.85rem;
-    }
-
     .filter-section {
         background-color: #f8f9fa;
         border-radius: 8px;
@@ -31,33 +24,11 @@
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-    .success-rate {
-        font-weight: bold;
-        padding: 4px 8px;
-        border-radius: 4px;
-    }
-
-    .success-high {
-        color: #155724;
-        background-color: #d4edda;
-    }
-
-    .success-medium {
-        color: #856404;
-        background-color: #fff3cd;
-    }
-
-    .success-low {
-        color: #721c24;
-        background-color: #f8d7da;
-    }
-
-    .duration-badge {
-        background-color: #e9ecef;
-        color: #495057;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 0.875rem;
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 0.85rem;
     }
 </style>
 @endsection
@@ -77,38 +48,40 @@
         <div class="row">
             <div class="col-12">
                 <h2 class="page-header fw-bold py-3">
-                    <i class="fas fa-industry me-2"></i>Laporan Produksi
+                    <i class="fas fa-exclamation-triangle me-2"></i>Laporan Gagal Produksi
                 </h2>
 
                 <!-- Summary Cards -->
                 <div class="row mb-4">
                     <div class="col-md-3">
-                        <div class="card bg-primary text-white">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <i class="fas fa-tasks me-2"></i>Total Produksi
-                                </h5>
-                                <h3 class="mb-0">{{ $laporanProduksi->count() }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card bg-success text-white">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <i class="fas fa-check-circle me-2"></i>Total Berhasil
-                                </h5>
-                                <h3 class="mb-0">{{ $laporanProduksi->sum('jumlah_berhasil') }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
                         <div class="card bg-danger text-white">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    <i class="fas fa-times-circle me-2"></i>Total Gagal
+                                    <i class="fas fa-times-circle me-2"></i>Total Kegagalan
                                 </h5>
-                                <h3 class="mb-0">{{ $laporanProduksi->sum('jumlah_gagal') }}</h3>
+                                <h3 class="mb-0">{{ $laporanGagalProduksi->sum('jumlah_gagal') }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-warning text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-percentage me-2"></i>Tingkat Kegagalan
+                                </h5>
+                                <h3 class="mb-0">
+                                    {{ number_format(($laporanGagalProduksi->sum('jumlah_gagal') / $laporanGagalProduksi->sum('jumlahdiproduksi')) * 100, 1) }}%
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-calendar me-2"></i>Total Periode
+                                </h5>
+                                <h3 class="mb-0">{{ $laporanGagalProduksi->count() }}</h3>
                             </div>
                         </div>
                     </div>
@@ -116,11 +89,9 @@
                         <div class="card bg-info text-white">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    <i class="fas fa-percentage me-2"></i>Tingkat Keberhasilan
+                                    <i class="fas fa-box me-2"></i>Total Produksi
                                 </h5>
-                                <h3 class="mb-0">
-                                    {{ number_format(($laporanProduksi->sum('jumlah_berhasil') / $laporanProduksi->sum('jumlahdiproduksi')) * 100, 1) }}%
-                                </h3>
+                                <h3 class="mb-0">{{ number_format($laporanGagalProduksi->sum('jumlahdiproduksi')) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -128,7 +99,7 @@
 
                 <!-- Filter Section -->
                 <div class="filter-section mb-4">
-                    <form method="GET" action="{{ route('laporan-produksi.index') }}" class="row g-3">
+                    <form method="GET" action="{{ route('laporan-gagal-produksi.index') }}" class="row g-3">
                         <div class="col-md-5">
                             <label for="start_date" class="form-label">
                                 <i class="fas fa-calendar-alt me-1"></i>Tanggal Awal:
@@ -153,7 +124,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped" id="productionTable">
+                            <table class="table table-hover table-striped" id="failureTable">
                                 <thead class="table-light">
                                     <tr>
                                         <th>Tanggal Mulai</th>
@@ -162,16 +133,13 @@
                                         <th class="text-center">Target Produksi</th>
                                         <th class="text-center">Berhasil</th>
                                         <th class="text-center">Gagal</th>
-                                        <th class="text-center">Tingkat Keberhasilan</th>
-                                        <th class="text-center">Durasi</th>
+                                        <th class="text-center">Tingkat Kegagalan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($laporanProduksi as $item)
+                                    @foreach ($laporanGagalProduksi as $item)
                                     @php
-                                        $successRate = ($item->jumlah_berhasil / $item->jumlahdiproduksi) * 100;
-                                        $successClass = $successRate >= 90 ? 'success-high' :
-                                                      ($successRate >= 75 ? 'success-medium' : 'success-low');
+                                        $failureRate = ($item->jumlah_gagal / $item->jumlahdiproduksi) * 100;
                                     @endphp
                                     <tr>
                                         <td>{{ \Carbon\Carbon::parse($item->tgl_produksi_mulai)->format('d M Y') }}</td>
@@ -181,13 +149,8 @@
                                         <td class="text-center text-success">{{ number_format($item->jumlah_berhasil) }}</td>
                                         <td class="text-center text-danger">{{ number_format($item->jumlah_gagal) }}</td>
                                         <td class="text-center">
-                                            <span class="status-badge {{ $successClass }}">
-                                                {{ number_format($successRate, 1) }}%
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="duration-badge">
-                                                <i class="far fa-clock me-1"></i>{{ $item->durasi + 1 }} Hari
+                                            <span class="status-badge bg-danger text-white">
+                                                {{ number_format($failureRate, 1) }}%
                                             </span>
                                         </td>
                                     </tr>
@@ -196,11 +159,12 @@
                                 <tfoot class="table-light">
                                     <tr>
                                         <td colspan="3" class="text-end fw-bold">Total:</td>
-                                        <td class="text-center fw-bold">{{ number_format($laporanProduksi->sum('jumlahdiproduksi')) }}</td>
-                                        <td class="text-center fw-bold text-success">{{ number_format($laporanProduksi->sum('jumlah_berhasil')) }}</td>
-                                        <td class="text-center fw-bold text-danger">{{ number_format($laporanProduksi->sum('jumlah_gagal')) }}</td>
-                                        <td class="text-center fw-bold">{{ number_format(($laporanProduksi->sum('jumlah_berhasil') / $laporanProduksi->sum('jumlahdiproduksi')) * 100, 1) }}%</td>
-                                        <td class="text-center fw-bold">{{ $laporanProduksi->sum('durasi') + $laporanProduksi->count() }} Hari</td>
+                                        <td class="text-center fw-bold">{{ number_format($laporanGagalProduksi->sum('jumlahdiproduksi')) }}</td>
+                                        <td class="text-center fw-bold text-success">{{ number_format($laporanGagalProduksi->sum('jumlah_berhasil')) }}</td>
+                                        <td class="text-center fw-bold text-danger">{{ number_format($laporanGagalProduksi->sum('jumlah_gagal')) }}</td>
+                                        <td class="text-center fw-bold">
+                                            {{ number_format(($laporanGagalProduksi->sum('jumlah_gagal') / $laporanGagalProduksi->sum('jumlahdiproduksi')) * 100, 1) }}%
+                                        </td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -227,11 +191,35 @@
 @section('script')
 <script>
 $(document).ready(function() {
-    $('#productionTable').DataTable({
+    $('#failureTable').DataTable({
         responsive: true,
         dom: 'Bfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
+            {
+                extend: 'copy',
+                text: '<i class="fas fa-copy me-2"></i>Copy',
+                className: 'btn btn-secondary btn-sm'
+            },
+            {
+                extend: 'csv',
+                text: '<i class="fas fa-file-csv me-2"></i>CSV',
+                className: 'btn btn-secondary btn-sm'
+            },
+            {
+                extend: 'excel',
+                text: '<i class="fas fa-file-excel me-2"></i>Excel',
+                className: 'btn btn-secondary btn-sm'
+            },
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-file-pdf me-2"></i>PDF',
+                className: 'btn btn-secondary btn-sm'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print me-2"></i>Print',
+                className: 'btn btn-secondary btn-sm'
+            }
         ],
         language: {
             search: "Cari:",

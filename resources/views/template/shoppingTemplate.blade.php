@@ -121,9 +121,9 @@
                         {{-- <a href="" class="btn " style="background-color: #b39368 ;color: black">Custom Meja/Lemari</a> --}}
                         &nbsp;
                         &nbsp;
-                        <button class="btn-search btn border border-dark btn-md-square rounded-circle bg-white me-4"
+                        {{-- <button class="btn-search btn border border-dark btn-md-square rounded-circle bg-white me-4"
                             data-bs-toggle="modal" data-bs-target="#searchModal"><i
-                                class="fas fa-search text-dark"></i></button>
+                                class="fas fa-search text-dark"></i></button> --}}
                         {{-- navbar jika belum login  --}}
                         @if ($user->role == 'guest')
                             <a href="{{ url('/register') }}" class="btn btn-dark">Daftar</a>
@@ -204,7 +204,7 @@
 
 
     <!-- Modal Search Start -->
-    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content rounded-0">
                 <div class="modal-header">
@@ -225,7 +225,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Modal Search End -->
 
 

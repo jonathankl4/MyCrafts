@@ -33,19 +33,141 @@ transition: transform 0.3s ease, box-shadow 0.3s ease;
 transform: translateY(-5px);
 box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
+
+.card {
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .form-select, .form-control {
+        border-radius: 6px;
+        border: 1px solid #ddd;
+    }
+
+    .form-select:focus, .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
 </style>
 
 @endsection
 
 
 @section('content')
-
 <div class="container-fluid fruite py-5">
-
     <div class="container py-5">
         <br><br><br><br>
-        <h1 class="mb-4">Produk</h1>
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h1 class="mb-4">Produk Custom</h1>
+            </div>
+            <!-- Search Bar -->
+            <div class="col-md-4">
+                <form action="{{ url('/exploreProduk') }}" method="GET" class="d-flex">
+                    <input type="text" name="search" class="form-control me-2"
+                           placeholder="Cari produk..." value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{{ url('/exploreProduk') }}" method="GET" class="row g-3">
+                            <!-- Preserve search query if exists -->
+                            @if(request('search'))
+                                <input type="hidden" name="search" value="{{ request('search') }}">
+                            @endif
+
+                            <!-- Product Type Filter -->
+                            <div class="col-md-3">
+                                <label class="form-label">Tipe Produk</label>
+                                <select name="tipe_produk" class="form-select" onchange="this.form.submit()">
+                                    <option value="all">Semua Tipe</option>
+                                    @foreach($productTypes as $type)
+                                        <option value="{{ $type }}"
+                                            {{ request('tipe_produk') == $type ? 'selected' : '' }}>
+                                            {{ $type }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Price Range Filter -->
+                            <div class="col-md-3">
+                                <label class="form-label">Rentang Harga</label>
+                                <select name="price_range" class="form-select" onchange="this.form.submit()">
+                                    <option value="">Semua Harga</option>
+                                    <option value="0-100000"
+                                        {{ request('price_range') == '0-100000' ? 'selected' : '' }}>
+                                        Rp 0 - Rp 100.000
+                                    </option>
+                                    <option value="100000-500000"
+                                        {{ request('price_range') == '100000-500000' ? 'selected' : '' }}>
+                                        Rp 100.000 - Rp 500.000
+                                    </option>
+                                    <option value="500000-1000000"
+                                        {{ request('price_range') == '500000-1000000' ? 'selected' : '' }}>
+                                        Rp 500.000 - Rp 1.000.000
+                                    </option>
+                                    <option value="1000000+"
+                                        {{ request('price_range') == '1000000+' ? 'selected' : '' }}>
+                                        > Rp 1.000.000
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Sort Filter -->
+                            <div class="col-md-3">
+                                <label class="form-label">Urutkan</label>
+                                <select name="sort" class="form-select" onchange="this.form.submit()">
+                                    <option value="">Pilih Urutan</option>
+                                    <option value="price_asc"
+                                        {{ request('sort') == 'price_asc' ? 'selected' : '' }}>
+                                        Harga: Rendah ke Tinggi
+                                    </option>
+                                    <option value="price_desc"
+                                        {{ request('sort') == 'price_desc' ? 'selected' : '' }}>
+                                        Harga: Tinggi ke Rendah
+                                    </option>
+                                    <option value="newest"
+                                        {{ request('sort') == 'newest' ? 'selected' : '' }}>
+                                        Terbaru
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Reset Filter -->
+                            <div class="col-md-3 d-flex align-items-end">
+                                <a href="{{ url('/exploreProduk') }}"
+                                   class="btn btn-secondary">Reset Filter</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Existing Product Grid -->
         <div class="row g-4">
+            <!-- Your existing product grid code here -->
+            <!-- ... -->
             <div class="col-lg-12">
 
                 <div class="row g-4">
@@ -86,6 +208,15 @@ box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('script')
+
+
+<script>
+
+</script>
 
 @endsection
 
