@@ -1,6 +1,6 @@
 @extends('template.MasterDesain')
 
-@section('title', 'Daftar Template Produk Custom')
+@section('title', 'Daftar Pesanan')
 
 @section('style')
     <style>
@@ -214,14 +214,17 @@
                                             $color = 'bg-dark';
                                         } elseif ($s == 7) {
                                             $status = 'Pesanan Selesai';
-                                            $color = 'bg-dark';
+                                            $color = 'bg-success';
                                         } elseif ($s == 8) {
                                             $status = 'Pesanan Batal';
-                                            $color = 'bg-dark';
+                                            $color = 'bg-danger';
                                         } elseif ($s == 9) {
                                             $status = 'Pesanan Batal';
-                                            $color = 'bg-dark';
-                                        } elseif ($s == 11) {
+                                            $color = 'bg-danger';
+                                        } elseif ($s == 10) {
+                                            $status = 'Pesanan Batal';
+                                            $color = 'bg-danger';
+                                        }elseif ($s == 11) {
                                             $status = 'Siap Dikirim';
                                             $color = 'bg-warning';
                                         } elseif ($s == 12) {

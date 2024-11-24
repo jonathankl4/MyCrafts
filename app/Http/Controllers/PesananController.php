@@ -88,77 +88,23 @@ class PesananController extends Controller
     }
 
     // page pesanan yang non custom
-    public function pagePesananNonCustom(){
+    public function selesaiProduksi($id){
+
         $user = $this->getLogUser();
 
+        $htrans = HTrans::find($id);
 
-        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->where('tipe_trans', 'Non-Custom')->whereIn('status', [1, 2, 3, 11])->orderBy('tgl_transaksi', 'desc')->get();
+        $htrans->status = 11;
+        $htrans->save();
 
-        // dd($pembelian);
-        return view('seller.pesanan.listPesanan.PNonCustom', ['user' => $user, 'pembelian' => $pembelian]);
-    }
-    // page pesanan custom
-    public function pagePesananCustom(){
-        $user = $this->getLogUser();
-
-
-        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->where('tipe_trans', 'custom')->whereIn('status', [1, 2, 3])->orderBy('tgl_transaksi', 'desc')->get();
-
-        // dd($pembelian);
-        return view('seller.pesanan.listPesanan.PCustom', ['user' => $user, 'pembelian' => $pembelian]);
-    }
-    // page pesanan yang sedang dalam proses produksi
-    public function pagePesananProduksi(){
-        $user = $this->getLogUser();
-
-
-        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->where('tipe_trans', 'custom')->whereIn('status', [4])->orderBy('tgl_transaksi', 'desc')->get();
-
-        // dd($pembelian);
-        return view('seller.pesanan.listPesanan.PProduksi', ['user' => $user, 'pembelian' => $pembelian]);
+        toast('Produksi Selesai', 'success');
+        return redirect()->back();
     }
 
-    // page pesanan yang siap dikirim
-    public function pagePesananSiapDikirim(){
-        $user = $this->getLogUser();
 
 
-        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->whereIn('status', [5])->orderBy('tgl_transaksi', 'desc')->get();
-
-        // dd($pembelian);
-        return view('seller.pesanan.listPesanan.PSiapDikirim', ['user' => $user, 'pembelian' => $pembelian]);
-    }
-
-    // page pesanan yang dalam Pengiriman
-    public function pagePesananDalamPengiriman(){
-        $user = $this->getLogUser();
 
 
-        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->whereIn('status', [6])->orderBy('tgl_transaksi', 'desc')->get();
-
-        // dd($pembelian);
-        return view('seller.pesanan.listPesanan.PDalamPengiriman', ['user' => $user, 'pembelian' => $pembelian]);
-    }
-    // page pesanan yang sudah selesai
-    public function pagePesananSelesai(){
-        $user = $this->getLogUser();
-
-
-        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->whereIn('status', [7])->orderBy('tgl_transaksi', 'desc')->get();
-
-        // dd($pembelian);
-        return view('seller.pesanan.listPesanan.PSelesai', ['user' => $user, 'pembelian' => $pembelian]);
-    }
-    // page pesanan yang dibatalkan
-    public function pagePesananBatal(){
-        $user = $this->getLogUser();
-
-
-        $pembelian = DB::table('h_trans')->where('id_toko', $user->id_toko)->whereIn('status', [8,9])->orderBy('tgl_transaksi', 'desc')->get();
-
-        // dd($pembelian);
-        return view('seller.pesanan.listPesanan.PBatal', ['user' => $user, 'pembelian' => $pembelian]);
-    }
 
     public function detailPesanan($id)
     {
@@ -324,9 +270,10 @@ class PesananController extends Controller
 
         $harga = $request->fixHarga+$request->ongkir;
 
+        $order_id = 'DONATION-' . mt_rand(100000, 999999);
 
         $transaction = Donation::create([
-            'code'   => 'DONATION-' . mt_rand(100000, 999999),
+            'code'   => $order_id,
             'name'   => $user->username,
             'email'  => $user->email,
             'amount' => $harga,
@@ -342,7 +289,7 @@ class PesananController extends Controller
 
         $params = array(
             'transaction_details' => array(
-                'order_id' => rand(),
+                'order_id' => $order_id,
                 'gross_amount' => $harga,
             ),
             'customer_details' => array(
@@ -433,8 +380,11 @@ class PesananController extends Controller
         $trans->ongkir = $request->ongkir;
         $trans->save();
 
+        $order_id1 = 'DONATION-' . mt_rand(100000, 999999);
+        $order_id2 = 'DONATION-' . mt_rand(100000, 999999);
+
         $transaction = Donation::create([
-            'code'   => 'DONATION-' . mt_rand(100000, 999999),
+            'code'   => $order_id1,
             'name'   => $user->username,
             'email'  => $user->email,
             'amount' => $request->hargaFix+$request->ongkir,
@@ -450,7 +400,7 @@ class PesananController extends Controller
 
         $params = array(
             'transaction_details' => array(
-                'order_id' => rand(),
+                'order_id' => $order_id1,
                 'gross_amount' => $request->hargaFix+$request->ongkir,
             ),
             'customer_details' => array(
@@ -467,7 +417,7 @@ class PesananController extends Controller
         $transaction->save();
 
         $transaction2 = Donation::create([
-            'code'   => 'DONATION-' . mt_rand(100000, 999999),
+            'code'   => $order_id2,
             'name'   => $user->username,
             'email'  => $user->email,
             'amount' => $request->hargaRedesain+$request->ongkir,
@@ -483,7 +433,7 @@ class PesananController extends Controller
 
         $params2 = array(
             'transaction_details' => array(
-                'order_id' => rand(),
+                'order_id' => $order_id2,
                 'gross_amount' => $request->hargaRedesain+$request->ongkir,
             ),
             'customer_details' => array(

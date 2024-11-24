@@ -306,6 +306,8 @@ Route::group([
     // TOLAK PESANAN
     Route::post('/pesanan/batalkan/{id}', [PesananController::class, 'tolakPesanan']);
 
+    Route::get('/pesanan/selesaiProduksi/{id}', [PesananController::class, 'selesaiProduksi']);
+
     // Kirim Pesanan
     Route::post('/pesanan/kirim/{id}', [PesananController::class, 'kirimPesanan']);
     Route::post('/pesanan/ubahResi/{id}', [PesananController::class, 'ubahResi']);

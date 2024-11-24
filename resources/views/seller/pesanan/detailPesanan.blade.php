@@ -42,13 +42,114 @@
 
                     <div class="card" style="padding: 15px">
                         @if ($detail->status == 4)
-                            <button class="btn" style="margin: 5px; background-color: #898063; color: black">
+                            <button class="btn" style="margin: 5px; background-color: #898063; color: black"
+                                data-bs-toggle="modal" data-bs-target="#modalProduksiSelesai">
                                 Produksi Selesai
                             </button>
+                            <div class="modal fade" id="modalProduksiSelesai" tabindex="-1"
+                                aria-labelledby="modalTolakPesananLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background-color: #bfb596; color: white;">
+                                            <h5 class="modal-title" id="modalTolakPesananLabel">Konfirmasi</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body" style="padding: 25px;">
+
+                                            <div class="mb-3">
+                                                <h2>Konfirmasi Produksi Selesai</h2>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                style="background-color: #6c757d; border-color: #6c757d;">Tutup</button>
+
+                                            <a href="{{ url('/seller/pesanan/selesaiProduksi/' . $detail->id) }}"
+                                                class="btn btn-success"
+                                                style="background-color: #28a745; border-color: #28a745;">Konfirmasi</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         @elseif ($detail->status == 11)
-                            <button class="btn" style="margin: 5px; background-color: #898063; color: black">
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalKirim"
+                                style="margin: 5px; background-color: #898063; color: black">
                                 Kirim Barang
                             </button>
+                            <div class="modal fade" id="modalKirim" tabindex="-1" aria-labelledby="modalTolakPesananLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form action="{{ url('/seller/pesanan/kirim/' . $detail->id) }}" method="post">
+                                        @csrf
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color: #bfb596; color: white;">
+                                                <h5 class="modal-title" id="modalTolakPesananLabel">Kirim Pesanan</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" style="padding: 25px;">
+
+                                                <div class="mb-3">
+                                                    <label for="resi" class="form-label"
+                                                        style="font-weight: 500; color: #6c757d;">Nomor Resi</label>
+                                                    <input type="text" name="resi" id="resi"
+                                                        class="form-control">
+                                                    <span style="color: red;">kosongkan jika tidak ada nomor resi</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                    style="background-color: #6c757d; border-color: #6c757d;">Tutup</button>
+                                                <button type="submit" id="confirmOrder" class="btn btn-success"
+                                                    style="background-color: #28a745; border-color: #28a745;">Konfirmasi</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        @elseif($detail->status == 6)
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalUbahResi"
+                                style="margin: 5px; background-color: #898063; color: black">
+                                Ubah Nomor Resi
+                            </button>
+                            <div class="modal fade" id="modalUbahResi" tabindex="-1"
+                                aria-labelledby="modalTolakPesananLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form action="{{ url('/seller/pesanan/ubahResi/' . $detail->id) }}" method="post">
+                                        @csrf
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color: #bfb596; color: white;">
+                                                <h5 class="modal-title" id="modalTolakPesananLabel">Kirim Pesanan</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" style="padding: 25px;">
+
+                                                <div class="mb-3">
+                                                    <label for="resi" class="form-label"
+                                                        style="font-weight: 500; color: #6c757d;">Nomor Resi</label>
+                                                    <input type="text" name="editresi" id="editresi"
+                                                        class="form-control" value="{{ $detail->nomor_resi }}">
+                                                    <span style="color: red;">kosongkan jika tidak ada nomor resi</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                    style="background-color: #6c757d; border-color: #6c757d;">Tutup</button>
+                                                <button type="submit" id="confirmOrder" class="btn btn-success"
+                                                    style="background-color: #28a745; border-color: #28a745;">Konfirmasi</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         @endif
                     </div>
                     <br>
@@ -78,7 +179,7 @@
                                     $status = 'Dalam Proses Produksi';
                                     $color = 'bg-success';
                                 } elseif ($s == 5) {
-                                    $status = 'Siap Dikirim';
+                                    $status = 'Produksi Selesai';
                                     $color = 'bg-dark';
                                 } elseif ($s == 6) {
                                     $status = 'Dalam Pengiriman';
@@ -88,12 +189,18 @@
                                     $color = 'bg-dark';
                                 } elseif ($s == 8) {
                                     $status = 'Pesanan Batal';
-                                    $color = 'bg-dark';
+                                    $color = 'bg-danger';
                                 } elseif ($s == 9) {
                                     $status = 'Pesanan Batal';
-                                    $color = 'bg-dark';
+                                    $color = 'bg-danger';
                                 } elseif ($s == 10) {
                                     $status = 'Pembayaran Batal';
+                                    $color = 'bg-danger';
+                                } elseif ($s == 11) {
+                                    $status = 'Siap Dikirim';
+                                    $color = 'bg-dark';
+                                } elseif ($s == 12) {
+                                    $status = 'Pesanan Sampai';
                                     $color = 'bg-dark';
                                 }
 
@@ -116,15 +223,13 @@
                                     </b>
                                 </span>
                                 <span style="font-size: 20px"><b>
-                                Tinggi: {{ $detail->tinggi }}cm,
+                                        Tinggi: {{ $detail->tinggi }}cm,
                                     </b>
                                 </span>
                                 <span style="font-size: 20px"><b>
-                                Tebal (kedalaman): {{ $detail->panjang }}cm
+                                        Tebal (kedalaman): {{ $detail->panjang }}cm
                                     </b>
                                 </span>
-
-
                             @else
                                 <span style="font-size: 20px"><b>Lebar: {{ $detail->lebar }}cm,
                                         Tinggi:{{ $detail->tinggi }}cm,
@@ -144,6 +249,9 @@
                             <span style="font-size: 20px"><b>Rp.
                                     {{ number_format($detail->perkiraan_harga, 0, ',', '.') }}</b> </span>
                         </div>
+                        <br>
+
+
                         <br>
                         <div class="row">
                             <span style="font-size: 20px"><b>Penjelasan Pembelian</b></span>
@@ -241,6 +349,47 @@
                     <br>
                     <div class="card" style="padding: 15px">
                         <div class="row">
+                            <div class="col">
+
+                                <span class="transaction-detail-label">Harga Fix Desain Awal</span>
+                                @if ($detail->harga <= 0)
+                                    <span class="transaction-detail-value d-block">Belum Ada</span>
+                                @else
+                                    <span id="hargalama" class="transaction-detail-value d-block"
+                                        style="font-size: 20px">
+                                        Rp. {{ number_format($detail->harga, 0, ',', '.') }}
+                                    </span>
+                                    <span class="transaction-detail-value" style="font-size: 20px">
+                                        Total: Rp {{ number_format($detail->harga + $detail->ongkir, 0, ',', '.') }}
+                                    </span>
+                                @endif
+                            </div>
+                            @if ($detail->harga_redesain != null)
+                                <div class=" col">
+                                    <span class="transaction-detail-label">Harga Fix Desain Baru</span>
+                                    <span id="hargabaru" class="transaction-detail-value d-block"
+                                        style="font-size: 20px">
+                                        Rp. {{ number_format($detail->harga_redesain, 0, ',', '.') }}
+                                    </span>
+                                    <span class="transaction-detail-value" style="font-size: 20px">
+                                        Total: Rp
+                                        {{ number_format($detail->harga_redesain + $detail->ongkir, 0, ',', '.') }}
+                                    </span>
+
+                                </div>
+                            @endif
+                        </div>
+                        @if ($detail->status_pembayaran == 3)
+                            <span class="badge bg-danger mt-3">Waktu Pembayaran Habis</span>
+                        @elseif ($detail->status_pembayaran == 1)
+                            <span class="badge bg-success mt-3">
+                                Pembayaran Berhasil ({{ $detail->pilihan == 'baru' ? 'Desain Baru' : 'Desain Awal' }})
+                            </span>
+                        @endif
+                    </div>
+                    <br>
+                    <div class="card" style="padding: 15px">
+                        <div class="row">
 
                             <label for="" style="font-size: 20px"><b>Alamat Pengiriman</b></label>
                             <label for="">{{ $detail->alamat }}</label>
@@ -270,7 +419,8 @@
                     <div class="modal-content">
                         <div class="modal-header" style="background-color: #bfb596; color: white;">
                             <h5 class="modal-title" id="modalTolakPesananLabel">Batalkan Pesanan</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body" style="padding: 25px;">
 

@@ -65,6 +65,77 @@
                     </div>
 
                     <div class="card-body transaction-body">
+                        @if ($htrans->status == 6)
+                                <div class="detail-row" style="float: right">
+                                    <h5>Aksi</h5>
+                                    <button class="btn " style="background-color: #69e0d3; color: black"
+                                        data-bs-toggle='modal' data-bs-target='#modalPesananSampai'>Konfirmasi Pesanan
+                                        Sampai</button>
+                                    <div class="modal fade" id="modalPesananSampai" tabindex="-1"
+                                        aria-labelledby="modalDesainBaruLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header" style="background-color: #d6c699">
+                                                    <h5 class="modal-title" id="modalDesainBaruLabel">Konfirmasi</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Pesanan Sudah Sampai?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Tutup</button>
+                                                    <form action="{{ url('/customer/pembelianSampai/' . $htrans->id) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        <button class="btn btn-success" type="submit">Sudah</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            @endif
+                            @if ($htrans->status == 12)
+                                <div class="detail-row" style="float: right">
+                                    <h5>Aksi</h5>
+                                    <div class="col">
+
+                                        <button class="btn " style="background-color: #69e0d3; color: black"
+                                            data-bs-toggle='modal' data-bs-target='#modalPesananSelesai'>Selesaikan
+                                            Pesanan</button>
+
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="modalPesananSelesai" tabindex="-1"
+                                    aria-labelledby="modalPesananSelesai" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color: #d6c699">
+                                                <h5 class="modal-title" id="modalDesainBaruLabel">Konfirmasi</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <p>Selesaikan pesanan?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Tutup</button>
+                                                <form action="{{ url('/customer/pembelianSelesai/' . $htrans->id) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    <button class="btn btn-success" type="submit">Selesai</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            @endif
                         @php
                             $customStatus = '';
                             $statusColor = '';
@@ -78,10 +149,10 @@
                                 $customStatus = 'Menunggu Pembayaran';
                                 $statusColor = 'bg-secondary';
                             } elseif ($htrans->status == 4) {
-                                $customStatus = 'Pembayaran diterima, menunggu';
+                                $customStatus = 'Dalam Proses Produksi';
                                 $statusColor = 'bg-primary';
                             } elseif ($htrans->status == 5) {
-                                $customStatus = 'Pembelian di Siapkan';
+                                $customStatus = 'Produksi Selesai';
                                 $statusColor = 'bg-info';
                             } elseif ($htrans->status == 6) {
                                 $customStatus = 'Dalam Pengiriman';
@@ -89,8 +160,14 @@
                             } elseif ($htrans->status == 7) {
                                 $customStatus = 'Transaksi Berhasil';
                                 $statusColor = 'bg-success';
-                            } elseif (in_array($htrans->status, [8, 9, 10])) {
+                            } elseif (in_array($htrans->status, [8, 9])) {
                                 $customStatus = 'Pembelian gagal';
+                                $statusColor = 'bg-danger';
+                            } elseif( $htrans->status == 12){
+                                $customStatus = 'Pesanan Sampai';
+                                $statusColor = 'bg-info';
+                            } elseif( $htrans->status == 10){
+                                $customStatus = 'Pembayaran Gagal, Transaksi Batal';
                                 $statusColor = 'bg-danger';
                             }
                         @endphp
@@ -185,25 +262,43 @@
                             @endif
                         </div>
 
-                        <div class="mt-3">
-                            <span class="transaction-detail-label">Add On</span>
-                            @foreach($dtrans as $item)
-                                @if ($item->jenis == 'second' || $item->cek_redesain != 'yes')
-                                    <div class="transaction-detail-value">
-                                        - {{ $item->nama_item }}
-                                        @if ($item->jenis != 'second')
-                                            : {{ $item->jumlah }}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="mt-3">
+                                    <span class="transaction-detail-label">Ukuran</span>
+                                    <span class="transaction-detail-value d-block">Tinggi: {{ $htrans->tinggi }} cm</span>
+                                    <span class="transaction-detail-value d-block">Lebar: {{ $htrans->lebar }} cm</span>
+                                    <span class="transaction-detail-value d-block">Kedalaman: {{ $htrans->panjang }} cm</span>
+                                </div>
+
+                                <div class="mt-3">
+                                    <span class="transaction-detail-label">Finishing</span>
+                                    <span class="transaction-detail-value d-block">{{ $htrans->finishing }}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="mt-3">
+                                    <span class="transaction-detail-label">Add On</span>
+                                    @foreach($dtrans as $item)
+                                        @if ($item->jenis == 'second' || $item->cek_redesain != 'yes')
+                                            <div class="transaction-detail-value">
+                                                - {{ $item->nama_item }}
+                                                @if ($item->jenis != 'second')
+                                                    : {{ $item->jumlah }}
+                                                @endif
+                                            </div>
                                         @endif
-                                    </div>
-                                @endif
-                            @endforeach
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
+
 
                         <div class="mt-3">
-                            <span class="transaction-detail-label">Finishing</span>
-                            <span class="transaction-detail-value d-block">{{ $htrans->finishing }}</span>
+                            <span class="transaction-detail-label">Penjelasan Custom</span>
+                            <span class="transaction-detail-value d-block">{{ $htrans->catatan }}</span>
                         </div>
-
                         <div class="mt-3">
                             <span class="transaction-detail-label">Alamat</span>
                             <span class="transaction-detail-value d-block">{{ $htrans->alamat }}</span>
@@ -226,13 +321,33 @@
                     <div class="card-body transaction-body">
                         <div class="">
                             @if (str_contains($htrans->nama_produk, 'lemari'))
+                                @if ($htrans->pilihan == null)
+
                                 <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoh1) }}"
                                      style="width: 300px;height:450px">
+                                     @elseif ($htrans->pilihan == 'awal')
+                                     <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoh1) }}"
+                                          style="width: 300px;height:450px">
+                                          @else
+                                          <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoredesain) }}"
+                                               style="width: 300px;height:450px">
+
+                                @endif
                                 <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoh2) }}"
                                      style="width: 300px;height:450px">
                             @else
-                                <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoh1) }}"
-                                    style="width: 650px">
+                            @if ($htrans->pilihan == null)
+
+                            <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoh1) }}"
+                                 style="width: 650px">
+                                 @elseif ($htrans->pilihan == 'awal')
+                                 <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoh1) }}"
+                                      style="width: 650px">
+                                      @else
+                                      <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoredesain) }}"
+                                           style="width: 650px">
+
+                            @endif
                                 <img src="{{ url('/storage/hasilcustom/' . $htrans->fotoh2) }}"
                                 style="width: 650px">
                             @endif

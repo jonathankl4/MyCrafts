@@ -11,13 +11,16 @@ use App\Models\satuan;
 use App\Models\tester;
 use App\Models\toko;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Midtrans\Config;
 use Midtrans\Notification;
+use Midtrans\Transaction;
 use RealRashid\SweetAlert\Facades\Alert;
 use stdClass;
 
@@ -70,42 +73,42 @@ class CustomerController extends Controller
         $random1 = $listproduk->shuffle()->take(4);
 
         $query = DB::table('produk_custom_dijuals as pcd')
-        ->join('detail_produk_custom_dijuals as dpcd', 'pcd.id', '=', 'dpcd.id_produk_custom_dijual')
-        ->where('pcd.status', '=', 'aktif')
-        ->where('pcd.deleted', '=', 0)
-        ->select([
-            'pcd.id',
-            'pcd.nama_template',
-            'pcd.nama_produk',
-            'pcd.deskripsi',
-            'pcd.panjang_min',
-            'pcd.panjang_max',
-            'pcd.tinggi_min',
-            'pcd.tinggi_max',
-            'pcd.lebar_min',
-            'pcd.lebar_max',
-            'pcd.kode',
-            DB::raw('MIN(dpcd.harga) as min_harga'),
-            DB::raw('MAX(dpcd.harga) as max_harga'),
-            DB::raw('GROUP_CONCAT(DISTINCT dpcd.jenis_kayu) as jenis_kayu_list')
-        ])
-        ->groupBy([
-            'pcd.id',
-            'pcd.nama_template',
-            'pcd.nama_produk',
-            'pcd.deskripsi',
-            'pcd.panjang_min',
-            'pcd.panjang_max',
-            'pcd.tinggi_min',
-            'pcd.tinggi_max',
-            'pcd.lebar_min',
-            'pcd.lebar_max',
-            'pcd.kode'
-        ])->get();
+            ->join('detail_produk_custom_dijuals as dpcd', 'pcd.id', '=', 'dpcd.id_produk_custom_dijual')
+            ->where('pcd.status', '=', 'aktif')
+            ->where('pcd.deleted', '=', 0)
+            ->select([
+                'pcd.id',
+                'pcd.nama_template',
+                'pcd.nama_produk',
+                'pcd.deskripsi',
+                'pcd.panjang_min',
+                'pcd.panjang_max',
+                'pcd.tinggi_min',
+                'pcd.tinggi_max',
+                'pcd.lebar_min',
+                'pcd.lebar_max',
+                'pcd.kode',
+                DB::raw('MIN(dpcd.harga) as min_harga'),
+                DB::raw('MAX(dpcd.harga) as max_harga'),
+                DB::raw('GROUP_CONCAT(DISTINCT dpcd.jenis_kayu) as jenis_kayu_list')
+            ])
+            ->groupBy([
+                'pcd.id',
+                'pcd.nama_template',
+                'pcd.nama_produk',
+                'pcd.deskripsi',
+                'pcd.panjang_min',
+                'pcd.panjang_max',
+                'pcd.tinggi_min',
+                'pcd.tinggi_max',
+                'pcd.lebar_min',
+                'pcd.lebar_max',
+                'pcd.kode'
+            ])->get();
         $random2 = $query->shuffle()->take(4);
 
 
-        return view("customer.shopping.dashboard", ['user' => $user, 'listProduk' => $listproduk, 'random1' => $random1, 'random2' => $random2, ]);
+        return view("customer.shopping.dashboard", ['user' => $user, 'listProduk' => $listproduk, 'random1' => $random1, 'random2' => $random2,]);
         // return view("customer.dashboard", ['user'=>$user]);
 
         // dd($user);
@@ -239,11 +242,11 @@ class CustomerController extends Controller
                     break;
                 case '1000000-2000000':
                     $query->having('min_harga', '>=', 1000000)
-                          ->having('max_harga', '<=', 2000000);
+                        ->having('max_harga', '<=', 2000000);
                     break;
                 case '2000000-3000000':
                     $query->having('min_harga', '>=', 2000000)
-                          ->having('max_harga', '<=', 3000000);
+                        ->having('max_harga', '<=', 3000000);
                     break;
                 case '3000000+':
                     $query->having('max_harga', '>', 3000000);
@@ -568,9 +571,56 @@ class CustomerController extends Controller
         return redirect()->back();
     }
 
+
+
     public function listPembelian(Request $request)
     {
         $user = $this->getLogUser();
+
+        $tempPembelian = DB::table('h_trans')
+            ->where('id_user', $user->id)
+            ->where('status_pembayaran', 0)
+            ->where(function ($query) {
+                $query->where('status', 2)
+                    ->orWhere('status', 3);
+            })
+            ->orderBy('tgl_transaksi', 'desc')
+            ->get();
+        // dd($tempPembelian);
+        // cek pembayaran
+        for ($i = 0; $i < count($tempPembelian); $i++) {
+            # code...
+            $id = $tempPembelian[$i]->id;
+            $htrans = Htrans::find($id);
+            $data1 = DB::table('donations')->where('h_trans_id', $id)->where('pilihan', 'awal')->first();
+
+            if ($htrans->status_pembayaran == 0 && ($htrans->status == 2 || $htrans->status == 3)) {
+                // Set up Midtrans configuration
+                \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+                \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+
+                try {
+                    $created_time = strtotime($data1->created_at);
+                    $current_time = time();
+                    $time_difference = $current_time - $created_time;
+
+                    if ($time_difference > 86400) {
+                        # code...
+                        $htrans->status =  10;
+                        $htrans->status_pembayaran = 3;
+                        $htrans->save();
+                        DB::table('donations')->where('h_trans_id', $id)
+                            ->update(['status' => 'expired']);
+                    }
+                } catch (\Exception $e) {
+                    // Log or handle the error as necessary
+                    toast('eror gabisa handle' . $e->getMessage(), 'error');
+                    // return redirect()->back()->withErrors('Unable to verify payment status: ' . $e->getMessage());
+                }
+            }
+        }
+
+
 
         $status = $request->query('status', 'semua');
         $subStatus = $request->query('sub_status', null);
@@ -622,7 +672,30 @@ class CustomerController extends Controller
                 break;
         }
 
+
+
         return view('customer.shopping.pembelian', ['user' => $user, 'pembelian' => $pembelian, 'status' => $status, 'sub_status' => $subStatus]);
+    }
+
+    public function checkPaymentStatus($snaptoken)
+    {
+        try {
+            // Konfigurasi Midtrans (ganti dengan credential-mu)
+            Config::$serverKey = 'SB-Mid-server-zWY27q_HmwwGCT9KH8YUuapt';
+            Config::$isProduction = config('midtrans.is_production');
+            Config::$isSanitized = config('midtrans.is_sanitized');
+            Config::$is3ds = config('midtrans.is_3ds');
+
+            // Ambil status transaksi dari Midtrans
+            $status = Transaction::status($snaptoken);
+
+            // Kembalikan status pembayaran
+            return $status->transaction_status;
+        } catch (Exception $e) {
+            // Tangani error jika terjadi
+            Log::error('Error checking payment status: ' . $e->getMessage());
+            return $e->getMessage();
+        }
     }
 
     public function detailTransaksiCustom($id)
@@ -631,10 +704,36 @@ class CustomerController extends Controller
         $user = $this->getLogUser();
 
         $htrans = HTrans::find($id);
+        $toko = toko::find($htrans->id_toko);
         $dtrans = DB::table('d_trans')->where('h_trans_id', $id)->get();
 
         $data1 = DB::table('donations')->where('h_trans_id', $id)->where('pilihan', 'awal')->first();
         $data2 = DB::table('donations')->where('h_trans_id', $id)->where('pilihan', 'baru')->first();
+
+        $statusPembayaran1 = $this->checkPaymentStatus($data1->code);
+        $statusPembayaran2 = $this->checkPaymentStatus($data2->code);
+        if ($htrans->status_pembayaran == 0) {
+            # code...
+            if ($statusPembayaran1 == 'settlement') {
+                // Pembayaran pertama berhasil
+                $htrans->pilihan = 'awal';
+                $htrans->status = 4;
+                $toko->saldo_pending += $htrans->harga;
+                $htrans->status_pembayaran = 1;
+                $htrans->save();
+                $toko->save();
+            }
+
+            if ($statusPembayaran2 == 'settlement') {
+                // Pembayaran kedua berhasil
+                $htrans->pilihan = 'baru';
+                $htrans->status = 4;
+                $toko->saldo_pending += $htrans->harga_redesain;
+                $htrans->status_pembayaran = 1;
+                $htrans->save();
+                $toko->save();
+            }
+        }
 
         if ($htrans->status_pembayaran == 0 && ($htrans->status == 2 || $htrans->status == 3)) {
             // Set up Midtrans configuration
@@ -669,9 +768,22 @@ class CustomerController extends Controller
 
         // Find the transaction in h_trans
         $htrans = HTrans::find($id);
+        $toko = toko::find($htrans->id_toko);
         $dtrans = DB::table('d_trans')->where('h_trans_id', $id)->get();
         $data1 = DB::table('donations')->where('h_trans_id', $id)->first();
         // dd($data1);
+
+        $statusPembayaran1 = $this->checkPaymentStatus($data1->code);
+
+        if ($statusPembayaran1 == 'settlement') {
+            // Pembayaran pertama berhasil
+            $htrans->pilihan = 'awal';
+            $htrans->status = 4;
+            $toko->saldo_pending += $htrans->harga;
+            $htrans->status_pembayaran = 1;
+            $htrans->save();
+            $toko->save();
+        }
 
         // Check if there's a related donation and if payment has expired
         if ($htrans->status_pembayaran == 0 && ($htrans->status == 2 || $htrans->status == 3)) {
@@ -862,7 +974,7 @@ class CustomerController extends Controller
                 'alamat' => $request->alamat,
                 'nomorTelepon' => $request->notelp,
                 'finishing' => $finishing,
-                'harga_finishing' =>$harga_finishing
+                'harga_finishing' => $harga_finishing
             ]);
 
             if ($pintu) {
