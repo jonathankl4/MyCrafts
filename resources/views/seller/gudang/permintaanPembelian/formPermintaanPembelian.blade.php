@@ -70,7 +70,7 @@
                         @foreach($bahans as $bahan)
                             <option value="{{ $bahan->nama_bahan }}"
                                     data-harga="{{ $bahan->harga_bahan }}"
-                                    data-satuan="{{ $bahan->satuan_bahan }}">
+                                    data-satuan="{{ $bahan->satuan_jumlah }}">
                                 {{ $bahan->nama_bahan }}
                             </option>
                         @endforeach

@@ -5,7 +5,7 @@
 
 @endsection
 
-@section('title', 'Dashboard')
+@section('title', 'Daftar Produk Non-Custom')
 
 @section('style')
     <style>

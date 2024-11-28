@@ -1,6 +1,6 @@
 @extends('template.BackupMasterDesain')
 
-@section('title', 'Dashboard')
+@section('title', 'Edit Produk Non-Custom')
 
 @section('style')
 <style>
@@ -77,12 +77,22 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label class="col-md-2 col-form-label" style="font-size: 16px" >tipe Produk</label>
+                        <label class="col-md-2 col-form-label" style="font-size: 16px">Ukuran</label>
                         <div class="col-md-10">
-                        <input type="text" class="form-control" id="tipeProduk" name="tipeProduk" placeholder="Tipe Produk"  value="{{$produk->tipe_produk}}"/>
-                        <span style="color: red;">{{ $errors->first('tipeProduk')}}</span>
+                            <input type="text" class="form-control" id="ukuran" name="ukuran"
+                                placeholder="contoh: 10x10x10 (cm)"  value="{{$produk->ukuran}}" />
+                            <span style="color: red;">{{ $errors->first('ukuran') }}</span>
                         </div>
                     </div>
+                    <div class="mb-3 row">
+                        <label class="col-md-2 col-form-label" style="font-size: 16px">Bahan</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="bahan" name="bahan"
+                                placeholder="Jenis Kayu yang dipakai"  value="{{$produk->bahan}}"/>
+                            <span style="color: red;">{{ $errors->first('bahan') }}</span>
+                        </div>
+                    </div>
+
                     <div class="mb-3 row">
                         <label class="col-md-2 col-form-label"  style="font-size: 16px">Harga</label>
                         <div class="col-md-10">
@@ -99,85 +109,26 @@
                             <span style="color: red;">{{ $errors->first('jumlahProduk')}}</span>
                         </div>
                     </div>
+                    <div class="mb-3 row">
+                        <label class="col-md-2 col-form-label" style="font-size: 16px">Deskripsi Produk</label>
+                        <div class="col-md-10">
+
+                            <textarea name="keteranganProduk" id="keteranganProduk" cols="30" rows="5">{{$produk->keterangan_produk}}</textarea>
+                        </div>
+
+                            <span style="color: red;">{{ $errors->first('keteranganProduk') }}</span>
+
+                    </div>
 
 
             </div>
             <br>
-            <div class="card" style="padding: 15px">
-                <h3 class="card-header text-dark ">Berat Produk</h3>
 
-                <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Berat</label>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="beratProduk" name="beratProduk" aria-describedby="beratprodukinfo" placeholder="Berat Produk"  value="{{$produk->berat_produk}}" />
-                            <span class="input-group-text" id="beratprodukinfo">Gram</span>
-                        </div>
-                        <span style="color: red;">{{ $errors->first('beratProduk')}}</span>
-
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label" style="font-size: 16px">Ukuran</label>
-
-                    <div class="col-md-10">
-                        <select name="satuanProduk" id="satuanProduk" class="theSelect form-select" style="height: 50px;width: 50%" >
-                            <option value="" disabled selected hidden>Satuan Ukuran</option>
-                            @for ($i=0; $i<count($satuan); $i++)
-                            @php
-                                $cek = 0;
-                                $dis = "";
-                                if ($produk->satuanUkuran_produk==$satuan[$i]->nama_satuan) {
-                                    # code...
-                                    $cek = 1;
-                                    $dis = "selected";
-
-                                }
-                            @endphp
-                            <option {{$dis}} value="{{$satuan[$i]->nama_satuan}}">{{$satuan[$i]->nama_satuan}}</option>
-                            @endfor
-
-                        </select>
-                        <br><br>
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text" id="spanpanjang" style="">Panjang :</span>
-                            <input type="text" class="form-control" id="ukuranPanjang" name="ukuranPanjang" aria-describedby="spanpanjang" style="border: 1.3px ridge " value="{{$produk->ukuran_panjangproduk}}" />
-                            <span class="input-group-text " id="labelPanjang">{{$produk->satuanUkuran_produk}}</span>
-                        </div>
-                        <span style="color: red;">{{ $errors->first('ukuranPanjang')}}</span>
-                        <br>
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text" id="spanlebar" style="">Lebar :</span>
-                            <input type="text" class="form-control" id="ukuranLebar" name="ukuranLebar" aria-describedby="spanlebar" style="border: 1.3px ridge " value="{{$produk->ukuran_lebarproduk}}" />
-                            <span class="input-group-text" id="labelLebar">{{$produk->satuanUkuran_produk}}</span>
-                        </div>
-                        <span style="color: red;">{{ $errors->first('ukuranLebar')}}</span>
-                        <br>
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text" id="spantinggi" style="">Tinggi :</span>
-                            <input type="text" class="form-control" id="ukuranTinggi" name="ukuranTinggi" aria-describedby="spantinggi" style="border: 1.3px ridge " value="{{$produk->ukuran_tinggiproduk}}" />
-                            <span class="input-group-text " id="labelTinggi">{{$produk->satuanUkuran_produk}}</span>
-                        </div>
-                        <span style="color: red;">{{ $errors->first('ukuranTinggi')}}</span>
-
-                    </div>
-                </div>
-
-
-            </div>
             <br>
             <div class="card" style="padding: 15px">
                 <h3 class="card-header text-dark ">Detail Produk</h3>
 
-                <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Keterangan</label>
-                    <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="keteranganProduk" name="keteranganProduk" placeholder="Keterangan" value="{{$produk->keterangan_produk}}" />
-                        <span style="color: red;">{{ $errors->first('keteranganProduk')}}</span>
-                    </div>
-                </div>
                 <div class="mb-3 ">
                     <label class="form-label" style="font-size: 16px" >foto Utama</label>
                     <div class="col-md-10">

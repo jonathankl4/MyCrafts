@@ -81,7 +81,7 @@ class ProdukController extends Controller
     public function addProduk(Request $request){
         $user = $this->getLogUser();
 
-       
+
 
         $foto1 = "";
         $foto2 = "";
@@ -95,15 +95,14 @@ class ProdukController extends Controller
         $p = new ProdukDijual();
         $p->id_toko = $user->id_toko;
         $p->nama_produk = $request->namaProduk;
-        $p->tipe_produk = $request->tipeProduk;
+
         $p->harga_produk = $request->hargaProduk;
         $p->jumlah_produk = $request->jumlahProduk;
-        $p->ukuran_panjangProduk = $request->ukuranPanjang;
-        $p->ukuran_lebarProduk = $request->ukuranLebar;
-        $p->ukuran_tinggiProduk = $request->ukuranTinggi;
-        $p->satuanUkuran_produk = $request->satuanProduk;
+        $p->ukuran = $request->ukuran;
+        $p->bahan = $request->bahan;
+
         $p->keterangan_produk = $request->keteranganProduk;
-        $p->berat_produk = $request->beratProduk;
+
         $p->status = "nonaktif";
 
         $namaFolderPhoto = "imgProduk/";
@@ -160,15 +159,12 @@ class ProdukController extends Controller
 
         $request->validate([
             "namaProduk"=>'required',
-            "tipeProduk"=>'required',
             "hargaProduk"=>'required',
             "jumlahProduk"=>'required',
-            "ukuranPanjang"=>'required',
-            "ukuranLebar"=>'required',
-            "ukuranTinggi"=>'required',
-            "satuanProduk"=>'required',
+            "ukuran"=>'required',
+            "bahan"=>'required',
             "keteranganProduk"=>'required',
-            "beratProduk"=>'required',
+
 
         ],
 
@@ -185,15 +181,14 @@ class ProdukController extends Controller
 
         $m = ProdukDijual::find($id);
         $m->nama_produk = $request->namaProduk;
-        $m->tipe_produk = $request->tipeProduk;
+
         $m->harga_produk = $request->hargaProduk;
         $m->jumlah_produk = $request->jumlahProduk;
-        $m->ukuran_panjangproduk = $request->ukuranPanjang;
-        $m->ukuran_lebarproduk = $request->ukuranLebar;
-        $m->ukuran_tinggiproduk = $request->ukuranTinggi;
-        $m->satuanUkuran_produk = $request->satuanProduk;
+        $m->ukuran = $request->ukuran;
+        $m->bahan = $request->bahan;
+
         $m->keterangan_produk = $request->keteranganProduk;
-        $m->berat_produk = $request->beratProduk;
+
 
         $namaFolderPhoto = "imgProduk/";
 

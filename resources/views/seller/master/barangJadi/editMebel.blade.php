@@ -77,11 +77,19 @@
                 </div>
 
                 <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label" style="font-size: 16px" >tipe mebel</label>
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Ukuran</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="tipeMebel" name="tipeMebel" placeholder="Tipe Mebel" value="{{$mebel->tipe_mebel}}" />
-                        <span style="color: red;">{{ $errors->first('tipeMebel')}}</span>
+                        <input type="text" class="form-control" id="ukuran" name="ukuran" placeholder="UKuran" value="{{$mebel->ukuran}}" />
+                        <span style="color: red;">{{ $errors->first('ukuran')}}</span>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Bahan</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="bahan" name="bahan" placeholder="Bahan" value="{{$mebel->bahan}}" />
+                        <span style="color: red;">{{ $errors->first('bahan')}}</span>
                     </div>
                 </div>
 
@@ -102,54 +110,7 @@
                     </div>
                 </div>
 
-                <div class="mb-3 row">
-                    <label class=" col-md-2 col-form-label" style="font-size: 16px" >Ukuran</label>
-
-                    <div class="col-md-10">
-                        <select name="satuanMebel" id="" class="theSelect" style="height: 50px;width: 50%" >
-                            <option value="" disabled selected hidden>Satuan Ukuran</option>
-                            @for ($i=0; $i<count($satuan); $i++)
-                            @php
-                                $cek = 0;
-                                $dis = "";
-                                if ($mebel->satuanUkuran_mebel==$satuan[$i]->nama_satuan) {
-                                    # code...
-                                    $cek = 1;
-                                    $dis = "selected";
-
-                                }
-                            @endphp
-
-
-                            <option {{$dis}} value="{{$satuan[$i]->nama_satuan}}">{{$satuan[$i]->nama_satuan}}</option>
-                            @endfor
-
-                        </select>
-                        <br><br>
-
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text" id="spanpanjang" style="">Panjang :</span>
-                            <input type="text" class="form-control" id="ukuranPanjang" name="ukuranPanjang" aria-describedby="spanpanjang" style="border: 1.3px ridge " value="{{$mebel->ukuran_panjangMebel}}" />
-                        </div>
-                        <span style="color: red;">{{ $errors->first('ukuranPanjang')}}</span>
-                        <br>
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text" id="spanlebar" style="">Lebar :</span>
-                            <input type="text" class="form-control" id="ukuranLebar" name="ukuranLebar" aria-describedby="spanlebar" style="border: 1.3px ridge " value="{{$mebel->ukuran_lebarMebel}}" />
-                        </div>
-                        <span style="color: red;">{{ $errors->first('ukuranLebar')}}</span>
-                        <br>
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text" id="spantinggi" style="">Tinggi :</span>
-                            <input type="text" class="form-control" id="ukuranTinggi" name="ukuranTinggi" aria-describedby="spantinggi" style="border: 1.3px ridge " value="{{$mebel->ukuran_tinggiMebel}}" />
-                        </div>
-
-                        <span style="color: red;">{{ $errors->first('ukuranTinggi')}}</span>
-
-                    </div>
-
-
-                </div>
+                
                 <div class="mb-3">
                     <label class="form-label" >Keterangan</label>
                     <input type="text" class="form-control" id="keteranganMebel" name="keteranganMebel" placeholder="Keterangan" value="{{$mebel->keterangan_mebel}}" />

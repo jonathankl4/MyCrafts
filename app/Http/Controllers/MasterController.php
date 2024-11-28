@@ -302,13 +302,12 @@ class MasterController extends Controller
 
         $request->validate([
             'namaMebel' => 'required',
-            'tipeMebel' => 'required',
+
             'hargaMebel' => 'required',
             'jumlahMebel' => 'required',
-            'ukuranPanjang' => 'required',
-            'ukuranTinggi' => 'required',
-            'ukuranLebar' => 'required',
-            'satuanMebel' => 'required',
+            'ukuran' => 'required',
+            'bahan' => 'required',
+
             'keteranganMebel' => 'required',
 
 
@@ -325,13 +324,12 @@ class MasterController extends Controller
         $m = new Mebel();
         $m->id_toko = $user->id_toko;
         $m->nama_mebel = $request->namaMebel;
-        $m->tipe_mebel = $request->tipeMebel;
+
         $m->harga_mebel = $request->hargaMebel;
         $m->jumlah_mebel = $request->jumlahMebel;
-        $m->ukuran_panjangMebel = $request->ukuranPanjang;
-        $m->ukuran_lebarMebel = $request->ukuranLebar;
-        $m->ukuran_tinggiMebel = $request->ukuranTinggi;
-        $m->satuanUkuran_mebel = $request->satuanMebel;
+        $m->ukuran = $request->ukuran;
+        $m->bahan = $request->bahan;
+
         $m->keterangan_mebel = $request->keteranganMebel;
 
         $m->save();
@@ -350,13 +348,12 @@ class MasterController extends Controller
     public function editMebel(Request $request, $id){
         $request->validate([
             'namaMebel' => 'required',
-            'tipeMebel' => 'required',
+
             'hargaMebel' => 'required',
             'jumlahMebel' => 'required',
-            'ukuranPanjang' => 'required',
-            'ukuranTinggi' => 'required',
-            'ukuranLebar' => 'required',
-            'satuanMebel' => 'required',
+            'ukuran' => 'required',
+            'bahan' => 'required',
+
             'keteranganMebel' => 'required',
 
         ],
@@ -371,13 +368,12 @@ class MasterController extends Controller
 
         $m = Mebel::find($id);
         $m->nama_mebel = $request->namaMebel;
-        $m->tipe_mebel = $request->tipeMebel;
+
         $m->harga_mebel = $request->hargaMebel;
         $m->jumlah_mebel = $request->jumlahMebel;
-        $m->ukuran_panjangMebel = $request->ukuranPanjang;
-        $m->ukuran_lebarMebel = $request->ukuranLebar;
-        $m->ukuran_tinggiMebel = $request->ukuranTinggi;
-        $m->satuanUkuran_mebel = $request->satuanMebel;
+        $m->ukuran = $request->ukuran;
+        $m->bahan = $request->bahan;
+
         $m->keterangan_mebel = $request->keteranganMebel;
 
 

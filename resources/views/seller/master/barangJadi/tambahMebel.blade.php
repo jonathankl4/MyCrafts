@@ -77,67 +77,38 @@
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label" style="font-size: 16px" >tipe mebel</label>
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Ukuran</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="tipeMebel" name="tipeMebel" placeholder="Tipe Mebel" value="{{old('tipeMebel')}}" />
-                        <span style="color: red;">{{ $errors->first('tipeMebel')}}</span>
+                        <input type="text" class="form-control" id="ukuran" name="ukuran" placeholder="Ukuran" value="{{old('ukuran')}}" />
+                        <span style="color: red;">{{ $errors->first('ukuran')}}</span>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Bahan</label>
+                    <div class="col-md-10">
+
+                        <input type="text" class="form-control" id="bahan" name="bahan" placeholder="Tipe Mebel" value="{{old('bahan')}}" />
+                        <span style="color: red;">{{ $errors->first('bahan')}}</span>
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label class=" col-md-2 col-form-label" style="font-size: 16px" >Harga</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="hargaMebel" name="hargaMebel" placeholder="Harga" value="{{old('hargaMebel')}}" />
+                        <input type="number" class="form-control" id="hargaMebel" name="hargaMebel" placeholder="Harga" value="{{old('hargaMebel')}}" />
                         <span style="color: red;">{{ $errors->first('hargaMebel')}}</span>
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label class="form-label col-md-2" style="font-size: 16px">jumlah</label>
+                    <label class="form-label col-md-2" style="font-size: 16px">Stok</label>
                     <div class="col-md-10">
 
-                        <input type="text" class="form-control" id="jumlahMebel" name="jumlahMebel" placeholder="Jumlah Mebel" value="{{old('jumlahMebel')}}" />
+                        <input type="number" class="form-control" id="jumlahMebel" name="jumlahMebel" placeholder="Stok Mebel" value="{{old('jumlahMebel')}}" />
                         <span style="color: red;">{{ $errors->first('jumlahMebel')}}</span>
                     </div>
                 </div>
-                <div class="mb-3 row">
-                    <label class=" col-md-2 col-form-label" style="font-size: 16px" >Ukuran</label>
 
-                    <div class="col-md-10">
-                        <select name="satuanMebel" id="" class="theSelect form-select" style="height: 50px;" >
-                            <option value="" disabled selected hidden>Satuan Ukuran</option>
-                            @for ($i=0; $i<count($satuan); $i++)
-
-                            <option value="{{$satuan[$i]->nama_satuan}}">{{$satuan[$i]->nama_satuan}}</option>
-                            @endfor
-
-                        </select>
-                        <br><br>
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text" id="spanpanjang" style="">Panjang :</span>
-                            <input type="text" class="form-control" id="ukuranPanjang" name="ukuranPanjang" aria-describedby="spanpanjang" style="border: 1.3px ridge " value="{{old('ukuranPanjang')}}" />
-                        </div>
-                        <span style="color: red;">{{ $errors->first('ukuranPanjang')}}</span>
-                        <br>
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text" id="spanlebar" style="">Lebar :</span>
-                            <input type="text" class="form-control" id="ukuranLebar" name="ukuranLebar" aria-describedby="spanlebar" style="border: 1.3px ridge " value="{{old('ukuranLebar')}}" />
-                        </div>
-                        <span style="color: red;">{{ $errors->first('ukuranLebar')}}</span>
-                        <br>
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text" id="spantinggi" style="">Tinggi :</span>
-                            <input type="text" class="form-control" id="ukuranTinggi" name="ukuranTinggi" aria-describedby="spantinggi" style="border: 1.3px ridge " value="{{old('ukuranTinggi')}}" />
-                        </div>
-                        <span style="color: red;">{{ $errors->first('ukuranTinggi')}}</span>
-
-
-
-
-                    </div>
-
-
-                </div>
                 <div class="mb-3 row">
                     <label class=" col-md-2 col-form-label" style="font-size: 16px" >Keterangan</label>
                     <div class="col-md-10">

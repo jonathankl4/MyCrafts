@@ -33,7 +33,7 @@
 
     <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
         <h2 class="fw-bold py-3 mb-4">Mebel</h2>
-        
+
         <div class="card" style="padding: 15px">
             <h5 class="card-header">List Mebel</h5>
 
@@ -48,8 +48,8 @@
                             <th>No</th>
                             <th>Nama Mebel</th>
                             <th>Ukuran</th>
+                            <th>Bahan</th>
                             <th>Jumlah</th>
-                            <th>Jenis Mebel</th>
                             <th>Harga Mebel</th>
 
                             <th>aksi</th>
@@ -60,19 +60,15 @@
                     </thead>
                     <tbody>
                         @for ($i=0; $i < count($listMebel); $i++ )
-                        @php
-                            $p =$listMebel[$i]->ukuran_panjangMebel;
-                            $l =$listMebel[$i]->ukuran_lebarMebel;
-                            $t =$listMebel[$i]->ukuran_tinggiMebel;
-                            $satuan = $listMebel[$i]->satuanUkuran_mebel;
-                        @endphp
+
 
                         <tr>
                             <td>{{$i+1}}</td>
                             <td style="font-size: 16px"><b>{{$listMebel[$i]->nama_mebel}}</b></td>
-                            <td style="font-size: 16px"><b>{{$p}}x{{$l}}x{{$t}} {{$satuan}}</b></td>
+                            <td style="font-size: 16px"><b>{{$listMebel[$i]->ukuran}}</b></td>
+                            <td style="font-size: 16px"><b>{{$listMebel[$i]->bahan}}</b></td>
                             <td style="font-size: 16px"><b>{{$listMebel[$i]->jumlah_mebel}}</b></td>
-                            <td style="font-size: 16px"><b>{{$listMebel[$i]->tipe_mebel}}</b></td>
+
                             <td style="font-size: 16px"><b>{{$listMebel[$i]->harga_mebel}}</b></td>
                             {{-- <td>
                                 <a href=""  data-bs-toggle="modal" data-bs-target="#modalImage{{$i}}"><img src="{{url("/storage/imgMebel/".$listMebel[$i]->foto_mebel1)}}" alt="" style="width:100px; height:100px" ></a>
