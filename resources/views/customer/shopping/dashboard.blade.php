@@ -95,7 +95,7 @@
         <div class="container py-5">
             <div class="row g-5 align-items-center">
                 <div class="col-md-12 col-lg-7">
-                    <h4 class="mb-3 text-secondary">ini dashboard</h4>
+                    {{-- <h4 class="mb-3 text-secondary">ini dashboard</h4> --}}
                     <h1 class="mb-5 display-3 " style="color: black">Temukan Meja dan lemari terbaikmu</h1>
                     {{-- <div class="position-relative mx-auto">
                     <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">

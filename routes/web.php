@@ -358,7 +358,7 @@ Route::group([
 
     Route::get('/laporan-mutasi', [LaporanController::class, 'indexLaporanMutasi'])->name('laporan-mutasi.index');
 
-    Route::get('/laporan-stok-bahan', [LaporanController::class, 'indexLaporanStokBahan']);
+
 
     Route::get('/laporan-penjualan', [LaporanController::class,'indexLaporanPenjualan'])->name('laporan-penjualan.index');
 
@@ -366,6 +366,8 @@ Route::group([
 
     Route::get('/produksi/laporan-gagal-produksi', [LaporanController::class, 'indexLaporanGagalProduksi'])->name('laporan-gagal-produksi.index');
 
+    Route::get('/pengaturan-toko', [SellerController::class, 'pengaturanToko']);
+    Route::post('/edit-toko', [SellerController::class, 'updateToko'])->name('seller.toko.update');
 
     //==================================================================================================================================
     // FITUR PRO ONLY
@@ -447,8 +449,15 @@ Route::group([
         Route::get('/api/get-stok-bahan/{id}', [GudangController::class, 'getStokBahan']);
         Route::post('/gudang/inputMutasi', [GudangController::class, 'storeMutasiMebel']);
 
+        Route::get('/gudang/laporan-stok-bahan', [LaporanController::class, 'indexLaporanStokBahan'])->name('laporan-stok-bahan.index');
 
 
+        Route::prefix('/gudang/penerimaan-barang')->group(function () {
+            Route::get('/', [GudangController::class, 'indexPenerimaanBahan'])->name('penerimaan-barang.index');
+            Route::get('/create', [GudangController::class, 'createPenerimaanBahan'])->name('penerimaan-barang.create');
+            Route::post('/store', [GudangController::class, 'storePenerimaanBahan'])->name('penerimaan-barang.store');
+            Route::get('/{id}', [GudangController::class, 'showPenerimaanBahan'])->name('penerimaan-barang.show');
+        });
 
         // END OF GUDANG
 

@@ -248,6 +248,16 @@
                             <div>Mutasi Barang</div>
                         </a>
                     </li>
+                    <li class="menu-item {{ request()->is('seller/gudang/penerimaan-barang*') ? 'active' : '' }}">
+                        <a href="{{ url('/seller/gudang/penerimaan-barang') }}" class="menu-link">
+                            <div>Penerimaan Bahan</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->is('seller/gudang/riwayatMutasi') ? 'active' : '' }}">
+                        <a href="{{ url('/seller/gudang/riwayatMutasi') }}" class="menu-link">
+                            <div>Mutasi Barang</div>
+                        </a>
+                    </li>
 
 
                     <li class="menu-item">
@@ -255,8 +265,9 @@
                             <div>Pengiriman</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="" class="menu-link">
+
+                    <li class="menu-item {{ request()->is('seller/gudang/laporan-stok-bahan') ? 'active' : '' }}">
+                        <a href="{{url('seller/gudang/laporan-stok-bahan')}}" class="menu-link">
                             <div>Laporan Stok Bahan</div>
                         </a>
                     </li>
@@ -299,6 +310,12 @@
             <a href="{{url('/seller/laporan-mutasi')}}" class="menu-link">
                 <i class='menu-icon tf-icons bx bxs-report'></i>
                 <div>Laporan Mutasi</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->is('seller/pengaturan-toko') ? 'active' : '' }}">
+            <a href="{{url('/seller/pengaturan-toko')}}" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-cog'></i>
+                <div>Pengaturan Toko</div>
             </a>
         </li>
 

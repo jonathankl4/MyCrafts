@@ -21,6 +21,34 @@ object-fit: contain; /* Pertahankan rasio gambar, tidak terpotong */
 display: block;
 max-width: 100%; /* Pastikan gambar tidak melebihi container */
 }
+
+.shop-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .shop-image {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 15px;
+    }
+
+    .shop-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .shop-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+    }
 </style>
 @endsection
 
@@ -63,6 +91,14 @@ max-width: 100%; /* Pastikan gambar tidak melebihi container */
 
                         </div>
                         <div class="col-lg-6">
+                            <div class="shop-container">
+                                <div class="shop-image">
+                                    <img src="{{ asset('storage/foto-toko/'.$toko->foto) }}" alt="{{$toko->nama}} logo">
+                                </div>
+                                <div class="shop-name">
+                                    {{$toko->nama}}
+                                </div>
+                            </div>
                             <h4 class="fw-bold mb-3"> {{$produk->nama_produk}}  </h4>
                             <input type="text" style="background: transparent; border: transparent" name="name" value="{{$produk->nama_produk}}" hidden>
 

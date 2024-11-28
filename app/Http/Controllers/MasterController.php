@@ -105,7 +105,7 @@ class MasterController extends Controller
         // dd($user);
         $request->validate([
             "namaSupplier"=>'required',
-            "noTelpSupplier"=>'required|integer',
+            "noTelpSupplier"=>'required',
         ],
 
         ["required" => ":attribute tidak boleh kosong",
@@ -200,41 +200,20 @@ class MasterController extends Controller
         // dd($user);
         $request->validate([
             "namaBahan"=>'required',
-
             "jumlahBahan"=>'required',
-
-
             "hargaBahan"=>'required',
 
         ],
 
         ["required" => ":attribute harus di isi!"]);
 
-        $panjang = 0;
-        $lebar = 0 ;
-        $tinggi = 0 ;
-        if ($request->ukuranPanjang != null) {
-            # code...
-            $panjang = $request->ukuranPanjang;
-        }
-        if ($request->ukuranLebar != null) {
-            # code...
-            $lebar = $request->ukuranLebar;
-        }
-        if ($request->ukuranTinggi != null) {
-            # code...
-            $tinggi = $request->ukuranTinggi;
-        }
+
 
         $b = new Bahan();
         $b->id_toko = $user->id_toko;
         $b->nama_bahan = $request->namaBahan;
-        $b->ukuran_bahan = $request->ukuranBahan;
-        $b->satuan_bahan = $request->satuanBahan;
+        $b->ukuran_bahan = $request->ukuran;
         $b->jumlah_bahan = $request->jumlahBahan;
-        $b->ukuran_panjangBahan = $panjang;
-        $b->ukuran_lebarBahan = $lebar;
-        $b->ukuran_tinggiBahan = $tinggi;
         $b->harga_bahan = $request->hargaBahan;
         $b->satuan_jumlah = $request->satuanJumlah;
         $b->save();
@@ -267,30 +246,11 @@ class MasterController extends Controller
 
         ["required" => ":attribute harus di isi!"]);
 
-        $panjang = 0;
-        $lebar = 0 ;
-        $tinggi = 0 ;
-        if ($request->ukuranPanjang != null) {
-            # code...
-            $panjang = $request->ukuranPanjang;
-        }
-        if ($request->ukuranLebar != null) {
-            # code...
-            $lebar = $request->ukuranLebar;
-        }
-        if ($request->ukuranTinggi != null) {
-            # code...
-            $tinggi = $request->ukuranTinggi;
-        }
         $b = Bahan::find($id);
 
         $b->nama_bahan = $request->namaBahan;
-        $b->ukuran_bahan = $request->ukuranBahan;
-        $b->satuan_bahan = $request->satuanBahan;
+        $b->ukuran_bahan = $request->ukuran;
         $b->jumlah_bahan = $request->jumlahBahan;
-        $b->ukuran_panjangBahan = $panjang;
-        $b->ukuran_lebarBahan = $lebar;
-        $b->ukuran_tinggiBahan = $tinggi;
         $b->harga_bahan = $request->hargaBahan;
         $b->satuan_jumlah = $request->satuanJumlah;
         $b->save();

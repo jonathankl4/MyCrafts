@@ -51,15 +51,30 @@
                 </div>
 
                 <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Ukuran (opsional) </label>
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Ukuran</label>
                     {{-- <input type="text" class="form-control" id="satuanBahan" name="satuanBahan" placeholder="-" />
                     <span style="color: red;">{{ $errors->first('satuanBahan')}}</span> --}}
                     <div class="col-md-10">
 
-                        <select name="satuanBahan" id="satuanBahan" class="form-select theSelect">
+
+
+                        <div class="input-group input-group-merge">
+
+                            <input type="text" class="form-control" id="ukuran" name="ukuran" aria-describedby="spanpanjang" style="border: 1.3px ridge " value="{{old('ukuranPanjang')}}" placeholder="contoh: 10 x 10 x 10 (cm)"  />
+                            <span class="input-group-text " id="labelPanjang"></span>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >Stok</label>
+                    <div class="col-md-10">
+                        <input type="number" class="form-control" id="jumlahBahan" name="jumlahBahan" placeholder="-" value="{{old('jumlahBahan')}}" />
+                        <select name="satuanJumlah" id="satuanJumlah" class="form-select theSelect" required >
                             @if (count($satuan) < 1)
 
-                            <option>Belum ada Satuan</option>
+                            <option disabled selected hidden>Belum ada Satuan</option>
 
                             @elseif (count($satuan) > 0)
                             <option disabled selected hidden >Pilih Satuan..</option>
@@ -71,51 +86,8 @@
 
                             @endfor
                         </select>
-                        <br><br>
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text" id="spanpanjang" style="">Panjang :</span>
-                            <input type="number" class="form-control" id="ukuranPanjang" name="ukuranPanjang" aria-describedby="spanpanjang" style="border: 1.3px ridge " value="{{old('ukuranPanjang')}}"  />
-                            <span class="input-group-text " id="labelPanjang"></span>
-                        </div>
-                        <span style="color: red;">{{ $errors->first('ukuranPanjang')}}</span>
-                        <br>
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text" id="spanlebar" style="">Lebar :</span>
-                            <input type="number" class="form-control" id="ukuranLebar" name="ukuranLebar" aria-describedby="spanlebar" style="border: 1.3px ridge " value="{{old('ukuranLebar')}}"  />
-                            <span class="input-group-text" id="labelLebar"></span>
-                        </div>
-                        <span style="color: red;">{{ $errors->first('ukuranLebar')}}</span>
-                        <br>
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text" id="spantinggi" style="">Tinggi :</span>
-                            <input type="number" class="form-control" id="ukuranTinggi" name="ukuranTinggi" aria-describedby="spantinggi" style="border: 1.3px ridge " value="{{old('ukuranTinggi')}}"  />
-                            <span class="input-group-text " id="labelTinggi"></span>
-                        </div>
-                        <span style="color: red;">{{ $errors->first('ukuranTinggi')}}</span>
-
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label" style="font-size: 16px" >jumlah</label>
-                    <div class="col-md-10">
-                        <input type="number" class="form-control" id="jumlahBahan" name="jumlahBahan" placeholder="-" value="{{old('jumlahBahan')}}" />
 
 
-                            <select name="satuanJumlah" id="satuanJumlah" class="form-select theSelect" required >
-                                @if (count($satuan) < 1)
-
-                                <option>Belum ada Satuan</option>
-
-                                @elseif (count($satuan) > 0)
-                                <option disabled selected hidden >Pilih Satuan..</option>
-
-                                @endif
-                                @for ($i = 0; $i < count($satuan);$i++)
-
-                                    <option value="{{$satuan[$i]->nama_satuan}}">{{$satuan[$i]->nama_satuan}}</option>
-
-                                @endfor
-                            </select>
 
 
                         <span style="color: red;">{{ $errors->first('jumlahBahan')}}</span>
@@ -123,7 +95,7 @@
                 </div>
 
                 <div class="mb-3 row">
-                    <label class="col-md-2 col-form-label" style="font-size: 16px" >harga</label>
+                    <label class="col-md-2 col-form-label" style="font-size: 16px" >harga per satuan</label>
                     <div class="col-md-10">
 
                         <input type="number" class="form-control" id="hargaBahan" name="hargaBahan" placeholder="-" value="{{old('hargaBahan')}}" />

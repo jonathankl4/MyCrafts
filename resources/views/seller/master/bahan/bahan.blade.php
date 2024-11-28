@@ -66,10 +66,10 @@
                         <tr>
                             <td>{{$i+1}}</td>
                             <td style="font-size: 16px"><b>{{$listBahan[$i]->nama_bahan}}</b></td>
-                            <td style="font-size: 16px"> <p>panjang : {{$listBahan[$i]->ukuran_panjangBahan}} {{$listBahan[$i]->satuan_bahan}} </p><p>lebar : {{$listBahan[$i]->ukuran_lebarBahan}} {{$listBahan[$i]->satuan_bahan}}</p> <p>tinggi : {{$listBahan[$i]->ukuran_tinggiBahan}} {{$listBahan[$i]->satuan_bahan}}</p></td>
+                            <td style="font-size: 16px">{{$listBahan[$i]->ukuran_bahan}} </td>
                             <td style="font-size: 16px"><b>{{$listBahan[$i]->jumlah_bahan}} {{$listBahan[$i]->satuan_jumlah}} </b></td>
 
-                            <td style="font-size: 16px"><b>{{$listBahan[$i]->harga_bahan}}</b></td>
+                            <td style="font-size: 16px"><b>Rp {{number_format($listBahan[$i]->harga_bahan, 0, ',', '.')}}</b></td>
 
                             <td>
                                 <a href="{{url('/seller/pEditBahan/'.$listBahan[$i]->id)}}" class="btn btn-icon btn-warning"><i class='bx bxs-pencil'></i></a>

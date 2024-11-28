@@ -28,13 +28,13 @@
     />
     @yield('meta')
 
-    <title>@yield("title")</title>
+    <title>@yield('title')</title>
 
     <meta name="description" content="" />
 
     <!-- Favicon -->
     {{-- <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" /> --}}
-    <link rel="icon" type="image/x-icon" href="{{asset('img/icons/wood.png') }}"  />
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/icons/wood.png') }}"  />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -45,26 +45,26 @@
     />
 
     <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="{{asset('vendor/fonts/boxicons.css')}}" />
+    <link rel="stylesheet" href="{{ asset('vendor/fonts/boxicons.css') }}" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="{{asset('vendor/css/core.css')}}"  />
-    <link rel="stylesheet" href="{{asset('vendor/css/theme-default.css')}}"  />
-    <link rel="stylesheet" href="{{asset('css/demo.css')}}" />
+    <link rel="stylesheet" href="{{ asset('vendor/css/core.css') }}"  />
+    <link rel="stylesheet" href="{{ asset('vendor/css/theme-default.css') }}"  />
+    <link rel="stylesheet" href="{{ asset('css/demo.css') }}" />
 
     <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
 
-    <link rel="stylesheet" href="{{asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
 
     <!-- Page CSS -->
 
     <!-- Helpers -->
-    <script src="{{asset('vendor/js/helpers.js')}}"></script>
+    <script src="{{ asset('vendor/js/helpers.js') }}"></script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="{{asset('js/config.js')}}"></script>
+    <script src="{{ asset('js/config.js') }}"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet" />
@@ -74,7 +74,7 @@
     {{-- data Table --}}
 
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.bootstrap5.css"> --}}
-    <script src="{{asset('js/jquery-1.12.0.min.js')}}" language="javascript"></script>
+    <script src="{{ asset('js/jquery-1.12.0.min.js') }}" language="javascript"></script>
 <link href='http://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css' type='text/css' rel='stylesheet'>
 <script src='http://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js' language='javascript'></script>
 
@@ -146,9 +146,9 @@
     {{-- <script src="{{asset('vendor/libs/jquery/jquery.js')}}"></script> --}}
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
-    <script src="{{asset('vendor/libs/popper/popper.js')}}"></script>
-    <script src="{{asset('vendor/js/bootstrap.js')}}"></script>
-    <script src="{{asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
+    <script src="{{ asset('vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
     {{-- data table  --}}
         {{-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -156,17 +156,17 @@
     <link href='http://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css'>
     <script src='https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js'></script>
 
-    <script src="{{asset('vendor/js/menu.js')}}"></script>
+    <script src="{{ asset('vendor/js/menu.js') }}"></script>
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="{{asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
+    <script src="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
     <!-- Main JS -->
-    <script src="{{asset('js/main.js')}}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 
     <!-- Page JS -->
-    <script src="{{asset('js/extended-ui-perfect-scrollbar.js')}}"></script>
+    <script src="{{ asset('js/extended-ui-perfect-scrollbar.js') }}"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -176,7 +176,7 @@
 
     {{-- fabric js  --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/510/fabric.min.js"></script>
-    
+
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>

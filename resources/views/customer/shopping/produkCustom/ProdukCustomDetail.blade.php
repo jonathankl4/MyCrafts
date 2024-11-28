@@ -13,6 +13,36 @@
         margin-bottom: 2rem;
     }
 
+    /* Shop information styles */
+    .shop-info {
+        display: flex;
+        align-items: center;
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid #f1f2f6;
+    }
+
+    .shop-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 1rem;
+        border: 2px solid #f1f2f6;
+    }
+
+    .shop-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .shop-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2d3436;
+    }
+
     .image-container {
         height: 400px;
         width: 100%;
@@ -152,6 +182,17 @@
 
             <div class="col-lg-7">
                 <div class="product-info">
+                    <!-- Added shop information section -->
+                    <div class="shop-info">
+                        <div class="shop-avatar">
+                            <img src="{{ asset('storage/foto-toko/'.$toko->foto) }}" alt="{{$toko->nama}} logo">
+                        </div>
+                        <div class="shop-name">
+                            {{$toko->nama}}
+                        </div>
+                    </div>
+                    <!-- End of shop information section -->
+
                     <h1 class="product-title">{{ $produk->nama_produk }}</h1>
                     <input type="text" name="idProduk" id="idProduk" hidden value="{{ $produk->id }}">
                     <p class="mb-4">{{ $produk->deskripsi }}</p>
@@ -195,25 +236,20 @@
                                     <strong>{{ $addon->nama_addon }}</strong>
                                     <span class="price-tag">Rp. {{ number_format($addon->harga, 0, ',', '.') }}</span>
                                 </div>
-
                             </div>
                             <div id="collapse{{$addon->kode}}" class="accordion-collapse collapse" aria-labelledby="headingL" data-bs-parent="#addonAccordion">
                                 <div class="accordion-body">
                                     <div class="row align-items-center">
                                         <div class="col-md-4 text-center">
-                                            <img src="{{ asset($addon->url) }}" alt="Sekat Vertical" class="img-fluid  shadow-sm" style="max-height: 200px;">
+                                            <img src="{{ asset($addon->url) }}" alt="Sekat Vertical" class="img-fluid shadow-sm" style="max-height: 200px;">
                                         </div>
                                         <div class="col-md-8">
-                                            {{-- @include('seller.produkCustom.penjelasanAddOn.' . $addon->kode) --}}
                                             @include('seller.produkCustom.penjelasanAddOn.' . $addon->kode)
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         @endforeach
-
-
                     </div>
                 </div>
             </div>

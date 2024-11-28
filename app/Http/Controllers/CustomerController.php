@@ -369,6 +369,10 @@ class CustomerController extends Controller
         $user = $this->getLogUser();
         $produk = ProdukDijual::find($id);
 
+        $toko = toko::find($produk->id_toko);
+
+
+
 
         $foto = [];
 
@@ -384,18 +388,16 @@ class CustomerController extends Controller
         }
 
         // dd($foto);
-
-
-
         // dd($produk);
 
-        return view("customer.shopping.nonCustom.produkDetail", ['user' => $user, 'produk' => $produk, 'foto' => $foto]);
+        return view("customer.shopping.nonCustom.produkDetail", ['user' => $user, 'produk' => $produk, 'foto' => $foto, 'toko'=>$toko]);
     }
 
     public function detailProdukCustom($id)
     {
         $user = $this->getLogUser();
         $produk = ProdukCustomDijual::find($id);
+        $toko = toko::find($produk->id_toko);
 
         $detail = DB::table('detail_produk_custom_dijuals')->where('id_produk_custom_dijual', '=', $produk->id)->get();
         $addonMain = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=', $produk->id)->where('jenis', '=', 'main')->get();
@@ -432,7 +434,7 @@ class CustomerController extends Controller
             $foto[] = 'img/meja2/meja2samping.png';
             $foto[] = 'img/meja2/meja2atas.png';
         }
-        return view("customer.shopping.produkCustom.produkCustomDetail", ['user' => $user, 'produk' => $produk, 'foto' => $foto, 'detail' => $detail, 'addonMain' => $addonMain, 'addonSec' => $addonSec]);
+        return view("customer.shopping.produkCustom.produkCustomDetail", ['user' => $user, 'produk' => $produk, 'foto' => $foto, 'detail' => $detail, 'addonMain' => $addonMain, 'addonSec' => $addonSec, 'toko'=>$toko]);
     }
 
     public function halamanCheckout(Request $request)
@@ -710,8 +712,19 @@ class CustomerController extends Controller
         $data1 = DB::table('donations')->where('h_trans_id', $id)->where('pilihan', 'awal')->first();
         $data2 = DB::table('donations')->where('h_trans_id', $id)->where('pilihan', 'baru')->first();
 
-        $statusPembayaran1 = $this->checkPaymentStatus($data1->code);
-        $statusPembayaran2 = $this->checkPaymentStatus($data2->code);
+
+        $statusPembayaran1  = null;
+        $statusPembayaran2  = null;
+
+        if ($data1) {
+            # code...
+            $statusPembayaran1 = $this->checkPaymentStatus($data1->code);
+        }
+        if ($data2) {
+            # code...
+            $statusPembayaran2 = $this->checkPaymentStatus($data2->code);
+        }
+
         if ($htrans->status_pembayaran == 0) {
             # code...
             if ($statusPembayaran1 == 'settlement') {

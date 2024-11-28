@@ -9,6 +9,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SellerController extends Controller
 {
@@ -43,6 +45,50 @@ class SellerController extends Controller
 
 
     }
+
+    public function pengaturanToko(){
+
+        $user = $this->getLogUser();
+
+        $toko = toko::find($user->id_toko);
+
+
+
+        return view('seller.toko.pengaturanToko',['user'=>$user, 'toko'=>$toko]);
+
+    }
+
+    public function updateToko(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'slogan' => 'nullable|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $toko = Toko::where('id_owner', auth()->user()->id)->firstOrFail();
+
+        $data = $request->only(['nama', 'slogan', 'deskripsi']);
+
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama jika ada
+            if ($toko->foto) {
+                Storage::delete('public/fotoToko/' . $toko->foto);
+            }
+
+            // Simpan foto baru
+            $fotoPath = $request->file('foto')->store('public/foto-toko');
+            $data['foto'] = str_replace('public/foto-toko/', '', $fotoPath);
+        }
+
+        $toko->update($data);
+
+        toast('Berhasil Menyimpan Perubahan', 'success');
+        return redirect()->back();
+    }
+
+
 
 
 
@@ -130,6 +176,7 @@ class SellerController extends Controller
 
         $pegawai->delete();
         toast('Berhasil hapus pegawai', 'success');
+
         return redirect()->back();
 
 
