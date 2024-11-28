@@ -15,6 +15,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\Meja1Controller;
 use App\Http\Controllers\Meja2Controller;
 use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\PengirimanController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProdukCustomController;
@@ -458,6 +459,11 @@ Route::group([
             Route::post('/store', [GudangController::class, 'storePenerimaanBahan'])->name('penerimaan-barang.store');
             Route::get('/{id}', [GudangController::class, 'showPenerimaanBahan'])->name('penerimaan-barang.show');
         });
+
+
+        // PENGIRIMAN
+        Route::resource('/gudang/pengiriman', PengirimanController::class);
+        Route::get('/gudang/pengiriman/search', [PengirimanController::class, 'search'])->name('pengiriman.search');
 
         // END OF GUDANG
 

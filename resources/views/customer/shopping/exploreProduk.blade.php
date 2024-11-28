@@ -3,7 +3,7 @@
 @section('title', 'MyCrafts')
 
 @section('style')
-
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
         .image-container {
 height: 250px; /* Sesuaikan dengan tinggi yang diinginkan */
@@ -97,13 +97,13 @@ box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 
                             <!-- Product Type Filter -->
                             <div class="col-md-3">
-                                <label class="form-label">Tipe Produk</label>
-                                <select name="tipe_produk" class="form-select" onchange="this.form.submit()">
-                                    <option value="all">Semua Tipe</option>
-                                    @foreach($productTypes as $type)
-                                        <option value="{{ $type }}"
-                                            {{ request('tipe_produk') == $type ? 'selected' : '' }}>
-                                            {{ $type }}
+                                <label class="form-label">Toko</label>
+                                <select name="id_toko" class="form-select select2" onchange="this.form.submit()">
+                                    <option value="all">Semua Toko</option>
+                                    @foreach($toko as $t)
+                                        <option value="{{ $t->id }}"
+                                            {{ request('id_toko') == $t->id ? 'selected' : '' }}>
+                                            {{ $t->nama }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -213,9 +213,13 @@ box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 
 @section('script')
 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
+ $(document).ready( function () {
 
+        $('.select2').select2();
+    });
 </script>
 
 @endsection

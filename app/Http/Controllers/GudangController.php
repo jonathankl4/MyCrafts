@@ -10,6 +10,7 @@ use App\Models\Mebel;
 use App\Models\MutasiBarang;
 use App\Models\PencatatanPembelian;
 use App\Models\PenerimaanBarang;
+use App\Models\Pengiriman;
 use App\Models\PermintaanPembelian;
 use App\Models\supplier;
 use App\Models\toko;
@@ -257,6 +258,81 @@ class GudangController extends Controller
         $user = $this->getLogUser();
         $penerimaan = PenerimaanBarang::with(['supplier', 'details.barang'])->findOrFail($id);
         return view('seller.gudang.penerimaanBahan.detailPenerimaanBahan', compact('penerimaan', 'user'));
+    }
+
+    public function indexPengiriman()
+    {
+        $pengiriman = Pengiriman::with(['mebel'])->paginate(10);
+        return view('pengiriman.index', compact('pengiriman'));
+    }
+
+    public function createPengiriman()
+    {
+
+        $user = $this->getLogUser();
+        $mebels = Mebel::all();
+        return view('pengiriman.create', compact('mebels', 'user'));
+    }
+
+    public function storePengiriman(Request $request)
+    {
+        $validatedData = $request->validate([
+            'id_toko' => 'required|exists:tokos,id',
+            'id_pelanggan' => 'required|exists:pelanggans,id',
+            'id_mebel' => 'required|exists:mebels,id',
+            'jumlah' => 'required|integer|min:1',
+            'tanggal_pengiriman' => 'required|date',
+            'alamat' => 'required|string',
+            'jasa_pengiriman' => 'nullable|string',
+            'nomor_resi' => 'nullable|string',
+            'biaya_pengiriman' => 'required|numeric|min:0'
+        ]);
+
+        Pengiriman::create($validatedData);
+
+        return redirect()->route('pengiriman.index')
+            ->with('success', 'Pengiriman berhasil ditambahkan');
+    }
+
+    public function editPengiriman(Pengiriman $pengiriman)
+    {
+        $tokos = Toko::all();
+
+        $mebels = Mebel::all();
+        return view('pengiriman.edit', compact('pengiriman', 'tokos', 'mebels'));
+    }
+
+    public function updatePengiriman(Request $request, Pengiriman $pengiriman)
+    {
+        $validatedData = $request->validate([
+            'id_toko' => 'required|exists:tokos,id',
+            'id_pelanggan' => 'required|exists:pelanggans,id',
+            'id_mebel' => 'required|exists:mebels,id',
+            'jumlah' => 'required|integer|min:1',
+            'tanggal_pengiriman' => 'required|date',
+            'alamat' => 'required|string',
+            'jasa_pengiriman' => 'nullable|string',
+            'nomor_resi' => 'nullable|string',
+            'biaya_pengiriman' => 'required|numeric|min:0'
+        ]);
+
+        $pengiriman->update($validatedData);
+
+        return redirect()->route('pengiriman.index')
+            ->with('success', 'Pengiriman berhasil diperbarui');
+    }
+
+    public function destroyPengiriman(Pengiriman $pengiriman)
+    {
+        $pengiriman->delete();
+
+        return redirect()->route('pengiriman.index')
+            ->with('success', 'Pengiriman berhasil dihapus');
+    }
+
+    public function showPengiriman(Pengiriman $pengiriman)
+    {
+        return view('pengiriman.show', compact('pengiriman'));
     }
 
 

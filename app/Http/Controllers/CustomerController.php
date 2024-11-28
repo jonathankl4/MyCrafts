@@ -120,6 +120,7 @@ class CustomerController extends Controller
 
         $query = DB::table('produk_dijuals')->where('status', '=', 'aktif');
 
+
         // Handle Search
         if ($request->has('search')) {
             $query->where('nama_produk', 'like', '%' . $request->search . '%');
@@ -144,8 +145,8 @@ class CustomerController extends Controller
         }
 
         // Handle Type Filter
-        if ($request->has('tipe_produk') && $request->tipe_produk != 'all') {
-            $query->where('tipe_produk', $request->tipe_produk);
+        if ($request->has('id_toko') && $request->id_toko != 'all') {
+            $query->where('id_toko', $request->id_toko);
         }
 
         // Handle Sort
@@ -166,17 +167,15 @@ class CustomerController extends Controller
         $listProduk = $query->paginate(8)->appends(request()->query());
 
         // Get unique product types for filter
-        $productTypes = DB::table('produk_dijuals')
-            ->select('tipe_produk')
-            ->where('status', '=', 'aktif')
-            ->whereNotNull('tipe_produk')
-            ->distinct()
-            ->pluck('tipe_produk');
+        
+
+        $toko = DB::table('toko')
+        ->get();
 
         return view('customer.shopping.exploreProduk', [
             'user' => $user,
             'listProduk' => $listProduk,
-            'productTypes' => $productTypes,
+            'toko' => $toko,
             'filters' => $request->all()
         ]);
     }

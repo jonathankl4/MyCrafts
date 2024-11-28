@@ -260,8 +260,8 @@
                     </li>
 
 
-                    <li class="menu-item">
-                        <a href="" class="menu-link">
+                    <li class="menu-item {{ request()->is('seller/gudang/pengiriman*') ? 'active' : '' }}">
+                        <a href="{{ url('/seller/gudang/pengiriman') }}" class="menu-link">
                             <div>Pengiriman</div>
                         </a>
                     </li>
