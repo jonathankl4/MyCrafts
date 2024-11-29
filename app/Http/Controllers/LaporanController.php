@@ -137,6 +137,8 @@ class LaporanController extends Controller
         $laporanPenjualan = $laporanPenjualan->orderBy('ht.tgl_transaksi')
             ->get();
 
+        
+
         return view('seller.laporan.laporanPenjualan', [
             'user'=> $user,
             'laporanPenjualan' => $laporanPenjualan,
@@ -199,7 +201,7 @@ class LaporanController extends Controller
                 'hp.jumlah_berhasil',
                 'hp.jumlah_gagal',
                 'hp.durasi',
-              
+
             )
             ->leftJoin('hasil_produksis as hp', 'rp.id', '=', 'hp.id_produksi')
 

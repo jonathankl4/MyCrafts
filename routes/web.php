@@ -357,7 +357,7 @@ Route::group([
     Route::get('/HLaporan-pembelian', [LaporanController::class, 'halamanLaporanPembelian']);
     Route::get('/laporan-pembelian', [LaporanController::class, 'indexLaporanPembelian'])->name('laporan-pembelian.index');
 
-    Route::get('/laporan-mutasi', [LaporanController::class, 'indexLaporanMutasi'])->name('laporan-mutasi.index');
+
 
 
 
@@ -443,12 +443,12 @@ Route::group([
 
         // START OF GUDANG
 
-        Route::get('/gudang/riwayatMutasi', [GudangController::class, 'pageMutasi']);
+
         Route::get('/api/get-stok-mebel/{id}', [GudangController::class, 'getStokMebel']);
 
         // Route untuk mendapatkan stok bahan
         Route::get('/api/get-stok-bahan/{id}', [GudangController::class, 'getStokBahan']);
-        Route::post('/gudang/inputMutasi', [GudangController::class, 'storeMutasiMebel']);
+       
 
         Route::get('/gudang/laporan-stok-bahan', [LaporanController::class, 'indexLaporanStokBahan'])->name('laporan-stok-bahan.index');
 

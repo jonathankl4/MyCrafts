@@ -91,6 +91,8 @@
                                 <h5 class="card-title">
                                     <i class="fas fa-percentage me-2"></i>Rasio Sukses
                                 </h5>
+                                @if (count($laporanPenjualan) > 0)
+
                                 <h3 class="mb-0">{{
                                     number_format(
                                         ($laporanPenjualan->where('status', 7)->count() +
@@ -98,6 +100,7 @@
                                         count($laporanPenjualan) * 100,
                                     1)
                                 }}%</h3>
+                                @endif
                             </div>
                         </div>
                     </div>

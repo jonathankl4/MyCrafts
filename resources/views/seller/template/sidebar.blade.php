@@ -243,21 +243,13 @@
                 </a>
                 <ul class="menu-sub">
 
-                    <li class="menu-item {{ request()->is('seller/gudang/riwayatMutasi') ? 'active' : '' }}">
-                        <a href="{{ url('/seller/gudang/riwayatMutasi') }}" class="menu-link">
-                            <div>Mutasi Barang</div>
-                        </a>
-                    </li>
+
                     <li class="menu-item {{ request()->is('seller/gudang/penerimaan-barang*') ? 'active' : '' }}">
                         <a href="{{ url('/seller/gudang/penerimaan-barang') }}" class="menu-link">
                             <div>Penerimaan Bahan</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->is('seller/gudang/riwayatMutasi') ? 'active' : '' }}">
-                        <a href="{{ url('/seller/gudang/riwayatMutasi') }}" class="menu-link">
-                            <div>Mutasi Barang</div>
-                        </a>
-                    </li>
+
 
 
                     <li class="menu-item {{ request()->is('seller/gudang/pengiriman*') ? 'active' : '' }}">
@@ -297,7 +289,7 @@
         <li class="menu-item {{ request()->is('seller/permintaanPembelian') ? 'active' : '' }}">
             <a href="{{url('/seller/permintaanPembelian')}}" class="menu-link">
                 <i class='menu-icon tf-icons bx bxs-book'></i>
-                <div>Pencatatan Pembelian</div>
+                <div>Pencatatan Pembelian Bahan</div>
             </a>
         </li>
         <li class="menu-item {{ request()->is('seller/laporan-pembelian') ? 'active' : '' }}">
@@ -306,12 +298,7 @@
                 <div>Laporan Pembelian Bahan</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->is('seller/laporan-mutasi') ? 'active' : '' }}">
-            <a href="{{url('/seller/laporan-mutasi')}}" class="menu-link">
-                <i class='menu-icon tf-icons bx bxs-report'></i>
-                <div>Laporan Mutasi</div>
-            </a>
-        </li>
+
         <li class="menu-item {{ request()->is('seller/pengaturan-toko') ? 'active' : '' }}">
             <a href="{{url('/seller/pengaturan-toko')}}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-cog'></i>

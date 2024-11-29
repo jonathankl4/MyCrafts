@@ -167,7 +167,7 @@ class CustomerController extends Controller
         $listProduk = $query->paginate(8)->appends(request()->query());
 
         // Get unique product types for filter
-        
+
 
         $toko = DB::table('toko')
         ->get();
@@ -402,6 +402,8 @@ class CustomerController extends Controller
         $addonMain = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=', $produk->id)->where('jenis', '=', 'main')->get();
         $addonSec = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', '=', $produk->id)->where('jenis', '=', 'second')->get();
 
+        $addonGabungan = DB::table('detail_addon_dijuals')->where('id_produk_custom_dijual', $produk->id)->get();
+        // dd($addonGabungan);
         $foto = [];
 
 
@@ -433,7 +435,7 @@ class CustomerController extends Controller
             $foto[] = 'img/meja2/meja2samping.png';
             $foto[] = 'img/meja2/meja2atas.png';
         }
-        return view("customer.shopping.produkCustom.produkCustomDetail", ['user' => $user, 'produk' => $produk, 'foto' => $foto, 'detail' => $detail, 'addonMain' => $addonMain, 'addonSec' => $addonSec, 'toko'=>$toko]);
+        return view("customer.shopping.produkCustom.produkCustomDetail", ['user' => $user, 'produk' => $produk, 'foto' => $foto, 'detail' => $detail, 'addonMain' => $addonMain, 'addonSec' => $addonSec, 'toko'=>$toko, 'addonGabungan'=>$addonGabungan]);
     }
 
     public function halamanCheckout(Request $request)

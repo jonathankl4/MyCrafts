@@ -50,8 +50,8 @@ class ProdukCustomController extends Controller
             ['nama' => 'Lemari 1', 'img' => '/img/lemari1/lemari1.png', 'tambahUrl' => '/seller/produkCustom/tambahLemari1', 'modal' => '#modalLemari1', 'tipe' => 'lemari'],
             ['nama' => 'Lemari 2', 'img' => '/img/lemari2/lemari2.png', 'tambahUrl' => '/seller/produkCustom/tambahLemari2', 'modal' => '#modalLemari2', 'tipe' => 'lemari'],
             ['nama' => 'Lemari 3', 'img' => '/img/lemari3/lemari3.png', 'tambahUrl' => '/seller/produkCustom/tambahLemari3', 'modal' => '#modalLemari3', 'tipe' => 'lemari'],
-            ['nama' => 'Meja 1', 'img' => '/img/meja1/meja1.png', 'tambahUrl' => '/seller/produkCustom/tambahMeja1', 'modal' => null, 'tipe' => 'meja'],
-            ['nama' => 'Meja 2', 'img' => '/img/meja2/meja2.png', 'tambahUrl' => '/seller/produkCustom/tambahMeja2', 'modal' => null, 'tipe' => 'meja'],
+            ['nama' => 'Meja 1', 'img' => '/img/meja1/meja1.png', 'tambahUrl' => '/seller/produkCustom/tambahMeja1', 'modal' => '#modalMeja1', 'tipe' => 'meja'],
+            ['nama' => 'Meja 2', 'img' => '/img/meja2/meja2.png', 'tambahUrl' => '/seller/produkCustom/tambahMeja2', 'modal' => '#modalMeja2', 'tipe' => 'meja'],
         ];
 
         // Masukkan data ke dalam stdClass dan tambahkan ke array daftarProduk

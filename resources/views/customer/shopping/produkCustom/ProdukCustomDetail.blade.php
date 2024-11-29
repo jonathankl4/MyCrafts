@@ -230,7 +230,7 @@
                     <div class="detail-section accordion" id="addonAccordion">
                         <h5><i class="fas fa-plus-circle me-2"></i>Pilihan Add-On yang Tersedia</h5>
                         Klik untuk melihat detail add on masing masing
-                        @foreach($addonMain as $addon)
+                        @foreach($addonGabungan as $addon)
                             <div class="addon-item cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapse{{$addon->kode}}">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <strong>{{ $addon->nama_addon }}</strong>
@@ -244,7 +244,13 @@
                                             <img src="{{ asset($addon->url) }}" alt="Sekat Vertical" class="img-fluid shadow-sm" style="max-height: 200px;">
                                         </div>
                                         <div class="col-md-8">
+                                            @if ($addon->jenis =='main')
                                             @include('seller.produkCustom.penjelasanAddOn.' . $addon->kode)
+
+                                            @else
+
+                                            @include('seller.produkCustom.penjelasanAddOn.'.$produk->kode.'.' . $addon->kode)
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

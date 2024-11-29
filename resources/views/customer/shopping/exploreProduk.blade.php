@@ -70,7 +70,7 @@ box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
         <br><br><br><br>
         <div class="row mb-4">
             <div class="col-md-8">
-                <h1 class="mb-4">Produk Custom</h1>
+                <h1 class="mb-4">Produk Non-Custom</h1>
             </div>
             <!-- Search Bar -->
             <div class="col-md-4">

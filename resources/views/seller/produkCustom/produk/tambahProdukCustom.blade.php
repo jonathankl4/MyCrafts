@@ -215,6 +215,8 @@
         @include('seller.produkCustom.produk.modal.lemari1.modalDetailMebel')
         @include('seller.produkCustom.produk.modal.lemari2.modalDetailMebel')
         @include('seller.produkCustom.produk.modal.lemari3.modalDetailMebel')
+        @include('seller.produkCustom.produk.modal.meja1.modalDetailMebel')
+        @include('seller.produkCustom.produk.modal.meja2.modalDetailMebel')
 
 
     </div>
