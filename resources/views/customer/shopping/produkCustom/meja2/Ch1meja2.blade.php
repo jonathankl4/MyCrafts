@@ -789,6 +789,8 @@
                 // Terapkan skala yang ditentukan pada gambar
                 img.scaleX = scaleX;
                 img.scaleY = scaleY;
+                img.selectionColor = 'red';
+                    img.cornerColor = 'red';
 
                 updateCounters(); // Perbarui tampilan counter di UI
                 updateTotalPrice2();

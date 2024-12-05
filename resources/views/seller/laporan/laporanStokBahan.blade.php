@@ -120,7 +120,7 @@
                                                     {{ $bahan->jumlah_bahan }}
                                                 </span>
                                             </td>
-                                            <td>{{ $bahan->satuan_bahan }}</td>
+                                            <td>{{ $bahan->satuan_jumlah }}</td>
                                             <td class="text-end">Rp {{ number_format($bahan->harga_bahan, 0, ',', '.') }}</td>
                                             <td class="text-end">Rp {{ number_format($bahan->jumlah_bahan * $bahan->harga_bahan, 0, ',', '.') }}</td>
                                             <td class="text-center">

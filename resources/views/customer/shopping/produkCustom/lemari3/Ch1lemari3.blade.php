@@ -735,7 +735,7 @@
 
                 if (imageURL.includes('sekatHorizontal')) {
                     // Skala khusus untuk sekat horizontal
-                    scaleX = canvasWidth / imgWidth; // Sesuaikan lebar dengan kanvas
+                    scaleX = canvasWidth / imgWidth /2; // Sesuaikan lebar dengan kanvas
                     scaleY = 0.3; // Lebih tipis pada sumbu Y untuk sekat horizontal
                     counterSekatHorizontal++; // Tambah counter sekat horizontal
                     totalPrice += addonPrices.sekatHorizontal;
@@ -749,10 +749,11 @@
                         bl: false,
                         br: false
                     });
+
                 } else if (imageURL.includes('sekatvertical')) {
                     // Skala khusus untuk sekat vertical
                     scaleX = 0.3; // Lebih tipis pada sumbu X untuk sekat vertical
-                    scaleY = canvasHeight / imgHeight; // Sesuaikan tinggi dengan kanvas
+                    scaleY = canvasHeight / imgHeight/ 2; // Sesuaikan tinggi dengan kanvas
                     counterSekatVertical++; // Tambah counter sekat vertical
                     totalPrice += addonPrices.sekatVertical;
                     img.setControlsVisibility({
@@ -766,9 +767,10 @@
                         br: false
                     });
 
+
                 } else if (imageURL.includes('gantungan')) {
                     // Skala khusus untuk gantungan
-                    scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
+                    scaleX = canvasWidth / imgWidth/ 2; // Buat sedikit lebih kecil
                     scaleY = 0.5; // Lebih tipis pada sumbu Y untuk gantungan
                     counterGantungan++; // Tambah counter gantungan
                     totalPrice += addonPrices.gantungan;
@@ -784,7 +786,7 @@
                     });
                 } else if (imageURL.includes('lacikecil')) {
                     // Skala khusus untuk gantungan
-                    scaleX = canvasWidth / imgWidth; // Buat sedikit lebih kecil
+                    scaleX = canvasWidth / imgWidth / 2; // Buat sedikit lebih kecil
                     scaleY = 0.13; // Lebih tipis pada sumbu Y untuk gantungan
                     counterlaciKecil++; // Tambah counter gantungan
                     totalPrice += addonPrices.laciKecil;
@@ -823,6 +825,8 @@
                         strokeWidth: 6 // Ketebalan border dalam pixel
                     });
                 }
+                img.selectionColor = 'red';
+                    img.cornerColor = 'red';
 
                 img.scaleX = scaleX;
                 img.scaleY = scaleY;
@@ -834,20 +838,7 @@
 
 
 
-                img.on('scaling', function(e) {
-                    var obj = e.target;
 
-                    if (obj.getScaledWidth() > canvasWidth) {
-                        obj.scaleX = canvasWidth / obj.width;
-                    }
-
-                    if (obj.getScaledHeight() > canvasHeight) {
-                        obj.scaleY = canvasHeight / obj.height;
-                    }
-
-                    obj.setCoords();
-                    canvas.renderAll();
-                });
 
                 canvas.on('object:moving', function(e) {
                     var obj = e.target;

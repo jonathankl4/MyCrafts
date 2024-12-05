@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DetailPenerimaanBarang extends Model
+class DetailPenerimaanBahan extends Model
 {
     use HasFactory;
 
@@ -16,13 +16,13 @@ class DetailPenerimaanBarang extends Model
         'keterangan'
     ];
 
-    public function penerimaanBarang()
+    public function penerimaanBahan()
     {
-        return $this->belongsTo(PenerimaanBarang::class, 'id_penerimaan');
+        return $this->belongsTo(PenerimaanBahan::class, 'id_penerimaan');
     }
 
     public function barang()
     {
-        return $this->belongsTo(Mebel::class, 'id_barang');
+        return $this->belongsTo(Bahan::class, 'id_barang');
     }
 }

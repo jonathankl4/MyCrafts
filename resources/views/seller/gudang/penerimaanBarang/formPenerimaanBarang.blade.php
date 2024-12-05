@@ -1,6 +1,6 @@
 @extends('template.MasterDesain')
 
-@section('title', 'Form Penerimaan Bahan')
+@section('title', 'Form Penerimaan Barang')
 
 @section('style')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -24,10 +24,10 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title">Form Penerimaan Bahan</h5>
+                <h5 class="card-title">Form Penerimaan Barang</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('penerimaan-bahan.store') }}" method="POST">
+                <form action="{{ route('penerimaan-barang.store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -35,12 +35,13 @@
                             <input type="datetime-local" class="form-control" name="tanggal_penerimaan" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Supplier</label>
-                            <select name="id_supplier" class="form-control select2" required>
-                                <option value="">Pilih Supplier</option>
-                                @foreach($suppliers as $supplier)
-                                    <option value="{{ $supplier->id }}">{{ $supplier->nama_sup }}</option>
-                                @endforeach
+                            <label class="form-label">Jenis Penerimaan</label>
+                            <select name="jenis_penerimaan" class="form-control select2" required>
+                                <option value="">Pilih</option>
+
+                                <option value="1">Mebel Retur</option>
+                                <option value="2">Hasil Produski</option>
+
                             </select>
                         </div>
                     </div>
@@ -52,9 +53,9 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h6 class="card-title">Detail Bahan</h6>
+                            <h6 class="card-title">Detail Barang</h6>
                             <button type="button" id="addBarangBtn" class="btn btn-primary btn-sm">
-                                Tambah Bahan
+                                Tambah Mebel
                             </button>
                         </div>
                         <div class="card-body" id="barangContainer">
@@ -84,9 +85,9 @@ $(document).ready(function() {
             <div class="row mb-3 barang-row">
                 <div class="col-md-5">
                     <select name="barangs[${barangIndex}][id]" class="form-control select2" required>
-                        <option value="">Pilih Bahan</option>
+                        <option value="">Pilih Mebel</option>
                         @foreach($barangs as $barang)
-                            <option value="{{ $barang->id }}">{{ $barang->nama_bahan }} (per {{$barang->satuan_jumlah}})</option>
+                            <option value="{{ $barang->id }}">{{ $barang->nama_mebel }}</option>
                         @endforeach
                     </select>
                 </div>

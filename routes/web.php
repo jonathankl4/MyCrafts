@@ -15,6 +15,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\Meja1Controller;
 use App\Http\Controllers\Meja2Controller;
 use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\PenerimaanBarang;
 use App\Http\Controllers\PengirimanController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ProdukController;
@@ -448,17 +449,27 @@ Route::group([
 
         // Route untuk mendapatkan stok bahan
         Route::get('/api/get-stok-bahan/{id}', [GudangController::class, 'getStokBahan']);
-       
+
 
         Route::get('/gudang/laporan-stok-bahan', [LaporanController::class, 'indexLaporanStokBahan'])->name('laporan-stok-bahan.index');
 
 
-        Route::prefix('/gudang/penerimaan-barang')->group(function () {
-            Route::get('/', [GudangController::class, 'indexPenerimaanBahan'])->name('penerimaan-barang.index');
-            Route::get('/create', [GudangController::class, 'createPenerimaanBahan'])->name('penerimaan-barang.create');
-            Route::post('/store', [GudangController::class, 'storePenerimaanBahan'])->name('penerimaan-barang.store');
-            Route::get('/{id}', [GudangController::class, 'showPenerimaanBahan'])->name('penerimaan-barang.show');
+        Route::prefix('/gudang/penerimaan-bahan')->group(function () {
+            Route::get('/', [GudangController::class, 'indexPenerimaanBahan'])->name('penerimaan-bahan.index');
+            Route::get('/create', [GudangController::class, 'createPenerimaanBahan'])->name('penerimaan-bahan.create');
+            Route::post('/store', [GudangController::class, 'storePenerimaanBahan'])->name('penerimaan-bahan.store');
+            Route::get('/{id}', [GudangController::class, 'showPenerimaanBahan'])->name('penerimaan-bahan.show');
         });
+
+        // Route::prefix('/gudang/penerimaan-barang')->group(function () {
+        //     Route::get('/', [GudangController::class, 'indexPenerimaanBarang'])->name('penerimaan-barang.index');
+        //     Route::get('/create', [GudangController::class, 'createPenerimaanBahan'])->name('penerimaan-barang.create');
+        //     Route::post('/store', [GudangController::class, 'storePenerimaanBahan'])->name('penerimaan-barang.store');
+        //     Route::get('/{id}', [GudangController::class, 'showPenerimaanBahan'])->name('penerimaan-barang.show');
+        // });
+
+        Route::resource('/gudang/penerimaan-barang', PenerimaanBarang::class);
+
 
 
         // PENGIRIMAN

@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Bahan;
 use App\Models\DetailPencatatanPembelian;
+use App\Models\DetailPenerimaanBahan;
 use App\Models\DetailPenerimaanBarang;
 use App\Models\DetailPermintaanPembelian;
 use App\Models\Mebel;
 use App\Models\MutasiBarang;
 use App\Models\PencatatanPembelian;
+use App\Models\PenerimaanBahan;
 use App\Models\PenerimaanBarang;
 use App\Models\Pengiriman;
 use App\Models\PermintaanPembelian;
@@ -192,7 +194,7 @@ class GudangController extends Controller
     {
 
         $user = $this->getLogUser();
-        $penerimaans = PenerimaanBarang::with('supplier')->latest()->get();
+        $penerimaans = PenerimaanBahan::with('supplier')->where('id_toko', $user->id_toko)->latest()->get();
 
         return view('seller.gudang.penerimaanBahan.penerimaanBahan', compact('penerimaans', 'user'));
     }
@@ -219,7 +221,7 @@ class GudangController extends Controller
         DB::beginTransaction();
         try {
             // Create Penerimaan Barang
-            $penerimaan = PenerimaanBarang::create([
+            $penerimaan = PenerimaanBahan::create([
                 'id_toko' => $user->id_toko,
                 'tanggal_penerimaan' => $request->tanggal_penerimaan,
                 'id_supplier' => $request->id_supplier,
@@ -229,7 +231,7 @@ class GudangController extends Controller
 
             // Create Detail Penerimaan Barang
             foreach ($request->barangs as $barangItem) {
-                DetailPenerimaanBarang::create([
+                DetailPenerimaanBahan::create([
                     'id_penerimaan' => $penerimaan->id,
                     'id_barang' => $barangItem['id'],
                     'jumlah' => $barangItem['jumlah'],
@@ -243,7 +245,7 @@ class GudangController extends Controller
 
             DB::commit();
             toast('berhasil tambah', 'success');
-            return redirect()->route('penerimaan-barang.index')
+            return redirect()->route('penerimaan-bahan.index')
                 ->with('success', 'Penerimaan Barang berhasil disimpan');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -256,84 +258,11 @@ class GudangController extends Controller
     public function showPenerimaanBahan($id)
     {
         $user = $this->getLogUser();
-        $penerimaan = PenerimaanBarang::with(['supplier', 'details.barang'])->findOrFail($id);
+        $penerimaan = PenerimaanBahan::with(['supplier', 'details.barang'])->findOrFail($id);
         return view('seller.gudang.penerimaanBahan.detailPenerimaanBahan', compact('penerimaan', 'user'));
     }
 
-    public function indexPengiriman()
-    {
-        $pengiriman = Pengiriman::with(['mebel'])->paginate(10);
-        return view('pengiriman.index', compact('pengiriman'));
-    }
 
-    public function createPengiriman()
-    {
-
-        $user = $this->getLogUser();
-        $mebels = Mebel::all();
-        return view('pengiriman.create', compact('mebels', 'user'));
-    }
-
-    public function storePengiriman(Request $request)
-    {
-        $validatedData = $request->validate([
-            'id_toko' => 'required|exists:tokos,id',
-            'id_pelanggan' => 'required|exists:pelanggans,id',
-            'id_mebel' => 'required|exists:mebels,id',
-            'jumlah' => 'required|integer|min:1',
-            'tanggal_pengiriman' => 'required|date',
-            'alamat' => 'required|string',
-            'jasa_pengiriman' => 'nullable|string',
-            'nomor_resi' => 'nullable|string',
-            'biaya_pengiriman' => 'required|numeric|min:0'
-        ]);
-
-        Pengiriman::create($validatedData);
-
-        return redirect()->route('pengiriman.index')
-            ->with('success', 'Pengiriman berhasil ditambahkan');
-    }
-
-    public function editPengiriman(Pengiriman $pengiriman)
-    {
-        $tokos = Toko::all();
-
-        $mebels = Mebel::all();
-        return view('pengiriman.edit', compact('pengiriman', 'tokos', 'mebels'));
-    }
-
-    public function updatePengiriman(Request $request, Pengiriman $pengiriman)
-    {
-        $validatedData = $request->validate([
-            'id_toko' => 'required|exists:tokos,id',
-            'id_pelanggan' => 'required|exists:pelanggans,id',
-            'id_mebel' => 'required|exists:mebels,id',
-            'jumlah' => 'required|integer|min:1',
-            'tanggal_pengiriman' => 'required|date',
-            'alamat' => 'required|string',
-            'jasa_pengiriman' => 'nullable|string',
-            'nomor_resi' => 'nullable|string',
-            'biaya_pengiriman' => 'required|numeric|min:0'
-        ]);
-
-        $pengiriman->update($validatedData);
-
-        return redirect()->route('pengiriman.index')
-            ->with('success', 'Pengiriman berhasil diperbarui');
-    }
-
-    public function destroyPengiriman(Pengiriman $pengiriman)
-    {
-        $pengiriman->delete();
-
-        return redirect()->route('pengiriman.index')
-            ->with('success', 'Pengiriman berhasil dihapus');
-    }
-
-    public function showPengiriman(Pengiriman $pengiriman)
-    {
-        return view('pengiriman.show', compact('pengiriman'));
-    }
 
 
 }

@@ -1,6 +1,6 @@
 @extends('template.MasterDesain')
 
-@section('title', 'Penerimaan Bahan')
+@section('title', 'Penerimaan Barang')
 
 @section('style')
 <style>
@@ -29,19 +29,19 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="card-title">Riwayat Penerimaan Bahan</h5>
-                <a href="{{ route('penerimaan-bahan.create') }}" class="btn btn-primary">
+                <h5 class="card-title">Riwayat Penerimaan Barang</h5>
+                <a href="{{ route('penerimaan-barang.create') }}" class="btn btn-primary">
                     Tambah Penerimaan
                 </a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped" id="tPenerimaanBahan">
+                    <table class="table table-striped" id="tPenerimaanBarang">
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Tanggal</th>
-                                <th>Supplier</th>
+                                <th>Jenis Penerimaan</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -51,14 +51,15 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $penerimaan->tanggal_penerimaan }}</td>
-                                <td>{{ $penerimaan->supplier->nama_sup }}</td>
+                                <td>{{ $penerimaan->jenis() }}</td>
+
                                 <td>
                                     <span class="badge bg-success">
                                         {{ $penerimaan->status_penerimaan }}
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="{{ route('penerimaan-bahan.show', $penerimaan->id) }}"
+                                    <a href="{{ route('penerimaan-barang.show', $penerimaan->id) }}"
                                        class="btn btn-info btn-sm">
                                         Detail
                                     </a>
@@ -78,7 +79,7 @@
 @section('script')
 <script>
     $(document).ready( function () {
-        $('#tPenerimaanBahan').DataTable();
+        $('#tPenerimaanBarang').DataTable();
     });
 
 

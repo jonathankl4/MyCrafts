@@ -198,26 +198,14 @@
                             <div>Master Bill of Material</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->is('seller/produksi/') ? 'active' : '' }}">
-                        <a href="{{ url('/seller/produksi/tambahPenggunaanBahan') }}" class="menu-link">
-                            <div>Penggunaan Bahan</div>
-                        </a>
-                    </li>
-                    <li class="menu-item {{ request()->is('seller/produksi/') ? 'active' : '' }}">
-                        <a href="" class="menu-link">
-                            <div>Pengembalian Bahan</div>
-                        </a>
-                    </li>
+
+
                     <li class="menu-item {{ request()->is('seller/produksi/laporan-produksi') ? 'active' : '' }}">
                         <a href="{{url('/seller/produksi/laporan-produksi')}}" class="menu-link">
                             <div>Laporan Produksi</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->is('seller/produksi/') ? 'active' : '' }}">
-                        <a href="" class="menu-link">
-                            <div>Laporan Penggunaan Bahan</div>
-                        </a>
-                    </li>
+                   
                     <li class="menu-item {{ request()->is('seller/produksi/laporan-gagal-produksi') ? 'active' : '' }}">
                         <a href="{{url('seller/produksi/laporan-gagal-produksi')}}" class="menu-link">
                             <div>Laporan Gagal Produksi</div>
@@ -244,9 +232,14 @@
                 <ul class="menu-sub">
 
 
+                    <li class="menu-item {{ request()->is('seller/gudang/penerimaan-bahan*') ? 'active' : '' }}">
+                        <a href="{{ url('/seller/gudang/penerimaan-bahan') }}" class="menu-link">
+                            <div>Penerimaan Bahan</div>
+                        </a>
+                    </li>
                     <li class="menu-item {{ request()->is('seller/gudang/penerimaan-barang*') ? 'active' : '' }}">
                         <a href="{{ url('/seller/gudang/penerimaan-barang') }}" class="menu-link">
-                            <div>Penerimaan Bahan</div>
+                            <div>Penerimaan Mebel</div>
                         </a>
                     </li>
 

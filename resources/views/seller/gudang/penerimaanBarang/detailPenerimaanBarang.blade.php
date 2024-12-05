@@ -31,9 +31,11 @@
                                 <td>{{ $penerimaan->tanggal_penerimaan }}</td>
                             </tr>
                             <tr>
-                                <th>Supplier</th>
-                                <td>{{ $penerimaan->supplier->nama_sup }}</td>
+                                <th>Jenis Penerimaan</th>
+                                <td>{{ $penerimaan->jenis() }}</td>
                             </tr>
+
+
                             <tr>
                                 <th>Status</th>
                                 <td>
@@ -52,7 +54,7 @@
 
                 <div class="card mt-4">
                     <div class="card-header">
-                        <h6 class="card-title">Detail Bahan</h6>
+                        <h6 class="card-title">Detail Mebel</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -60,7 +62,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nama Bahan</th>
+                                        <th>Nama Mebel</th>
                                         <th>Jumlah</th>
                                         <th>Keterangan</th>
                                     </tr>
@@ -69,8 +71,8 @@
                                     @foreach($penerimaan->details as $detail)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $detail->barang->nama_bahan }}</td>
-                                        <td>{{ $detail->jumlah }}{{$detail->barang->satuan_jumlah}}</td>
+                                        <td>{{ $detail->barang->nama_mebel }}</td>
+                                        <td>{{ $detail->jumlah }}</td>
                                         <td>{{ $detail->keterangan ?? '-' }}</td>
                                     </tr>
                                     @endforeach
