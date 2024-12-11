@@ -249,7 +249,13 @@
 
                                             @else
 
-                                            @include('seller.produkCustom.penjelasanAddOn.'.$produk->kode.'.' . $addon->kode)
+                                                @if (in_array($produk->kode, ['meja1', 'meja2', 'meja3']))
+
+                                                    @include('seller.produkCustom.penjelasanAddOn.'. $addon->kode)
+                                                    @else
+
+                                                    @include('seller.produkCustom.penjelasanAddOn.'.$produk->kode.'.' . $addon->kode)
+                                                @endif
                                             @endif
                                         </div>
                                     </div>

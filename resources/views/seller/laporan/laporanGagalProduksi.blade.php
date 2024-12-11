@@ -70,7 +70,11 @@
                                     <i class="fas fa-percentage me-2"></i>Tingkat Kegagalan
                                 </h5>
                                 <h3 class="mb-0">
+                                    @if (count($laporanGagalProduksi) > 0)
                                     {{ number_format(($laporanGagalProduksi->sum('jumlah_gagal') / $laporanGagalProduksi->sum('jumlahdiproduksi')) * 100, 1) }}%
+                                    @else
+                                    0
+                                    @endif
                                 </h3>
                             </div>
                         </div>
@@ -163,7 +167,12 @@
                                         <td class="text-center fw-bold text-success">{{ number_format($laporanGagalProduksi->sum('jumlah_berhasil')) }}</td>
                                         <td class="text-center fw-bold text-danger">{{ number_format($laporanGagalProduksi->sum('jumlah_gagal')) }}</td>
                                         <td class="text-center fw-bold">
+                                            @if (count($laporanGagalProduksi) > 0)
+
                                             {{ number_format(($laporanGagalProduksi->sum('jumlah_gagal') / $laporanGagalProduksi->sum('jumlahdiproduksi')) * 100, 1) }}%
+                                            @else
+                                            0
+                                            @endif
                                         </td>
                                     </tr>
                                 </tfoot>

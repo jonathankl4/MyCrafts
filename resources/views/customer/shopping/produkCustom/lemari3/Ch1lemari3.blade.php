@@ -295,6 +295,7 @@
                             <div class="addon-section">
                                 <label class="form-label" for="tshirt-design">
                                     <i class="fas fa-plus-circle me-2"></i>Add-ons
+
                                 </label>
                                 <select id="tshirt-design" class="form-select mb-3">
                                     <option value="">Select add-on...</option>
@@ -304,6 +305,8 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                <span>pindah posisi add-on dan ubah ukuran add-on sesuai keinginan</span>
+                                <br>
                                 <span>Opacity</span>
                                 <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
                                         value="1" onchange="updateOpacity(this.value)" >
@@ -406,6 +409,8 @@
         let produk = @json($produk);
         console.log(produk);
         let user = @json($user);
+
+        canvas.selection = false;
 
         let currentVerticalSize = produk.tinggi_min;
         let currentHorizontalSize = produk.lebar_min;

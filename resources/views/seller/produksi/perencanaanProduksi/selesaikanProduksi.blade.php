@@ -30,8 +30,8 @@
 
         <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 1cm ">
             <h2 class="fw-bold  mb-4">Penyelesaian Produksi</h2>
-            
-            
+
+
             <a href="{{url('/seller/pDetailProduksi/'.$produksi->id)}}" class="btn btn-primary">Kembali</a>
             <br><br>
             <form action="{{ url('/seller/simpanHasilProduksi') }}" method="post">
@@ -40,7 +40,7 @@
 
 
                     <h3>Input Hasil Produksi</h3>
-                    
+
                     <p>Jumlah Produksi : {{ $produksi->jumlahdiproduksi }}</p>
                     <input type="text" name="id_produksi" hidden value="{{ $produksi->id }}">
                     <div class="mb-3">
@@ -75,10 +75,10 @@
                     </div>
 
                     <div></div>
-                    
 
 
-                    
+
+
 
 
 
@@ -87,57 +87,60 @@
                 <br>
                 <div class="card" style="padding: 15px">
                     <h3>Penggunaan Bahan</h3>
-                    
+
                     <table id="tMebel" class="table table-striped" >
                         <thead>
                             <tr>
                                 <th hidden>id bahan</th>
                                 <th>Nama Bahan</th>
                                 <th>Jumlah Penggunaan</th>
+                                <th>Satuan</th>
 
 
-                                
-    
-    
+
+
+
+
                             </tr>
                         </thead>
                         <tbody>
 
-                            
+
                             @for ($i=0; $i < count($listBahan); $i++ )
-    
+
                             <tr>
-                                
-                                
+
+
                                 <td hidden style="font-size: 16px"><input type="text" name="id_bahan[]" value="{{$listBahan[$i]->id_bahan}}"></td>
                                 <td style="font-size: 16px"> <input type="text" name="namabahan[]" value="{{$listBahan[$i]->nama_bahan}}" readonly style="border: none"></td>
                                 <td style="font-size: 16px"><input type="text" placeholder="Jumlah" name="jumlah[]"></td>
-    
-    
-    
-    
-    
-    
+                                <td style="font-size: 16px">{{$listBahan[$i]->satuan_jumlah}}</td>
+
+
+
+
+
+
                             </tr>
-                           
-                            
-    
-    
-    
-    
+
+
+
+
+
+
                             @endfor
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
                         </tbody>
-    
+
                     </table>
-                    
-                    
+
+
                 </div>
                 <br>
 

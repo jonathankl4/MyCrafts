@@ -119,7 +119,11 @@
                                     <i class="fas fa-percentage me-2"></i>Tingkat Keberhasilan
                                 </h5>
                                 <h3 class="mb-0">
+                                    @if (count($laporanProduksi) > 0)
                                     {{ number_format(($laporanProduksi->sum('jumlah_berhasil') / $laporanProduksi->sum('jumlahdiproduksi')) * 100, 1) }}%
+                                    @else
+                                    0
+                                    @endif
                                 </h3>
                             </div>
                         </div>
@@ -199,7 +203,11 @@
                                         <td class="text-center fw-bold">{{ number_format($laporanProduksi->sum('jumlahdiproduksi')) }}</td>
                                         <td class="text-center fw-bold text-success">{{ number_format($laporanProduksi->sum('jumlah_berhasil')) }}</td>
                                         <td class="text-center fw-bold text-danger">{{ number_format($laporanProduksi->sum('jumlah_gagal')) }}</td>
+                                        @if (count($laporanProduksi) > 0)
                                         <td class="text-center fw-bold">{{ number_format(($laporanProduksi->sum('jumlah_berhasil') / $laporanProduksi->sum('jumlahdiproduksi')) * 100, 1) }}%</td>
+                                        @else
+                                        0
+                                        @endif
                                         <td class="text-center fw-bold">{{ $laporanProduksi->sum('durasi') + $laporanProduksi->count() }} Hari</td>
                                     </tr>
                                 </tfoot>

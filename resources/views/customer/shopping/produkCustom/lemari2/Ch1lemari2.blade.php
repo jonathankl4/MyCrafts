@@ -304,6 +304,8 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                <span>pindah posisi add-on dan ubah ukuran add-on sesuai keinginan</span>
+                                <br>
                                 <span>Opacity</span>
                                 <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
                                     value="1" onchange="updateOpacity(this.value)">
@@ -330,7 +332,7 @@
                             </div>
                             <div id="total-price-container">
                                 <h5>Perkiraan Harga: <span id="total-price">Rp 0</span></h5>
-                                <p class="price-note">*Harga Fix akan dikirimkan setelah pembelian di submit</p>
+                                <p class="price-note">*Harga Fix akan dikirimkan setelah pembelian di konfirmasi</p>
                                 <a href="#" id="next-page" class="btn btn-primary w-100">
                                     <i class="fas fa-arrow-right me-2"></i>Selanjutnya
                                 </a>
@@ -408,6 +410,9 @@
         console.log(produk);
         let user = @json($user);
         let tempgrid = null;
+
+
+        canvas.selection = false;
 
         function updateGrid(canvas, widthCm, heightCm) {
             // Clear existing grid

@@ -48,7 +48,7 @@
                             data-bs-target="#modalSelesai">Selesai</a> --}}
                         <a href="{{url('/seller/penyelesaianProduksi/'.$produksi->id)}}" class="btn btn-success" >Selesai</a>
                     @endif
-                    
+
                 </div>
                 @php
 
@@ -94,9 +94,8 @@
                                         <td style="font-size: 16px"><b>{{ $listDetail[$i]->nama_bahan }}</b></td>
                                         <td style="font-size: 16px"><b>{{ $listDetail[$i]->jumlah }}</b></td>
                                         <td style="font-size: 16px"><b>
-                                                <p>panjang :{{ $listDetail[$i]->ukuran_panjangBahan }}</p>
-                                                <p>lebar :{{ $listDetail[$i]->ukuran_lebarBahan }}</p>
-                                                <p>tinggi : {{ $listDetail[$i]->ukuran_tinggiBahan }}</p>
+                                                <p>{{ $listDetail[$i]->ukuran_bahan }}</p>
+
                                             </b></td>
 
 
@@ -165,7 +164,7 @@
                         </div>
                         <div class="modal-body">
 
-                            
+
 
 
                         </div>
@@ -233,11 +232,11 @@
                     </div>
                 </div>
             </div>
-            
-            
 
 
-            
+
+
+
 
 
 

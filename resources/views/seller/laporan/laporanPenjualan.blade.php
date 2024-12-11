@@ -55,21 +55,21 @@
                 <div class="row mb-4">
                     <div class="col-md-3">
                         <div class="card bg-primary text-white">
-                            <div class="card-body">
-                                <h5 class="card-title">
+                            <div class="card-body" >
+                                <h5 class="card-title" style="color: black">
                                     <i class="fas fa-shopping-cart me-2"></i>Total Transaksi
                                 </h5>
-                                <h3 class="mb-0">{{ count($laporanPenjualan) }}</h3>
+                                <h3 class="mb-0" style="color: black">{{ count($laporanPenjualan) }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="card bg-success text-white">
                             <div class="card-body">
-                                <h5 class="card-title">
+                                <h5 class="card-title"style="color: black">
                                     <i class="fas fa-money-bill-wave me-2"></i>Total Pendapatan
                                 </h5>
-                                <h3 class="mb-0">Rp {{ number_format($laporanPenjualan->sum(function($item) {
+                                <h3 class="mb-0"style="color: black">Rp {{ number_format($laporanPenjualan->sum(function($item) {
                                     return $item->harga ?? $item->harga_redesain;
                                 }), 0, ',', '.') }}</h3>
                             </div>
@@ -78,22 +78,22 @@
                     <div class="col-md-3">
                         <div class="card bg-info text-white">
                             <div class="card-body">
-                                <h5 class="card-title">
+                                <h5 class="card-title" style="color: black">
                                     <i class="fas fa-box me-2"></i>Total Produk Terjual
                                 </h5>
-                                <h3 class="mb-0">{{ $laporanPenjualan->sum('jumlah') }}</h3>
+                                <h3 class="mb-0" style="color: black">{{ $laporanPenjualan->sum('jumlah') }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="card bg-warning text-white">
                             <div class="card-body">
-                                <h5 class="card-title">
+                                <h5 class="card-title" style="color: black">
                                     <i class="fas fa-percentage me-2"></i>Rasio Sukses
                                 </h5>
                                 @if (count($laporanPenjualan) > 0)
 
-                                <h3 class="mb-0">{{
+                                <h3 class="mb-0" style="color: black">{{
                                     number_format(
                                         ($laporanPenjualan->where('status', 7)->count() +
                                          $laporanPenjualan->where('status', 12)->count()) /

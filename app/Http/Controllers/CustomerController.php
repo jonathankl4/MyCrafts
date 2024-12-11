@@ -88,9 +88,11 @@ class CustomerController extends Controller
                 'pcd.lebar_min',
                 'pcd.lebar_max',
                 'pcd.kode',
-                DB::raw('MIN(dpcd.harga) as min_harga'),
-                DB::raw('MAX(dpcd.harga) as max_harga'),
+                DB::raw('MIN(CAST(dpcd.harga AS UNSIGNED)) as min_harga'),
+                DB::raw('MAX(CAST(dpcd.harga AS UNSIGNED)) as max_harga'),
                 DB::raw('GROUP_CONCAT(DISTINCT dpcd.jenis_kayu) as jenis_kayu_list')
+
+
             ])
             ->groupBy([
                 'pcd.id',
@@ -106,6 +108,8 @@ class CustomerController extends Controller
                 'pcd.kode'
             ])->get();
         $random2 = $query->shuffle()->take(4);
+
+        // dd($random2);
 
 
         return view("customer.shopping.dashboard", ['user' => $user, 'listProduk' => $listproduk, 'random1' => $random1, 'random2' => $random2,]);
@@ -202,8 +206,8 @@ class CustomerController extends Controller
                 'pcd.lebar_min',
                 'pcd.lebar_max',
                 'pcd.kode',
-                DB::raw('MIN(dpcd.harga) as min_harga'),
-                DB::raw('MAX(dpcd.harga) as max_harga'),
+                DB::raw('MIN(CAST(dpcd.harga AS UNSIGNED)) as min_harga'),
+                DB::raw('MAX(CAST(dpcd.harga AS UNSIGNED)) as max_harga'),
                 DB::raw('GROUP_CONCAT(DISTINCT dpcd.jenis_kayu) as jenis_kayu_list')
             ])
             ->groupBy([

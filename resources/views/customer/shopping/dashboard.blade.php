@@ -225,10 +225,10 @@
                                                             <br>
                                                             <span class="fs-5 fw-bold">
                                                                 @if ($produk->min_harga == $produk->max_harga)
-                                                                    Rp {{ number_format($produk->min_harga) }}
+                                                                    Rp {{ number_format($produk->min_harga, 0, ',', '.') }}
                                                                 @else
-                                                                    Rp {{ number_format($produk->min_harga) }} -
-                                                                    {{ number_format($produk->max_harga) }}
+                                                                    Rp {{ number_format($produk->min_harga, 0, ',', '.') }} -
+                                                                    {{ number_format($produk->max_harga, 0, ',', '.') }}
                                                                 @endif
                                                             </span>
                                                         </div>

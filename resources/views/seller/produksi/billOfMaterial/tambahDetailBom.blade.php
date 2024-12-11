@@ -41,7 +41,7 @@
 
             <form action="{{url('seller/addDetailBom/'.$bom->id)}}" method="POST">
                 @csrf
-                
+
                 <div class="mb-3 row">
                     <label class="col-md-2 col-form-label" style="font-size: 16px"> Pilih Bahan</label>
                     <div class="col-md-10">
@@ -78,17 +78,20 @@
                         <span style="color: red;">{{ $errors->first('ukuran')}}</span>
                     </div>
                 </div>
-               
+
                 <div class="mb-3 row">
                     <label class="col-md-2 col-form-label" style="font-size: 16px" >Jumlah</label>
-                    <div class="col-md-10">
+                    <div class="col-md-3">
 
-                        <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="jumlah yang digunakan" />
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="jumlah yang digunakan" />
+                            <span class="input-group-text" id="satuan_jumlah"></span>
+                        </div>
                         <span style="color: red;">{{ $errors->first('jumlah')}}</span>
                     </div>
                 </div>
-               
-         
+
+
                 <div class="mb-3 row">
                     <label class="col-md-2 col-form-label" style="font-size: 16px" >Subtotal</label>
                     <div class="col-md-10">
@@ -172,10 +175,11 @@
 
                 console.log(data)
                 $('#namaBahan').val(data['nama_bahan']);
-                $('#ukuran').val('panjang :'+ data['ukuran_panjangBahan'] + data['satuan_bahan'] + ', lebar : ' + data['ukuran_lebarBahan'] + data['satuan_bahan'] + ', tinggi : ' + data['ukuran_tinggiBahan'] + data['satuan_bahan'] )
+                $('#ukuran').val(data['ukuran_bahan'] );
                 $('#harga').val(data['harga_bahan']);
+                $('#satuan_jumlah').html(data['satuan_jumlah']);
 
-                
+
             }
         })
     }

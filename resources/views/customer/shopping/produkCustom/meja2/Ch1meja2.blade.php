@@ -304,6 +304,7 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                <span>pindah posisi add-on dan ubah ukuran add-on sesuai keinginan</span>
                                 <span>Opacity</span>
                                 <input type="range" id="opacitySlider" min="0.1" max="1" step="0.01"
                                         value="1" onchange="updateOpacity(this.value)" >
@@ -400,6 +401,9 @@
         let produk = @json($produk);
         console.log(produk);
         let user = @json($user);
+
+
+        canvas.selection = false;
 
         let currentVerticalSize = produk.tinggi_min;
         let currentHorizontalSize = produk.panjang_min;

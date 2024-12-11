@@ -299,7 +299,7 @@ Route::group([
     Route::get('/pesanan/selesai', [PesananController::class, 'pagePesananSelesai']);
     Route::get('/pesanan/batal', [PesananController::class, 'pagePesananBatal']);
 
-    Route::get('/detailPesanan/{id}', [PesananController::class, 'detailPesanan']);
+    Route::get('/pesanan/detailPesanan/{id}', [PesananController::class, 'detailPesanan']);
     Route::get('/custom/redesain/{id}', [PesananController::class, "redesain"]);
     Route::post('/kirimRedesain', [PesananController::class, 'kirimRedesain']);
     Route::post('/custom/terimaPesanan', [PesananController::class, 'terimaPesananCustom']);

@@ -18,6 +18,7 @@
 
 
     <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{asset('img/icons/wood.png') }}"  />
     {{-- <link rel="icon" type="image/x-icon" href="../assets/img/icons/brands/ubs.png" /> --}}
 
     <!-- Fonts -->

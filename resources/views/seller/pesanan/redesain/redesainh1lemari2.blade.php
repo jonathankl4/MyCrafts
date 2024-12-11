@@ -111,7 +111,7 @@
                                         </div>
                                         <div id="bottom-text"
                                             style="position: absolute; left: 70%; bottom: -260px; transform: translateX(-50%); font-size: 20px;">
-                                            {{ $pembelian->panjang }}cm</div>
+                                            {{ $pembelian->lebar }}cm</div>
                                     </div>
                                 </div>
                             </div>

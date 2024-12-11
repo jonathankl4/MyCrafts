@@ -6,6 +6,7 @@ use App\Models\Donation;
 use App\Models\Pegawai;
 use App\Models\toko;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -40,8 +41,40 @@ class SellerController extends Controller
         $nonCustom = DB::table('produk_dijuals')->where('id_toko',$toko->id)->where('status', 'aktif')->get();
         $custom = DB::table('produk_custom_dijuals')->where('id_toko',$toko->id)->where('status', 'aktif')->get();
 
+        $currentMonth = Carbon::now()->month; // Mendapatkan bulan saat ini
+$currentYear = Carbon::now()->year;
+
+        $penjualan = DB::table('h_trans as ht')
+            ->select(
+                'ht.tgl_transaksi',
+                'ht.nama_produk',
+                'ht.tipe_trans',
+                'ht.jumlah',
+                'ht.harga',
+                'ht.harga_redesain',
+                'ht.ongkir',
+                'ht.status',
+                'pilihan'
+            )
+
+            ->whereIn('ht.status', [7, 16])
+            ->where('ht.id_toko', $user->id_toko)
+            ->whereMonth('ht.tgl_transaksi', $currentMonth) // Filter berdasarkan bulan
+    ->whereYear('ht.tgl_transaksi', $currentYear)  // Filter berdasarkan tahun
+    ->get();
+
+    $totalPenghasilan = $penjualan->sum(function($item) {
+        if ($item->pilihan === 'awal') {
+            return $item->harga; // Pilihan awal, hitung dari harga
+        } elseif ($item->pilihan === 'jadi') {
+            return $item->harga; // Pilihan baru, tetap hitung dari harga
+        } else {
+            return $item->harga_redesain; // Pilihan lain, hitung dari harga_redesain
+        }
+    });
+
         // dd(count($custom));
-        return view("seller.dashboard", ['user'=>$user, 'toko'=>$toko, 'nonCustom'=>$nonCustom, 'custom'=>$custom]);
+        return view("seller.dashboard", ['user'=>$user, 'toko'=>$toko, 'nonCustom'=>$nonCustom, 'custom'=>$custom, 'totalPenghasilan'=>$totalPenghasilan]);
 
 
     }

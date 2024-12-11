@@ -301,7 +301,12 @@
 
 
                                 <br>
-                                <button id="btn-beli" class="btn btn-success">Beli</button>
+                                <div id="total-price-container">
+
+
+                                    <button id="btn-beli" class="btn btn-success w-100"><i class="fas fa-arrow-right me-2"></i>Selanjutnya</button>
+                                    
+                                </div>
 
                             </div>
                             <br>

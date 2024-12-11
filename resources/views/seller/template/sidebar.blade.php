@@ -109,7 +109,7 @@
 
                 </ul>
             </li>
-            <li class="menu-item {{ request()->is('seller/pesanan') ? 'active open' : '' }}">
+            <li class="menu-item {{ request()->is('seller/pesanan*') ? 'active open' : '' }}">
                 <a href="{{ url('/seller/pesanan') }}" class="menu-link ">
                     <i class="menu-icon tf-icons bx bxs-food-menu"></i>
                     <div>Pesanan</div>
@@ -205,7 +205,7 @@
                             <div>Laporan Produksi</div>
                         </a>
                     </li>
-                   
+
                     <li class="menu-item {{ request()->is('seller/produksi/laporan-gagal-produksi') ? 'active' : '' }}">
                         <a href="{{url('seller/produksi/laporan-gagal-produksi')}}" class="menu-link">
                             <div>Laporan Gagal Produksi</div>

@@ -11,7 +11,7 @@
     .card {
         border-radius: 10px;
     }
-    
+
 </style>
 @endsection
 
@@ -78,7 +78,8 @@
                                         <h5 class="card-title text-muted mb-3">Statistik Penjualan</h5>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
-                                                <h3 class="text-primary mb-1">Rp {{ number_format($total_penjualan ?? 0, 0, ',', '.') }}</h3>
+
+                                                <h3 class="mb-0"style="color: black">Rp {{ number_format($totalPenghasilan, 0, ',', '.') }}</h3>
                                                 <small class="text-muted">Total Penjualan Bulan Ini</small>
                                             </div>
                                             <div>

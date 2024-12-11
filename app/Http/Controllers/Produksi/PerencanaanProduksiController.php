@@ -83,7 +83,7 @@ class PerencanaanProduksiController extends Controller
 
         $p->save();
 
-        $kodeproduksi = "PRO".substr($request->namaProduk, 0, 3).$request->jumlahProduksi.$p->id;
+        $kodeproduksi = "PRO".substr($bom->nama_product, 0, 3).$request->jumlahProduksi.$p->id;
         $p->kode_produksi = $kodeproduksi;
         $p->save();
 
@@ -272,7 +272,7 @@ class PerencanaanProduksiController extends Controller
 
          toast('Berhasil Input Hasil Produksi', 'success');
          // Alert::success('','berhasil tambah satuan');
-         return redirect()->back();
+         return redirect(url('seller/pDetailProduksi/'.$request->id_produksi));
     }
 
 

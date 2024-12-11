@@ -250,7 +250,7 @@
 
                                     <td>
 
-                                        <a href="{{ url('seller/detailPesanan/' . $pembelian[$i]->id) }}"
+                                        <a href="{{ url('seller/pesanan/detailPesanan/' . $pembelian[$i]->id) }}"
                                             class="btn btn-info">Detail Pesanan</a>
                                     </td>
                                 </tr>

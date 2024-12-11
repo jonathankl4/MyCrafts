@@ -39,11 +39,11 @@
                 <a href="{{url('/seller/pAddProduksi')}}">
                     <button class="btn btn-primary" id="add"  style="width: fit-content; margin-left: 10px"> Tambah Produksi</button>
                 </a>
-    
+
                 <a href="{{url('/seller/pRiwayatProduksi')}}">
-                    <button>Riwayat Produksi</button>
+                    <button class="btn btn-secondary">Riwayat Produksi</button>
                 </a>
-                
+
             </div>
 
             {{-- ini jika mau table nya responsive --}}
