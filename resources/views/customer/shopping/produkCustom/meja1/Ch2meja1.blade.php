@@ -5,7 +5,7 @@
 
 @endsection
 
-@section('title', 'Coba Custom Lemari 1')
+@section('title', 'Custom Meja 1 halaman 2')
 
 @section('style')
     <style>

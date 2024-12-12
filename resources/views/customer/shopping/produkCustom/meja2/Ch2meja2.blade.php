@@ -5,7 +5,7 @@
 
 @endsection
 
-@section('title', 'Coba Custom Lemari 1')
+@section('title', 'Coba meja 2 halaman 2')
 
 @section('style')
     <style>
@@ -566,7 +566,7 @@
 
                 let catatan = document.getElementById('detail').value;
 
-                updateOpacity(1);
+                
 
                 // Gunakan html2canvas untuk membuat screenshot dari elemen
                 html2canvas(element).then(function(canvas) {

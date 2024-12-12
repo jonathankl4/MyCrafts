@@ -211,6 +211,11 @@
                             <div>Laporan Gagal Produksi</div>
                         </a>
                     </li>
+                    <li class="menu-item {{ request()->is('seller/produksi/laporan-penggunaan-bahan') ? 'active' : '' }}">
+                        <a href="{{url('seller/produksi/laporan-penggunaan-bahan')}}" class="menu-link">
+                            <div>Laporan Penggunaan Bahan</div>
+                        </a>
+                    </li>
 
 
                 </ul>
@@ -256,8 +261,8 @@
                             <div>Laporan Stok Bahan</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="" class="menu-link">
+                    <li class="menu-item {{ request()->is('seller/gudang/laporan-retur') ? 'active' : '' }}">
+                        <a href="{{url('seller/gudang/laporan-retur')}}" class="menu-link">
                             <div>Laporan Retur</div>
                         </a>
                     </li>

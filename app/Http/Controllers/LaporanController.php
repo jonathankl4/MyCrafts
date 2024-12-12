@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Bahan;
 use App\Models\MutasiBarang;
+use App\Models\PenggunaanBahan;
+use App\Models\Retur;
 use App\Models\toko;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -137,7 +140,7 @@ class LaporanController extends Controller
         $laporanPenjualan = $laporanPenjualan->orderBy('ht.tgl_transaksi')
             ->get();
 
-        
+
 
         return view('seller.laporan.laporanPenjualan', [
             'user'=> $user,
@@ -221,6 +224,70 @@ class LaporanController extends Controller
             'laporanGagalProduksi' => $laporanGagalProduksi,
             'startDate' => $startDate,
             'endDate' => $endDate
+        ]);
+    }
+
+    public function indexLaporanRetur(Request $request)
+    {
+        $user = $this->getLogUser();
+        $startDate = $request->input('start_date', now()->subYear()->format('Y-m-d'));
+        $endDate = $request->input('end_date', now()->format('Y-m-d'));
+        $status = $request->input('status', '');
+
+        // Konversi tanggal ke format datetime untuk lingkup pencarian penuh
+        $query = Retur::where('id_toko', $user->id_toko);
+
+        // Tambahkan filter tanggal hanya jika keduanya diisi
+        if (!empty($startDate) && !empty($endDate)) {
+            $query->whereDate('tgl_retur', '>=', $startDate)
+                  ->whereDate('tgl_retur', '<=', $endDate);
+        }
+
+        // dd($status);
+        // Filter status jika dipilih
+        if ($status !== '' && $status !== null) {
+            $query->where('status', $status);
+        }
+
+        $laporanRetur = $query->get();
+
+
+            // dd($laporanRetur);
+        return view('seller.laporan.laporanRetur', [
+            'laporanRetur' => $laporanRetur,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'status' => $status,
+            'user' =>$user
+        ]);
+    }
+
+    public function indexLaporanPenggunaanBahan(Request $request)
+    {
+        $user = $this->getLogUser();
+
+        $startDate = $request->input('start_date', now()->subMonth()->format('Y-m-d'));
+        $endDate = $request->input('end_date', now()->format('Y-m-d'));
+        $status = $request->input('status', '');
+
+        $query = PenggunaanBahan::whereHas('rencanaProduksi', function($q) use ($user, $startDate, $endDate, $status) {
+            $q->where('id_toko', $user->id_toko)
+              ->whereDate('tgl_produksi_mulai', '>=', $startDate)
+              ->whereDate('tgl_produksi_mulai', '<=', $endDate);
+
+
+                $q->where('status', 2);
+
+        });
+
+        $laporanPenggunaanBahan = $query->with('rencanaProduksi')->get();
+
+        return view('seller.laporan.laporanPenggunaanBahan', [
+            'laporanPenggunaanBahan' => $laporanPenggunaanBahan,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'status' => $status,
+            'user' =>$user
         ]);
     }
 }

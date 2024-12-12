@@ -5,7 +5,7 @@
 
 @endsection
 
-@section('title', 'Custom Meja ')
+@section('title', 'Custom Meja 2  ')
 
 @section('style')
     <style>
@@ -862,10 +862,10 @@
                     if (imageURL.includes('lacikecil')) {
                         counterlaci1--;
                         totalPrice -= addonPrices.laci1; // Kurangi counter sekat horizontal
-                    } else if (imageURL.includes('lacikecil2')) {
+                    } else if (imageURL.includes('laciKecil2')) {
                         counterlaci2--; // Kurangi counter gantungan
                         totalPrice -= addonPrices.laci2;
-                    } else if (imageURL.includes('pijakankaki')) {
+                    } else if (imageURL.includes('pijakanKaki')) {
                         counterpijakankaki--; // Kurangi counter gantungan
                         totalPrice -= addonPrices.pijakankaki;
                     }

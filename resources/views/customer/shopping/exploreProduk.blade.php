@@ -186,7 +186,7 @@ box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
                                             <h4>{{ $produk->nama_produk }}</h4>
                                             <div class="d-flex justify-content-between flex-lg-wrap">
                                                 <p class="text-dark fs-5 fw-bold mb-0">Rp
-                                                    {{ $produk->harga_produk }}</p>
+                                                    {{ number_format($produk->harga_produk, 0, ',', '.') }}</p>
                                             </div>
                                         </div>
                                     </div>

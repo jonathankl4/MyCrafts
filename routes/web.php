@@ -318,6 +318,7 @@ Route::group([
     Route::post('/pesanan/terimaRetur/{id}', [PesananController::class, 'terimaRetur']);
     Route::post('/pesanan/tolakRetur/{id}', [PesananController::class, 'tolakRetur']);
 
+
     // TESTING APA AJAH
     Route::get('/produkCustom/testing', [TestController::class, 'testingfabric']);
     Route::get('/produkCustom/TestingMeja1', [TestController::class, 'testingMeja1']);
@@ -364,9 +365,7 @@ Route::group([
 
     Route::get('/laporan-penjualan', [LaporanController::class,'indexLaporanPenjualan'])->name('laporan-penjualan.index');
 
-    Route::get('/produksi/laporan-produksi', [LaporanController::class, 'indexLaporanProduksi'])->name('laporan-produksi.index');
 
-    Route::get('/produksi/laporan-gagal-produksi', [LaporanController::class, 'indexLaporanGagalProduksi'])->name('laporan-gagal-produksi.index');
 
     Route::get('/pengaturan-toko', [SellerController::class, 'pengaturanToko']);
     Route::post('/edit-toko', [SellerController::class, 'updateToko'])->name('seller.toko.update');
@@ -480,6 +479,13 @@ Route::group([
 
         // START OF LAPORAN
 
+        Route::get('/produksi/laporan-produksi', [LaporanController::class, 'indexLaporanProduksi'])->name('laporan-produksi.index');
+
+    Route::get('/produksi/laporan-gagal-produksi', [LaporanController::class, 'indexLaporanGagalProduksi'])->name('laporan-gagal-produksi.index');
+
+    Route::get('/gudang/laporan-retur', [LaporanController::class, 'indexLaporanRetur'])->name('laporan-retur.index');
+
+    Route::get('/produksi/laporan-penggunaan-bahan', [LaporanController::class, 'indexLaporanPenggunaanBahan'])->name('laporan-penggunaan-bahan.index');
 
 
     });

@@ -7,6 +7,7 @@ use App\Models\DTrans;
 use App\Models\HTrans;
 use App\Models\ProdukCustomDijual;
 use App\Models\ProdukDijual;
+use App\Models\Retur;
 use App\Models\toko;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -119,9 +120,15 @@ class PesananController extends Controller
         // dd($pembelian);
         if ($pembelian->tipe_trans == 'Non-Custom') {
 
+            $retur = null;
+            if ($pembelian->retur) {
+                # code...
+                $retur = Retur::find($pembelian->retur);
+            }
+
             $produk = ProdukDijual::find($pembelian->id_produk);
             # code...
-            return view('seller.pesanan.detailPesananNonCustom', ['user' => $user, 'detail' => $pembelian, 'produk'=>$produk]);
+            return view('seller.pesanan.detailPesananNonCustom', ['user' => $user, 'detail' => $pembelian, 'produk'=>$produk, 'retur'=>$retur]);
         }elseif ($pembelian->tipe_trans == 'custom') {
             # code...
             $addon = DB::table('d_trans')->where('h_trans_id', $id)->get();
@@ -156,9 +163,20 @@ class PesananController extends Controller
         $pembelian->status = 6;
         $pembelian->save();
 
+        if ($pembelian->retur) {
+            # code...
+
+            $retur = Retur::find($pembelian->retur);
+            $retur->tgl_retur_sampai = now();
+            $retur->save();
+        }
+
         toast('Status Diubah ke Sedang Dikirim', 'success');
         return redirect()->back();
     }
+
+
+
 
     public function ubahResi(Request $request){
         $pembelian = Htrans::find($request->id);
@@ -174,6 +192,9 @@ class PesananController extends Controller
     public function terimaRetur(Request $request){
         $pembelian = Htrans::find($request->id);
 
+        $retur = Retur::find($pembelian->retur);
+        $retur->status = 1;
+        $retur->save();
 
         $pembelian->status = 14;
         $pembelian->save();
@@ -187,8 +208,14 @@ class PesananController extends Controller
 
 
         $pembelian->status = 16;
-        $pembelian->alasan_tolak_retur = $request->alasanTolak;
+
         $pembelian->save();
+
+        $retur = Retur::find($pembelian->retur);
+        $retur->alasan_retur_ditolak = $request->alasanTolak;
+        $retur->status = 3;
+        $retur->save();
+
 
         $toko = toko::find($pembelian->id_toko);
         if ($pembelian->pilihan == 'jadi' || $pembelian->pilihan == 'awal') {

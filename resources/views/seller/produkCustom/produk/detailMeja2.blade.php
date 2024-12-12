@@ -191,9 +191,7 @@
         </div>
     </div>
 
-    {{-- @include('seller.produkCustom.produk.modal.modalAddOnLemari')
-
-    @include('seller.produkCustom.produk.modal.modalPintuLemari3') --}}
+    @include('seller.produkCustom.produk.modal.modalAddOnMeja')
 
     <!-- Footer -->
     <footer class="content-footer footer bg-footer-theme">

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Donation;
+use App\Models\DTrans;
 use App\Models\HTrans;
 use App\Models\Post;
 use App\Models\ProdukCustomDijual;
 use App\Models\ProdukDijual;
+use App\Models\Retur;
 use App\Models\satuan;
 use App\Models\tester;
 use App\Models\toko;
@@ -556,10 +558,29 @@ class CustomerController extends Controller
 
     public function pengajuanRetur(Request $request)
     {
+
+
+
+        $retur = new Retur();
+
+        $retur->jumlah = $request->jumlahretur;
+        $retur->alasan_retur = $request->alasanretur;
+        $retur->tgl_retur = now();
+        $retur->status = 0;
+        $retur->save();
+
+
+
+
         $pembelian = Htrans::find($request->id);
         $pembelian->status = 13;
-        $pembelian->alasan_retur = $request->alasanretur;
+        $pembelian->retur = $retur->id;
         $pembelian->save();
+
+        $retur->id_toko = $pembelian->id_toko;
+        $retur->save();
+
+
 
 
         toast("Retur Berhasil diajukan", 'success');
@@ -572,6 +593,8 @@ class CustomerController extends Controller
         $pembelian->status = 15;
         $pembelian->nomor_resi = $request->ResiBalik;
         $pembelian->save();
+
+
 
 
         toast("Retur Berhasil diajukan", 'success');
@@ -791,17 +814,27 @@ class CustomerController extends Controller
         $data1 = DB::table('donations')->where('h_trans_id', $id)->first();
         // dd($data1);
 
-        $statusPembayaran1 = $this->checkPaymentStatus($data1->code);
+        $statusPembayaran1 = null;
 
-        if ($statusPembayaran1 == 'settlement') {
-            // Pembayaran pertama berhasil
-            $htrans->pilihan = 'awal';
-            $htrans->status = 4;
-            $toko->saldo_pending += $htrans->harga;
-            $htrans->status_pembayaran = 1;
-            $htrans->save();
-            $toko->save();
+        if ($data1) {
+            # code...
+            $statusPembayaran1 = $this->checkPaymentStatus($data1->code);
         }
+
+        if ($htrans->status_pembayaran == 0) {
+            # code...
+
+            if ($statusPembayaran1 == 'settlement') {
+                // Pembayaran pertama berhasil
+                $htrans->pilihan = 'jadi';
+                $htrans->status = 11;
+                $toko->saldo_pending += $htrans->harga;
+                $htrans->status_pembayaran = 1;
+                $htrans->save();
+                $toko->save();
+            }
+        }
+
 
         // Check if there's a related donation and if payment has expired
         if ($htrans->status_pembayaran == 0 && ($htrans->status == 2 || $htrans->status == 3)) {
@@ -981,6 +1014,8 @@ class CustomerController extends Controller
             ->where('status', 0)
             ->first();
 
+        $hpus = DTrans::where('h_trans_id', $trans->id)->delete();
+
         if ($trans) {
             // If found, update the existing transaction
             $trans->update([
@@ -1074,6 +1109,30 @@ class CustomerController extends Controller
                     'nama_item' => 'Laci 1',
                     'jumlah' => $laci1,
                     'harga' => $addonPrices['laci1'], // Gunakan harga dari halaman 1
+                    'jenis' => 'main',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+            if ($laci2) {
+                # code...
+                DB::table('d_trans')->insert([
+                    'h_trans_id' => $trans->id,
+                    'nama_item' => 'Laci 2',
+                    'jumlah' => $laci2,
+                    'harga' => $addonPrices['laci2'], // Gunakan harga dari halaman 1
+                    'jenis' => 'main',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+            if ($pijakankaki) {
+                # code...
+                DB::table('d_trans')->insert([
+                    'h_trans_id' => $trans->id,
+                    'nama_item' => 'Pijakan Kaki',
+                    'jumlah' => $pijakankaki,
+                    'harga' => $addonPrices['pijakankaki'], // Gunakan harga dari halaman 1
                     'jenis' => 'main',
                     'created_at' => now(),
                     'updated_at' => now()

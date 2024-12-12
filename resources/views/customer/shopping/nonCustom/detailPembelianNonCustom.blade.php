@@ -189,6 +189,12 @@
                                                 <div class="modal-body">
                                                     <div class="mb-3">
                                                         <label for="alasan" class="form-label"
+                                                            style="font-weight: 500; color: #6c757d;">Jumlah Barang di Retur</label>
+                                                            <input type="number" class='form-control' name="jumlahretur" required>
+
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="alasan" class="form-label"
                                                             style="font-weight: 500; color: #6c757d;">Alasan Retur</label>
                                                         <textarea name="alasanretur" id="alasanretur" class="form-control"
                                                             style="padding: 10px; border: 1px solid #ced4da; border-radius: 5px; width: 100%;" cols="30" rows="5"
@@ -229,7 +235,7 @@
                                                     method="post">
                                                     @csrf
                                                     <div class="modal-header" style="background-color: #d6c699">
-                                                        <h5 class="modal-title" id="modalDesainBaruLabel">Pengajuan Retur
+                                                        <h5 class="modal-title" id="modalDesainBaruLabel">Pengiriman Retur
                                                         </h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>

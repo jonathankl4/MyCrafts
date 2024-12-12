@@ -102,7 +102,7 @@ max-width: 100%; /* Pastikan gambar tidak melebihi container */
                             <h4 class="fw-bold mb-3"> {{$produk->nama_produk}}  </h4>
                             <input type="text" style="background: transparent; border: transparent" name="name" value="{{$produk->nama_produk}}" hidden>
 
-                            <h4 class="fw-bold mb-3"> RP {{$produk->harga_produk}} </h4>
+                            <h4 class="fw-bold mb-3"> RP {{number_format($produk->harga_produk, 0, ',', '.')}} </h4>
                             <h4 class="fw-bold mb-3"><input type="text" hidden style="background: transparent; border: transparent" name="amount" value="{{$produk->harga_produk}}">  </h4>
                             <h4 class="fw-bold mb-3"> <input type="text" hidden style="background: transparent; border: transparent" name="email" value="{{$user->email}}" hidden>  </h4>
                             <div class="input-group quantity mb-5" style="width: 100px;">

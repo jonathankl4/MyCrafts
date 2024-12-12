@@ -119,7 +119,7 @@
                                 </div>
                             </div>
                         @elseif ($detail->status == 13)
-                            <p>Alasan Retur: {{ $detail->alasan_retur }}</p>
+                            <p>Alasan Retur: {{ $retur->alasan_retur }}</p>
                             <button type="button" class="btn" data-bs-toggle="modal"
                                 data-bs-target="#modalTerimaRetur"
                                 style="margin: 5px; background-color: #35da66; color: black">

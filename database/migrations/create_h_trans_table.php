@@ -45,8 +45,8 @@ return new class extends Migration
             $table->longText('alasan_batal')->nullable();
             $table->string('nomor_resi')->nullable();
             $table->dateTime('tgl_sampai')->nullable();
-            $table->longText('alasan_retur')->nullable();
-            $table->longText('alasan_tolak_retur')->nullable();
+            $table->integer('retur')->nullable();
+            
             $table->timestamps();
         });
     }
