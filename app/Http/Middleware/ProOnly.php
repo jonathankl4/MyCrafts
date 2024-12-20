@@ -24,7 +24,7 @@ class ProOnly
         $user = User::find($s->id);
         $toko = toko::find($user->id_toko);
 
-        if ($toko->membership_type == "free") {
+        if ($toko->status == "Free") {
             # code...
             toast('Daftar Membership Pro terlebih dahulu', 'info');
             return redirect('/seller/membership');

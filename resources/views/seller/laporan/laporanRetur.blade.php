@@ -80,6 +80,7 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th class="text-center">No</th>
+                                        <th>Produk</th>
                                         <th>Jumlah</th>
                                         <th>Alasan Retur</th>
                                         <th>Tanggal Retur</th>
@@ -92,6 +93,7 @@
                                     @foreach ($laporanRetur as $index => $retur)
                                         <tr>
                                             <td class="text-center">{{ $index + 1 }}</td>
+                                            <td>{{ $retur->nama_produk }}</td>
                                             <td>{{ $retur->jumlah }}</td>
                                             <td>{{ $retur->alasan_retur }}</td>
                                             <td>{{ \Carbon\Carbon::parse($retur->tgl_retur)->format('d/m/Y H:i') }}</td>
@@ -105,16 +107,16 @@
                                             <td>
                                                 <span class="{{
                                                     $retur->status == 1 ? 'status-diterima' :
-                                                    ($retur->status == 2 ? 'status-ditolak' : 'status-menunggu')
+                                                    ($retur->status == 2 ? 'status-menunggu' : 'status-ditolak')
                                                 }}">
                                                     {{
                                                         $retur->status == 1 ? 'Diterima' :
-                                                        ($retur->status == 2 ? 'Ditolak' : 'Menunggu')
+                                                        ($retur->status == 2 ? 'Menunggu' : 'Ditolak')
                                                     }}
                                                 </span>
                                             </td>
                                             <td>
-                                                @if($retur->status == 2 && $retur->alasan_retur_ditolak)
+                                                @if($retur->status == 3 && $retur->alasan_retur_ditolak)
                                                     {{ $retur->alasan_retur_ditolak }}
                                                 @else
                                                     -

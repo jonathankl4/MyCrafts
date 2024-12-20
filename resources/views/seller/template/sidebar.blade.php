@@ -94,7 +94,7 @@
                         </a>
                     </li>
 
-                    <li class="menu-item {{ request()->is('seller/produkCustom/testing') ? 'active' : '' }}">
+                    {{-- <li class="menu-item {{ request()->is('seller/produkCustom/testing') ? 'active' : '' }}">
                         <a href="{{ url('/seller/produkCustom/testing') }}" class="menu-link">
                             <div>Contoh Custom</div>
                         </a>
@@ -103,7 +103,7 @@
                         <a href="{{ url('/seller/produkCustom/informasi') }}" class="menu-link">
                             <div>Informasi</div>
                         </a>
-                    </li>
+                    </li> --}}
 
 
 

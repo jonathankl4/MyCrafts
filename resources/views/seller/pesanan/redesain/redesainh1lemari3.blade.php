@@ -86,34 +86,34 @@
 
                             <div id="produk-div">
                                 <!--
-                                                                    Initially, the image will have the background tshirt that has transparency
-                                                                    So we can simply update the color with CSS or JavaScript dinamically
-                                                                -->
+                                                                        Initially, the image will have the background tshirt that has transparency
+                                                                        So we can simply update the color with CSS or JavaScript dinamically
+                                                                    -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
                                 <img id="template" src="{{ url('img/lemari3/lemari3.png') }}"
                                     style="width: 100%;height: 100%;" />
 
-                                    <div id="drawingArea" class="drawing-area">
-                                        <div class="canvas-container" style="position: relative">
-                                            <canvas id="tshirt-canvas" width="433px" height="595px"
-                                                style="border-style: solid; border-width: 2px; border-color: white"></canvas>
+                                <div id="drawingArea" class="drawing-area">
+                                    <div class="canvas-container" style="position: relative">
+                                        <canvas id="tshirt-canvas" width="433px" height="595px"
+                                            style="border-style: solid; border-width: 2px; border-color: white"></canvas>
 
-                                            <div id="right-line"
-                                                style="position: absolute; right: -255px; top: -8px; height:625px; width: 2px; background-color: black;">
-                                            </div>
-                                            <div id="right-text"
-                                                style="position: absolute; right: -330px; top: 70%; transform: translateY(-50%); font-size: 20px;">
-                                                {{ $pembelian->tinggi }}cm</div>
-
-                                            <!-- Garis horizontal di bawah untuk 70cm -->
-                                            <div id="bottom-line"
-                                                style="position: absolute; left: -8px; bottom: -230px; width: 450px; height: 2px; background-color: black;">
-                                            </div>
-                                            <div id="bottom-text"
-                                                style="position: absolute; left: 80%; bottom: -260px; transform: translateX(-50%); font-size: 20px;">
-                                                {{ $pembelian->lebar }}cm</div>
+                                        <div id="right-line"
+                                            style="position: absolute; right: -255px; top: -8px; height:625px; width: 2px; background-color: black;">
                                         </div>
+                                        <div id="right-text"
+                                            style="position: absolute; right: -330px; top: 70%; transform: translateY(-50%); font-size: 20px;">
+                                            {{ $pembelian->tinggi }}cm</div>
+
+                                        <!-- Garis horizontal di bawah untuk 70cm -->
+                                        <div id="bottom-line"
+                                            style="position: absolute; left: -8px; bottom: -230px; width: 450px; height: 2px; background-color: black;">
+                                        </div>
+                                        <div id="bottom-text"
+                                            style="position: absolute; left: 80%; bottom: -260px; transform: translateX(-50%); font-size: 20px;">
+                                            {{ $pembelian->lebar }}cm</div>
                                     </div>
+                                </div>
                             </div>
 
                             <div style="height: 40px">
@@ -197,7 +197,7 @@
 
                                 <span>{{ $datapilihan[0]->nama_item }} - Rp.
                                     {{ number_format($datapilihan[0]->harga, 0, ',', '.') }} </span>
-                                    <br>
+                                <br>
                                 <span>{{ $pembelian->finishing }} - Rp.
                                     {{ number_format($pembelian->harga_finishing, 0, ',', '.') }} </span>
                             </div>
@@ -592,7 +592,7 @@
             });
         }
 
-        
+
 
         // Fungsi untuk menambahkan add-on
         function updateAddOn(imageURL) {
@@ -892,7 +892,10 @@
                         .then(data => {
                             if (data.success) {
                                 // alert('Perbaikan Desain Berhasil dikirim');
-                                window.location.href = '{{ url('/seller/detailPesanan') }}' + '/' + pembelian.id;
+                                window.location.href = '{{ url('/seller/pesanan/detailPesanan') }}' + '/' +
+                                    pembelian.id;
+                            } else if (data.membership) {
+                                alert("daftar membership untuk menerima pesanan lebih dari 5");
                             } else {
                                 alert("gambar gagal disimpan");
                             }

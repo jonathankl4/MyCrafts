@@ -79,6 +79,17 @@ $currentYear = Carbon::now()->year;
 
     }
 
+   public function tariksaldo(Request $request, $id){
+
+        $toko = toko::find($id);
+        $toko->saldo -= $request->jumlah;
+        $toko->save();
+        // dd($toko);
+
+        toast('Berhasil tarik saldo', 'success');
+        return redirect()->back();
+   }
+
     public function pengaturanToko(){
 
         $user = $this->getLogUser();
@@ -100,7 +111,9 @@ $currentYear = Carbon::now()->year;
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $toko = Toko::where('id_owner', auth()->user()->id)->firstOrFail();
+        $user = $this->getLogUser();
+
+        $toko = Toko::where('id', $user->id_toko)->first();
 
         $data = $request->only(['nama', 'slogan', 'deskripsi']);
 

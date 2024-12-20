@@ -10,7 +10,7 @@
 
 @section('style')
     <style>
-       .drawing-area {
+        .drawing-area {
             position: absolute;
             top: 75px;
             left: 28px;
@@ -86,9 +86,9 @@
 
                             <div id="produk-div">
                                 <!--
-                                                            Initially, the image will have the background tshirt that has transparency
-                                                            So we can simply update the color with CSS or JavaScript dinamically
-                                                        -->
+                                                                Initially, the image will have the background tshirt that has transparency
+                                                                So we can simply update the color with CSS or JavaScript dinamically
+                                                            -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
                                 <img id="template" src="{{ url('img/meja1/meja1.png') }}"
                                     style="width: 100%;height: 100%;" />
@@ -103,7 +103,7 @@
                                         </div>
                                         <div id="right-text"
                                             style="position: absolute; right: -390px; top: 20%; transform: translateY(-50%); font-size: 20px;">
-                                            {{ $produk->tinggi_min }}cm</div>
+                                            {{ $pembelian->tinggi }}cm</div>
 
                                         <!-- Garis horizontal di bawah untuk 70cm -->
                                         <div id="bottom-line"
@@ -111,7 +111,7 @@
                                         </div>
                                         <div id="bottom-text"
                                             style="position: absolute; left: 230px; bottom: 105px; transform: translateX(-50%); font-size: 20px;">
-                                            {{ $produk->panjang_min }}cm</div>
+                                            {{ $pembelian->panjang }}cm</div>
                                     </div>
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
 
                             <img src="{{ url('/storage/hasilcustom/' . $pembelian->fotoh1) }}"
                                 style="width: 250px;height:150px">
-                                <br>
+                            <br>
                             <a href="" class="btn btn-info" data-bs-toggle="modal"
                                 data-bs-target="#modalImage">Perbesar desain
                             </a>
@@ -198,7 +198,7 @@
 
                                 <span>{{ $datapilihan[0]->nama_item }} - Rp.
                                     {{ number_format($datapilihan[0]->harga, 0, ',', '.') }} </span>
-                                    <br>
+                                <br>
                                 <span>{{ $pembelian->finishing }} - Rp.
                                     {{ number_format($pembelian->harga_finishing, 0, ',', '.') }} </span>
                             </div>
@@ -294,7 +294,8 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <img class="modal-content" src="{{ url('/storage/hasilcustom/' . $pembelian->fotoh1) }}" style="">
+                            <img class="modal-content" src="{{ url('/storage/hasilcustom/' . $pembelian->fotoh1) }}"
+                                style="">
 
 
                         </div>
@@ -472,10 +473,10 @@
 
         // Variabel counter untuk setiap jenis gambar
         let counterpijakankaki = 0;
-    let counterlaci1 = 0;
-    let counterlaci2 = 0;
+        let counterlaci1 = 0;
+        let counterlaci2 = 0;
 
-    function updateOpacity(value) {
+        function updateOpacity(value) {
             canvas.getObjects().forEach(function(obj) {
                 if (!obj.gridLine) {
                     obj.set({
@@ -489,19 +490,19 @@
 
         // Fungsi untuk memperbarui counter di UI
         function updateCounters() {
-            const laci1Div= document.getElementById('count-laci1').parentElement;
-        const laci2Div = document.getElementById('count-laci2').parentElement;
-        const pijakankakiDiv = document.getElementById('count-pijakankaki').parentElement;
+            const laci1Div = document.getElementById('count-laci1').parentElement;
+            const laci2Div = document.getElementById('count-laci2').parentElement;
+            const pijakankakiDiv = document.getElementById('count-pijakankaki').parentElement;
 
             // Perbarui teks counter
             document.getElementById('count-laci1').textContent = counterlaci1;
-        document.getElementById('count-laci2').textContent = counterlaci2;
-        document.getElementById('count-pijakankaki').textContent = counterpijakankaki;
+            document.getElementById('count-laci2').textContent = counterlaci2;
+            document.getElementById('count-pijakankaki').textContent = counterpijakankaki;
 
             // Tampilkan atau sembunyikan seluruh div berdasarkan jumlah add-on
             laci1Div.style.display = (counterlaci1 > 0) ? 'block' : 'none';
-        laci2Div.style.display = (counterlaci2 > 0) ? 'block' : 'none';
-        pijakankakiDiv.style.display = (counterpijakankaki > 0) ? 'block' : 'none';
+            laci2Div.style.display = (counterlaci2 > 0) ? 'block' : 'none';
+            pijakankakiDiv.style.display = (counterpijakankaki > 0) ? 'block' : 'none';
         }
 
         let currentVerticalSize = pembelian.tinggi;
@@ -621,7 +622,7 @@
 
                 if (imageURL.includes('laciKecil2')) {
                     // Skala khusus untuk gantungan
-                    scaleX = (canvasWidth / imgWidth) /3; // Buat sedikit lebih kecil
+                    scaleX = (canvasWidth / imgWidth) / 3; // Buat sedikit lebih kecil
                     scaleY = 0.19; // Lebih tipis pada sumbu Y untuk gantungan
                     counterlaci2++; // Tambah counter gantungan
                     totalPrice += addonPrices.laci2;
@@ -637,7 +638,7 @@
                     });
                 } else if (imageURL.includes('lacikecil')) {
                     // Skala khusus untuk gantungan
-                    scaleX = (canvasWidth / imgWidth) /3; // Buat sedikit lebih kecil
+                    scaleX = (canvasWidth / imgWidth) / 3; // Buat sedikit lebih kecil
                     scaleY = 0.13; // Lebih tipis pada sumbu Y untuk gantungan
                     counterlaci1++; // Tambah counter gantungan
                     totalPrice += addonPrices.laci1;
@@ -851,7 +852,7 @@
                                 id_Htrans: pembelian.id,
                                 laci1: counterlaci1 || 0,
                                 laci2: counterlaci2 || 0,
-                                pijakankaki : counterpijakankaki || 0,
+                                pijakankaki: counterpijakankaki || 0,
                                 addonPrices: addonPrices,
                                 total_harga: totalPrice,
                                 hargaFix: fixHarga,
@@ -867,7 +868,10 @@
                         .then(data => {
                             if (data.success) {
                                 // alert('Perbaikan Desain Berhasil dikirim');
-                                window.location.href = '{{ url('/seller/detailPesanan') }}' + '/' + pembelian.id;
+                                window.location.href = '{{ url('/seller/pesanan/detailPesanan') }}' + '/' +
+                                    pembelian.id;
+                            } else if (data.membership) {
+                                alert("daftar membership untuk menerima pesanan lebih dari 5");
                             } else {
                                 alert("gambar gagal disimpan");
                             }

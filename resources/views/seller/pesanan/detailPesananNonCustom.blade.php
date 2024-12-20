@@ -196,8 +196,8 @@
                                 Barang Retur Diterima, Kirim Kembali
                             </button>
 
-                            <div class="modal fade" id="modalKirimKembaliBarang" tabindex="-1" aria-labelledby="modalTolakPesananLabel"
-                                aria-hidden="true">
+                            <div class="modal fade" id="modalKirimKembaliBarang" tabindex="-1"
+                                aria-labelledby="modalTolakPesananLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <form action="{{ url('/seller/pesanan/kirim/' . $detail->id) }}" method="post">
                                         @csrf
@@ -305,6 +305,12 @@
                             <span>Tipe Transaksi</span>
                             <span style="font-size: 20px"><b>{{ $detail->tipe_trans }}</b> </span>
                         </div>
+                        <br>
+                        <div class="row">
+                            <span>Customer</span>
+                            <span style="font-size: 20px"><b>{{ $pelanggan->username }}</b> </span>
+                        </div>
+
 
                         <br>
                         <div class="row">
@@ -556,6 +562,8 @@
                     .then(data => {
                         if (data.success) {
                             window.location.href = "{{ url('/seller/pesanan') }}";
+                        } else if (data.membership) {
+                            alert("daftar membership untuk menerima pesanan lebih dari 5");
                         } else {
                             alert("Gagal mengirim data");
                         }

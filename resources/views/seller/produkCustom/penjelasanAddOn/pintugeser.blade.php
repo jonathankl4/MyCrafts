@@ -4,9 +4,9 @@
         <div class="spec-item mb-3">
             <h6 class="fw-bold"><i class="bi bi-rulers me-2"></i>Rekomendasi Ukuran:</h6>
             <ul class="list-unstyled ms-3">
-                <li>• Tebal: 1.8 cm - 2.5 cm</li>
+                <li>• Tebal: 1 cm - 2.5 cm</li>
                 <li>• Tinggi & Lebar: Menyesuaikan ukuran lemari</li>
-                <li>• Engsel: Minimum 3 buah per pintu</li>
+              
             </ul>
         </div>
         <div class="spec-item mb-3">

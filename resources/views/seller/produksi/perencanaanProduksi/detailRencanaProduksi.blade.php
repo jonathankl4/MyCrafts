@@ -30,7 +30,7 @@
 
         <div class="flex-grow-1 container-p-y" style="width: 100% ; padding: 10px">
             <h2 class="fw-bold py-3 mb-4">Detail Produksi</h2>
-
+            produksi akan mulai otomatis sesuai dengan tanggal produksi
             <div class="card" style="padding: 15px">
 
 
@@ -59,7 +59,7 @@
                 <p> Nama Produk : {{ $produksi->nama_produk }} </p>
                 <p> Jumlah Produksi : {{ $produksi->jumlahdiproduksi }} </p>
                 <p> Tanggal Produksi : {{ $produksi->tgl_produksi_mulai }} </p>
-                <p> Biaya produksi : {{ $bom->total_biaya }} </p>
+                <p> Perkiraan Biaya produksi : {{ $bom->total_biaya }} </p>
                 <p> Status Produksi : <span class="badge {{ $color }}">{{ $status }}</span></p>
 
             </div>

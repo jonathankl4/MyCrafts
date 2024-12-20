@@ -39,7 +39,7 @@
                                                 </p>
                                                 <ul class="list-unstyled">
                                                     <li>- 5 transaksi penjualan</li>
-                                                    <li>- Tambah Produk Custom maksimal 1</li>
+                                                    <li>- Tambah Produk maksimal 3</li>
                                                     <li>- Hanya bisa akses Fitur Penjualan</li>
 
                                                 </ul>
@@ -63,7 +63,7 @@
                                                 </p>
                                                 <ul class="list-unstyled">
                                                     <li>- Transaksi penjualan tanpa batas</li>
-                                                    <li>- Bisa Menambah semua Produk Custom</li>
+                                                    <li>- Bisa Menambah produk sepuasnya</li>
                                                     <li>- Akses ke semua fitur( Master, Produksi, Gudang )</li>
                                                 </ul>
 

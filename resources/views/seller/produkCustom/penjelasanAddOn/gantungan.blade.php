@@ -5,7 +5,7 @@
             <h6 class="fw-bold"><i class="bi bi-rulers me-2"></i>Rekomendasi Ukuran:</h6>
             <ul class="list-unstyled ms-3">
                 <li>• Diameter batang: 2.5 cm - 3 cm</li>
-                <li>• Panjang: Menyesuaikan lebar bagian dalam lemari</li>
+                <li>• Panjang: Sesuai dengan Kustomisasi</li>
                 <li>• Material: Stainless steel / Aluminium</li>
             </ul>
         </div>

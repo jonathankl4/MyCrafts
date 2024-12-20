@@ -58,7 +58,7 @@
 
                         <div class="input-group input-group-merge">
 
-                            <input type="text" class="form-control" id="ukuran" name="ukuran" aria-describedby="spanpanjang" style="border: 1.3px ridge " value="{{old('ukuranPanjang')}}" placeholder="contoh: 10 x 10 x 10 (cm)"  />
+                            <input type="text" class="form-control" id="ukuran" name="ukuran" aria-describedby="spanpanjang" style="border: 1.3px ridge " value="{{$bahan->ukuran_bahan}}" placeholder="contoh: 10 x 10 x 10 (cm)"  />
                             <span class="input-group-text " id="labelPanjang"></span>
                         </div>
 

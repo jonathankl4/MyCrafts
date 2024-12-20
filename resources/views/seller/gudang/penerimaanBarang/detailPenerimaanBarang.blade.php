@@ -16,7 +16,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="card-title">Detail Penerimaan Bahan</h5>
+                <h5 class="card-title">Detail Penerimaan Barang</h5>
                 <a href="{{ route('penerimaan-bahan.index') }}" class="btn btn-secondary">
                     Kembali
                 </a>

@@ -50,7 +50,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Produk</th>
-                            <th>Harga Produksi</th>
+                            <th>Perkiraan Harga Produksi</th>
                             <th>aksi</th>
 
 
@@ -63,7 +63,7 @@
                         @php
                             $total = $listBom[$i]->total_biaya;
 
-                            
+
 
 
 
@@ -96,7 +96,7 @@
                                 <div class="modal-body">
                                     <h2 class="card-title text-primary"> Delete BOM {{$listBom[$i]->nama_product}} </h2>
 
-                                    
+
 
                                 </div>
                                 <div class="modal-footer">
@@ -125,31 +125,31 @@
                                         <div class="mb-3 row">
                                             <label class=" col-form-label" style="font-size: 16px">Nama Produk</label>
                                             <div class="col-md-10">
-                        
+
                                                 <input type="text" class="form-control" id="namaProdukEdit" name="namaProdukEdit" placeholder="-" required value="{{$listBom[$i]->nama_product}}" />
                                                 <span style="color: red;">{{ $errors->first('namaProdukEdit')}}</span>
                                             </div>
                                         </div>
-                                        
-                        
+
+
                                         <div style="float: right">
-                                            
+
                                             <button class="btn btn-primary">Simpan</button>
                                         </div>
-                        
+
                                     </form>
-                    
-                    
+
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    
+
                                 </div>
                               </div>
                             </div>
                         </div>
 
-                        
+
 
 
 
@@ -192,20 +192,20 @@
                     <div class="mb-3 row">
                         <label class="col-md-2 col-form-label" style="font-size: 16px">Nama Produk</label>
                         <div class="col-md-10">
-    
+
                             <input type="text" class="form-control" id="namaProduk" name="namaProduk" placeholder="-" required />
                             <span style="color: red;">{{ $errors->first('namaProduk')}}</span>
                         </div>
                     </div>
-    
+
                     <div style="float: right">
-                        
+
                         <button class="btn btn-primary">Tambah</button>
                     </div>
-    
+
                 </form>
 
-                
+
 
 
             </div>
@@ -217,7 +217,7 @@
         </div>
     </div>
 
-    
+
 
 
 

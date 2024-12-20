@@ -41,7 +41,7 @@
                 <div class="col-md-6 mb-3">
                     <div class="card text-center">
                         <div class="card-header bg-light">
-                            <h3>Paket Free</h3>
+                            <h3>Membership Free</h3>
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">Gratis!</h5>
@@ -50,7 +50,7 @@
                             </p>
                             <ul class="list-unstyled">
                                 <li>- 5 transaksi penjualan</li>
-                                <li>- Menambah 5 produk</li>
+                                <li>- Menambah 3 produk</li>
                             </ul>
                         </div>
                         <div class="card-footer">
@@ -63,7 +63,7 @@
                 <div class="col-md-6 mb-3">
                     <div class="card text-center">
                         <div class="card-header bg-light">
-                            <h3>Paket Premium</h3>
+                            <h3>Membership Pro</h3>
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">Rp 100.000/bulan</h5>

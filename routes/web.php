@@ -197,6 +197,7 @@ Route::group([
 ], function () {
     Route::get('/', [SellerController::class, "homePage"]);
     Route::get('/test1', [SellerController::class, "homePage2"]);
+    Route::post('/tariksaldo/{id}', [SellerController::class, 'tarikSaldo']);
 
     Route::get('/membership', [MembershipController::class, 'membershipPage']);
     Route::post('/beliMembership', [MembershipController::class, 'checkoutPage']);

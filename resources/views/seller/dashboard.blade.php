@@ -120,6 +120,71 @@
                                     </div>
                                 </div>
                             </div>
+                            @if ($user->status == 'owner')
+
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h5 class="card-title text-muted mb-2">Saldo Toko</h5>
+
+                                                    <div >
+                                                        <h3 class="mb-0"style="color: black">Rp {{ number_format($toko->saldo, 0, ',', '.') }}</h3>
+
+                                                    </div>
+                                                    <small class="text-muted">Saldo yang bisa di tarik</small>
+                                                    <p class="text-muted mb-0">
+                                                        <a href="" data-bs-target="#modalTarikSaldo" data-bs-toggle='modal' class="btn btn-success">Tarik saldo</a>
+                                                    </p>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="modalTarikSaldo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form action="{{url('seller/tariksaldo/'.$toko->id)}}" method="post">
+                                        @csrf
+                                    <div class="modal-body">
+                                        <h2 class="card-title text-primary"> Tarik Saldo </h2>
+
+                                        <div>
+                                            <h3>Saldo Tersedia : Rp. {{number_format($toko->saldo, 0, ',', '.')}}</h3>
+
+
+                                                Jumlah Ditarik
+                                                <input type="number" class="form-control" name="jumlah" min="0" required>
+
+                                                <br>
+                                                Bank
+                                                <input type="text" name="namabank" class="form-control" required>
+                                                <br>
+                                                Nama Penerima
+                                                <input type="text" name="penerima" class="form-control" id="">
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+
+                                            <button type="submit" class="btn btn-dark" >Tarik</button>
+
+
+                                    </div>
+                                </form>
+                                  </div>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

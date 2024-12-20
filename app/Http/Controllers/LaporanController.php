@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bahan;
+use App\Models\HTrans;
 use App\Models\MutasiBarang;
 use App\Models\PenggunaanBahan;
 use App\Models\Retur;
@@ -234,8 +235,13 @@ class LaporanController extends Controller
         $endDate = $request->input('end_date', now()->format('Y-m-d'));
         $status = $request->input('status', '');
 
+
+
         // Konversi tanggal ke format datetime untuk lingkup pencarian penuh
-        $query = Retur::where('id_toko', $user->id_toko);
+        // $query = Retur::where('id_toko', $user->id_toko);
+        $query = HTrans::where('h_trans.id_toko', $user->id_toko)->join('returs', 'h_trans.retur', '=', 'returs.id');
+
+
 
         // Tambahkan filter tanggal hanya jika keduanya diisi
         if (!empty($startDate) && !empty($endDate)) {

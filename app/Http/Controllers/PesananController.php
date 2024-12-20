@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PesananController extends Controller
 {
@@ -114,7 +115,7 @@ class PesananController extends Controller
 
         $pembelian = HTrans::find($id);
 
-
+        $pelanggan = User::find($pembelian->id_user);
 
 
         // dd($pembelian);
@@ -128,7 +129,7 @@ class PesananController extends Controller
 
             $produk = ProdukDijual::find($pembelian->id_produk);
             # code...
-            return view('seller.pesanan.detailPesananNonCustom', ['user' => $user, 'detail' => $pembelian, 'produk'=>$produk, 'retur'=>$retur]);
+            return view('seller.pesanan.detailPesananNonCustom', ['user' => $user, 'detail' => $pembelian, 'produk'=>$produk, 'retur'=>$retur, 'pelanggan'=>$pelanggan]);
         }elseif ($pembelian->tipe_trans == 'custom') {
             # code...
             $addon = DB::table('d_trans')->where('h_trans_id', $id)->get();
@@ -136,7 +137,7 @@ class PesananController extends Controller
             $produk = ProdukCustomDijual::find($pembelian->id_produk);
             // dd($addon);
 
-            return view('seller.pesanan.detailPesanan', ['user' => $user, 'detail' => $pembelian, 'addon' => $addon, 'produk'=>$produk]);
+            return view('seller.pesanan.detailPesanan', ['user' => $user, 'detail' => $pembelian, 'addon' => $addon, 'produk'=>$produk, 'pelanggan'=>$pelanggan]);
         }
 
 
@@ -241,6 +242,20 @@ class PesananController extends Controller
     public function terimaPesananNonCustom(Request $request){
         $user = $this->getLogUser();
 
+        $toko = toko::find($user->id_toko);
+
+        $totaltrans = DB::table('h_trans')->where('id_toko', $user->id_toko)->where('status', 7)->count();
+
+        if ($toko->status == "Free") {
+            # code...
+            if ($totaltrans >= 5) {
+                # code...
+
+                return response()->json(['membership' => true]);
+            }
+        }
+
+
         $pembelian = HTrans::find($request->id_htrans);
         $pembelian->status = 3;
         $pembelian->ongkir = $request->ongkir;
@@ -287,6 +302,17 @@ class PesananController extends Controller
     public function terimaPesananCustom(Request $request) {
 
         $user = $this->getLogUser();
+
+        $toko = toko::find($user->id_toko);
+
+        $totaltrans = DB::table('h_trans')->where('id_toko', $user->id_toko)->where('status', 7)->count();
+        if ($toko->status == "Free") {
+            # code...
+            if ($totaltrans >= 5) {
+                # code...
+                return response()->json(['membership' => true]);
+            }
+        }
 
         $pembelian = HTrans::find($request->id_htrans);
         $pembelian->harga = $request->fixHarga;
@@ -376,6 +402,19 @@ class PesananController extends Controller
     {
 
         $user = $this->getLogUser();
+
+        $toko = toko::find($user->id_toko);
+
+        $totaltrans = DB::table('h_trans')->where('id_toko', $user->id_toko)->where('status', 7)->count();
+
+        if ($toko->status == "Free") {
+            # code...
+            if ($totaltrans >= 5) {
+                # code...
+                return response()->json(['membership' => true]);
+            }
+        }
+
         $imageData = $request->image;
         $sekatHorizontal = $request->input('sekatHorizontal');
         $sekatVertical = $request->input('sekatVertical');

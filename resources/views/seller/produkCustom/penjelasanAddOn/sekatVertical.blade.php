@@ -4,8 +4,8 @@
         <div class="spec-item mb-3">
             <h6 class="fw-bold"><i class="bi bi-rulers me-2"></i>Rekomendasi Ukuran:</h6>
             <ul class="list-unstyled ms-3">
-                <li>• Tebal kayu: 1.5 cm - 2 cm</li>
-                <li>• Tinggi: Menyesuaikan tinggi bagian dalam lemari</li>
+                <li>• Tebal kayu: 1 cm - 2 cm sesuai kebuthan</li>
+                <li>• Tinggi: sesuai dengan kustomisasi</li>
                 <li>• Kedalaman: Menyesuaikan kedalaman lemari</li>
             </ul>
         </div>

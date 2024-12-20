@@ -84,41 +84,41 @@
                 <div class="row mb-4">
                     <div class="col-md-3">
                         <div class="card bg-primary text-white">
-                            <div class="card-body">
-                                <h5 class="card-title">
+                            <div class="card-body" >
+                                <h5 class="card-title" style="color: black">
                                     <i class="fas fa-tasks me-2"></i>Total Produksi
                                 </h5>
-                                <h3 class="mb-0">{{ $laporanProduksi->count() }}</h3>
+                                <h3 class="mb-0" style="color: black">{{ $laporanProduksi->count() }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="card bg-success text-white">
                             <div class="card-body">
-                                <h5 class="card-title">
+                                <h5 class="card-title" style="color: black">
                                     <i class="fas fa-check-circle me-2"></i>Total Berhasil
                                 </h5>
-                                <h3 class="mb-0">{{ $laporanProduksi->sum('jumlah_berhasil') }}</h3>
+                                <h3 class="mb-0" style="color: black">{{ $laporanProduksi->sum('jumlah_berhasil') }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="card bg-danger text-white">
                             <div class="card-body">
-                                <h5 class="card-title">
+                                <h5 class="card-title" style="color: black">
                                     <i class="fas fa-times-circle me-2"></i>Total Gagal
                                 </h5>
-                                <h3 class="mb-0">{{ $laporanProduksi->sum('jumlah_gagal') }}</h3>
+                                <h3 class="mb-0" style="color: black">{{ $laporanProduksi->sum('jumlah_gagal') }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="card bg-info text-white">
                             <div class="card-body">
-                                <h5 class="card-title">
+                                <h5 class="card-title" style="color: black">
                                     <i class="fas fa-percentage me-2"></i>Tingkat Keberhasilan
                                 </h5>
-                                <h3 class="mb-0">
+                                <h3 class="mb-0" style="color: black">
                                     @if (count($laporanProduksi) > 0)
                                     {{ number_format(($laporanProduksi->sum('jumlah_berhasil') / $laporanProduksi->sum('jumlahdiproduksi')) * 100, 1) }}%
                                     @else

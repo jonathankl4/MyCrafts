@@ -916,9 +916,12 @@
                         .then(data => {
                             if (data.success) {
                                 // alert('Perbaikan Desain Berhasil dikirim');
-                                window.location.href = '{{ url('/seller/detailPesanan') }}' + '/' +
+                                window.location.href = '{{ url('/seller/pesanan/detailPesanan') }}' + '/' +
                                     pembelian.id;
-                            } else {
+                            } else if (data.membership) {
+                                alert("daftar membership untuk menerima pesanan lebih dari 5");
+                            }
+                             else {
                                 alert("gambar gagal disimpan");
                             }
                         })

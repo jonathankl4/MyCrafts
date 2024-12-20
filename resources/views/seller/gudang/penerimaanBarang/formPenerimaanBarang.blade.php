@@ -40,7 +40,7 @@
                                 <option value="">Pilih</option>
 
                                 <option value="1">Mebel Retur</option>
-                                <option value="2">Hasil Produski</option>
+                                <option value="2">Hasil Produksi</option>
 
                             </select>
                         </div>

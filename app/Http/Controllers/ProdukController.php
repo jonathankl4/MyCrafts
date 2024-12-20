@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use App\Models\ProdukDijual;
+use App\Models\toko;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProdukController extends Controller
 {
@@ -81,7 +82,7 @@ class ProdukController extends Controller
     public function addProduk(Request $request){
         $user = $this->getLogUser();
 
-
+        $toko = toko::find($user->id_toko);
 
         $foto1 = "";
         $foto2 = "";
@@ -91,6 +92,17 @@ class ProdukController extends Controller
         $namaFileGambar2  = "";
         $namaFileGambar3  = "";
         $namaFileGambar4  = "";
+
+        $produk = DB::table('produk_dijuals')->where('id_toko', $user->id_toko)->count();
+        if ($toko->status == 'Free') {
+            # code...
+            if ($produk >= 3) {
+                # code...
+                Alert::error('', 'beli membership untuk menambahkan produk lebih dari 5');
+
+                return redirect()->back();
+            }
+        }
 
         $p = new ProdukDijual();
         $p->id_toko = $user->id_toko;

@@ -40,7 +40,7 @@
                     <button class="btn btn-primary" id="add"  style="width: fit-content; margin-left: 10px"> Tambah Bahan</button>
                 </a>
 
-                <a href="{{url('/seller/laporan-stok-bahan')}}" class="btn btn-dark" style="float: right; width: fit-content">Generate Laporan Stok Bahan</a>
+                {{-- <a href="{{url('/seller/laporan-stok-bahan')}}" class="btn btn-dark" style="float: right; width: fit-content">Generate Laporan Stok Bahan</a> --}}
             </div>
 
             <div class="table-responsive text-nowrap p-3">

@@ -215,6 +215,11 @@
                         </div>
                         <br>
                         <div class="row">
+                            <span>Customer</span>
+                            <span style="font-size: 20px"><b>{{ $pelanggan->username }}</b> </span>
+                        </div>
+                        <br>
+                        <div class="row">
                             <span>Jenis Kayu dan Ukuran</span>
                             <span style="font-size: 20px"><b>{{ $detail->jenis_kayu }}</b> </span>
                             @if (str_contains(strtolower($produk->kode), 'lemari'))
@@ -305,13 +310,35 @@
 
                         <div class="row">
                             @if (str_contains($detail->nama_produk, 'lemari'))
+
+
+                                    @if ($detail->pilihan == null)
+
                                 <img src="{{ url('/storage/hasilcustom/' . $detail->fotoh1) }}"
-                                    style="width: 300px;height:450px">
+                                     style="width: 300px;height:450px">
+                                     @elseif ($detail->pilihan == 'awal')
+                                     <img src="{{ url('/storage/hasilcustom/' . $detail->fotoh1) }}"
+                                          style="width: 300px;height:450px">
+                                          @else
+                                          <img src="{{ url('/storage/hasilcustom/' . $detail->fotoredesain) }}"
+                                               style="width: 300px;height:450px">
+
+                                @endif
 
                                 <img src="{{ url('/storage/hasilcustom/' . $detail->fotoh2) }}"
                                     style="width: 300px;height:450px">
                             @else
-                                <img src="{{ url('/storage/hasilcustom/' . $detail->fotoh1) }}" style="">
+                            @if ($detail->pilihan == null)
+
+                            <img src="{{ url('/storage/hasilcustom/' . $detail->fotoh1) }}" style="">
+                                     @elseif ($detail->pilihan == 'awal')
+                                     <img src="{{ url('/storage/hasilcustom/' . $detail->fotoh1) }}" style="">
+                                          @else
+                                          <img src="{{ url('/storage/hasilcustom/' . $detail->fotoredesain) }}"
+                                               style="">
+
+                                @endif
+
 
                                 <img src="{{ url('/storage/hasilcustom/' . $detail->fotoh2) }}" style="">
                             @endif
@@ -629,6 +656,8 @@
                     .then(data => {
                         if (data.success) {
                             window.location.href = "{{ url('/seller/pesanan') }}";
+                        }else if(data.membership){
+                            alert("daftar membership untuk menerima pesanan lebih dari 5");
                         } else {
                             alert("Gagal mengirim data");
                         }

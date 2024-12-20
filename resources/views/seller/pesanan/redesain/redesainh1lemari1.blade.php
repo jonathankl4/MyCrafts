@@ -128,9 +128,9 @@
 
                             <div id="produk-div">
                                 <!--
-                                                                                                                            Initially, the image will have the background tshirt that has transparency
-                                                                                                                            So we can simply update the color with CSS or JavaScript dinamically
-                                                                                                                        -->
+                                                                                                                                Initially, the image will have the background tshirt that has transparency
+                                                                                                                                So we can simply update the color with CSS or JavaScript dinamically
+                                                                                                                            -->
                                 {{-- <img id="template" src="{{url("img/bajuhitam.png")}}"/> --}}
                                 <img id="template" src="{{ url('img/lemari1/lemari1.png') }}"
                                     style="width: 100%;height: 100%;" />
@@ -967,8 +967,10 @@
                         .then(data => {
                             if (data.success) {
                                 // alert('Perbaikan Desain Berhasil dikirim');
-                                window.location.href = '{{ url('/seller/detailPesanan') }}' + '/' +
+                                window.location.href = '{{ url('/seller/pesanan/detailPesanan') }}' + '/' +
                                     pembelian.id;
+                            } else if (data.membership) {
+                                alert("daftar membership untuk menerima pesanan lebih dari 5");
                             } else {
                                 alert("gambar gagal disimpan");
                             }
